@@ -1,0 +1,7 @@
+{
+  "name": "FrontendWayPlanner",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}
