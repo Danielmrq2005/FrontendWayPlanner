@@ -1,0 +1,29 @@
+ion-header, ion-toolbar {
+  --background: #5B97D5;
+}
+
+.carta{
+  flex: 0 0 auto;
+  width: 200px;
+}
+
+.imagenCarta{
+  width: 200px;
+  height: 200px;
+  object-fit: cover;
+}
+
+.segment-button-checked, .segment-button-checked:hover{
+  color: #5B97D5;
+  --color: #5B97D5;
+  --indicator-color: #5B97D5;
+}
+
+.segment-button {
+  --background: #111;  /* Color de fondo cuando no está seleccionado */
+  --color: #111;  /* Color de texto cuando no está seleccionado */
+}
+
+
+
+
