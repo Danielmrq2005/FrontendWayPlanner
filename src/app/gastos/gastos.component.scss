@@ -1,0 +1,54 @@
+ion-item h2 {
+  margin: 0;
+  font-size: 16px;
+}
+
+ion-badge {
+  font-size: 12px;
+  margin-top: 4px;
+}
+.top-tabs {
+  display: flex;
+  justify-content: space-around;
+  background: rgba(12, 134, 189, 0.48);
+  border-radius: 20px;
+  padding: 4px 8px;
+  margin: 10px;
+  font-weight: 600;
+}
+
+.tab {
+  padding: 4px 10px;
+  border-radius: 15px;
+  font-size: 14px;
+}
+
+.tab.gasto {
+  color: #d9485d;
+  background-color: white;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.tab.total {
+  color: #3a3a3a;
+  background-color: white;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.tab.ingreso {
+  color: #58a863;
+  background-color: white;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.tab gasto{
+  background-color: white;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.fecha {
+  color: #0c86bd;
+  font-weight: bold;
+
+}
+
