@@ -1,14 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { UsuarioService } from '../Servicios/usuario.service';
 import { ViajeService } from '../Servicios/viaje.service';
-import { Router } from '@angular/router';
+import {Router, RouterLink} from '@angular/router';
 
 import {
   IonContent, IonFab, IonFabButton,
   IonHeader, IonIcon,
   IonTitle, IonToolbar
 } from "@ionic/angular/standalone";
-import { RouterLink } from "@angular/router";
 import { jwtDecode } from "jwt-decode";
 import { Login } from "../Modelos/Login";
 import {Viaje} from "../Modelos/Viaje";
@@ -27,7 +26,8 @@ import {NgForOf} from "@angular/common";
     IonIcon,
     IonTitle,
     IonToolbar,
-    NgForOf
+    NgForOf,
+    RouterLink
   ]
 })
 export class ViajesComponent implements OnInit {

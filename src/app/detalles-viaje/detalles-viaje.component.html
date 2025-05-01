@@ -1,10 +1,9 @@
 <ion-header>
-  <ion-toolbar   style="display: flex; --background: #5B97D5; align-items: center; justify-content: space-between; padding: 0 16px;">
+  <ion-toolbar style="display: flex; --background: #5B97D5; align-items: center; justify-content: space-between; padding: 0 16px;">
     <div style="display: flex; align-items: center;">
       <img src="assets/logo.png" alt="Logo" style="height: 40px; margin-right: 8px;">
       <ion-title style="margin: 0; font-size: 20px; color: white">Detalles viaje</ion-title>
       <img src="assets/icons8-campana-48.png" alt="Notificaciones" style="width: 30px; height: 30px;">
-
     </div>
   </ion-toolbar>
 </ion-header>
@@ -12,34 +11,34 @@
 <ion-content class="ion-padding">
   <div class="viaje-detalle-container">
     <div class="contenedor_titulo">
-    <h1 class="viaje-nombre">✈️ Viaje: Ruta por Madrid</h1>
+      <h1 class="viaje-nombre">✈️ {{viaje?.nombre}}</h1>
     </div>
 
     <div class="detalle-bloque">
       <label class="detalle-label">📍 Destino</label>
       <div class="detalle-contenido">
-        Madrid, España
+        {{viaje?.destino}}
       </div>
     </div>
 
     <div class="detalle-bloque">
       <label class="detalle-label">📅 Fecha de Inicio</label>
       <div class="detalle-contenido">
-        10 de Julio, 2025
+        {{viaje?.fechaInicio | date:'dd/MM/yyyy'}}
       </div>
     </div>
 
     <div class="detalle-bloque">
       <label class="detalle-label">📅 Fecha de Fin</label>
       <div class="detalle-contenido">
-        15 de Julio, 2025
+        {{viaje?.fechaFin | date:'dd/MM/yyyy'}}
       </div>
     </div>
 
     <div class="detalle-bloque">
       <label class="detalle-label">📝 Descripción</label>
       <div class="detalle-contenido">
-        Un viaje cultural por la ciudad de Madrid. Exploraremos el Palacio Real, el Museo del Prado y nos perderemos por sus encantadoras calles disfrutando de tapas y flamenco.
+        {{viaje?.descripcion}}
       </div>
     </div>
 
@@ -76,7 +75,8 @@
 
     .detalle-bloque {
       display: flex;
-      flex-direction: column;}
+      flex-direction: column;
+    }
 
     .detalle-contenido {
       padding: 1rem;
@@ -85,32 +85,30 @@
       color: white;
       box-shadow: 0 1px 5px rgba(0, 0, 0, 0.04);
       background-color: #5B97D5;
-
     }
 
     .botones {
       margin: auto;
     }
 
-    .contenedor_titulo{
+    .contenedor_titulo {
       display: flex;
       justify-content: center;
       align-items: center;
       margin-bottom: 1rem;
       border: 1px solid black;
       border-radius: 12px;
-      background-color:  #5B97D5;
-
+      background-color: #5B97D5;
     }
 
-    div{
+    div {
       color: white;
       font-size: 1.5em;
       font-weight: 600;
       padding: 10px;
     }
 
-    .boton{
+    .boton {
       justify-content: center;
       align-items: center;
       display: inline-block;

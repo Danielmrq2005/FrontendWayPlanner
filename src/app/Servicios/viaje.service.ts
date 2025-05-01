@@ -18,4 +18,8 @@ export class ViajeService{
   crearviaje(viaje: Viaje): Observable<Viaje> {
     return this.http.post<Viaje>(`${this.baseUrl}/crear`, viaje);
   }
+
+  viajePorId(id: number): Observable<Viaje> {
+    return this.http.get<Viaje>(`${this.baseUrl}/viajePorId/${id}`);
+  }
 }
