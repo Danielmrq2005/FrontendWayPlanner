@@ -4,7 +4,7 @@ import {Login} from "../Modelos/Login";
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {Observable} from "rxjs";
 import {LoginService} from "../Servicios/login.services";
-import {Router} from "@angular/router";
+import {Router, RouterLink} from "@angular/router";
 import {addIcons} from "ionicons";
 import {
   idCard,
@@ -29,7 +29,7 @@ import {HttpClient, HttpClientModule} from "@angular/common/http";
     IonicModule,
     ReactiveFormsModule,
     CommonModule,
-    HttpClientModule
+    HttpClientModule,
   ],
   providers: [LoginService],
 })
@@ -37,7 +37,7 @@ export class LoginComponent  implements OnInit {
 
   email: string = '';
   password: string = '';
-  login: Login = new Login();
+  login: Login = {} as Login;
   loginForm: FormGroup;
   loginViewFlag: boolean = true;
   Verificado: Observable<boolean> = new Observable<boolean>();
@@ -67,6 +67,7 @@ export class LoginComponent  implements OnInit {
     if (token) {
       try {
         const decodedToken: any = jwtDecode(token);
+        console.log(decodedToken);
         return decodedToken.tokenDataDTO?.id || null;
       } catch (error) {
         console.error('Error al decodificar el token', error);
@@ -89,7 +90,9 @@ export class LoginComponent  implements OnInit {
           this.loginService.setAuthState(true);
 
           this.idusuario = this.obtenerUsuarioId();
+          this.router.navigate(['/viajes']);
           console.log('Usuario logueado (ID):', this.idusuario);
+
         },
         error: async (e) => {
           console.error(e);

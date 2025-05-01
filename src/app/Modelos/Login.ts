@@ -1,5 +1,9 @@
-export class Login{
-  email?:string;
-  password?:string;
-
+export interface Login {
+  id: number;
+  nombre: string;
+  email: string;
+  horaNotificacion: string;
+  password: string;
+  telefono: string;
+  fechaRegistro: Date;
 }
