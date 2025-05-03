@@ -1,32 +1,27 @@
 
 <ion-content>
-
-
   <div class="login-container">
     <img src="assets/Logo_WayPlanner.png" alt="login Icono" class="icon">
     <h2>Bienvenido a WayPlanner</h2>
 
-    <form id="login">
-
+    <form [formGroup]="registroForm" (ngSubmit)="doRegister()">
       <ion-item lines="none">
         <ion-label position="floating">Nombre de usuario</ion-label>
         <ion-input
-          id="username"
+          id="nombre"
           placeholder="Nombre de usuario"
           fill="outline"
-          formControlName="username">
+          formControlName="nombre">
         </ion-input>
       </ion-item>
-
-
 
       <ion-item lines="none">
         <ion-label position="floating">Email</ion-label>
         <ion-input
-          id="Email"
+          id="email"
           placeholder="Email de usuario"
           fill="outline"
-          formControlName="Email">
+          formControlName="email">
         </ion-input>
       </ion-item>
 
@@ -42,23 +37,34 @@
       </ion-item>
 
       <ion-item lines="none">
-        <ion-label position="floating">Telefono</ion-label>
+        <ion-label position="floating">Teléfono</ion-label>
         <ion-input
           id="telefono"
-          placeholder="Telefono de usuario"
+          placeholder="Teléfono de usuario"
           fill="outline"
           formControlName="telefono">
         </ion-input>
       </ion-item>
 
+      <ion-item lines="none">
+        <ion-label position="floating">Fecha de nacimiento</ion-label>
+        <ion-datetime
+          id="fecha"
+          placeholder="Selecciona una fecha"
+          formControlName="fecha">
+        </ion-datetime>
+      </ion-item>
+
       <ion-button
         expand="block"
-        class="login-button">
-        Iniciar sesión
+        class="login-button"
+        type="submit">
+        Crear cuenta
       </ion-button>
     </form>
-
   </div>
 </ion-content>
+
+
 
 
