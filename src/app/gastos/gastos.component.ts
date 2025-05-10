@@ -4,6 +4,8 @@ import {VerGastos} from "../Modelos/VerGastos";
 import {GastosService} from "../Servicios/gastos.service";
 import {HttpClientModule} from "@angular/common/http";
 import {CurrencyPipe, NgForOf} from "@angular/common";
+import {RouterLink} from "@angular/router";
+import {GastosResumenDTO} from "../Modelos/GastosResumen";
 
 @Component({
   selector: 'app-gastos',
@@ -14,7 +16,8 @@ import {CurrencyPipe, NgForOf} from "@angular/common";
     IonicModule,
     HttpClientModule,
     CurrencyPipe,
-    NgForOf
+    NgForOf,
+    RouterLink
   ],
   providers: [GastosService],
 })
@@ -22,20 +25,37 @@ export class GastosComponent  implements OnInit {
 
   Gastos: VerGastos[] = [];
   viajeId: number = 1;
+  sidebarExpanded = false;
+  resumen: GastosResumenDTO | null = null;
+
+
+
 
   constructor(private gastosService: GastosService) {}
 
   ngOnInit() {
     this.CargarGastos();
+    this.gastosService.getResumenGastos(this.viajeId).subscribe((data) => {
+      this.resumen = data;
+    });
   }
 
+
+
+  toggleSidebar() {
+    this.sidebarExpanded = !this.sidebarExpanded;
+  }
   CargarGastos() {
     this.gastosService.obtenerDiasConGastos(this.viajeId).subscribe(datos => {
       this.Gastos = datos;
-      console.log(this.Gastos);
+      console.log('Datos cargados:', this.Gastos);
     }, error => {
       console.error('Error al cargar los gastos:', error);
     });
+  }
+
+  verificarId(id: number | undefined) {
+    console.log('ID del gasto:', id);
   }
 
 }

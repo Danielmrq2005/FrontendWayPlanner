@@ -1,34 +1,71 @@
 <ion-content class="ion-padding">
-  <div class="top-tabs">
-    <span class="tab gasto selected">
-      ● Gastos
-      <div class="amount">-46,55 €</div>
-    </span>
-    <span class="tab total">
-      = Total
-      <div class="amount">-36,55 €</div>
-    </span>
-    <span class="tab ingreso">
-      = Ingresos
-      <div class="amount">+10,00 €</div>
-    </span>
+  <div class="app-container">
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+      <div class="toggle-button" onclick="document.getElementById('sidebar').classList.toggle('expanded')">
+        <ion-icon name="menu-outline"></ion-icon>
+      </div>
+      <div class="menu-items">
+        <div class="menu-item">
+          <img src="assets/Avion.png" alt="Gastos Icon" class="menu-icon" />
+          <span class="menu-label">Gastos</span>
+        </div>
+        <div class="menu-item">
+          <img src="assets/Gastos.png" alt="Ingresos Icon" class="menu-icon" />
+          <span class="menu-label">Ingresos</span>
+        </div>
+        <div class="menu-item">
+          <img src="assets/usuario.png" alt="Total Icon" class="menu-icon" />
+          <span class="menu-label">Total</span>
+        </div>
+        <div class="menu-item">
+          <img src="assets/Ajustes.png" alt="Settings Icon" class="menu-icon" />
+          <span class="menu-label">Ajustes</span>
+        </div>
+      </div>
+    </div>
+    <!-- Main content -->
+    <div class="main-content">
+      <div class="top-tabs">
+        <span class="tab gasto selected">
+          ● Gastos
+          <div class="amount">-{{resumen?.totalGastos | currency:'EUR':'symbol' }}</div>
+        </span>
+        <span class="tab total">
+          = Total
+          <div class="amount">{{ resumen?.saldo | currency:'EUR':'symbol'}}€</div>
+        </span>
+        <span class="tab ingreso">
+          = Ingresos
+          <div class="amount">+{{ resumen?.totalIngresos | currency:'EUR':'symbol'}} €</div>
+        </span>
+      </div>
+
+      <ion-list>
+        <ng-container *ngFor="let dia of Gastos">
+          <ion-item-divider>
+            <ion-label class="fecha">{{ dia.fecha }}</ion-label>
+          </ion-item-divider>
+          <ng-container *ngFor="let gasto of dia.gastos">
+            <ion-item lines="none">
+              <ion-icon [name]="gasto.esIngreso ? 'card' : 'wallet'" slot="start" [color]="gasto.esIngreso ? 'success' : 'danger'"></ion-icon>
+              <ion-label>
+                <h2>{{ gasto.titulo }}</h2>
+              </ion-label>
+              <ion-text [color]="gasto.esIngreso ? 'success' : 'danger'">
+                <strong>{{ gasto.esIngreso ? '+' : '-' }}{{ gasto.cantidad | currency:'EUR' }}</strong>
+              </ion-text>
+
+              <img
+                class="lapiz"
+                src="assets/Lapiz.png"
+                slot="end"
+                [routerLink]="['/actualizar-gasto', gasto.id]"
+                (click)="verificarId(gasto.id)" />
+            </ion-item>
+          </ng-container>
+        </ng-container>
+      </ion-list>
+    </div>
   </div>
-  <ion-list>
-    <ng-container *ngFor="let dia of Gastos">
-      <ion-item-divider>
-        <ion-label class="fecha">{{ dia.fecha }}</ion-label>
-      </ion-item-divider>
-      <ng-container *ngFor="let gasto of dia.gastos">
-        <ion-item lines="none">
-          <ion-icon [name]="gasto.esIngreso ? 'card' : 'wallet'" slot="start" [color]="gasto.esIngreso ? 'success' : 'danger'"></ion-icon>
-          <ion-label>
-            <h2>{{ gasto.titulo }}</h2>
-          </ion-label>
-          <ion-text [color]="gasto.esIngreso ? 'success' : 'danger'">
-            <strong>{{ gasto.esIngreso ? '+' : '-' }}{{ gasto.cantidad | currency:'EUR' }}</strong>
-          </ion-text>
-        </ion-item>
-      </ng-container>
-    </ng-container>
-  </ion-list>
 </ion-content>
