@@ -1,6 +1,5 @@
 <ion-content class="ion-padding">
   <div class="app-container">
-    <!-- Sidebar -->
     <div class="sidebar" id="sidebar">
       <div class="toggle-button" onclick="document.getElementById('sidebar').classList.toggle('expanded')">
         <ion-icon name="menu-outline"></ion-icon>
@@ -24,7 +23,22 @@
         </div>
       </div>
     </div>
-    <!-- Main content -->
+
+    <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+      <ion-fab-button>
+        <img src="assets/añadir.png" alt="WayPlanner Icono" class="icon">
+      </ion-fab-button>
+
+      <ion-fab-list side="top">
+        <ion-fab-button color="danger" [routerLink]="['/crear-gasto']">
+          <img src="assets/Gasto.png" alt="Gastos Icon" class="menu-icon" />
+        </ion-fab-button>
+        <ion-fab-button color="success" [routerLink]="['/crear-ingreso']">
+          <img src="assets/Ingreso.png" alt="Ingresos Icon" class="menu-icon" />
+        </ion-fab-button>
+      </ion-fab-list>
+    </ion-fab>
+
     <div class="main-content">
       <div class="top-tabs">
         <span class="tab gasto selected">
@@ -62,6 +76,12 @@
                 slot="end"
                 [routerLink]="['/actualizar-gasto', gasto.id]"
                 (click)="verificarId(gasto.id)" />
+
+              <img
+                class="papelera"
+                src="assets/eliminar.png"
+                slot="end"
+                (click)="eliminarGasto(gasto.id)" />
             </ion-item>
           </ng-container>
         </ng-container>

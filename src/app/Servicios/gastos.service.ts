@@ -33,4 +33,8 @@ export class GastosService {
     return this.http.get(`${this.apiUrl}/resumen/${viajeId}`);
   }
 
+  eliminarGasto(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/eliminar/${id}`);
+  }
+
 }

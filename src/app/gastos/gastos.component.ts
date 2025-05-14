@@ -57,5 +57,15 @@ export class GastosComponent  implements OnInit {
   verificarId(id: number | undefined) {
     console.log('ID del gasto:', id);
   }
+  eliminarGasto(id: number) {
+    this.gastosService.eliminarGasto(id).subscribe({
+      next: () => {
+        this.CargarGastos();
+      },
+      error: (error) => {
+        console.error('Error al eliminar gasto:', error);
+      }
+    });
+  }
 
 }

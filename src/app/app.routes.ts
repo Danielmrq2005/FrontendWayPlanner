@@ -30,6 +30,14 @@ export const routes: Routes = [
     loadComponent: () => import('./grafica-viaje/grafica-viaje.component').then((m) => m.GraficaViajeComponent),
   },
   {
+    path: 'actu-usuario',
+    loadComponent: () => import('./actu-usuario/actu-usuario.component').then((m) => m.ActuUsuarioComponent),
+  },
+  {
+    path: 'crear-ingreso',
+    loadComponent: () => import('./crear-ingreso/crear-ingreso.component').then((m) => m.CrearIngresoComponent),
+  },
+  {
     path: '',
     redirectTo: 'home',
     pathMatch: 'full',
