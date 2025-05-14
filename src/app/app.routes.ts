@@ -31,6 +31,10 @@ export const routes: Routes = [
     loadComponent: () => import('./gastos/gastos.component').then((m) => m.GastosComponent),
   },
   {
+    path: 'notificaciones',
+    loadComponent: () => import('./notificaciones/notificaciones.component').then((m) => m.NotificacionesComponent),
+  },
+  {
     path: '',
     redirectTo: 'home',
     pathMatch: 'full',
