@@ -43,8 +43,8 @@
     </div>
 
     <div class="botones">
-      <ion-button class="boton" expand="block" style="--background: #5B97D5">✏️ Editar Viaje</ion-button>
-      <ion-button class="boton" expand="block" color="danger">🗑️ Eliminar Viaje</ion-button>
+      <ion-button (click)="editarviaje(idViaje)"   [routerLink]="['/crear-viaje', viaje?.id]"  class="boton" expand="block" style="--background: #5B97D5">✏️ Editar Viaje</ion-button>
+      <ion-button (click)="eliminarViaje(idViaje)"  class="boton" expand="block" color="danger">🗑️ Eliminar Viaje</ion-button>
     </div>
   </div>
 

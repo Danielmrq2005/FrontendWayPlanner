@@ -22,4 +22,12 @@ export class ViajeService{
   viajePorId(id: number): Observable<Viaje> {
     return this.http.get<Viaje>(`${this.baseUrl}/viajePorId/${id}`);
   }
+
+  eliminarViaje(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}/eliminar/${id}`);
+  }
+
+  editarViaje(id: number, viaje: Viaje): Observable<Viaje> {
+    return this.http.put<Viaje>(`${this.baseUrl}/actualizar/${id}`, viaje);
+  }
 }

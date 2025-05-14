@@ -9,6 +9,10 @@ export const routes: Routes = [
     path: 'crear-viaje',
     loadComponent: () => import('./crear-viaje/crear-viaje.component').then((m) => m.CrearViajeComponent),
   },
+  {
+    path: 'crear-viaje/:id',
+    loadComponent: () => import('./crear-viaje/crear-viaje.component').then((m) => m.CrearViajeComponent),
+  },
 
   {
     path: 'viajes/:id',

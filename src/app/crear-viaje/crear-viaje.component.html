@@ -29,9 +29,10 @@
       </div>
 
       <div class="button-container">
-        <ion-button style="--background: #2c3e50;--color: #ffffff;" (click)="crearViaje()" expand="block">
-          Crear Viaje
+        <ion-button (click)="guardarViaje()" expand="block" style="--background: #5B97D5">
+          💾 {{ idViajeEditar ? 'Actualizar Viaje' : 'Crear Viaje' }}
         </ion-button>
+
       </div>
     </form>
   </div>

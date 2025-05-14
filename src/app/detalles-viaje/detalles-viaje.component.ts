@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import {ActivatedRoute, RouterLink} from '@angular/router';
 import { ViajeService } from '../Servicios/viaje.service';
+import { Router } from '@angular/router';
 import {
   IonButton,
   IonContent,
@@ -22,14 +23,15 @@ import {DatePipe} from "@angular/common";
     IonTitle,
     IonContent,
     IonButton,
-    DatePipe
+    DatePipe,
+    RouterLink
   ]
 })
 export class DetallesViajeComponent implements OnInit {
   idViaje: number = 0;
   viaje?: Viaje;
 
-  constructor(private route: ActivatedRoute,private viajeservice: ViajeService) {}
+  constructor(private route: ActivatedRoute,private viajeservice: ViajeService, private router: Router) {}
 
   ngOnInit() {
     this.route.paramMap.subscribe(params => {
@@ -52,4 +54,23 @@ export class DetallesViajeComponent implements OnInit {
       }
     });
   }
+
+  eliminarViaje(id: number): void {
+    this.viajeservice.eliminarViaje(id).subscribe({
+      next: () => {
+        console.log('Viaje eliminado exitosamente');
+        this.router.navigate(['/viajes']);
+      },
+      error: (error) => {
+        console.error('Error al eliminar el viaje:', error);
+      }
+    });
+  }
+
+
+  editarviaje(id: number): void {
+    this.router.navigate(['/crear-viaje', id]);
+  }
+
+
 }
