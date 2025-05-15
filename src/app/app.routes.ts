@@ -13,5 +13,9 @@ export const routes: Routes = [
   {
     path: 'itinerarios',
     loadComponent: () => import('./itinerarios/itinerarios.component').then((m) => m.ItinerariosComponent),
+  },
+  {
+    path: 'rutas',
+    loadComponent: () => import('./rutas/rutas.component').then((m) => m.RutasComponent),
   }
 ];

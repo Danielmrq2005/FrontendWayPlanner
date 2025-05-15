@@ -1,0 +1,59 @@
+<ion-header style="position: relative;">
+  <ion-toolbar>
+    <!--Un select del dia uno hasta el dia 5-->
+
+    <ion-select id="selectDia" interface="popover" placeholder="Día" style="width: 100px; font-size: 12px; position: absolute; top: 10px; left: 10px; z-index: 10;">
+      <ion-select-option value="1">Día 1</ion-select-option>
+      <ion-select-option value="2">Día 2</ion-select-option>
+      <ion-select-option value="3">Día 3</ion-select-option>
+      <ion-select-option value="4">Día 4</ion-select-option>
+      <ion-select-option value="5">Día 5</ion-select-option>
+    </ion-select>
+
+    <ion-title style="color: white; margin-left: auto; text-align: right;">Rutas de (Nombre)</ion-title>
+    <ion-buttons slot="end">
+      <ion-img src="assets/LogoExtenso2SinFondo.png" style="height: 75px; width: 75px;"></ion-img>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content>
+  <ion-fab horizontal="end" vertical="bottom" id="open-modal">
+    <ion-fab-button>
+      <ion-icon name="add" ></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+  <ion-modal trigger="open-modal" (willDismiss)="onWillDismiss($event)">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-buttons slot="start">
+            <ion-button (click)="cancel()">Cancelar</ion-button>
+          </ion-buttons>
+          <ion-title>Ruta de Viaje</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="confirm()" [strong]="true">Confirmar</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+        <ion-reorder-group (ionItemReorder)="reordenar($event)" disabled="false">
+          <ion-item *ngFor="let item of items; let i = index">
+            <ion-label>{{ i + 1 }}. {{ item }}</ion-label>
+            <ion-reorder slot="end"></ion-reorder>
+          </ion-item>
+        </ion-reorder-group>
+        <ion-toolbar class="boton">
+          <ion-title class="ion-text-center boton">
+            <ion-button fill="clear" class="boton">Añadir</ion-button>
+          </ion-title>
+        </ion-toolbar>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+
+  <div id="map"></div>
+
+</ion-content>

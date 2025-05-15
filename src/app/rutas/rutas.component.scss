@@ -1,0 +1,27 @@
+#map {
+  height: 100%;
+  width: 100%;
+}
+
+html, body, ion-content, #map {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+ion-header, ion-toolbar,ion-fab,ion-fab-button {
+  --background: #5B97D5;
+}
+
+#selectDia {
+  outline: none;
+  text-decoration: none;
+  box-shadow: none; /* Removes any focus shadow */
+  --highlight-color-focused: none;
+  color: black;
+  --color: black;
+}
+.boton{
+  color: white;
+}
+

@@ -116,9 +116,6 @@
     </ion-segment-content>
 
 
-
-
-
     <ion-segment-content id="dia1">Second</ion-segment-content>
     <ion-segment-content id="dia2">Third</ion-segment-content>
     <ion-segment-content id="dia3">hola</ion-segment-content>
@@ -126,7 +123,41 @@
   </ion-segment-view>
 
 
+
 </ion-content>
+
+<ion-fab horizontal="end" vertical="bottom">
+  <ion-fab-button id="open-modal" expand="block">
+    <ion-icon name="add"></ion-icon>
+  </ion-fab-button>
+</ion-fab>
+
+<ion-modal trigger="open-modal" (willDismiss)="onWillDismiss($event)">
+  <ng-template>
+    <ion-header>
+      <ion-toolbar>
+        <ion-buttons slot="start">
+          <ion-button (click)="cancel()">Cancelar</ion-button>
+        </ion-buttons>
+        <ion-title>Añadir Itinerario</ion-title>
+        <ion-buttons slot="end">
+          <ion-button (click)="confirm()" [strong]="true">Confirmar</ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content class="ion-padding">
+      <ion-item>
+        <ion-input
+          label="Actividad"
+          labelPlacement="stacked"
+          type="text"
+          placeholder="¿Donde vas o que vas a hacer?"
+          [(ngModel)]="actividad"
+        ></ion-input>
+      </ion-item>
+    </ion-content>
+  </ng-template>
+</ion-modal>
 
 <!--
 
