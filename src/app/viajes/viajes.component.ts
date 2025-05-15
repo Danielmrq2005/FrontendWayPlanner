@@ -56,7 +56,6 @@ export class ViajesComponent implements OnInit {
 
   ngOnInit() {
     this.idusuario = this.obtenerUsuarioId();
-
     if (this.idusuario) {
       this.viajeservice.listarViajesPorUsuario(this.idusuario).subscribe({
         next: (viajes:Viaje[]) => this.viajes = viajes,

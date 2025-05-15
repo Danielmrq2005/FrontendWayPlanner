@@ -12,9 +12,10 @@
 
    <div class="viajes-movil">
     <div  class="viaje-movil-grid">
-      <div [routerLink]="['/viajes', viaje.id]"  class="viaje-movil-item" *ngFor="let viaje of viajes">
+      <div  class="viaje-movil-item" *ngFor="let viaje of viajes">
         <img src="assets/icons8-activar-el-modo-avión-50.png" alt="Avión" class="img-avion">
         <span>{{viaje.nombre}}</span>
+        <img [routerLink]="['/viajes', viaje.id]" src="assets/icons8-visible-30.png" style="margin-bottom: 22px; width: 20px; height: 20px;" alt="Ver Detalles">
       </div>
     </div>
   </div>
