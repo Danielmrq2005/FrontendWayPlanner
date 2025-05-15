@@ -14,4 +14,8 @@ export class NotificacionesService {
   obtenerNotificacionesPorUsuario(usuarioId: number): Observable<Notificacion[]> {
     return this.http.get<Notificacion[]>(`${this.url}/listar/${usuarioId}`);
   }
+
+  eliminarNotificacion(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.url}/eliminar/${id}`);
+  }
 }
