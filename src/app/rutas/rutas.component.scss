@@ -25,3 +25,18 @@ ion-header, ion-toolbar,ion-fab,ion-fab-button {
   color: white;
 }
 
+
+.select-notif-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center; // Centrado en móvil por defecto
+  margin-left: 80px;
+}
+
+@media (min-width: 768px) {
+  .select-notif-wrapper {
+    margin-left: 630px;
+    justify-content: flex-start; // Si quieres alinearlo a la izquierda cuando hay espacio
+  }
+}
+

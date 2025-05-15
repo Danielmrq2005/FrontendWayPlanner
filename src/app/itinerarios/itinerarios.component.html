@@ -1,14 +1,17 @@
-<ion-header style="position: relative;">
-  <ion-toolbar>
-    <ion-title style="color: white;">Viaje (Nombre)</ion-title>
-    <ion-buttons slot="end">
-      <ion-img src="assets/LogoExtenso2SinFondo.png" style="height: 75px; width: 75px;"></ion-img>
-    </ion-buttons>
-  </ion-toolbar>
-</ion-header>
 
 
 <ion-content>
+
+  <ion-header>
+    <ion-toolbar   style="display: flex; --background: #5B97D5; align-items: center; justify-content: space-between; padding: 0 16px;">
+      <div style="display: flex; align-items: center;">
+        <img src="assets/logo.png" alt="Logo" style=" height: 25px; margin-right: 8px;">
+        <ion-title style="margin: 0; font-size: 1.0em; color: white">Itinerarios</ion-title>
+        <img src="assets/icons8-campana-48.png" alt="Notificaciones" [routerLink]="['/notificaciones']"  style="width: 30px; height: 30px;">
+      </div>
+    </ion-toolbar>
+  </ion-header>
+
   <ion-segment value="default">
     <ion-segment-button value="default" content-id="todos">
       <ion-label>Todos</ion-label>

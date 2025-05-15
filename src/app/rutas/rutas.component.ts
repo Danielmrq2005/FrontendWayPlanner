@@ -7,13 +7,14 @@ import {add} from "ionicons/icons";
 import {FormsModule} from "@angular/forms";
 import {OverlayEventDetail} from "@ionic/core/components";
 import {NgForOf} from "@angular/common";
+import {RouterLink} from "@angular/router";
 
 @Component({
   selector: 'app-rutas',
   standalone: true,
   templateUrl: './rutas.component.html',
   styleUrls: ['./rutas.component.scss'],
-  imports: [IonicModule, FormsModule, NgForOf]
+  imports: [IonicModule, FormsModule, NgForOf, RouterLink]
 })
 export class RutasComponent implements AfterViewInit {
   @ViewChild(IonModal) modal!: IonModal;
