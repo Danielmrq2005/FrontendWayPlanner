@@ -1,52 +1,69 @@
-<ion-content class="ion-padding">
-  <div class="top-tabs">
-  <span class="tab gasto selected">
-    ● Gastos
-    <div class="amount">-46,55 €</div>
-  </span>
-    <span class="tab total">
-    = Total
-    <div class="amount">-36,55 €</div>
-  </span>
-    <span class="tab ingreso">
-    = Ingresos
-    <div class="amount">+10,00 €</div>
-  </span>
-  </div>
-  <ion-list>
-    <ion-item-divider>
-      <ion-label class="fecha">lunes, 3 de febrero</ion-label>
-    </ion-item-divider>
+<div class="app-container" [class.sidebar-expanded]="sidebarExpanded">
+  <app-menu-hamburguesa (expansionChange)="sidebarExpanded = $event"></app-menu-hamburguesa>
 
-    <ion-item lines="none">
-      <ion-icon name="headset" slot="start" color="danger"></ion-icon>
-      <ion-label>
-        <h2>Salchcihas</h2>
-      </ion-label>
-      <ion-text color="danger"><strong>-5,99 €</strong></ion-text>
-    </ion-item>
 
-    <ion-item-divider>
-      <ion-label class="fecha">domingo, 2 de febrero</ion-label>
-    </ion-item-divider>
+      <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+        <ion-fab-button>
+          <img src="assets/añadir.png" alt="WayPlanner Icono" class="icon">
+        </ion-fab-button>
 
-    <ion-item lines="none">
-      <ion-icon name="construct" slot="start" color="danger"></ion-icon>
-      <ion-label>Patinete...</ion-label>
-      <ion-text color="danger"><strong>-30,56 €</strong></ion-text>
-    </ion-item>
+        <ion-fab-list side="top">
+          <ion-fab-button color="danger" [routerLink]="['/crear-gasto']">
+            <img src="assets/Gasto.png" alt="Gastos Icon" class="menu-icon" />
+          </ion-fab-button>
+          <ion-fab-button color="success" [routerLink]="['/crear-ingreso']">
+            <img src="assets/Ingreso.png" alt="Ingresos Icon" class="menu-icon" />
+          </ion-fab-button>
+        </ion-fab-list>
+      </ion-fab>
 
-    <ion-item lines="none">
-      <ion-icon name="card" slot="start" color="success"></ion-icon>
-      <ion-label>Transferencia</ion-label>
-      <ion-text color="success"><strong>+10 €</strong></ion-text>
-    </ion-item>
+      <div class="main-content">
+        <div class="top-tabs">
+          <span class="tab gasto selected">
+            ● Gastos
+            <div class="amount">-{{resumen?.totalGastos | currency:'EUR':'symbol' }}</div>
+          </span>
+          <span class="tab total">
+            = Total
+            <div class="amount">{{ resumen?.saldo | currency:'EUR':'symbol'}}€</div>
+          </span>
+          <span class="tab ingreso">
+            = Ingresos
+            <div class="amount">+{{ resumen?.totalIngresos | currency:'EUR':'symbol'}} €</div>
+          </span>
+        </div>
 
-    <ion-item lines="none">
-      <ion-icon name="wallet" slot="start" color="success"></ion-icon>
-      <ion-label>Pollo</ion-label>
-      <ion-text color="danger"><strong>-10 €</strong></ion-text>
-    </ion-item>
-  </ion-list>
+        <ion-list>
+          <ng-container *ngFor="let dia of Gastos">
+            <ion-item-divider>
+              <ion-label class="fecha">{{ dia.fecha }}</ion-label>
+            </ion-item-divider>
+            <ng-container *ngFor="let gasto of dia.gastos">
+              <ion-item lines="none">
+                <ion-icon [name]="gasto.esIngreso ? 'card' : 'wallet'" slot="start" [color]="gasto.esIngreso ? 'success' : 'danger'"></ion-icon>
+                <ion-label>
+                  <h2>{{ gasto.titulo }}</h2>
+                </ion-label>
+                <ion-text [color]="gasto.esIngreso ? 'success' : 'danger'">
+                  <strong>{{ gasto.esIngreso ? '+' : '-' }}{{ gasto.cantidad | currency:'EUR' }}</strong>
+                </ion-text>
 
-</ion-content>
+                <img
+                  class="lapiz"
+                  src="assets/Lapiz.png"
+                  slot="end"
+                  [routerLink]="['/actualizar-gasto', gasto.id]"
+                  (click)="verificarId(gasto.id)" />
+
+                <img
+                  class="papelera"
+                  src="assets/eliminar.png"
+                  slot="end"
+                  (click)="eliminarGasto(gasto.id)" />
+              </ion-item>
+            </ng-container>
+          </ng-container>
+        </ion-list>
+      </div>
+</div>
+

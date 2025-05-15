@@ -2,9 +2,9 @@
 <ion-content>
   <div class="login-container">
     <img src="assets/Logo_WayPlanner.png" alt="login Icono" class="icon">
-    <h2>Bienvenido a WayPlanner</h2>
+    <h2>Cambiar datos de ususario</h2>
 
-    <form [formGroup]="registroForm" (ngSubmit)="doRegister()">
+    <form [formGroup]="usuarioForm" (ngSubmit)="actualizarUsuario()">
       <ion-item lines="none">
         <ion-label position="floating">Nombre de usuario</ion-label>
         <ion-input
@@ -59,7 +59,7 @@
         expand="block"
         class="login-button"
         type="submit">
-        Crear cuenta
+        Actualizar cuenta
       </ion-button>
     </form>
   </div>

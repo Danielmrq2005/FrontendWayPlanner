@@ -27,8 +27,28 @@ export const routes: Routes = [
     loadComponent: () => import('./crear-cuenta/crear-cuenta.component').then((m) => m.CrearCuentaComponent),
   },
   {
+    path: 'crear-gasto',
+    loadComponent: () => import('./crear-gasto/crear-gasto.component').then((m) => m.CrearGastoComponent),
+  },
+  {
+    path: 'actualizar-gasto/:id',
+    loadComponent: () => import('./actu-gastos/actu-gastos.component').then((m) => m.ActuGastosComponent),
+  },
+  {
     path: 'gastos',
     loadComponent: () => import('./gastos/gastos.component').then((m) => m.GastosComponent),
+  },
+  {
+    path: 'GraficaViaje',
+    loadComponent: () => import('./grafica-viaje/grafica-viaje.component').then((m) => m.GraficaViajeComponent),
+  },
+  {
+    path: 'actu-usuario',
+    loadComponent: () => import('./actu-usuario/actu-usuario.component').then((m) => m.ActuUsuarioComponent),
+  },
+  {
+    path: 'crear-ingreso',
+    loadComponent: () => import('./crear-ingreso/crear-ingreso.component').then((m) => m.CrearIngresoComponent),
   },
   {
     path: 'notificaciones',

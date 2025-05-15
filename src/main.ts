@@ -20,6 +20,7 @@ bootstrapApplication(AppComponent, {
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     provideIonicAngular(),
+    provideRouter(routes, withPreloading(PreloadAllModules)), provideCharts(withDefaultRegisterables()),
     provideRouter(routes, withPreloading(PreloadAllModules)),
     importProvidersFrom(HttpClientModule),
   ],

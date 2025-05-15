@@ -84,6 +84,56 @@
 }
 
 
+@media screen and (min-width: 768px) {
+  ion-content::part(scroll) {
+    background: url('/assets/loginAvion.jpg') no-repeat center center / cover;
+  }
+
+  .login-container {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 15px;
+    padding: 40px 30px;
+    max-width: 400px;
+    width: 90%;
+    height: auto;
+    margin: auto;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  ion-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+
+  .login-container h2 {
+    font-size: 2rem;
+  }
+
+  .login-container img {
+    width: 120px;
+  }
+  ion-item {
+    ion-datetime {
+      margin-top: 45px;
+      background: #f8f8f8;
+      border-radius: 5px;
+      padding: 10px;
+      --border-color: #0c86bd;
+      --highlight-color-focused: #0c86bd;
+      --border-width: 2px;
+      width: 100%;
+    }
+  }
+
+
+}
+
+
 
 
 
