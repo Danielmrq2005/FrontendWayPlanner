@@ -4,7 +4,6 @@ import { GastosService } from '../Servicios/gastos.service';
 import { IonicModule } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
 import { BaseChartDirective } from 'ng2-charts';
-import {HttpClientModule} from "@angular/common/http";
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { Chart } from 'chart.js';
 Chart.register(ChartDataLabels);
@@ -15,8 +14,7 @@ Chart.register(ChartDataLabels);
   templateUrl: './grafica-viaje.component.html',
   styleUrls: ['./grafica-viaje.component.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, BaseChartDirective, HttpClientModule],
-  providers: [GastosService],
+  imports: [IonicModule, CommonModule, BaseChartDirective]
 })
 export class GraficaViajeComponent implements OnInit, AfterViewInit {
   viajeId: number = 1;
@@ -24,6 +22,8 @@ export class GraficaViajeComponent implements OnInit, AfterViewInit {
   @ViewChild(BaseChartDirective) chart: BaseChartDirective | undefined;
 
   public barChartOptions: ChartOptions<'bar'> = {
+    parsing: undefined,
+    font: undefined,
     responsive: true,
     plugins: {
       datalabels: {

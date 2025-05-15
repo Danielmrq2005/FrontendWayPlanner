@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {GastosService} from "../Servicios/gastos.service";
 import {IonicModule, ToastController} from "@ionic/angular";
-import {HttpClientModule} from "@angular/common/http";
+
 
 @Component({
   selector: 'app-crear-ingreso',
@@ -12,9 +12,8 @@ import {HttpClientModule} from "@angular/common/http";
   imports: [
     ReactiveFormsModule,
     IonicModule,
-    HttpClientModule
-  ],
-  providers: [GastosService],
+
+  ]
 })
 export class CrearIngresoComponent  implements OnInit {
   ingresoForm: FormGroup

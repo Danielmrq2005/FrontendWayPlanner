@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {IonicModule, ToastController} from "@ionic/angular";
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {GastosService} from "../Servicios/gastos.service";
-import {HttpClientModule} from "@angular/common/http";
+
 
 @Component({
   selector: 'app-crear-gasto',
@@ -12,9 +12,8 @@ import {HttpClientModule} from "@angular/common/http";
   imports: [
     IonicModule,
     ReactiveFormsModule,
-    HttpClientModule
-  ],
-  providers: [GastosService],
+
+  ]
 })
 export class CrearGastoComponent  implements OnInit {
   gastoForm: FormGroup

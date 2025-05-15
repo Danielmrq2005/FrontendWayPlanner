@@ -1,5 +1,5 @@
 import { Maleta } from './maleta';
-import { Gastos } from './gastos';
+import { Gastos } from './Gastos';
 
 export interface Viaje {
   id?: number;

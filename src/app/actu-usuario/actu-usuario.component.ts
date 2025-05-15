@@ -4,7 +4,6 @@ import {UsuarioService} from "../Servicios/usuario.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {jwtDecode} from "jwt-decode";
 import {IonicModule} from "@ionic/angular";
-import {HttpClientModule} from "@angular/common/http";
 import {Registro} from "../Modelos/Registro";
 
 @Component({
@@ -15,8 +14,7 @@ import {Registro} from "../Modelos/Registro";
   imports: [
     IonicModule,
     ReactiveFormsModule,
-    HttpClientModule
-  ], providers: [UsuarioService]
+  ]
 })
 export class ActuUsuarioComponent  implements OnInit {
   usuarioForm: FormGroup;

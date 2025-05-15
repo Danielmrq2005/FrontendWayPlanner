@@ -4,7 +4,7 @@ import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/
 import {Registro} from "../Modelos/Registro";
 import {CrearCuentaService} from "../Servicios/cear-cuenta.service";
 import {Router} from "@angular/router";
-import {HttpClientModule} from "@angular/common/http";
+
 
 @Component({
   selector: 'app-crear-cuenta',
@@ -14,9 +14,7 @@ import {HttpClientModule} from "@angular/common/http";
   imports: [
     IonicModule,
     ReactiveFormsModule,
-    HttpClientModule
-  ],
-  providers: [CrearCuentaService]
+  ]
 })
 export class CrearCuentaComponent  implements OnInit {
 

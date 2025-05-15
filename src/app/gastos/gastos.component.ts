@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import {IonicModule} from "@ionic/angular";
 import {VerGastos} from "../Modelos/VerGastos";
 import {GastosService} from "../Servicios/gastos.service";
-import {HttpClientModule} from "@angular/common/http";
 import {CurrencyPipe, NgForOf} from "@angular/common";
 import {RouterLink} from "@angular/router";
 import {GastosResumenDTO} from "../Modelos/GastosResumen";
@@ -15,13 +14,11 @@ import {MenuHamburguesaComponent} from "../menu-hamburguesa/menu-hamburguesa.com
   standalone: true,
   imports: [
     IonicModule,
-    HttpClientModule,
     CurrencyPipe,
     NgForOf,
     RouterLink,
     MenuHamburguesaComponent
-  ],
-  providers: [GastosService],
+  ]
 })
 export class GastosComponent  implements OnInit {
 

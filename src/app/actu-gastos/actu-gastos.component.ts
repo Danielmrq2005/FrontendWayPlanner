@@ -4,7 +4,7 @@ import {GastosService} from "../Servicios/gastos.service";
 import {IonicModule, ToastController} from "@ionic/angular";
 import {ActivatedRoute} from "@angular/router";
 import {Gastos} from "../Modelos/Gastos";
-import {HttpClientModule} from "@angular/common/http";
+import {HttpClient} from "@angular/common/http";
 
 @Component({
   selector: 'app-actu-gastos',
@@ -15,9 +15,7 @@ import {HttpClientModule} from "@angular/common/http";
     FormsModule,
     IonicModule,
     ReactiveFormsModule,
-    HttpClientModule
-  ],
-  providers: [GastosService],
+  ]
 })
 export class ActuGastosComponent  implements OnInit {
 
