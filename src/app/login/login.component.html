@@ -1,0 +1,43 @@
+
+<ion-content *ngIf="loginViewFlag">
+
+
+  <div class="login-container">
+    <img src="assets/candado.jpg" alt="login Icono" class="icon">
+    <h2>Bienvenido a WayPlanner</h2>
+
+    <form [formGroup]="loginForm" id="login">
+
+      <ion-item lines="none">
+        <ion-label position="floating">Email</ion-label>
+        <ion-input
+          id="Email"
+          placeholder="Email de usuario"
+          fill="outline"
+          formControlName="email">
+        </ion-input>
+      </ion-item>
+
+      <ion-item lines="none">
+        <ion-label position="floating">Contraseña</ion-label>
+        <ion-input
+          id="password"
+          placeholder="Contraseña"
+          type="password"
+          fill="outline"
+          formControlName="password">
+        </ion-input>
+      </ion-item>
+
+      <ion-button
+        expand="block"
+        class="login-button"
+        (click)="doLogin()">
+        Iniciar sesión
+      </ion-button>
+    </form>
+
+  </div>
+</ion-content>
+
+
