@@ -11,9 +11,14 @@
   <div class="notificaciones-container" *ngIf="notificaciones?.length; else sinNotificaciones">
     <ion-card *ngFor="let noti of notificaciones" class="notificacion-card">
       <ion-card-content>
-        <div class="mensaje">{{ noti.mensaje }}</div>
-        <div class="fecha">
-          📅 {{ noti.fechaEnvio | date: 'dd/MM/yyyy HH:mm' }}
+        <div class="notificacion-content">
+          <div>
+            <div class="mensaje">{{ noti.mensaje }}</div>
+            <div class="fecha">
+              📅 {{ noti.fechaEnvio | date: 'dd/MM/yyyy HH:mm' }}
+            </div>
+          </div>
+          <img class="papelera-icono" (click)="eliminarNotificacion(noti.id)" src="assets/icons8-basura-50.png" alt="Eliminar notificación">
         </div>
       </ion-card-content>
     </ion-card>
@@ -42,6 +47,12 @@
       box-shadow: 0 4px 8px rgba(0,0,0,0.1);
     }
 
+    .notificacion-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
     .mensaje {
       font-size: 1.2rem;
       font-weight: 600;
@@ -51,6 +62,13 @@
       margin-top: 0.5rem;
       font-size: 0.95rem;
       color: #e0e0e0;
+    }
+
+    .papelera-icono {
+      height: 37px;
+      cursor: pointer;
+      flex-shrink: 0;
+      margin-left: 1rem;
     }
 
     .no-data {

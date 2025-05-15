@@ -62,6 +62,18 @@ export class NotificacionesComponent  implements OnInit {
       }
     });
   }
+
+  eliminarNotificacion(id: number) {
+    this.notificacionesService.eliminarNotificacion(id).subscribe({
+      next : () => {
+        console.log('Notificacion eliminada');
+        this.listaNotificaciones();
+      } ,
+      error: (error) => {
+        console.error('Error al eliminar la notificacion', error);
+      }
+    })
+  }
   obtenerUsuarioId(): number {
     const token = sessionStorage.getItem('authToken');
     if (token) {
