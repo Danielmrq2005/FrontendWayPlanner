@@ -1,91 +1,69 @@
-<ion-content class="ion-padding">
-  <div class="app-container">
-    <div class="sidebar" id="sidebar">
-      <div class="toggle-button" onclick="document.getElementById('sidebar').classList.toggle('expanded')">
-        <ion-icon name="menu-outline"></ion-icon>
-      </div>
-      <div class="menu-items">
-        <div class="menu-item">
-          <img src="assets/Avion.png" alt="Gastos Icon" class="menu-icon" />
-          <span class="menu-label">Gastos</span>
-        </div>
-        <div class="menu-item">
-          <img src="assets/Gastos.png" alt="Ingresos Icon" class="menu-icon" />
-          <span class="menu-label">Ingresos</span>
-        </div>
-        <div class="menu-item">
-          <img src="assets/usuario.png" alt="Total Icon" class="menu-icon" />
-          <span class="menu-label">Total</span>
-        </div>
-        <div class="menu-item">
-          <img src="assets/Ajustes.png" alt="Settings Icon" class="menu-icon" />
-          <span class="menu-label">Ajustes</span>
-        </div>
-      </div>
-    </div>
+<div class="app-container" [class.sidebar-expanded]="sidebarExpanded">
+  <app-menu-hamburguesa (expansionChange)="sidebarExpanded = $event"></app-menu-hamburguesa>
 
-    <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-      <ion-fab-button>
-        <img src="assets/añadir.png" alt="WayPlanner Icono" class="icon">
-      </ion-fab-button>
 
-      <ion-fab-list side="top">
-        <ion-fab-button color="danger" [routerLink]="['/crear-gasto']">
-          <img src="assets/Gasto.png" alt="Gastos Icon" class="menu-icon" />
+      <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+        <ion-fab-button>
+          <img src="assets/añadir.png" alt="WayPlanner Icono" class="icon">
         </ion-fab-button>
-        <ion-fab-button color="success" [routerLink]="['/crear-ingreso']">
-          <img src="assets/Ingreso.png" alt="Ingresos Icon" class="menu-icon" />
-        </ion-fab-button>
-      </ion-fab-list>
-    </ion-fab>
 
-    <div class="main-content">
-      <div class="top-tabs">
-        <span class="tab gasto selected">
-          ● Gastos
-          <div class="amount">-{{resumen?.totalGastos | currency:'EUR':'symbol' }}</div>
-        </span>
-        <span class="tab total">
-          = Total
-          <div class="amount">{{ resumen?.saldo | currency:'EUR':'symbol'}}€</div>
-        </span>
-        <span class="tab ingreso">
-          = Ingresos
-          <div class="amount">+{{ resumen?.totalIngresos | currency:'EUR':'symbol'}} €</div>
-        </span>
-      </div>
+        <ion-fab-list side="top">
+          <ion-fab-button color="danger" [routerLink]="['/crear-gasto']">
+            <img src="assets/Gasto.png" alt="Gastos Icon" class="menu-icon" />
+          </ion-fab-button>
+          <ion-fab-button color="success" [routerLink]="['/crear-ingreso']">
+            <img src="assets/Ingreso.png" alt="Ingresos Icon" class="menu-icon" />
+          </ion-fab-button>
+        </ion-fab-list>
+      </ion-fab>
 
-      <ion-list>
-        <ng-container *ngFor="let dia of Gastos">
-          <ion-item-divider>
-            <ion-label class="fecha">{{ dia.fecha }}</ion-label>
-          </ion-item-divider>
-          <ng-container *ngFor="let gasto of dia.gastos">
-            <ion-item lines="none">
-              <ion-icon [name]="gasto.esIngreso ? 'card' : 'wallet'" slot="start" [color]="gasto.esIngreso ? 'success' : 'danger'"></ion-icon>
-              <ion-label>
-                <h2>{{ gasto.titulo }}</h2>
-              </ion-label>
-              <ion-text [color]="gasto.esIngreso ? 'success' : 'danger'">
-                <strong>{{ gasto.esIngreso ? '+' : '-' }}{{ gasto.cantidad | currency:'EUR' }}</strong>
-              </ion-text>
+      <div class="main-content">
+        <div class="top-tabs">
+          <span class="tab gasto selected">
+            ● Gastos
+            <div class="amount">-{{resumen?.totalGastos | currency:'EUR':'symbol' }}</div>
+          </span>
+          <span class="tab total">
+            = Total
+            <div class="amount">{{ resumen?.saldo | currency:'EUR':'symbol'}}€</div>
+          </span>
+          <span class="tab ingreso">
+            = Ingresos
+            <div class="amount">+{{ resumen?.totalIngresos | currency:'EUR':'symbol'}} €</div>
+          </span>
+        </div>
 
-              <img
-                class="lapiz"
-                src="assets/Lapiz.png"
-                slot="end"
-                [routerLink]="['/actualizar-gasto', gasto.id]"
-                (click)="verificarId(gasto.id)" />
+        <ion-list>
+          <ng-container *ngFor="let dia of Gastos">
+            <ion-item-divider>
+              <ion-label class="fecha">{{ dia.fecha }}</ion-label>
+            </ion-item-divider>
+            <ng-container *ngFor="let gasto of dia.gastos">
+              <ion-item lines="none">
+                <ion-icon [name]="gasto.esIngreso ? 'card' : 'wallet'" slot="start" [color]="gasto.esIngreso ? 'success' : 'danger'"></ion-icon>
+                <ion-label>
+                  <h2>{{ gasto.titulo }}</h2>
+                </ion-label>
+                <ion-text [color]="gasto.esIngreso ? 'success' : 'danger'">
+                  <strong>{{ gasto.esIngreso ? '+' : '-' }}{{ gasto.cantidad | currency:'EUR' }}</strong>
+                </ion-text>
 
-              <img
-                class="papelera"
-                src="assets/eliminar.png"
-                slot="end"
-                (click)="eliminarGasto(gasto.id)" />
-            </ion-item>
+                <img
+                  class="lapiz"
+                  src="assets/Lapiz.png"
+                  slot="end"
+                  [routerLink]="['/actualizar-gasto', gasto.id]"
+                  (click)="verificarId(gasto.id)" />
+
+                <img
+                  class="papelera"
+                  src="assets/eliminar.png"
+                  slot="end"
+                  (click)="eliminarGasto(gasto.id)" />
+              </ion-item>
+            </ng-container>
           </ng-container>
-        </ng-container>
-      </ion-list>
-    </div>
-  </div>
-</ion-content>
+        </ion-list>
+      </div>
+</div>
+

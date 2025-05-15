@@ -6,6 +6,7 @@ import {HttpClientModule} from "@angular/common/http";
 import {CurrencyPipe, NgForOf} from "@angular/common";
 import {RouterLink} from "@angular/router";
 import {GastosResumenDTO} from "../Modelos/GastosResumen";
+import {MenuHamburguesaComponent} from "../menu-hamburguesa/menu-hamburguesa.component";
 
 @Component({
   selector: 'app-gastos',
@@ -17,7 +18,8 @@ import {GastosResumenDTO} from "../Modelos/GastosResumen";
     HttpClientModule,
     CurrencyPipe,
     NgForOf,
-    RouterLink
+    RouterLink,
+    MenuHamburguesaComponent
   ],
   providers: [GastosService],
 })
