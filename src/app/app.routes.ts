@@ -35,7 +35,7 @@ export const routes: Routes = [
     loadComponent: () => import('./actu-gastos/actu-gastos.component').then((m) => m.ActuGastosComponent),
   },
   {
-    path: 'gastos',
+    path: 'gastos/:id',
     loadComponent: () => import('./gastos/gastos.component').then((m) => m.GastosComponent),
   },
   {
@@ -72,4 +72,8 @@ export const routes: Routes = [
     path: 'viajes',
     loadComponent: () => import('./viajes/viajes.component').then((m) => m.ViajesComponent),
   },
+  {
+    path: 'ajustes',
+    loadComponent: () => import('./ajustes/ajustes.component').then((m) => m.AjustesComponent),
+  }
 ];

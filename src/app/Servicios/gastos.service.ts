@@ -37,4 +37,7 @@ export class GastosService {
     return this.http.delete<void>(`${this.apiUrl}/eliminar/${id}`);
   }
 
+  obtenerGastoPorId(id: number): Observable<any> {
+    return this.http.get(`${this.apiUrl}/${id}`);
+  }
 }
