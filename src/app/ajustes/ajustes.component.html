@@ -1,0 +1,100 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Ajustes</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <ion-card class="settings-card">
+    <ion-card-header>
+      <ion-card-title>Cuenta</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-item lines="none">
+        <ion-icon name="person-circle-outline" slot="start"></ion-icon>
+        <ion-label>Perfil</ion-label>
+        <ion-button fill="clear" slot="end" color="primary">Editar</ion-button>
+      </ion-item>
+
+      <ion-item lines="none">
+        <ion-icon name="lock-closed-outline" slot="start"></ion-icon>
+        <ion-label>Cambiar contraseña</ion-label>
+        <ion-button fill="clear" slot="end" color="primary">Cambiar</ion-button>
+      </ion-item>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card class="settings-card">
+    <ion-card-header>
+      <ion-card-title>Preferencias</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-item>
+        <ion-icon name="moon-outline" slot="start"></ion-icon>
+        <ion-label>Modo oscuro</ion-label>
+        <ion-toggle slot="end"></ion-toggle>
+      </ion-item>
+
+      <ion-item>
+        <ion-icon name="language-outline" slot="start"></ion-icon>
+        <ion-label>Idioma</ion-label>
+        <ion-select slot="end">
+          <ion-select-option value="es">Español</ion-select-option>
+          <ion-select-option value="en">English</ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item>
+        <ion-icon name="notifications-outline" slot="start"></ion-icon>
+        <ion-label>Notificaciones</ion-label>
+        <ion-toggle slot="end"></ion-toggle>
+      </ion-item>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card class="settings-card">
+    <ion-card-header>
+      <ion-card-title>Permisos</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-item>
+        <ion-icon name="location-outline" slot="start"></ion-icon>
+        <ion-label>Ubicación</ion-label>
+        <ion-toggle slot="end"></ion-toggle>
+      </ion-item>
+
+      <ion-item>
+        <ion-icon name="camera-outline" slot="start"></ion-icon>
+        <ion-label>Cámara</ion-label>
+        <ion-toggle slot="end"></ion-toggle>
+      </ion-item>
+
+      <ion-item>
+        <ion-icon name="mic-outline" slot="start"></ion-icon>
+        <ion-label>Micrófono</ion-label>
+        <ion-toggle slot="end"></ion-toggle>
+      </ion-item>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card class="settings-card danger-zone">
+    <ion-card-header>
+      <ion-card-title>Zona de riesgo</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-item lines="none" color="danger">
+        <ion-icon name="log-out-outline" slot="start"></ion-icon>
+        <ion-label>Cerrar sesión</ion-label>
+        <ion-button fill="clear" color="danger" slot="end" (click)="logout()">Salir</ion-button>
+      </ion-item>
+
+      <ion-item lines="none" color="danger">
+        <ion-icon name="trash-outline" slot="start"></ion-icon>
+        <ion-label>Eliminar cuenta</ion-label>
+        <ion-button fill="clear" color="danger" slot="end">Eliminar</ion-button>
+      </ion-item>
+    </ion-card-content>
+  </ion-card>
+
+</ion-content>

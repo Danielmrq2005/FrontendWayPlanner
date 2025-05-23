@@ -6,6 +6,7 @@ import {ActivatedRoute} from "@angular/router";
 import {Gastos} from "../Modelos/Gastos";
 import {HttpClient} from "@angular/common/http";
 
+
 @Component({
   selector: 'app-actu-gastos',
   templateUrl: './actu-gastos.component.html',
@@ -19,8 +20,10 @@ import {HttpClient} from "@angular/common/http";
 })
 export class ActuGastosComponent  implements OnInit {
 
+
   gastoForm: FormGroup
   gastoId: number;
+
 
   constructor(private formBuilder: FormBuilder, private gastosService: GastosService, private toastController: ToastController, private Aroute: ActivatedRoute) {
     this.gastoForm = this.formBuilder.group({
@@ -31,10 +34,41 @@ export class ActuGastosComponent  implements OnInit {
       fecha: [''],
       viajeId: [1, Validators.required],
 
+
     });
     this.gastoId = +this.Aroute.snapshot.paramMap.get('id')!;
     console.log(this.gastoId);
   }
+
+
+  cargarDatosGasto() {
+    this.gastosService.obtenerGastoPorId(this.gastoId).subscribe({
+      next: (gasto) => {
+        this.gastoForm.patchValue({
+          titulo: gasto.titulo,
+          cantidad: gasto.cantidad,
+          esIngreso: gasto.esIngreso,
+          categoria: gasto.categoria,
+          fecha: gasto.fecha,
+          viajeId: gasto.viajeId
+        });
+      },
+      error: async (err) => {
+        console.error('Error al cargar el gasto:', err);
+        await this.mostrarMensaje('Error al cargar los datos del gasto');
+      }
+    });
+  }
+  async mostrarMensaje(mensaje: string) {
+    const toast = await this.toastController.create({
+      message: mensaje,
+      duration: 2000,
+      position: 'middle',
+      color: 'primary'
+    });
+    await toast.present();
+  }
+
 
   actualizarGasto() {
     if (this.gastoForm.valid) {
@@ -50,6 +84,9 @@ export class ActuGastosComponent  implements OnInit {
       });
     }
   }
-  ngOnInit() {}
+  ngOnInit() {
+    this.cargarDatosGasto();
+  }
+
 
 }

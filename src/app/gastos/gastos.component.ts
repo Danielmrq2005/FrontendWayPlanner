@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import {IonicModule} from "@ionic/angular";
-import {VerGastos} from "../Modelos/VerGastos";
-import {GastosService} from "../Servicios/gastos.service";
-import {CurrencyPipe, NgForOf} from "@angular/common";
-import {RouterLink} from "@angular/router";
-import {GastosResumenDTO} from "../Modelos/GastosResumen";
-import {MenuHamburguesaComponent} from "../menu-hamburguesa/menu-hamburguesa.component";
+import { IonicModule } from "@ionic/angular";
+import { VerGastos } from "../Modelos/VerGastos";
+import { GastosService } from "../Servicios/gastos.service";
+import { CurrencyPipe, NgForOf } from "@angular/common";
+import { ActivatedRoute, RouterLink } from "@angular/router";
+import { GastosResumenDTO } from "../Modelos/GastosResumen";
+import { MenuHamburguesaComponent } from "../menu-hamburguesa/menu-hamburguesa.component";
 
 @Component({
   selector: 'app-gastos',
@@ -20,30 +20,33 @@ import {MenuHamburguesaComponent} from "../menu-hamburguesa/menu-hamburguesa.com
     MenuHamburguesaComponent
   ]
 })
-export class GastosComponent  implements OnInit {
+export class GastosComponent implements OnInit {
 
   Gastos: VerGastos[] = [];
-  viajeId: number = 1;
+  viajeId: number = 0; // Inicializado en 0
   sidebarExpanded = false;
   resumen: GastosResumenDTO | null = null;
 
-
-
-
-  constructor(private gastosService: GastosService) {}
+  constructor(private gastosService: GastosService, private route: ActivatedRoute) {}
 
   ngOnInit() {
-    this.CargarGastos();
-    this.gastosService.getResumenGastos(this.viajeId).subscribe((data) => {
-      this.resumen = data;
+    // Obtener el viajeId desde la URL
+    this.route.paramMap.subscribe(params => {
+      const id = params.get('id');
+      if (id) {
+        this.viajeId = +id; // Convertir a número
+        this.CargarGastos();
+        this.gastosService.getResumenGastos(this.viajeId).subscribe((data) => {
+          this.resumen = data;
+        });
+      }
     });
   }
-
-
 
   toggleSidebar() {
     this.sidebarExpanded = !this.sidebarExpanded;
   }
+
   CargarGastos() {
     this.gastosService.obtenerDiasConGastos(this.viajeId).subscribe(datos => {
       this.Gastos = datos;
@@ -56,6 +59,7 @@ export class GastosComponent  implements OnInit {
   verificarId(id: number | undefined) {
     console.log('ID del gasto:', id);
   }
+
   eliminarGasto(id: number) {
     this.gastosService.eliminarGasto(id).subscribe({
       next: () => {
@@ -66,5 +70,4 @@ export class GastosComponent  implements OnInit {
       }
     });
   }
-
 }
