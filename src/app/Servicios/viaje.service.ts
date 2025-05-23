@@ -23,7 +23,7 @@ export class ViajeService{
     return this.http.get<Viaje>(`${this.baseUrl}/viajePorId/${id}`);
   }
 
-  eliminarViaje(id: number): Observable<void> {
+  eliminarViaje(id?: number): Observable<void> {
     return this.http.delete<void>(`${this.baseUrl}/eliminar/${id}`);
   }
 
