@@ -60,11 +60,11 @@ export const routes: Routes = [
     pathMatch: 'full',
   },
   {
-    path: 'itinerarios',
+    path: 'itinerarios/:id',
     loadComponent: () => import('./itinerarios/itinerarios.component').then((m) => m.ItinerariosComponent),
   },
   {
-    path: 'rutas',
+    path: 'rutas/{id}',
     loadComponent: () => import('./rutas/rutas.component').then((m) => m.RutasComponent),
   },
 
@@ -72,4 +72,8 @@ export const routes: Routes = [
     path: 'viajes',
     loadComponent: () => import('./viajes/viajes.component').then((m) => m.ViajesComponent),
   },
+  {
+    path: 'crear-itinerario',
+    loadComponent: () => import('./crear-itinerario/crear-itinerario.component').then((m) => m.CrearItinerarioComponent),
+  }
 ];
