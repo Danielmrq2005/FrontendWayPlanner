@@ -38,7 +38,7 @@ export class RutasComponent implements AfterViewInit {
   ngOnInit() {
     this.idViaje = this.route.snapshot.paramMap.get('id');
     if (this.idViaje) {
-      this.obtenerItinerariosEnRuta()
+      this.obtenerItinerariosEnRuta(this.idViaje)
     }
   }
 
@@ -100,8 +100,8 @@ export class RutasComponent implements AfterViewInit {
     this.modal.dismiss(this.name, 'confirm');
   }
 
-  obtenerItinerariosEnRuta() {
-    this.itinerarioService.obtenerItineariosRuta().subscribe({
+  obtenerItinerariosEnRuta(idViaje: string) {
+    this.itinerarioService.obtenerItineariosRuta(parseInt(idViaje)).subscribe({
       next: (itinerarios) => {
         console.log('Itinerarios en ruta recibidos:', itinerarios);
         // Aquí puedes asignar los itinerarios a una propiedad si lo necesitas
