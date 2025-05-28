@@ -7,14 +7,17 @@ import { OverlayEventDetail } from '@ionic/core/components';
 import {ActivatedRoute, RouterLink} from "@angular/router";
 import {ItineariosService} from "../Servicios/itinearios.service";
 import {Itinerario} from "../Modelos/Itinerario";
-import {NgForOf} from "@angular/common";
+import {NgForOf, NgIf} from "@angular/common";
+import {DiaService} from "../Servicios/dia.service";
+import {Dia} from "../Modelos/Dia";
+import {DiasItinerario} from "../Modelos/DiasItinerario";
 
 @Component({
   selector: 'app-itinerarios',
   templateUrl: './itinerarios.component.html',
   styleUrls: ['./itinerarios.component.scss'],
   standalone: true,
-  imports: [IonicModule, FormsModule, RouterLink, NgForOf]
+  imports: [IonicModule, FormsModule, RouterLink, NgForOf, NgIf]
 })
 export class ItinerariosComponent  implements OnInit {
   @ViewChild(IonModal) modal!: IonModal;
@@ -22,11 +25,11 @@ export class ItinerariosComponent  implements OnInit {
   actividad!: string;
   message!: string;
   idViaje: string | null = null;
-  Nombreusuario = 'Usuario';
+  segmentoSeleccionado: string = 'default';
   itinerarios: Itinerario[] = [];
+  diasViaje : Dia[] = [];
   itinerariosDia : Itinerario[] = [];
-
-  constructor(private route: ActivatedRoute, private itinerarioService: ItineariosService) {
+  constructor(private route: ActivatedRoute, private itinerarioService: ItineariosService, private diaService: DiaService) {
 
     addIcons({add})
   }
@@ -35,6 +38,7 @@ export class ItinerariosComponent  implements OnInit {
     this.idViaje = this.route.snapshot.paramMap.get('id');
     if (this.idViaje) {
       this.ObtenerItinearios();
+      this.ObtenerDiasPorViaje();
     } else {
       console.error('ID de viaje no disponible');
     }
@@ -73,5 +77,56 @@ export class ItinerariosComponent  implements OnInit {
     }
   }
 
+  ObtenerDiasPorViaje() {
+    if (this.idViaje) {
+      this.diaService.obtenerDias(parseInt(this.idViaje)).subscribe({
+        next: (response) => {
+          console.log('Días obtenidos:', response);
+          this.diasViaje = response;
+        },
+        error: (error) => {
+          console.error('Error al obtener los días:', error);
+        },
+        complete: () => {
+          console.log('Petición de días completada');
+        }
+      });
+    } else {
+      console.error('ID de viaje no disponible');
+    }
+  }
+
+  seleccionarSegmento(segmento: string) {
+    this.segmentoSeleccionado = segmento;
+
+    if (segmento !== 'default') {
+      const index = parseInt(segmento.replace('dia', ''));
+      const diaSeleccionado = this.diasViaje[index];
+
+      const dto: DiasItinerario = {
+        idViaje: parseInt(this.idViaje!),
+        fecha: diaSeleccionado.fecha
+      };
+      console.info('FFechaDTO: ', dto);
+      this.ObtenerItinerariosPorDia(dto);
+    }
+  }
+
+  ObtenerItinerariosPorDia(dia: DiasItinerario){
+    this.itinerarioService.obtenerItinerariosPorDia(dia).subscribe({
+      next: (response) => {
+        console.log('Itinerarios obtenidos para el día:', response);
+        this.itinerariosDia = response;
+        return response;
+      },
+      error: (error) => {
+        console.error('Error al obtener los itinerarios para el día:', error);
+        return [];
+      },
+      complete: () => {
+        console.log('Petición de itinerarios por día completada');
+      }
+    })
+  }
 
 }

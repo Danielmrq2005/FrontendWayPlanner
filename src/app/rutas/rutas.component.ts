@@ -7,7 +7,10 @@ import {add} from "ionicons/icons";
 import {FormsModule} from "@angular/forms";
 import {OverlayEventDetail} from "@ionic/core/components";
 import {NgForOf} from "@angular/common";
-import {RouterLink} from "@angular/router";
+import {ActivatedRoute, RouterLink} from "@angular/router";
+import {HttpClient} from "@angular/common/http";
+import {DiaService} from "../Servicios/dia.service";
+import {ItineariosService} from "../Servicios/itinearios.service";
 
 @Component({
   selector: 'app-rutas',
@@ -26,9 +29,17 @@ export class RutasComponent implements AfterViewInit {
   message = 'This modal example uses triggers to automatically open a modal when the button is clicked.';
   name!: string;
   items = ['Sitio A', 'Sitio B', 'Sitio C', 'Sitio D'];
+  idViaje: string | null = null;
 
-  constructor() {
+  constructor(private route: ActivatedRoute, private http: HttpClient, private itinerarioService: ItineariosService, private diaService: DiaService) {
     addIcons({add})
+  }
+
+  ngOnInit() {
+    this.idViaje = this.route.snapshot.paramMap.get('id');
+    if (this.idViaje) {
+      this.obtenerItinerariosEnRuta()
+    }
   }
 
   ngAfterViewInit(): void {
@@ -89,9 +100,25 @@ export class RutasComponent implements AfterViewInit {
     this.modal.dismiss(this.name, 'confirm');
   }
 
+  obtenerItinerariosEnRuta() {
+    this.itinerarioService.obtenerItineariosRuta().subscribe({
+      next: (itinerarios) => {
+        console.log('Itinerarios en ruta recibidos:', itinerarios);
+        // Aquí puedes asignar los itinerarios a una propiedad si lo necesitas
+      },
+      error: (err) => {
+        console.error('Error al obtener itinerarios en ruta:', err);
+      },
+      complete: () => {
+        console.log('Consulta de itinerarios en ruta completada');
+      }
+    });
+  }
+
   onWillDismiss(event: CustomEvent<OverlayEventDetail>) {
     if (event.detail.role === 'confirm') {
       this.message = `Hello, ${event.detail.data}!`;
     }
+
   }
 }
