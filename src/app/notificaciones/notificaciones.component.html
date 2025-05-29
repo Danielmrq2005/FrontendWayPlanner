@@ -3,7 +3,10 @@
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/viajes" style="color: white;"></ion-back-button>
     </ion-buttons>
-    <ion-title style="color: white;">🔔 Notificaciones</ion-title>
+    <div style="display: flex; align-items: center;">
+      <img src="assets/icons8-notifications-78.png" style="height: 42px; margin-right: 20px;">
+      <ion-title style="color: white; margin-left: -30px;">Notificaciones</ion-title>
+    </div>
   </ion-toolbar>
 </ion-header>
 
@@ -26,7 +29,7 @@
 
   <ng-template #sinNotificaciones>
     <div class="no-data">
-      <img src="assets/icons8-campana-con-barra-48-pica.png" alt="Sin notificaciones" />
+      <img src="assets/icons8-campana-con-barra-96.png" alt="Sin notificaciones" />
       <p>No tienes notificaciones por ahora.</p>
     </div>
   </ng-template>

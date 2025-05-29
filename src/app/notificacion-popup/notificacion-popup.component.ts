@@ -1,8 +1,8 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {Notificacion} from '../Modelos/notificacion';
+import { Component, OnInit } from '@angular/core';
+import { Notificacion } from '../Modelos/notificacion';
 import { NotificacionesService } from '../Servicios/notificaciones.service';
-import {jwtDecode} from "jwt-decode";
-import {CommonModule} from "@angular/common";
+import { jwtDecode } from "jwt-decode";
+import { CommonModule } from "@angular/common";
 
 @Component({
   selector: 'app-notificacion-popup',
@@ -11,13 +11,14 @@ import {CommonModule} from "@angular/common";
   standalone: true,
   imports: [CommonModule]
 })
-export class NotificacionPopupComponent  implements OnInit {
+export class NotificacionPopupComponent implements OnInit {
 
   notificacion?: Notificacion
   visible = false;
+  ultimoIdMostrado: number = 0; // ✅ Nuevo: ID de la última notificación mostrada
 
 
-  constructor(private notificacionservice:NotificacionesService) { }
+  constructor(private notificacionservice: NotificacionesService) { }
 
   ngOnInit() {
     const usuarioId = this.obtenerUsuarioId();
@@ -33,6 +34,13 @@ export class NotificacionPopupComponent  implements OnInit {
           this.visible = true;
           setTimeout(() => this.visible = false, 5000);
         }
+        if (ultima.id === this.ultimoIdMostrado) return;
+
+        this.ultimoIdMostrado = ultima.id;
+        this.notificacion = ultima;
+        this.visible = true;
+
+        setTimeout(() => this.visible = false, 5000);
       });
     }, 60000);
   }

@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {IonicModule} from "@ionic/angular";
 import {Router} from "@angular/router";
+import {Notificacion} from "../Modelos/notificacion";
+import {NotificacionesService} from "../Servicios/notificaciones.service";
 import {jwtDecode} from "jwt-decode";
 import {UsuarioService} from "../Servicios/usuario.service";
 import {PermisosService} from "../Servicios/permisos.service";
@@ -18,6 +20,7 @@ import {TemaService} from "../Servicios/tema.service";
   ]
 })
 export class AjustesComponent  implements OnInit {
+  horaActual: string = '';
   idusuario: number = 0;
   locationEnabled = false;
   storageEnabled = false;
@@ -29,6 +32,7 @@ export class AjustesComponent  implements OnInit {
     private usuarioService: UsuarioService,
     private permisosService: PermisosService,
     private temaService: TemaService,
+    private notificacionesservice: NotificacionesService
   ) {}
 
   async ngOnInit() {
@@ -82,19 +86,7 @@ export class AjustesComponent  implements OnInit {
     sessionStorage.removeItem('authToken');
     this.router.navigate(['/login']);
   }
-  obtenerUsuarioId(): number {
-    const token = sessionStorage.getItem('authToken');
-    if (token) {
-      try {
-        const decodedToken: any = jwtDecode(token);
-        return decodedToken.tokenDataDTO?.id || null;
-      } catch (error) {
-        console.error('Error al decodificar el token', error);
-        return 0;
-      }
-    }
-    return 0;
-  }
+
 
   eliminar() {
     if (this.idusuario) {
@@ -114,4 +106,26 @@ export class AjustesComponent  implements OnInit {
 
 
 
+  guardarHoraNotificacion(hora: string) {
+    const id = this.obtenerUsuarioId();
+    if (!id) return;
+
+    this.notificacionesservice.establecerHoraNotificacion(id, hora).subscribe({
+      next: () => console.log('Hora actualizada:', hora),
+      error: err => console.error('Error al actualizar la hora', err),
+    });
+  }
+
+  obtenerUsuarioId(): number {
+    const token = sessionStorage.getItem('authToken');
+    if (token) {
+      try {
+        const decoded: any = jwtDecode(token);
+        return decoded.tokenDataDTO?.id || 0;
+      } catch (e) {
+        console.error('Error al decodificar el token', e);
+      }
+    }
+    return 0;
+  }
 }
