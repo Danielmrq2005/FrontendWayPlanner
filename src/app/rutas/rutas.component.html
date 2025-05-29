@@ -14,6 +14,7 @@
           interface="popover"
           placeholder="Día"
           class="select-dia"
+          [(ngModel)]="diaSeleccionado"
           (ionChange)="onDiaSeleccionado($event.detail.value)"
         >
           <ion-select-option *ngFor="let dia of dias" [value]="dia.id">
