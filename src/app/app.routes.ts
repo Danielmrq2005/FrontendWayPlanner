@@ -27,7 +27,11 @@ export const routes: Routes = [
     loadComponent: () => import('./crear-cuenta/crear-cuenta.component').then((m) => m.CrearCuentaComponent),
   },
   {
-    path: 'crear-gasto',
+    path: 'verificar',
+    loadComponent: () => import('./verificar/verificar.component').then((m) => m.VerificarComponent),
+  },
+  {
+    path: 'crear-gasto/:id',
     loadComponent: () => import('./crear-gasto/crear-gasto.component').then((m) => m.CrearGastoComponent),
   },
   {
@@ -35,7 +39,7 @@ export const routes: Routes = [
     loadComponent: () => import('./actu-gastos/actu-gastos.component').then((m) => m.ActuGastosComponent),
   },
   {
-    path: 'gastos',
+    path: 'gastos/:id',
     loadComponent: () => import('./gastos/gastos.component').then((m) => m.GastosComponent),
   },
   {
@@ -47,7 +51,7 @@ export const routes: Routes = [
     loadComponent: () => import('./actu-usuario/actu-usuario.component').then((m) => m.ActuUsuarioComponent),
   },
   {
-    path: 'crear-ingreso',
+    path: 'crear-ingreso/:id',
     loadComponent: () => import('./crear-ingreso/crear-ingreso.component').then((m) => m.CrearIngresoComponent),
   },
   {
@@ -75,5 +79,9 @@ export const routes: Routes = [
   {
     path: 'crear-itinerario',
     loadComponent: () => import('./crear-itinerario/crear-itinerario.component').then((m) => m.CrearItinerarioComponent),
+  }
+  {
+    path: 'ajustes',
+    loadComponent: () => import('./ajustes/ajustes.component').then((m) => m.AjustesComponent),
   }
 ];

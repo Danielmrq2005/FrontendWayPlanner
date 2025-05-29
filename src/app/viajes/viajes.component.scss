@@ -1,0 +1,67 @@
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 60px;
+  background-color: #5B97D5;
+  transition: width 0.3s ease;
+  z-index: 1000;
+}
+
+.sidebar.expanded {
+  width: 200px;
+}
+
+.menu-items {
+  width: 100%;
+  margin-top: 20px;
+  overflow-x: hidden;
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  cursor: pointer;
+  width: 100%;
+
+  &:hover {
+    background-color: #34495e;
+  }
+}
+
+.menu-label {
+  display: none;
+  color: white;
+  white-space: nowrap;
+  .sidebar.expanded & {
+    display: inline-block;
+  }
+}
+
+.menu-icon {
+  min-width: 24px;
+  width: 24px;
+  height: 24px;
+}
+
+.toggle-button {
+  cursor: pointer;
+  padding: 10px;
+  color: white;
+}
+
+:host ::ng-deep ion-content {
+  --padding-start: 60px;
+  transition: --padding-start 0.3s ease;
+}
+
+:host ::ng-deep ion-content.sidebar-expanded {
+  --padding-start: 200px;
+}
+
+.main-content {
+  transition: all 0.3s ease;
+}

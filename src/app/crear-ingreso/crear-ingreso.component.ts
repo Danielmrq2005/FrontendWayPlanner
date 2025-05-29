@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {GastosService} from "../Servicios/gastos.service";
 import {IonicModule, ToastController} from "@ionic/angular";
+import {ActivatedRoute, Router} from "@angular/router";
 
 
 @Component({
@@ -16,65 +17,64 @@ import {IonicModule, ToastController} from "@ionic/angular";
   ]
 })
 export class CrearIngresoComponent  implements OnInit {
-  ingresoForm: FormGroup
+  ingresoForm: FormGroup;
 
-  constructor(private formBuilder: FormBuilder, private gastosService: GastosService, private toastController: ToastController) {
+  constructor(
+    private formBuilder: FormBuilder,
+    private gastosService: GastosService,
+    private toastController: ToastController,
+    private router: Router,
+    private route: ActivatedRoute
+  ) {
     this.ingresoForm = this.formBuilder.group({
       titulo: ['', Validators.required],
       cantidad: [null, [Validators.required, Validators.min(0)]],
       esIngreso: [true],
       categoria: ['', Validators.required],
-      fecha: [''],
-      viajeId: [1, Validators.required],
+      fecha: [new Date().toISOString()],
+      viajeId: ['', Validators.required],
+      id: [0]
+    });
+  }
 
+  ngOnInit() {
+    this.route.params.subscribe(params => {
+      const id = params['id'];
+      if (id) {
+        this.ingresoForm.patchValue({
+          viajeId: +id
+        });
+      }
     });
   }
 
   async crearIngreso() {
-    console.log('Método crearGasto llamado');
-    console.log('Valores del formulario:', this.ingresoForm.value);
-
-    if (!this.ingresoForm.valid) {
-      console.error('Errores del formulario:', this.ingresoForm.errors);
-      Object.keys(this.ingresoForm.controls).forEach(controlName => {
-        const control = this.ingresoForm.get(controlName);
-        console.error(`${controlName}:`, control?.errors);
-      });
-    }
-
     if (this.ingresoForm.valid) {
-      console.log('Formulario válido:', this.ingresoForm.value);
+      const ingreso = {
+        ...this.ingresoForm.value,
+        fecha: new Date().toISOString()
+      };
 
-      this.gastosService.crearGasto(this.ingresoForm.value).subscribe({
-        next: async (response) => {
-          console.log('Respuesta del backend:', response);
+      this.gastosService.crearGasto(ingreso).subscribe({
+        next: async () => {
           const toast = await this.toastController.create({
-            message: 'Gasto creado correctamente',
+            message: 'Ingreso creado correctamente',
             duration: 2000,
             color: 'success'
           });
           await toast.present();
-          this.ingresoForm.reset();
+          this.router.navigate(['/gastos', this.ingresoForm.get('viajeId')?.value]);
         },
         error: async (error) => {
-          console.error('Error al crear el gasto:', error);
+          console.error('Error al crear el ingreso:', error);
           const toast = await this.toastController.create({
-            message: 'Error al crear el gasto',
+            message: 'Error al crear el ingreso',
             duration: 2000,
             color: 'danger'
           });
           await toast.present();
         }
       });
-    } else {
-      console.error('El formulario no es válido:', this.ingresoForm.errors);
     }
   }
-
-
-
-  ngOnInit() {
-
-  }
-
 }
