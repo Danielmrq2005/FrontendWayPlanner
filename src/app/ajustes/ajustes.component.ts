@@ -4,7 +4,6 @@ import {Router} from "@angular/router";
 import {Notificacion} from "../Modelos/notificacion";
 import {NotificacionesService} from "../Servicios/notificaciones.service";
 import {jwtDecode} from "jwt-decode";
-import {jwtDecode} from "jwt-decode";
 import {UsuarioService} from "../Servicios/usuario.service";
 import {PermisosService} from "../Servicios/permisos.service";
 import {FormsModule} from "@angular/forms";
@@ -22,7 +21,6 @@ import {TemaService} from "../Servicios/tema.service";
 })
 export class AjustesComponent  implements OnInit {
   horaActual: string = '';
-  constructor(private router: Router,private notificacionesservice: NotificacionesService) { }
   idusuario: number = 0;
   locationEnabled = false;
   storageEnabled = false;
@@ -34,6 +32,7 @@ export class AjustesComponent  implements OnInit {
     private usuarioService: UsuarioService,
     private permisosService: PermisosService,
     private temaService: TemaService,
+    private notificacionesservice: NotificacionesService
   ) {}
 
   async ngOnInit() {
@@ -87,19 +86,7 @@ export class AjustesComponent  implements OnInit {
     sessionStorage.removeItem('authToken');
     this.router.navigate(['/login']);
   }
-  obtenerUsuarioId(): number {
-    const token = sessionStorage.getItem('authToken');
-    if (token) {
-      try {
-        const decodedToken: any = jwtDecode(token);
-        return decodedToken.tokenDataDTO?.id || null;
-      } catch (error) {
-        console.error('Error al decodificar el token', error);
-        return 0;
-      }
-    }
-    return 0;
-  }
+
 
   eliminar() {
     if (this.idusuario) {
