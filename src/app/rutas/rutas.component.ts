@@ -242,4 +242,6 @@ export class RutasComponent implements AfterViewInit {
     }
   }
 
+  //TODO: HACER QUE BORRAR UN ITINERARIO CAMBIE EL BOOLEANO A FALSE EN EL SERVICIO
+
 }
