@@ -79,7 +79,7 @@ export const routes: Routes = [
   {
     path: 'crear-itinerario',
     loadComponent: () => import('./crear-itinerario/crear-itinerario.component').then((m) => m.CrearItinerarioComponent),
-  }
+  },
   {
     path: 'ajustes',
     loadComponent: () => import('./ajustes/ajustes.component').then((m) => m.AjustesComponent),
