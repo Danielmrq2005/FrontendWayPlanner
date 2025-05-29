@@ -69,12 +69,33 @@ export class ViajesComponent implements OnInit {
 
   ngOnInit() {
     this.idusuario = this.obtenerUsuarioId();
+
     if (this.idusuario) {
       this.viajeservice.listarViajesPorUsuario(this.idusuario).subscribe({
-        next: (viajes:Viaje[]) => this.viajes = viajes,
+        next: (viajes: Viaje[]) => {
+          const hoy = new Date();
+
+          viajes.forEach(via => {
+            const fechaViaje = new Date(via.fechaInicio);
+
+            if (fechaViaje <= hoy) {
+              this.viajeservice.eliminarViaje(via.id).subscribe({
+                next: () => {
+                  console.log('Viaje eliminado:', via.id);
+                },
+                error: (error) => {
+                  console.error('Error al eliminar el viaje:', error);
+                }
+              });
+            }
+          });
+
+          this.viajes = viajes.filter(v => new Date(v.fechaInicio) > hoy);
+        },
         error: (err: any) => console.error('Error al obtener los viajes:', err)
       });
     }
+
     if (this.idusuario) {
       this.usuarioservice.obtenerUsuarioId(this.idusuario).subscribe({
         next: (usuario: Login) => {
