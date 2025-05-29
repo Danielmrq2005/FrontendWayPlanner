@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import { UsuarioService } from '../Servicios/usuario.service';
 import { ViajeService } from '../Servicios/viaje.service';
 import {Router, RouterLink} from '@angular/router';
@@ -11,7 +11,8 @@ import {
 import { jwtDecode } from "jwt-decode";
 import { Login } from "../Modelos/Login";
 import {Viaje} from "../Modelos/Viaje";
-import {NgForOf} from "@angular/common";
+import {NgClass, NgForOf} from "@angular/common";
+import {IonicModule} from "@ionic/angular";
 
 @Component({
   selector: 'app-viajes',
@@ -27,7 +28,9 @@ import {NgForOf} from "@angular/common";
     IonTitle,
     IonToolbar,
     NgForOf,
-    RouterLink
+    RouterLink,
+    NgClass,
+
   ]
 })
 export class ViajesComponent implements OnInit {
@@ -51,6 +54,16 @@ export class ViajesComponent implements OnInit {
       }
     }
     return 0;
+  }
+
+  sidebarExpanded = false;
+
+  @Output() expansionChange = new EventEmitter<boolean>();
+
+  toggleSidebar() {
+    this.sidebarExpanded = !this.sidebarExpanded;
+    this.expansionChange.emit(this.sidebarExpanded);
+
   }
 
 

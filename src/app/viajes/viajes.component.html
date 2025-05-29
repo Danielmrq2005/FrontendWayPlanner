@@ -1,4 +1,25 @@
-<ion-content style="--background: #ffffff; padding: 16px;">
+<div class="sidebar" [class.expanded]="sidebarExpanded">
+  <div class="toggle-button" (click)="toggleSidebar()">
+    <ion-icon name="menu-outline"></ion-icon>
+  </div>
+  <div class="menu-items">
+    <div class="menu-item" [routerLink]="'/actu-usuario'">
+      <img src="assets/usuario.png" alt="Total Icon" class="menu-icon" />
+      <span class="menu-label">Total</span>
+    </div>
+    <div class="menu-item" [routerLink]="'/gastos'">
+      <img src="assets/Ajustes.png" alt="Settings Icon" class="menu-icon" />
+      <span class="menu-label">Ajustes</span>
+    </div>
+  </div>
+</div>
+
+
+<ion-content
+  [ngClass]="{'main-content': true, 'sidebar-expanded': sidebarExpanded}"
+  style="--background: #ffffff; padding: 16px;">
+
+
   <ion-header>
     <ion-toolbar   style="display: flex; --background: #5B97D5; align-items: center; justify-content: space-between; padding: 0 16px;">
       <div style="display: flex; align-items: center;">
@@ -12,9 +33,9 @@
 
    <div class="viajes-movil">
     <div  class="viaje-movil-grid">
-      <div  class="viaje-movil-item" [routerLink]="['/gastos', viaje.id]"  *ngFor="let viaje of viajes">
+      <div  class="viaje-movil-item"  *ngFor="let viaje of viajes">
         <img src="assets/icons8-activar-el-modo-avión-50.png" alt="Avión" class="img-avion">
-        <span>{{viaje.nombre}}</span>
+        <span [routerLink]="['/gastos', viaje.id]">{{viaje.nombre}}</span>
         <img [routerLink]="['/viajes', viaje.id]" src="assets/icons8-visible-30.png" style="margin-bottom: 22px; width: 20px; height: 20px;" alt="Ver Detalles">
       </div>
     </div>

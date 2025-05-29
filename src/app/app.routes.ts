@@ -27,7 +27,11 @@ export const routes: Routes = [
     loadComponent: () => import('./crear-cuenta/crear-cuenta.component').then((m) => m.CrearCuentaComponent),
   },
   {
-    path: 'crear-gasto',
+    path: 'verificar',
+    loadComponent: () => import('./verificar/verificar.component').then((m) => m.VerificarComponent),
+  },
+  {
+    path: 'crear-gasto/:id',
     loadComponent: () => import('./crear-gasto/crear-gasto.component').then((m) => m.CrearGastoComponent),
   },
   {
@@ -47,7 +51,7 @@ export const routes: Routes = [
     loadComponent: () => import('./actu-usuario/actu-usuario.component').then((m) => m.ActuUsuarioComponent),
   },
   {
-    path: 'crear-ingreso',
+    path: 'crear-ingreso/:id',
     loadComponent: () => import('./crear-ingreso/crear-ingreso.component').then((m) => m.CrearIngresoComponent),
   },
   {

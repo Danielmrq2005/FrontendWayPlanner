@@ -10,18 +10,21 @@ ion-badge {
 
 .top-tabs {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   background: rgba(12, 134, 189, 0.48);
-  border-radius: 20px;
+  border-radius: 8px;
   padding: 4px 8px;
   margin: 10px;
   font-weight: 600;
 }
 
 .tab {
-  padding: 4px 10px;
-  border-radius: 15px;
+  padding: 8px 16px;
+  border-radius: 4px;
   font-size: 14px;
+  min-width: 150px; /* Increased from 120px */
+  flex: 1; /* Makes tabs grow equally */
+  text-align: center;
 }
 
 .tab.gasto {
@@ -114,7 +117,6 @@ ion-badge {
   display: inline;
 }
 
-/* Nuevo: main-content y su desplazamiento */
 
 .main-content {
   margin-left: 60px;
@@ -143,3 +145,26 @@ ion-fab-button {
   --box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
+.tabs-container {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+  gap: 12px;
+  padding: 0 16px;
+}
+
+.tab {
+  padding: 8px 16px;
+  border-radius: 15px;
+  font-size: 14px;
+  min-width: 120px;
+  text-align: center;
+}
+
+.tab.gasto {
+  margin-right: auto;
+}
+
+.tab.ingreso {
+  margin-left: auto;
+}

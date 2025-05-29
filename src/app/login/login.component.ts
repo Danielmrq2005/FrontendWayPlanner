@@ -78,30 +78,62 @@ export class LoginComponent  implements OnInit {
 
   doLogin(): void {
     if (this.loginForm.valid) {
-      this.login = {...this.login, ...this.loginForm.value};
+      if (!this.validateEmail(this.loginForm.value.email)) {
+        this.presentAlert('Error de formato', 'El formato del email no es válido.');
+        return;
+      }
 
-      console.log('Email:', this.login.email);
-      console.log('Contraseña:', this.login.password);
+
+      this.login = {...this.login, ...this.loginForm.value};
 
       this.loginService.loguear(this.login).subscribe({
         next: (respuesta) => {
+          if (!respuesta || !respuesta.token) {
+            this.presentAlert('Error', 'Respuesta del servidor inválida.');
+            return;
+          }
           const token = respuesta.token;
           sessionStorage.setItem("authToken", token);
           this.loginService.setAuthState(true);
 
           this.idusuario = this.obtenerUsuarioId();
+          if (!this.idusuario) {
+            this.presentAlert('Error', 'No se pudo obtener el ID del usuario.');
+            return;
+          }
+
           this.router.navigate(['/viajes']);
           console.log('Usuario logueado (ID):', this.idusuario);
-
         },
         error: async (e) => {
           console.error(e);
-          await this.presentAlert('Fallo al iniciar sesión', 'Usuario o contraseña incorrectos');
+          if (e.status === 403) {
+            await this.presentAlert('Cuenta no verificada', 'Por favor verifica tu cuenta primero.');
+          } else if (e.status === 401) {
+            await this.presentAlert('Error de autenticación', 'Usuario o contraseña incorrectos.');
+          } else if (e.status === 404) {
+            await this.presentAlert('Usuario no encontrado', 'El email proporcionado no está registrado.');
+          } else if (e.status === 0) {
+            await this.presentAlert('Error de conexión', 'No se pudo conectar con el servidor.');
+          } else {
+            await this.presentAlert('Error', 'Hubo un problema al iniciar sesión. Intente nuevamente.');
+          }
         }
       });
     } else {
-      this.presentAlert('Formulario inválido', 'Debes introducir usuario y contraseña.');
+      if (this.loginForm.get('email')?.hasError('required')) {
+        this.presentAlert('Campo requerido', 'El email es obligatorio.');
+      } else if (this.loginForm.get('password')?.hasError('required')) {
+        this.presentAlert('Campo requerido', 'La contraseña es obligatoria.');
+      } else {
+        this.presentAlert('Formulario inválido', 'Debes introducir usuario y contraseña.');
+      }
     }
+  }
+
+  private validateEmail(email: string): boolean {
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    return emailRegex.test(email);
   }
 
 

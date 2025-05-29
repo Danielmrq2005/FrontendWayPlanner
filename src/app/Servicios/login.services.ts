@@ -27,5 +27,11 @@ export class LoginService {
   loguear(login: Login): Observable<any>{
     return this.http.post<any>(`${this.apiUrl}/auth/login`,login) ;
   }
+  verifyCode(email: string, code: string): Observable<any> {
+    return this.http.post(
+      `${this.apiUrl}/auth/verificar?email=${email}&codigo=${code}`,
+      {}
+    );
+  }
 
 }

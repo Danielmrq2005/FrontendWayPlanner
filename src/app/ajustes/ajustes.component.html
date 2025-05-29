@@ -33,7 +33,11 @@
       <ion-item>
         <ion-icon name="moon-outline" slot="start"></ion-icon>
         <ion-label>Modo oscuro</ion-label>
-        <ion-toggle slot="end"></ion-toggle>
+        <ion-toggle
+          [(ngModel)]="darkMode"
+          (ionChange)="toggleDarkMode()"
+          slot="end">
+        </ion-toggle>
       </ion-item>
 
       <ion-item>
@@ -61,19 +65,21 @@
       <ion-item>
         <ion-icon name="location-outline" slot="start"></ion-icon>
         <ion-label>Ubicación</ion-label>
-        <ion-toggle slot="end"></ion-toggle>
+        <ion-toggle
+          [(ngModel)]="locationEnabled"
+          (ionChange)="onLocationToggle()"
+          slot="end">
+        </ion-toggle>
       </ion-item>
 
       <ion-item>
-        <ion-icon name="camera-outline" slot="start"></ion-icon>
-        <ion-label>Cámara</ion-label>
-        <ion-toggle slot="end"></ion-toggle>
-      </ion-item>
-
-      <ion-item>
-        <ion-icon name="mic-outline" slot="start"></ion-icon>
-        <ion-label>Micrófono</ion-label>
-        <ion-toggle slot="end"></ion-toggle>
+        <ion-icon name="folder-outline" slot="start"></ion-icon>
+        <ion-label>Almacenamiento</ion-label>
+        <ion-toggle
+          [(ngModel)]="storageEnabled"
+          (ionChange)="onStorageToggle()"
+          slot="end">
+        </ion-toggle>
       </ion-item>
     </ion-card-content>
   </ion-card>
@@ -92,7 +98,7 @@
       <ion-item lines="none" color="danger">
         <ion-icon name="trash-outline" slot="start"></ion-icon>
         <ion-label>Eliminar cuenta</ion-label>
-        <ion-button fill="clear" color="danger" slot="end">Eliminar</ion-button>
+        <ion-button fill="clear" color="danger" slot="end" (click)="eliminar()">Eliminar</ion-button>
       </ion-item>
     </ion-card-content>
   </ion-card>

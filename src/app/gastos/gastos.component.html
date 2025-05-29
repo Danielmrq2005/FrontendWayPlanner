@@ -8,32 +8,37 @@
         </ion-fab-button>
 
         <ion-fab-list side="top">
-          <ion-fab-button color="danger" [routerLink]="['/crear-gasto']">
+          <ion-fab-button color="danger" [routerLink]="['/crear-gasto', viajeId]">
             <img src="assets/Gasto.png" alt="Gastos Icon" class="menu-icon" />
           </ion-fab-button>
-          <ion-fab-button color="success" [routerLink]="['/crear-ingreso']">
+          <ion-fab-button color="success" [routerLink]="['/crear-ingreso', viajeId]">
             <img src="assets/Ingreso.png" alt="Ingresos Icon" class="menu-icon" />
           </ion-fab-button>
         </ion-fab-list>
       </ion-fab>
 
-      <div class="main-content">
-        <div class="top-tabs">
-          <span class="tab gasto selected">
-            ● Gastos
-            <div class="amount">-{{resumen?.totalGastos | currency:'EUR':'symbol' }}</div>
-          </span>
-          <span class="tab total">
-            = Total
-            <div class="amount">{{ resumen?.saldo | currency:'EUR':'symbol'}}€</div>
-          </span>
-          <span class="tab ingreso">
-            = Ingresos
-            <div class="amount">+{{ resumen?.totalIngresos | currency:'EUR':'symbol'}} €</div>
-          </span>
-        </div>
+  <div class="main-content">
+    <div class="top-tabs">
+      <div class="tabs-container">
+        <span class="tab gasto selected">
+          ● Gastos
+          <div class="amount">-{{resumen?.totalGastos | currency:'EUR':'symbol' }}</div>
+        </span>
+        <span class="tab total">
+          = Total
+          <div class="amount">{{ resumen?.saldo | currency:'EUR':'symbol'}}€</div>
+        </span>
+        <span class="tab ingreso">
+          = Ingresos
+          <div class="amount">+{{ resumen?.totalIngresos | currency:'EUR':'symbol'}} €</div>
+        </span>
+      </div>
+      <img src="assets/grafico.png" [routerLink]="['/GraficaViaje']" alt="Gráfico" class="chart-icon">
+    </div>
 
-        <ion-list>
+
+
+    <ion-list>
           <ng-container *ngFor="let dia of Gastos">
             <ion-item-divider>
               <ion-label class="fecha">{{ dia.fecha }}</ion-label>

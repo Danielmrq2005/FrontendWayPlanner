@@ -57,7 +57,7 @@ export class CrearCuentaComponent  implements OnInit {
       this.registroService.registrar(this.registro).subscribe({
         next: () => {
           console.info("Registro exitoso");
-          this.router.navigate(['login']);
+          this.router.navigate(['verificar'], { state: { email: this.registro.email } });
         },
         error: (e: any) => {
           if (e.status === 409) {
@@ -71,6 +71,6 @@ export class CrearCuentaComponent  implements OnInit {
     } else {
       this.showAlert('Formulario inválido', 'Por favor, verifica los datos.');
     }
-    }
+  }
 
 }
