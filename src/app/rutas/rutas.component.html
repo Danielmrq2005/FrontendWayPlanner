@@ -4,7 +4,7 @@
       <!-- Lado izquierdo: logo + título -->
       <div class="toolbar-left">
         <img src="assets/logo.png" alt="Logo" class="logo" />
-        <ion-title class="titulo">Rutas (Nombre Viaje Muy Largo Que Podría Invadir)</ion-title>
+        <ion-title class="titulo">Rutas (Nombre Viaje)</ion-title>
       </div>
 
       <!-- Lado derecho: select + campana -->
@@ -14,11 +14,13 @@
           interface="popover"
           placeholder="Día"
           class="select-dia"
+          (ionChange)="onDiaSeleccionado($event.detail.value)"
         >
           <ion-select-option *ngFor="let dia of dias" [value]="dia.id">
             Día {{ dia.numeroDia }}
           </ion-select-option>
         </ion-select>
+
         <img
           src="assets/icons8-campana-48.png"
           alt="Notificaciones"

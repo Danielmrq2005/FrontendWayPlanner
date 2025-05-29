@@ -13,6 +13,7 @@ import {DiaService} from "../Servicios/dia.service";
 import {ItineariosService} from "../Servicios/itinearios.service";
 import {Itinerario} from "../Modelos/Itinerario";
 import {Dia} from "../Modelos/Dia";
+import {DiasItinerario} from "../Modelos/DiasItinerario";
 
 @Component({
   selector: 'app-rutas',
@@ -33,7 +34,9 @@ export class RutasComponent implements AfterViewInit {
   items = ['Sitio A', 'Sitio B', 'Sitio C', 'Sitio D'];
   idViaje: string | null = null;
   itinerarios: Itinerario[] = [];
+  itinerariosDia: Itinerario[] = [];
   dias: Dia[] = [];
+  segmentoSeleccionado: string = 'default';
   constructor(private route: ActivatedRoute, private http: HttpClient, private itinerarioService: ItineariosService, private diaService: DiaService) {
     addIcons({add})
   }
@@ -122,6 +125,37 @@ export class RutasComponent implements AfterViewInit {
       }
     });
   }
+
+  ObtenerItinerariosPorDia(dia: DiasItinerario){
+    this.itinerarioService.obtenerItinerariosPorRutaDia(dia).subscribe({
+      next: (response) => {
+        console.log('Itinerarios obtenidos para el día:', response);
+        this.itinerariosDia = response;
+        return response;
+      },
+      error: (error) => {
+        console.error('Error al obtener los itinerarios para el día:', error);
+        return [];
+      },
+      complete: () => {
+        console.log('Petición de itinerarios por día completada');
+      }
+    })
+  }
+
+  onDiaSeleccionado(idDia: number) {
+    const diaSeleccionado = this.dias.find(d => d.id === idDia);
+    if (!diaSeleccionado || !this.idViaje) return;
+
+    const dto: DiasItinerario = {
+      idViaje: parseInt(this.idViaje),
+      fecha: diaSeleccionado.fecha
+    };
+
+    console.log('Enviando DTO:', dto);
+    this.ObtenerItinerariosPorDia(dto);
+  }
+
 
   mostrarMarcadoresEnMapa() {
     if (!this.map) return;
