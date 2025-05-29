@@ -149,7 +149,7 @@ export class CrearItinerarioComponent  implements OnInit, AfterViewInit {
 
   agregarHorario() {
     if (this.horaInicio && this.horaFin && this.diaHorario) {
-      const nuevoHorario = `${this.diaHorario} - ${this.horaInicio} - ${this.horaFin}`;
+      const nuevoHorario = `${this.diaHorario} - ${this.horaInicio} - ${this.horaFin} - ${this.cerrado ? 'CERRADO' : 'ABIERTO'}`;
       this.horarios = this.horarios
         ? this.horarios + '\n' + nuevoHorario
         : nuevoHorario;

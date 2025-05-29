@@ -28,4 +28,8 @@ export class ItineariosService {
   crearItinerario(itinerario: Itinerario) {
     return this.http.post<any>(`${this.url}/crear`, itinerario);
   }
+
+  obtenerItinerariosPorRutaDia(dia: DiasItinerario): Observable<Itinerario[]> {
+    return this.http.post<any>(`${this.url}/viaje/dia`,dia);
+  }
 }
