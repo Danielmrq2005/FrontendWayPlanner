@@ -2,6 +2,7 @@ import {Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
 import {Viaje} from "../Modelos/Viaje";
 import {Observable} from "rxjs";
+import {Dia} from "../Modelos/Dia";
 
 @Injectable({
   providedIn: 'root'
@@ -30,4 +31,5 @@ export class ViajeService{
   editarViaje(id: number, viaje: Viaje): Observable<Viaje> {
     return this.http.put<Viaje>(`${this.baseUrl}/actualizar/${id}`, viaje);
   }
+
 }

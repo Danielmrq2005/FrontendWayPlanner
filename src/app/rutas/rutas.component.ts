@@ -7,7 +7,12 @@ import {add} from "ionicons/icons";
 import {FormsModule} from "@angular/forms";
 import {OverlayEventDetail} from "@ionic/core/components";
 import {NgForOf} from "@angular/common";
-import {RouterLink} from "@angular/router";
+import {ActivatedRoute, RouterLink} from "@angular/router";
+import {HttpClient} from "@angular/common/http";
+import {DiaService} from "../Servicios/dia.service";
+import {ItineariosService} from "../Servicios/itinearios.service";
+import {Itinerario} from "../Modelos/Itinerario";
+import {Dia} from "../Modelos/Dia";
 
 @Component({
   selector: 'app-rutas',
@@ -26,9 +31,19 @@ export class RutasComponent implements AfterViewInit {
   message = 'This modal example uses triggers to automatically open a modal when the button is clicked.';
   name!: string;
   items = ['Sitio A', 'Sitio B', 'Sitio C', 'Sitio D'];
-
-  constructor() {
+  idViaje: string | null = null;
+  itinerarios: Itinerario[] = [];
+  dias: Dia[] = [];
+  constructor(private route: ActivatedRoute, private http: HttpClient, private itinerarioService: ItineariosService, private diaService: DiaService) {
     addIcons({add})
+  }
+
+  ngOnInit() {
+    this.idViaje = this.route.snapshot.paramMap.get('id');
+    if (this.idViaje) {
+      this.obtenerItinerariosEnRuta(this.idViaje);
+      this.obtenerDiasItinerario(parseInt(this.idViaje));
+    }
   }
 
   ngAfterViewInit(): void {
@@ -62,13 +77,6 @@ export class RutasComponent implements AfterViewInit {
       L.marker([p.lat, p.lng]).addTo(this.map);
     });
 
-    // Click para seleccionar punto
-    this.map.on('click', (e: L.LeafletMouseEvent) => {
-      const { lat, lng } = e.latlng;
-      const nuevoMarcador = L.marker([lat, lng]).addTo(this.map);
-      this.puntoSeleccionado.emit({ lat, lng });
-    });
-
     // 🔧 Arreglo crítico: invalidar tamaño después de mostrar el mapa
     setTimeout(() => {
       this.map.invalidateSize();
@@ -76,8 +84,8 @@ export class RutasComponent implements AfterViewInit {
   }
 
   reordenar(event: CustomEvent) {
-    const movedItem = this.items.splice(event.detail.from, 1)[0];
-    this.items.splice(event.detail.to, 0, movedItem);
+    const movedItem = this.itinerarios.splice(event.detail.from, 1)[0];
+    this.itinerarios.splice(event.detail.to, 0, movedItem);
     event.detail.complete();
   }
 
@@ -89,9 +97,52 @@ export class RutasComponent implements AfterViewInit {
     this.modal.dismiss(this.name, 'confirm');
   }
 
+  obtenerItinerariosEnRuta(idViaje: string) {
+    this.itinerarioService.obtenerItineariosRuta(parseInt(idViaje)).subscribe({
+      next: (itinerarios) => {
+        console.log('Itinerarios recibidos:', itinerarios);
+        this.itinerarios = itinerarios;
+        this.mostrarMarcadoresEnMapa();
+      },
+      error: (err) => console.error('Error al obtener itinerarios:', err),
+    });
+  }
+
+  obtenerDiasItinerario(idItinerario: number) {
+    this.diaService.obtenerDias(idItinerario).subscribe({
+      next: (dias) => {
+        console.log('Días del itinerario recibidos:', dias);
+        this.dias = dias;
+      },
+      error: (err) => {
+        console.error('Error al obtener días del itinerario:', err);
+      },
+      complete: () => {
+        console.log('Consulta de días del itinerario completada');
+      }
+    });
+  }
+
+  mostrarMarcadoresEnMapa() {
+    if (!this.map) return;
+    this.itinerarios.forEach(it => {
+      if (it.latitud && it.longitud) {
+        const lat = parseFloat(it.latitud);
+        const lng = parseFloat(it.longitud);
+        L.marker([lat, lng])
+          .bindPopup(`<strong>${it.actividad}</strong><br>${it.hora} (${it.duracion})`)
+          .addTo(this.map);
+      }
+    });
+  }
+
   onWillDismiss(event: CustomEvent<OverlayEventDetail>) {
     if (event.detail.role === 'confirm') {
       this.message = `Hello, ${event.detail.data}!`;
     }
+  }
+
+  eliminarItem(index: number) {
+    this.itinerarios.splice(index, 1);
   }
 }

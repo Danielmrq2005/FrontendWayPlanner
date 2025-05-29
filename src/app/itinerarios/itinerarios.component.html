@@ -12,521 +12,67 @@
     </ion-toolbar>
   </ion-header>
 
-  <ion-segment value="default">
-    <ion-segment-button value="default" content-id="todos">
+  <ion-segment [(ngModel)]="segmentoSeleccionado" (ionChange)="seleccionarSegmento(segmentoSeleccionado)">
+    <ion-segment-button value="default">
       <ion-label>Todos</ion-label>
     </ion-segment-button>
-    <ion-segment-button value="dia1" content-id="dia1">
-      <ion-label>Día 1</ion-label>
-    </ion-segment-button>
-    <ion-segment-button value="dia2" content-id="dia2">
-      <ion-label>Día 2</ion-label>
-    </ion-segment-button>
-    <ion-segment-button value="dia3" content-id="dia3">
-      <ion-label>Día 3</ion-label>
-    </ion-segment-button>
-    <ion-segment-button value="dia4" content-id="dia4">
-      <ion-label>Día 4</ion-label>
+    <ion-segment-button
+      *ngFor="let dia of diasViaje; let i = index"
+      [value]="'dia' + i">
+      <ion-label>Día {{ i + 1 }}</ion-label>
     </ion-segment-button>
   </ion-segment>
 
-  <ion-segment-view>
+  <!-- TODOS -->
+  <div *ngIf="segmentoSeleccionado === 'default'" class="itinerarios-grid">
+    <div class="itinerario-card" *ngFor="let itinerario of itinerarios">
+      <ion-card class="carta">
+        <img src="https://ionicframework.com/docs/img/demos/card-media.png" class="imagenCarta"/>
+        <ion-card-header>
+          <ion-card-title>{{itinerario.actividad}}</ion-card-title>
+          <ion-card-subtitle>{{itinerario.duracion}}</ion-card-subtitle>
+        </ion-card-header>
+        <ion-card-content>
+          <div *ngFor="let horario of itinerario.horarios">
+            <ion-label>
+              {{horario.dia}} - {{ horario.horaInicio }} - {{ horario.horaFin }}
+              <span *ngIf="horario.isClosed" style="color: red;">(Cerrado)</span>
+              <span *ngIf="!horario.isClosed" style="color: green;">(Abierto)</span>
+            </ion-label>
+          </div>
+        </ion-card-content>
+      </ion-card>
+    </div>
+  </div>
 
-    <ion-segment-content id="todos">
-      <ion-row>
-        <!-- Carta 1 -->
-        <ion-col size="6" size-md="3">
-          <ion-card class="carta">
-            <img alt="Silhouette of mountains"
-                 src="https://ionicframework.com/docs/img/demos/card-media.png" class="imagenCarta"/>
-            <ion-card-header>
-              <ion-card-title>Card Title</ion-card-title>
-              <ion-card-subtitle>Card Subtitle</ion-card-subtitle>
-            </ion-card-header>
-            <ion-card-content>
-              Here's a small text description for the card content. Nothing more, nothing less.
-            </ion-card-content>
-          </ion-card>
-        </ion-col>
-
-        <!-- Carta 2 -->
-        <ion-col size="6" size-md="3">
-          <ion-card class="carta">
-            <img alt="Silhouette of mountains"
-                 src="https://ionicframework.com/docs/img/demos/card-media.png"
-                 class="imagenCarta" />
-            <ion-card-header>
-              <ion-card-title>Card Title</ion-card-title>
-              <ion-card-subtitle>Card Subtitle</ion-card-subtitle>
-            </ion-card-header>
-            <ion-card-content>
-              Here's a small text description for the card content. Nothing more, nothing less.
-            </ion-card-content>
-          </ion-card>
-        </ion-col>
-
-        <!-- Carta 3 -->
-        <ion-col size="6" size-md="3">
-          <ion-card class="carta">
-            <img alt="Silhouette of mountains"
-                 src="https://ionicframework.com/docs/img/demos/card-media.png"
-                 class="imagenCarta" />
-            <ion-card-header>
-              <ion-card-title>Card Title</ion-card-title>
-              <ion-card-subtitle>Card Subtitle</ion-card-subtitle>
-            </ion-card-header>
-            <ion-card-content>
-              Here's a small text description for the card content. Nothing more, nothing less.
-            </ion-card-content>
-          </ion-card>
-        </ion-col>
-
-        <!-- Carta 4 -->
-        <ion-col size="6" size-md="3">
-          <ion-card class="carta">
-            <img alt="Silhouette of mountains"
-                 src="https://ionicframework.com/docs/img/demos/card-media.png"
-                 class="imagenCarta" />
-            <ion-card-header>
-              <ion-card-title>Card Title</ion-card-title>
-              <ion-card-subtitle>Card Subtitle</ion-card-subtitle>
-            </ion-card-header>
-            <ion-card-content>
-              Here's a small text description for the card content. Nothing more, nothing less.
-            </ion-card-content>
-          </ion-card>
-        </ion-col>
-      </ion-row>
-
-      <!-- Segunda fila (si hay más cartas) -->
-      <ion-row>
-        <!-- Carta 5 -->
-        <ion-col size="6" size-md="3">
-          <ion-card class="carta">
-            <img alt="Silhouette of mountains"
-                 src="https://ionicframework.com/docs/img/demos/card-media.png"
-                 class="imagenCarta" />
-            <ion-card-header>
-              <ion-card-title>Card Title</ion-card-title>
-              <ion-card-subtitle>Card Subtitle</ion-card-subtitle>
-            </ion-card-header>
-            <ion-card-content>
-              Here's a small text description for the card content. Nothing more, nothing less.
-            </ion-card-content>
-          </ion-card>
-        </ion-col>
-      </ion-row>
-    </ion-segment-content>
-
-
-    <ion-segment-content id="dia1">
-      <ion-row>
-      <!-- Carta 1 -->
-      <ion-col size="6" size-md="3">
-        <ion-card class="carta">
-          <img alt="Silhouette of mountains"
-               src="https://ionicframework.com/docs/img/demos/card-media.png" class="imagenCarta"/>
-          <ion-card-header>
-            <ion-card-title>Card Title</ion-card-title>
-            <ion-card-subtitle>Card Subtitle</ion-card-subtitle>
-          </ion-card-header>
-          <ion-card-content>
-            Here's a small text description for the card content. Nothing more, nothing less.
-          </ion-card-content>
-        </ion-card>
-      </ion-col>
-
-      <!-- Carta 2 -->
-      <ion-col size="6" size-md="3">
-        <ion-card class="carta">
-          <img alt="Silhouette of mountains"
-               src="https://ionicframework.com/docs/img/demos/card-media.png"
-               class="imagenCarta" />
-          <ion-card-header>
-            <ion-card-title>Card Title</ion-card-title>
-            <ion-card-subtitle>Card Subtitle</ion-card-subtitle>
-          </ion-card-header>
-          <ion-card-content>
-            Here's a small text description for the card content. Nothing more, nothing less.
-          </ion-card-content>
-        </ion-card>
-      </ion-col>
-
-      <!-- Carta 3 -->
-      <ion-col size="6" size-md="3">
-        <ion-card class="carta">
-          <img alt="Silhouette of mountains"
-               src="https://ionicframework.com/docs/img/demos/card-media.png"
-               class="imagenCarta" />
-          <ion-card-header>
-            <ion-card-title>Card Title</ion-card-title>
-            <ion-card-subtitle>Card Subtitle</ion-card-subtitle>
-          </ion-card-header>
-          <ion-card-content>
-            Here's a small text description for the card content. Nothing more, nothing less.
-          </ion-card-content>
-        </ion-card>
-      </ion-col>
-
-      <!-- Carta 4 -->
-      <ion-col size="6" size-md="3">
-        <ion-card class="carta">
-          <img alt="Silhouette of mountains"
-               src="https://ionicframework.com/docs/img/demos/card-media.png"
-               class="imagenCarta" />
-          <ion-card-header>
-            <ion-card-title>Card Title</ion-card-title>
-            <ion-card-subtitle>Card Subtitle</ion-card-subtitle>
-          </ion-card-header>
-          <ion-card-content>
-            Here's a small text description for the card content. Nothing more, nothing less.
-          </ion-card-content>
-        </ion-card>
-      </ion-col>
-    </ion-row>
-
-      <!-- Segunda fila (si hay más cartas) -->
-      <ion-row>
-        <!-- Carta 5 -->
-        <ion-col size="6" size-md="3">
-          <ion-card class="carta">
-            <img alt="Silhouette of mountains"
-                 src="https://ionicframework.com/docs/img/demos/card-media.png"
-                 class="imagenCarta" />
-            <ion-card-header>
-              <ion-card-title>Card Title</ion-card-title>
-              <ion-card-subtitle>Card Subtitle</ion-card-subtitle>
-            </ion-card-header>
-            <ion-card-content>
-              Here's a small text description for the card content. Nothing more, nothing less.
-            </ion-card-content>
-          </ion-card>
-        </ion-col>
-      </ion-row>
-    </ion-segment-content>
-
-
-
-    <ion-segment-content id="dia2">
-      <ion-row>
-      <!-- Carta 1 -->
-      <ion-col size="6" size-md="3">
-        <ion-card class="carta">
-          <img alt="Silhouette of mountains"
-               src="https://ionicframework.com/docs/img/demos/card-media.png" class="imagenCarta"/>
-          <ion-card-header>
-            <ion-card-title>Card Title</ion-card-title>
-            <ion-card-subtitle>Card Subtitle</ion-card-subtitle>
-          </ion-card-header>
-          <ion-card-content>
-            Here's a small text description for the card content. Nothing more, nothing less.
-          </ion-card-content>
-        </ion-card>
-      </ion-col>
-
-      <!-- Carta 2 -->
-      <ion-col size="6" size-md="3">
-        <ion-card class="carta">
-          <img alt="Silhouette of mountains"
-               src="https://ionicframework.com/docs/img/demos/card-media.png"
-               class="imagenCarta" />
-          <ion-card-header>
-            <ion-card-title>Card Title</ion-card-title>
-            <ion-card-subtitle>Card Subtitle</ion-card-subtitle>
-          </ion-card-header>
-          <ion-card-content>
-            Here's a small text description for the card content. Nothing more, nothing less.
-          </ion-card-content>
-        </ion-card>
-      </ion-col>
-
-      <!-- Carta 3 -->
-      <ion-col size="6" size-md="3">
-        <ion-card class="carta">
-          <img alt="Silhouette of mountains"
-               src="https://ionicframework.com/docs/img/demos/card-media.png"
-               class="imagenCarta" />
-          <ion-card-header>
-            <ion-card-title>Card Title</ion-card-title>
-            <ion-card-subtitle>Card Subtitle</ion-card-subtitle>
-          </ion-card-header>
-          <ion-card-content>
-            Here's a small text description for the card content. Nothing more, nothing less.
-          </ion-card-content>
-        </ion-card>
-      </ion-col>
-
-      <!-- Carta 4 -->
-      <ion-col size="6" size-md="3">
-        <ion-card class="carta">
-          <img alt="Silhouette of mountains"
-               src="https://ionicframework.com/docs/img/demos/card-media.png"
-               class="imagenCarta" />
-          <ion-card-header>
-            <ion-card-title>Card Title</ion-card-title>
-            <ion-card-subtitle>Card Subtitle</ion-card-subtitle>
-          </ion-card-header>
-          <ion-card-content>
-            Here's a small text description for the card content. Nothing more, nothing less.
-          </ion-card-content>
-        </ion-card>
-      </ion-col>
-    </ion-row>
-
-      <!-- Segunda fila (si hay más cartas) -->
-      <ion-row>
-        <!-- Carta 5 -->
-        <ion-col size="6" size-md="3">
-          <ion-card class="carta">
-            <img alt="Silhouette of mountains"
-                 src="https://ionicframework.com/docs/img/demos/card-media.png"
-                 class="imagenCarta" />
-            <ion-card-header>
-              <ion-card-title>Card Title</ion-card-title>
-              <ion-card-subtitle>Card Subtitle</ion-card-subtitle>
-            </ion-card-header>
-            <ion-card-content>
-              Here's a small text description for the card content. Nothing more, nothing less.
-            </ion-card-content>
-          </ion-card>
-        </ion-col>
-      </ion-row>
-    </ion-segment-content>
-
-
-
-    <ion-segment-content id="dia3">
-      <ion-row>
-      <!-- Carta 1 -->
-      <ion-col size="6" size-md="3">
-        <ion-card class="carta">
-          <img alt="Silhouette of mountains"
-               src="https://ionicframework.com/docs/img/demos/card-media.png" class="imagenCarta"/>
-          <ion-card-header>
-            <ion-card-title>Card Title</ion-card-title>
-            <ion-card-subtitle>Card Subtitle</ion-card-subtitle>
-          </ion-card-header>
-          <ion-card-content>
-            Here's a small text description for the card content. Nothing more, nothing less.
-          </ion-card-content>
-        </ion-card>
-      </ion-col>
-
-      <!-- Carta 2 -->
-      <ion-col size="6" size-md="3">
-        <ion-card class="carta">
-          <img alt="Silhouette of mountains"
-               src="https://ionicframework.com/docs/img/demos/card-media.png"
-               class="imagenCarta" />
-          <ion-card-header>
-            <ion-card-title>Card Title</ion-card-title>
-            <ion-card-subtitle>Card Subtitle</ion-card-subtitle>
-          </ion-card-header>
-          <ion-card-content>
-            Here's a small text description for the card content. Nothing more, nothing less.
-          </ion-card-content>
-        </ion-card>
-      </ion-col>
-
-      <!-- Carta 3 -->
-      <ion-col size="6" size-md="3">
-        <ion-card class="carta">
-          <img alt="Silhouette of mountains"
-               src="https://ionicframework.com/docs/img/demos/card-media.png"
-               class="imagenCarta" />
-          <ion-card-header>
-            <ion-card-title>Card Title</ion-card-title>
-            <ion-card-subtitle>Card Subtitle</ion-card-subtitle>
-          </ion-card-header>
-          <ion-card-content>
-            Here's a small text description for the card content. Nothing more, nothing less.
-          </ion-card-content>
-        </ion-card>
-      </ion-col>
-
-      <!-- Carta 4 -->
-      <ion-col size="6" size-md="3">
-        <ion-card class="carta">
-          <img alt="Silhouette of mountains"
-               src="https://ionicframework.com/docs/img/demos/card-media.png"
-               class="imagenCarta" />
-          <ion-card-header>
-            <ion-card-title>Card Title</ion-card-title>
-            <ion-card-subtitle>Card Subtitle</ion-card-subtitle>
-          </ion-card-header>
-          <ion-card-content>
-            Here's a small text description for the card content. Nothing more, nothing less.
-          </ion-card-content>
-        </ion-card>
-      </ion-col>
-    </ion-row>
-
-      <!-- Segunda fila (si hay más cartas) -->
-      <ion-row>
-        <!-- Carta 5 -->
-        <ion-col size="6" size-md="3">
-          <ion-card class="carta">
-            <img alt="Silhouette of mountains"
-                 src="https://ionicframework.com/docs/img/demos/card-media.png"
-                 class="imagenCarta" />
-            <ion-card-header>
-              <ion-card-title>Card Title</ion-card-title>
-              <ion-card-subtitle>Card Subtitle</ion-card-subtitle>
-            </ion-card-header>
-            <ion-card-content>
-              Here's a small text description for the card content. Nothing more, nothing less.
-            </ion-card-content>
-          </ion-card>
-        </ion-col>
-      </ion-row>
-    </ion-segment-content>
-
-
-    <ion-segment-content id="dia4">
-      <ion-row>
-      <!-- Carta 1 -->
-      <ion-col size="6" size-md="3">
-        <ion-card class="carta">
-          <img alt="Silhouette of mountains"
-               src="https://ionicframework.com/docs/img/demos/card-media.png" class="imagenCarta"/>
-          <ion-card-header>
-            <ion-card-title>Card Title</ion-card-title>
-            <ion-card-subtitle>Card Subtitle</ion-card-subtitle>
-          </ion-card-header>
-          <ion-card-content>
-            Here's a small text description for the card content. Nothing more, nothing less.
-          </ion-card-content>
-        </ion-card>
-      </ion-col>
-
-      <!-- Carta 2 -->
-      <ion-col size="6" size-md="3">
-        <ion-card class="carta">
-          <img alt="Silhouette of mountains"
-               src="https://ionicframework.com/docs/img/demos/card-media.png"
-               class="imagenCarta" />
-          <ion-card-header>
-            <ion-card-title>Card Title</ion-card-title>
-            <ion-card-subtitle>Card Subtitle</ion-card-subtitle>
-          </ion-card-header>
-          <ion-card-content>
-            Here's a small text description for the card content. Nothing more, nothing less.
-          </ion-card-content>
-        </ion-card>
-      </ion-col>
-
-      <!-- Carta 3 -->
-      <ion-col size="6" size-md="3">
-        <ion-card class="carta">
-          <img alt="Silhouette of mountains"
-               src="https://ionicframework.com/docs/img/demos/card-media.png"
-               class="imagenCarta" />
-          <ion-card-header>
-            <ion-card-title>Card Title</ion-card-title>
-            <ion-card-subtitle>Card Subtitle</ion-card-subtitle>
-          </ion-card-header>
-          <ion-card-content>
-            Here's a small text description for the card content. Nothing more, nothing less.
-          </ion-card-content>
-        </ion-card>
-      </ion-col>
-
-      <!-- Carta 4 -->
-      <ion-col size="6" size-md="3">
-        <ion-card class="carta">
-          <img alt="Silhouette of mountains"
-               src="https://ionicframework.com/docs/img/demos/card-media.png"
-               class="imagenCarta" />
-          <ion-card-header>
-            <ion-card-title>Card Title</ion-card-title>
-            <ion-card-subtitle>Card Subtitle</ion-card-subtitle>
-          </ion-card-header>
-          <ion-card-content>
-            Here's a small text description for the card content. Nothing more, nothing less.
-          </ion-card-content>
-        </ion-card>
-      </ion-col>
-    </ion-row>
-
-      <!-- Segunda fila (si hay más cartas) -->
-      <ion-row>
-        <!-- Carta 5 -->
-        <ion-col size="6" size-md="3">
-          <ion-card class="carta">
-            <img alt="Silhouette of mountains"
-                 src="https://ionicframework.com/docs/img/demos/card-media.png"
-                 class="imagenCarta" />
-            <ion-card-header>
-              <ion-card-title>Card Title</ion-card-title>
-              <ion-card-subtitle>Card Subtitle</ion-card-subtitle>
-            </ion-card-header>
-            <ion-card-content>
-              Here's a small text description for the card content. Nothing more, nothing less.
-            </ion-card-content>
-          </ion-card>
-        </ion-col>
-      </ion-row>
-    </ion-segment-content>
-  </ion-segment-view>
-
+  <!-- ITINERARIOS POR DÍA -->
+  <div *ngIf="segmentoSeleccionado !== 'default'" class="itinerarios-grid">
+    <div class="itinerario-card" *ngFor="let itinerario of itinerariosDia">
+      <ion-card class="carta">
+        <img src="https://ionicframework.com/docs/img/demos/card-media.png" class="imagenCarta"/>
+        <ion-card-header>
+          <ion-card-title>{{itinerario.actividad}}</ion-card-title>
+          <ion-card-subtitle>{{itinerario.duracion}}</ion-card-subtitle>
+        </ion-card-header>
+        <ion-card-content>
+          <div *ngFor="let horario of itinerario.horarios">
+            <ion-label>
+              {{horario.dia}} - {{ horario.horaInicio }} - {{ horario.horaFin }}
+              <span *ngIf="horario.isClosed" style="color: red;">(Cerrado)</span>
+              <span *ngIf="!horario.isClosed" style="color: green;">(Abierto)</span>
+            </ion-label>
+          </div>
+        </ion-card-content>
+      </ion-card>
+    </div>
+  </div>
 
 
 </ion-content>
 
 <ion-fab horizontal="end" vertical="bottom">
-  <ion-fab-button id="open-modal" expand="block">
+  <ion-fab-button [routerLink]="['/crear-itinerario']">
     <ion-icon name="add"></ion-icon>
   </ion-fab-button>
 </ion-fab>
 
-<ion-modal trigger="open-modal" (willDismiss)="onWillDismiss($event)">
-  <ng-template>
-    <ion-header>
-      <ion-toolbar>
-        <ion-buttons slot="start">
-          <ion-button (click)="cancel()">Cancelar</ion-button>
-        </ion-buttons>
-        <ion-title>Añadir Itinerario</ion-title>
-        <ion-buttons slot="end">
-          <ion-button (click)="confirm()" [strong]="true">Confirmar</ion-button>
-        </ion-buttons>
-      </ion-toolbar>
-    </ion-header>
-    <ion-content class="ion-padding">
-      <ion-item>
-        <ion-input
-          label="Actividad"
-          labelPlacement="stacked"
-          type="text"
-          placeholder="¿Donde vas o que vas a hacer?"
-          [(ngModel)]="actividad"
-        ></ion-input>
-      </ion-item>
-    </ion-content>
-  </ng-template>
-</ion-modal>
-
-<!--
-
-Para cuando haga el for
-
-<ion-segment-content id="todos">
-  <ion-row>
-    <ion-col size="3" *ngFor="let card of cards; let i = index">
-      <ion-card class="carta">
-        <img alt="Silhouette of mountains"
-             src="https://ionicframework.com/docs/img/demos/card-media.png" class="imagenCarta"/>
-        <ion-card-header>
-          <ion-card-title>Card Title</ion-card-title>
-          <ion-card-subtitle>Card Subtitle</ion-card-subtitle>
-        </ion-card-header>
-        <ion-card-content>
-          Here's a small text description for the card content. Nothing more, nothing less.
-        </ion-card-content>
-      </ion-card>
-    </ion-col>
-  </ion-row>
-</ion-segment-content>
-
-
--->

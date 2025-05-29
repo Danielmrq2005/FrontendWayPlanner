@@ -1,0 +1,155 @@
+<ion-content class="ion-padding">
+  <div class="form-container">
+    <h2 class="form-title">Nuevo Itinerario</h2>
+
+    <div style="display: flex; align-items: center; margin-bottom: 10px;">
+      <label style="margin-right: 20px; color: white;">¿Quiere que este itinerario se añada a su lista?</label>
+      <ion-toggle [(ngModel)]="itinerario.apareceEnItinerario"></ion-toggle>
+    </div>
+
+    <div style="display: flex; align-items: center; margin-bottom: 10px;">
+      <label style="margin-right: 20px; color: white;">¿Quiere que este itinerario se añada a sus rutas?</label>
+      <ion-toggle [(ngModel)]="itinerario.estaEnRuta"></ion-toggle>
+    </div>
+
+    <form class="form-content">
+      <div class="form-group">
+        <label for="viaje">Seleccionar viaje:</label>
+        <select id="viaje" name="viaje" [(ngModel)]="idViajeSeleccionado" (change)="onViajeChange()">
+          <option *ngFor="let viaje of viajes" [value]="viaje.id">{{ viaje.nombre }}</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="actividad">Nombre de la actividad:</label>
+        <input id="actividad" type="text" name="actividad" placeholder="Ej. Museo del Prado" [(ngModel)]="itinerario.actividad" />
+      </div>
+
+      <div class="form-group">
+        <label for="foto">Foto:</label>
+        <input id="foto" type="file" name="foto" accept="image/*"/>
+      </div>
+
+      <div class="form-group">
+        <label for="hora">Hora a la que ir:</label>
+        <input id="hora" type="time" name="hora" [(ngModel)]="itinerario.hora" />
+      </div>
+
+      <div class="form-group">
+        <label for="duracion">Duración:</label>
+        <input id="duracion" type="text" name="duracion" placeholder="2 horas" [(ngModel)]="itinerario.duracion" />
+      </div>
+
+      <div class="form-group">
+        <label for="categoria">Categoría:</label>
+        <select id="categoria" name="categoria" [(ngModel)]="itinerario.categoria">
+          <option *ngFor="let categoria of categoriaItinerario" [value]="categoria">{{ categoria }}</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Elige sitio:</label>
+        <input id="autocomplete" type="text" placeholder="Buscar lugar..." class="map-search" />
+        <div id="map" class="map-container"></div>
+        <div class="location-display">
+          Latitud: {{ itinerario.latitud }} <br />
+          Longitud: {{ itinerario.longitud }}
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Billete (opcional):</label>
+        <ion-button fill="outline" color="secondary" (click)="toggleBilleteForm()">
+          {{ mostrarFormularioBillete ? 'Ocultar Billete' : 'Crear Billete' }}
+        </ion-button>
+      </div>
+
+      <div *ngIf="mostrarFormularioBillete" class="form-group subformulario">
+        <label>Nombre del billete:</label>
+        <input type="text" name="nombreBillete" [(ngModel)]="billete.nombre" placeholder="Ej. Entrada museo..." />
+
+        <select name="categoriaBillete" [(ngModel)]="billete.categoria">
+          <option value="">Selecciona una categoría</option>
+          <option *ngFor="let opcion of categorias" [value]="opcion">{{ opcion }}</option>
+        </select>
+
+        <label>Subir PDF:</label>
+        <input type="file" (change)="onPdfSeleccionado($event)" name="pdf" accept="application/pdf" />
+
+        <ion-button (click)="crearBillete()">Crear Billete</ion-button>
+      </div>
+
+      <div class="form-group">
+        <label for="dias">Días del itinerario:</label>
+        <select id="dias" name="dias">
+          <option *ngFor="let dia of dias" [value]="dia.id">Día {{ dia.numeroDia }} ({{ dia.fecha }})</option>
+        </select>
+        <ion-button fill="outline" color="secondary" (click)="toggleDiaForm()">
+          {{ mostrarFormularioDia ? 'Ocultar Día' : 'Crear Día' }}
+        </ion-button>
+      </div>
+
+      <div *ngIf="mostrarFormularioDia" class="form-group subformulario">
+        <label>Fecha:</label>
+        <input type="date" name="fecha" [(ngModel)]="dia.fecha" />
+
+        <label>Número de Día:</label>
+        <input type="number" name="numeroDia" [(ngModel)]="dia.numeroDia" placeholder="Ej. 1" />
+
+        <ion-button (click)="crearDia()">Crear Día</ion-button>
+      </div>
+
+      <!-- Texto para avidsar de que es la seccion horarios !-->
+      <h3 style="color: white">Horarios del Itinerario</h3>
+
+      <div class="form-group">
+        <label for="dia">Día de la semana:</label>
+        <select id="dia" name="dia" [(ngModel)]="diaHorario">
+          <option value="LUNES">Lunes</option>
+          <option value="MARTES">Martes</option>
+          <option value="MIERCOLES">Miércoles</option>
+          <option value="JUEVES">Jueves</option>
+          <option value="VIERNES">Viernes</option>
+          <option value="SABADO">Sábado</option>
+          <option value="DOMINGO">Domingo</option>
+        </select>
+      </div>
+
+      <div class="horarios-container">
+        <div class="horario-field">
+          <label for="horaInicio" style="color: white">Hora de apertura:</label>
+          <input type="time" id="horaInicio" name="horaInicio" [(ngModel)]="horaInicio" class="time-input" />
+        </div>
+
+        <div class="horario-field">
+          <label for="horaFin" style="color: white">Hora de cierre:</label>
+          <input type="time" id="horaFin" name="horaFin" [(ngModel)]="horaFin" class="time-input" />
+        </div>
+
+        <div class="horario-field toggle-wrapper">
+          <label for="cerrado" style="color: white">¿Está cerrado?</label>
+          <ion-toggle id="cerrado" [(ngModel)]="cerrado"></ion-toggle>
+        </div>
+      </div>
+
+
+      <div class="form-group">
+        <ion-button (click)="agregarHorario()">Añadir</ion-button>
+      </div>
+
+      <ion-textarea
+        class="horarioInputFull"
+        placeholder="Horarios del sitio:"
+        fill="outline"
+        readonly
+        autoGrow="true"
+        name="horarios"
+        [(ngModel)]="itinerario.horarios">
+      </ion-textarea>
+
+      <div class="button-container">
+        <ion-button expand="full" color="primary" (click)="crearItinerario()">Crear Itinerario</ion-button>
+      </div>
+    </form>
+  </div>
+</ion-content>

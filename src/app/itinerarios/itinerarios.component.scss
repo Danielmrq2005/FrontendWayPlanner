@@ -20,10 +20,43 @@ ion-header, ion-toolbar,ion-fab,ion-fab-button {
 }
 
 .segment-button {
-  --background: #111;  /* Color de fondo cuando no está seleccionado */
-  --color: #111;  /* Color de texto cuando no está seleccionado */
+  --background: #111;
+  --color: #111;
 }
 
+.itinerarios-grid {
+  display: grid;
+  gap: 16px;
+  padding: 16px;
+}
 
+@media (max-width: 767px) {
+  .itinerarios-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
 
+@media (min-width: 768px) {
+  .itinerarios-grid {
+    grid-template-columns: repeat(4, 1fr);
+    justify-content: start;
+  }
+}
 
+.itinerario-card {
+  display: flex;
+  justify-content: center;
+}
+
+.carta {
+  width: 100%;
+  max-width: 220px;
+  display: flex;
+  flex-direction: column;
+}
+
+.imagenCarta {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+}

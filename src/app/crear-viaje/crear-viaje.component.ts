@@ -8,6 +8,7 @@ import { Viaje } from "../Modelos/Viaje";
 import { ViajeService } from "../Servicios/viaje.service";
 import { ActivatedRoute, Router } from "@angular/router";
 import { jwtDecode } from "jwt-decode";
+import {IonicModule} from "@ionic/angular";
 
 @Component({
   selector: 'app-crear-viaje',
@@ -16,6 +17,7 @@ import { jwtDecode } from "jwt-decode";
   standalone: true,
   imports: [
     FormsModule,
+    IonicModule,
     IonContent,
     IonButton,
   ]
