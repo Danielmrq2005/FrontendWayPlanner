@@ -9,6 +9,7 @@ import { ViajeService } from "../Servicios/viaje.service";
 import { ActivatedRoute, Router } from "@angular/router";
 import { jwtDecode } from "jwt-decode";
 import {IonicModule} from "@ionic/angular";
+import {CommonModule} from "@angular/common";
 
 @Component({
   selector: 'app-crear-viaje',
@@ -17,9 +18,9 @@ import {IonicModule} from "@ionic/angular";
   standalone: true,
   imports: [
     FormsModule,
-    IonicModule,
+    CommonModule,
     IonContent,
-    IonButton,
+    IonButton
   ]
 })
 export class CrearViajeComponent implements OnInit {
