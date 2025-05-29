@@ -1,42 +1,104 @@
+ion-header,
+ion-toolbar,
+ion-fab,
+ion-fab-button {
+  --background: #5B97D5;
+}
+
+.toolbar-flex {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0 16px;
+  box-sizing: border-box;
+}
+
+.toolbar-left {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  min-width: 0;
+}
+
+.logo {
+  height: 25px;
+  margin-right: 8px;
+  flex-shrink: 0;
+}
+
+.titulo {
+  margin: 0;
+  font-size: 1em;
+  color: white;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex-shrink: 1;
+}
+
+.select-notif-wrapper {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.select-dia {
+  width: 80px;
+  font-size: 12px;
+  --color: black;
+  font-weight: bold;
+  margin-right: 8px;
+  flex-shrink: 0;
+  outline: none;
+  box-shadow: none;
+  --highlight-color-focused: none;
+}
+
+.icon-notif {
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+@media (max-width: 400px) {
+  .select-dia {
+    width: 60px;
+    font-size: 10px;
+  }
+  .icon-notif {
+    width: 24px;
+    height: 24px;
+  }
+}
+
+ion-item ion-button {
+  margin-left: 8px;
+}
+
+ion-modal {
+  --height: 80%;
+}
+
+ion-label {
+  font-size: 14px;
+}
+
+ion-icon {
+  font-size: 20px;
+}
+
 #map {
   height: 100%;
   width: 100%;
 }
 
-html, body, ion-content, #map {
+html,
+body,
+ion-content,
+#map {
   height: 100%;
   margin: 0;
   padding: 0;
 }
-
-ion-header, ion-toolbar,ion-fab,ion-fab-button {
-  --background: #5B97D5;
-}
-
-#selectDia {
-  outline: none;
-  text-decoration: none;
-  box-shadow: none; /* Removes any focus shadow */
-  --highlight-color-focused: none;
-  color: black;
-  --color: black;
-}
-.boton{
-  color: white;
-}
-
-
-.select-notif-wrapper {
-  display: flex;
-  align-items: center;
-  justify-content: center; // Centrado en móvil por defecto
-  margin-left: 80px;
-}
-
-@media (min-width: 768px) {
-  .select-notif-wrapper {
-    margin-left: 630px;
-    justify-content: flex-start; // Si quieres alinearlo a la izquierda cuando hay espacio
-  }
-}
-

@@ -141,19 +141,21 @@ export class CrearItinerarioComponent  implements OnInit, AfterViewInit {
     idViaje: 0
   }
 
+  diaHorario: string = '';
   horaInicio: string = '';
   horaFin: string = '';
   cerrado: boolean = false;
   horarios: string = '';
 
   agregarHorario() {
-    if (this.horaInicio && this.horaFin) {
-      const nuevoHorario = `${this.horaInicio} - ${this.horaFin}`;
+    if (this.horaInicio && this.horaFin && this.diaHorario) {
+      const nuevoHorario = `${this.diaHorario} - ${this.horaInicio} - ${this.horaFin}`;
       this.horarios = this.horarios
         ? this.horarios + '\n' + nuevoHorario
         : nuevoHorario;
       this.horaInicio = '';
       this.horaFin = '';
+      this.diaHorario = '';
     } else {
       console.warn('Por favor, completa ambos campos de hora antes de agregar un horario.');
     }
