@@ -11,7 +11,7 @@ import {
 import { jwtDecode } from "jwt-decode";
 import { Login } from "../Modelos/Login";
 import {Viaje} from "../Modelos/Viaje";
-import {NgClass, NgForOf} from "@angular/common";
+import {NgClass, NgForOf, NgIf} from "@angular/common";
 import {IonicModule} from "@ionic/angular";
 
 @Component({
@@ -30,6 +30,7 @@ import {IonicModule} from "@ionic/angular";
     NgForOf,
     RouterLink,
     NgClass,
+    NgIf,
 
   ]
 })

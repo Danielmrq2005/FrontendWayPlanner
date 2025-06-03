@@ -5,35 +5,38 @@
     <form class="form-content">
       <div class="form-group">
         <label style="color: white" for="nombre">Nombre del viaje</label>
-        <input type="text" id="nombre" placeholder="Ej. Ruta por Europa" />
+        <input type="text" id="nombre" placeholder="Ej. Ruta por Europa" [(ngModel)]="nombre" name="nombre" />
       </div>
 
       <div class="form-group">
         <label style="color: white" for="fechaInicio">Fecha de inicio</label>
-        <input type="date" id="fechaInicio" />
+        <input type="date" id="fechaInicio" [(ngModel)]="fechaInicioStr" name="fechaInicio" />
       </div>
 
       <div class="form-group">
         <label style="color: white" for="fechaFin">Fecha de fin</label>
-        <input type="date" id="fechaFin" />
+        <input type="date" id="fechaFin" [(ngModel)]="fechaFinStr" name="fechaFin" />
       </div>
 
       <div class="form-group">
         <label style="color: white" for="destino">Destino</label>
-        <input type="text" id="destino" placeholder="Ej. París, Madrid..." />
+        <input type="text" id="destino" placeholder="Ej. París, Madrid..." [(ngModel)]="destino" name="destino" />
       </div>
 
       <div class="form-group">
         <label style="color: white" for="descripcion">Descripción</label>
-        <textarea id="descripcion" rows="4" placeholder="Describe tu aventura..."></textarea>
+        <textarea id="descripcion" rows="4" placeholder="Describe tu aventura..." [(ngModel)]="descripcion" name="descripcion"></textarea>
       </div>
 
       <div class="button-container">
         <ion-button (click)="guardarViaje()" expand="block" style="--background: #5B97D5">
           💾 {{ idViajeEditar ? 'Actualizar Viaje' : 'Crear Viaje' }}
         </ion-button>
-
       </div>
+
+      <ion-text color="danger" *ngIf="mensajeError">
+        <p class="ion-padding-start">{{ mensajeError }}</p>
+      </ion-text>
     </form>
   </div>
 
@@ -45,8 +48,6 @@
       padding: 2rem;
       box-shadow: 0 1px 4px rgba(0,0,0,0.1);
       border-radius: 12px;
-
-
     }
 
     .form-title {
@@ -91,7 +92,6 @@
 
     .button-container {
       margin-top: 1.5rem;
-
     }
 
     label {
