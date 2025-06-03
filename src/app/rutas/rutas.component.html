@@ -35,6 +35,13 @@
 
 <ion-content>
   <!-- El resto de tu contenido (fab, modal, mapa) permanece igual -->
+
+  <ion-fab horizontal="start" vertical="bottom" (click)="abrirRutaEnGoogleMaps()">
+    <ion-fab-button>
+      <ion-icon name="mapa"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
   <ion-fab horizontal="end" vertical="bottom" id="open-modal">
     <ion-fab-button>
       <ion-icon name="add"></ion-icon>
@@ -72,6 +79,7 @@
             <ion-reorder slot="end"></ion-reorder>
           </ion-item>
         </ion-reorder-group>
+        <ion-button class="boton-inferior-modal" [routerLink]="['/crear-itinerario']" (click)="cancel()">Crear una ruta</ion-button>
       </ion-content>
     </ng-template>
   </ion-modal>

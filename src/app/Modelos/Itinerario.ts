@@ -9,7 +9,7 @@ export interface Itinerario {
   apareceEnItinerario: boolean;
   hora: string;
   duracion: string;
-  foto?: string | File;
+  foto: string;
   categoria: string;
   idbillete?: number;
   iddia?: number;

@@ -26,7 +26,7 @@
   <div *ngIf="segmentoSeleccionado === 'default'" class="itinerarios-grid">
     <div class="itinerario-card" *ngFor="let itinerario of itinerarios">
       <ion-card class="carta">
-        <img src="https://ionicframework.com/docs/img/demos/card-media.png" class="imagenCarta"/>
+          <img [src]="'data:image/jpeg;base64,' + itinerario.foto" class="imagenCarta"/>
         <ion-card-header>
           <ion-card-title>{{itinerario.actividad}}</ion-card-title>
           <ion-card-subtitle>{{itinerario.duracion}}</ion-card-subtitle>
@@ -48,7 +48,7 @@
   <div *ngIf="segmentoSeleccionado !== 'default'" class="itinerarios-grid">
     <div class="itinerario-card" *ngFor="let itinerario of itinerariosDia">
       <ion-card class="carta">
-        <img src="https://ionicframework.com/docs/img/demos/card-media.png" class="imagenCarta"/>
+        <img [src]="'data:image/jpeg;base64,' + itinerario.foto" class="imagenCarta"/>
         <ion-card-header>
           <ion-card-title>{{itinerario.actividad}}</ion-card-title>
           <ion-card-subtitle>{{itinerario.duracion}}</ion-card-subtitle>
