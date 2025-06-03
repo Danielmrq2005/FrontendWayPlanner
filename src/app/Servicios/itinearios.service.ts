@@ -33,4 +33,16 @@ export class ItineariosService {
   obtenerItinerariosPorRutaDia(dia: DiasItinerario): Observable<Itinerario[]> {
     return this.http.post<any>(`${this.url}/rutas/dias`,dia);
   }
+
+  borrarEnRuta(id?: number): Observable<any> {
+    return this.http.delete(`${this.url}/rutas/eliminarRuta/${id}`);
+  }
+
+  borrarEnItinerario(id?: number): Observable<any> {
+    return this.http.delete(`${this.url}/eliminarEnItinerario/${id}`);
+  }
+
+  borrarPorCompleto(id?: number): Observable<any> {
+    return this.http.delete(`${this.url}/eliminar/${id}`);
+  }
 }

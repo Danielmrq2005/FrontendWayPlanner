@@ -11,6 +11,8 @@ import {NgForOf, NgIf} from "@angular/common";
 import {DiaService} from "../Servicios/dia.service";
 import {Dia} from "../Modelos/Dia";
 import {DiasItinerario} from "../Modelos/DiasItinerario";
+import { ModalController } from '@ionic/angular';
+import {DetallesItinerarioComponent} from "../detalles-itinerario/detalles-itinerario.component";
 
 @Component({
   selector: 'app-itinerarios',
@@ -29,7 +31,7 @@ export class ItinerariosComponent  implements OnInit {
   itinerarios: Itinerario[] = [];
   diasViaje : Dia[] = [];
   itinerariosDia : Itinerario[] = [];
-  constructor(private route: ActivatedRoute, private itinerarioService: ItineariosService, private diaService: DiaService) {
+  constructor(private route: ActivatedRoute, private itinerarioService: ItineariosService, private diaService: DiaService, private modalController: ModalController) {
 
     addIcons({add})
   }
@@ -127,6 +129,14 @@ export class ItinerariosComponent  implements OnInit {
         console.log('Petición de itinerarios por día completada');
       }
     })
+  }
+
+  async abrirDetalle(itinerario: any) {
+    const modal = await this.modalController.create({
+      component: DetallesItinerarioComponent,
+      componentProps: { itinerario }
+    });
+    await modal.present();
   }
 
 }

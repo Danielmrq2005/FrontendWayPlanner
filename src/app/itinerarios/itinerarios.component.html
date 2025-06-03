@@ -24,7 +24,7 @@
 
   <!-- TODOS -->
   <div *ngIf="segmentoSeleccionado === 'default'" class="itinerarios-grid">
-    <div class="itinerario-card" *ngFor="let itinerario of itinerarios">
+    <div class="itinerario-card" *ngFor="let itinerario of itinerarios" (click)="abrirDetalle(itinerario)">
       <ion-card class="carta">
           <img [src]="'data:image/jpeg;base64,' + itinerario.foto" class="imagenCarta"/>
         <ion-card-header>
@@ -46,7 +46,7 @@
 
   <!-- ITINERARIOS POR DÍA -->
   <div *ngIf="segmentoSeleccionado !== 'default'" class="itinerarios-grid">
-    <div class="itinerario-card" *ngFor="let itinerario of itinerariosDia">
+    <div class="itinerario-card" *ngFor="let itinerario of itinerariosDia" (click)="abrirDetalle(itinerario)" >
       <ion-card class="carta">
         <img [src]="'data:image/jpeg;base64,' + itinerario.foto" class="imagenCarta"/>
         <ion-card-header>
