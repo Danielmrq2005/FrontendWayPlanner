@@ -83,5 +83,9 @@ export const routes: Routes = [
   {
     path: 'ajustes',
     loadComponent: () => import('./ajustes/ajustes.component').then((m) => m.AjustesComponent),
+  },
+  {
+    path:'actu-itinerario',
+    loadComponent: () => import('./actu-itinerario/actu-itinerario.component').then((m) => m.ActuItinerarioComponent),
   }
 ];

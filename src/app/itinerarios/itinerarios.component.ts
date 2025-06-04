@@ -31,6 +31,7 @@ export class ItinerariosComponent  implements OnInit {
   itinerarios: Itinerario[] = [];
   diasViaje : Dia[] = [];
   itinerariosDia : Itinerario[] = [];
+  diaSeleccionado: Dia | null = null;
   constructor(private route: ActivatedRoute, private itinerarioService: ItineariosService, private diaService: DiaService, private modalController: ModalController) {
 
     addIcons({add})
@@ -103,13 +104,13 @@ export class ItinerariosComponent  implements OnInit {
 
     if (segmento !== 'default') {
       const index = parseInt(segmento.replace('dia', ''));
-      const diaSeleccionado = this.diasViaje[index];
+      this.diaSeleccionado = this.diasViaje[index];
 
       const dto: DiasItinerario = {
         idViaje: parseInt(this.idViaje!),
-        idDia: diaSeleccionado.id
+        idDia: this.diaSeleccionado.id
       };
-      console.info('FFechaDTO: ', dto);
+      console.info('FechaDTO: ', dto);
       this.ObtenerItinerariosPorDia(dto);
     }
   }
@@ -119,6 +120,7 @@ export class ItinerariosComponent  implements OnInit {
       next: (response) => {
         console.log('Itinerarios obtenidos para el día:', response);
         this.itinerariosDia = response;
+
         return response;
       },
       error: (error) => {
@@ -129,6 +131,10 @@ export class ItinerariosComponent  implements OnInit {
         console.log('Petición de itinerarios por día completada');
       }
     })
+  }
+
+  filtrarHorariosPorDia(itinerario: Itinerario, diaSemana?: string) {
+    return itinerario.horarios.filter(horario => horario.dia === diaSemana);
   }
 
   async abrirDetalle(itinerario: any) {

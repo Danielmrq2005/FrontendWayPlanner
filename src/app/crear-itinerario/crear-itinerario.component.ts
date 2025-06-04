@@ -108,6 +108,7 @@ export class CrearItinerarioComponent  implements OnInit, AfterViewInit {
     estaEnRuta: false,
     apareceEnItinerario: false,
     hora: '',
+    medioTransporte: '',
     duracion: '',
     foto: '',
     categoria: '',
@@ -144,6 +145,7 @@ export class CrearItinerarioComponent  implements OnInit, AfterViewInit {
   dia = {
     fecha: '',
     numeroDia: 0,
+    diaSemana: '',
     idViaje: 0
   }
 
@@ -246,11 +248,13 @@ export class CrearItinerarioComponent  implements OnInit, AfterViewInit {
     if (
       this.dia.fecha.trim() !== '' &&
       this.dia.numeroDia > 0 &&
+      this.dia.diaSemana.trim() !== '' &&
       this.idViajeSeleccionado
     ) {
       const diaData: Dia = {
         fecha: this.dia.fecha,
         numeroDia: this.dia.numeroDia,
+        diaSemana: this.dia.diaSemana,
         idViaje: this.idViajeSeleccionado
       };
 
@@ -263,7 +267,7 @@ export class CrearItinerarioComponent  implements OnInit, AfterViewInit {
         },
         complete: () => {
           console.log('Proceso de creación de día completado');
-          this.dia = { fecha: '', numeroDia: 0, idViaje: 0 };
+          this.dia = { fecha: '', numeroDia: 0, diaSemana: '', idViaje: 0 };
           this.mostrarFormularioDia = false;
           this.obtenerDiasPorViaje();
         }
@@ -290,6 +294,7 @@ export class CrearItinerarioComponent  implements OnInit, AfterViewInit {
       this.itinerario.latitud.trim() !== '' &&
       this.itinerario.longitud.trim() !== '' &&
       this.itinerario.hora.trim() !== '' &&
+      this.itinerario.medioTransporte.trim() !== '' &&
       this.itinerario.duracion.trim() !== '' &&
       this.itinerario.categoria.trim() !== ''
     ) {
@@ -319,7 +324,6 @@ export class CrearItinerarioComponent  implements OnInit, AfterViewInit {
         next: (response: any) => {
           console.log('Itinerario creado exitosamente:', response)
           this.itinerarioCreadoId = response.id ;
-          console.log('EL puto id es: '  + this.itinerarioCreadoId);
         },
         error: (err) => {
           console.error('Error al crear el itinerario:', err);
@@ -365,6 +369,7 @@ export class CrearItinerarioComponent  implements OnInit, AfterViewInit {
       estaEnRuta: false,
       apareceEnItinerario: false,
       hora: '',
+      medioTransporte: '',
       duracion: '',
       foto: '',
       categoria: '',
@@ -415,6 +420,13 @@ export class CrearItinerarioComponent  implements OnInit, AfterViewInit {
       console.warn('No se ha seleccionado un viaje válido');
     }
   }
+
+  recargarMapa() {
+    setTimeout(() => {
+      this.inicializarMapa();
+    }, 100); // Delay opcional para asegurar que el DOM esté listo
+  }
+
 
 
 

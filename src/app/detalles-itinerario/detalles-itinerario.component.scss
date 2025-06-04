@@ -47,3 +47,33 @@
   margin-bottom: 0.5rem;
   padding: 0.5rem 1rem;
 }
+
+.btn-actualizar {
+  --background: #5B97D5;
+  --color: white;
+  --border-radius: 12px;
+  font-weight: 600;
+  margin-top: 1.5rem;
+  width: 100%;
+  text-transform: none;
+  font-size: 1em;
+  box-shadow: 0 4px 8px rgba(91, 151, 213, 0.2);
+}
+
+.btn-como-llegar {
+  --background: #5B97D5; // Un verde que contraste con el azul primario
+  --color: white;
+  --border-radius: 12px;
+  font-weight: 600;
+  margin-top: 1rem;
+  width: 97%;
+  text-transform: none;
+  font-size: 1em;
+  box-shadow: 0 4px 8px rgba(76, 175, 80, 0.2);
+  margin-bottom: 1rem;
+
+  &:hover {
+    --background: #45a049;
+  }
+}
+

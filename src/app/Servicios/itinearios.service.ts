@@ -38,6 +38,10 @@ export class ItineariosService {
     return this.http.delete(`${this.url}/rutas/eliminarRuta/${id}`);
   }
 
+  actualizarItinerario(formData: FormData): Observable<any> {
+    return this.http.put<Itinerario>(`${this.url}/actualizar`, formData);
+  }
+
   borrarEnItinerario(id?: number): Observable<any> {
     return this.http.delete(`${this.url}/eliminarEnItinerario/${id}`);
   }

@@ -36,6 +36,24 @@
       </div>
 
       <div class="form-group">
+        <label for="medioTransporte">Medio de tranporte: </label>
+        <select id="medioTransporte" name="medioTransporte" [(ngModel)]="itinerario.medioTransporte">
+          <option value="">Selecciona un medio de transporte</option>
+          <option value="ANDANDO">Andando</option>
+          <option value="BICICLETA">Bicicleta</option>
+          <option value="COCHE">Coche</option>
+          <option value="AUTOBUS">Autobús</option>
+          <option value="TREN">Tren</option>
+          <option value="METRO">Metro</option>
+          <option value="TAXI">Taxi</option>
+          <option value="BARCO">Barco</option>
+          <option value="TRANVIA">Tranvía</option>
+          <option value="OTRO">Otro</option>
+        </select>
+      </div>
+
+
+      <div class="form-group">
         <label for="duracion">Duración:</label>
         <input id="duracion" type="text" name="duracion" placeholder="2 horas" [(ngModel)]="itinerario.duracion" />
       </div>
@@ -46,15 +64,11 @@
           <option *ngFor="let categoria of categoriaItinerario" [value]="categoria">{{ categoria }}</option>
         </select>
       </div>
-
       <div class="form-group">
         <label>Elige sitio:</label>
         <input id="autocomplete" type="text" placeholder="Buscar lugar..." class="map-search" />
+        <button class="recargar" (click)="recargarMapa()">Recargar mapa</button>
         <div id="map" class="map-container"></div>
-        <div class="location-display">
-          Latitud: {{ itinerario.latitud }} <br />
-          Longitud: {{ itinerario.longitud }}
-        </div>
       </div>
 
       <div class="form-group">
@@ -96,6 +110,17 @@
         <label>Número de Día:</label>
         <input type="number" name="numeroDia" [(ngModel)]="dia.numeroDia" placeholder="Ej. 1" />
 
+        <label>Dia de la semana:</label>
+        <select name="diaSemana" [(ngModel)]="dia.diaSemana">
+          <option value="LUNES">Lunes</option>
+          <option value="MARTES">Martes</option>
+          <option value="MIERCOLES">Miércoles</option>
+          <option value="JUEVES">Jueves</option>
+          <option value="VIERNES">Viernes</option>
+          <option value="SABADO">Sábado</option>
+          <option value="DOMINGO">Domingo</option>
+        </select>
+
         <ion-button (click)="crearDia()">Crear Día</ion-button>
       </div>
 
@@ -131,6 +156,7 @@
           <ion-toggle id="cerrado" [(ngModel)]="cerrado"></ion-toggle>
         </div>
       </div>
+
 
 
       <div class="form-group">
