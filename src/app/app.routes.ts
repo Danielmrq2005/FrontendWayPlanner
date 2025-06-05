@@ -77,6 +77,14 @@ export const routes: Routes = [
     loadComponent: () => import('./viajes/viajes.component').then((m) => m.ViajesComponent),
   },
   {
+    path: 'maletas/:id',
+    loadComponent: () => import('./MaletasYBilletes/header-maleta-billete/header-maleta-billete.component').then((m) => m.HeaderMaletaBilleteComponent),
+  },
+  {
+    path: 'items-maleta/:id',
+    loadComponent: () => import('./MaletasYBilletes/Maletas/lista-items-maleta/lista-items-maleta.component').then((m) => m.ListaItemsMaletaComponent),
+  },
+  {
     path: 'crear-itinerario',
     loadComponent: () => import('./crear-itinerario/crear-itinerario.component').then((m) => m.CrearItinerarioComponent),
   },
