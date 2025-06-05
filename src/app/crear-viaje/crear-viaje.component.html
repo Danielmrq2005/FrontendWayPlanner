@@ -5,28 +5,29 @@
     <form class="form-content">
       <div class="form-group">
         <label for="nombre">Nombre del viaje</label>
-        <input type="text" id="nombre" placeholder="Ej. Ruta por Europa" />
+        <input type="text" id="nombre" [(ngModel)]="nombre" name="nombre" placeholder="Ej. Ruta por Europa" />
       </div>
 
       <div class="form-group">
         <label for="fechaInicio">Fecha de inicio</label>
-        <input type="date" id="fechaInicio" />
+        <input type="date" id="fechaInicio" [(ngModel)]="fechaInicioStr" name="fechaInicio" />
       </div>
 
       <div class="form-group">
         <label for="fechaFin">Fecha de fin</label>
-        <input type="date" id="fechaFin" />
+        <input type="date" id="fechaFin" [(ngModel)]="fechaFinStr" name="fechaFin" />
       </div>
 
       <div class="form-group">
         <label for="destino">Destino</label>
-        <input type="text" id="destino" placeholder="Ej. París, Madrid..." />
+        <input type="text" id="destino" [(ngModel)]="destino" name="destino" placeholder="Ej. París, Madrid..." />
       </div>
 
       <div class="form-group">
         <label for="descripcion">Descripción</label>
-        <textarea id="descripcion" rows="4" placeholder="Describe tu aventura..."></textarea>
+        <textarea id="descripcion" [(ngModel)]="descripcion" name="descripcion" rows="4" placeholder="Describe tu aventura..."></textarea>
       </div>
+
 
       <div class="button-container">
         <ion-button (click)="guardarViaje()" expand="block" style="--background: #5B97D5">

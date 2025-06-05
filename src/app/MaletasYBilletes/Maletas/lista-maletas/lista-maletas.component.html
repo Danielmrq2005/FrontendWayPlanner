@@ -1,0 +1,114 @@
+<div class="container mt-4 mb-5">
+  <div
+    class="item-card shadow-sm"
+    [routerLink]="['/items-maleta', maleta.id]"
+    *ngFor="let maleta of maletas"
+  >
+    <div class="left-content">
+      <span class="icono">{{ getIconoPorCategoria(maleta.tipoMaleta) }}</span>
+      <span class="nombre">{{ maleta.nombre }}</span>
+    </div>
+
+    <div class="acciones-derecha">
+      <i
+        class="bi bi-pencil icono-editar"
+        title="Editar maleta"
+        (click)="editarMaleta($event, maleta)"
+      ></i>
+      <ion-icon name="chevron-forward-outline" class="icono-ir"></ion-icon>
+    </div>
+  </div>
+</div>
+
+
+
+<style>
+  body {
+    background-color: #ffffff;
+  }
+
+  .item-card {
+    border: 2px solid #93c5fd;
+    border-radius: 12px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #ffffff;
+    transition: transform 0.2s, box-shadow 0.2s;
+    cursor: pointer;
+  }
+
+
+  .left-content {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .icono {
+    font-size: 1.5rem;
+    color: #5b97d5;
+  }
+
+  .nombre {
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: #333;
+  }
+
+  .icono-ir {
+    font-size: 1.2rem;
+    color: #6ba1d8;
+  }
+
+  /* Responsive container */
+  .container {
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 15px;
+    padding-right: 15px;
+    max-width: 90%;
+    width: 100%;
+
+    max-height: 70vh;    /* Altura máxima igual al alto de la ventana */
+    overflow-y: auto;     /* Scroll vertical si se excede la altura */
+  }
+
+  @media (min-width: 768px) {
+    .container {
+      max-width: 800px;
+    }
+  }
+
+  @media (min-width: 1200px) {
+    .container {
+      max-width: 750px;
+    }
+  }
+
+  .icono-editar {
+    background-color: #dbeafe;
+    color: #1e3a8a;
+    font-weight: 500;
+    font-size: 1rem;
+    padding: 0.3rem 0.8rem;
+    border-radius: 15px;
+    white-space: nowrap;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  }
+
+  .acciones-derecha {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .icono-ir {
+    font-size: 1.3rem;
+    color: #6ba1d8;
+    display: flex;
+    align-items: center;
+  }
+</style>
