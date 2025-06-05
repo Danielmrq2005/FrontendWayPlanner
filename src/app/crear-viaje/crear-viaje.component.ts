@@ -8,8 +8,6 @@ import { Viaje } from "../Modelos/Viaje";
 import { ViajeService } from "../Servicios/viaje.service";
 import { ActivatedRoute, Router } from "@angular/router";
 import { jwtDecode } from "jwt-decode";
-import {IonicModule} from "@ionic/angular";
-import {CommonModule} from "@angular/common";
 import {TemaService} from "../Servicios/tema.service";
 import { IonicModule } from "@ionic/angular";
 import { CommonModule } from "@angular/common";

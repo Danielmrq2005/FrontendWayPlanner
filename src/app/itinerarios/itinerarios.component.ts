@@ -37,8 +37,7 @@ export class ItinerariosComponent  implements OnInit {
   darkMode = false;
   diaSeleccionado: Dia | null = null;
 
-
-  constructor(private route: ActivatedRoute, private itinerarioService: ItineariosService, private diaService: DiaService, private temaService: TemaService) {
+  constructor(private route: ActivatedRoute, private itinerarioService: ItineariosService, private diaService: DiaService, private temaService: TemaService, private modalController: ModalController) {
 
     addIcons({add, create, calendarNumberOutline})
     addIcons({add})

@@ -1,6 +1,7 @@
 <div class="app-container" [class.dark]="darkMode" [class.sidebar-expanded]="sidebarExpanded">
   <app-menu-hamburguesa (expansionChange)="sidebarExpanded = $event"></app-menu-hamburguesa>
   <div class="main-content" >
+    <ion-content>
 
     <ion-header>
       <ion-toolbar [style]="{'--background': darkMode ? '#1f1f1f' : '#5B97D5'}" style="display: flex; align-items: center; justify-content: space-between; padding: 0 16px;">
@@ -70,8 +71,7 @@
 
   </div>
 
-
-</ion-content>
+</ion-content></div>
 
 <ion-fab horizontal="end" vertical="bottom">
   <ion-fab-button>
@@ -87,3 +87,4 @@
   </ion-fab-list>
 </ion-fab>
 
+</div>
