@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {NgForOf} from "@angular/common";
 import { BilleteService } from "../../../Servicios/billete.service";
 import { CategoriasBilleteDTO } from "../../../Modelos/Billetes/categorias-billete-dto";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, RouterLink} from "@angular/router";
 import {IonIcon, IonLabel} from "@ionic/angular/standalone";
 
 @Component({
@@ -12,17 +12,22 @@ import {IonIcon, IonLabel} from "@ionic/angular/standalone";
   standalone: true,
   imports: [
     NgForOf,
-    IonIcon
+    IonIcon,
+    RouterLink
   ]
 })
 export class ListaGruposBilletesComponent  implements OnInit {
   gruposBilletes: CategoriasBilleteDTO[] = [];
 
+  viajeId: number | null = null;
+
   constructor(private route: ActivatedRoute, private billeteService: BilleteService) { }
 
   ngOnInit() {
     const viajeId = this.route.snapshot.paramMap.get('id');
+    console.log('ID del viaje:', viajeId);
     if (viajeId) {
+      this.viajeId = +viajeId;
       this.billeteService.getGruposBilletesPorViaje(+viajeId).subscribe({
         next: (data) => {
           this.gruposBilletes = data;

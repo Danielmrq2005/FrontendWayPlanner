@@ -1,5 +1,5 @@
 <div class="container mt-4 mb-5">
-  <div class="item-card shadow-sm" *ngFor="let grupo of gruposBilletes">
+  <div class="item-card shadow-sm" [routerLink]="['/viaje', viajeId, 'categoria', grupo.nombre]" *ngFor="let grupo of gruposBilletes">
     <div class="left-content">
       <span class="icono">{{ getEmojiPorCategoria(grupo.nombre) }}</span>
       <span class="nombre">{{ getNombreCategoria(grupo.nombre) }}</span>

@@ -85,6 +85,10 @@ export const routes: Routes = [
     loadComponent: () => import('./MaletasYBilletes/Maletas/lista-items-maleta/lista-items-maleta.component').then((m) => m.ListaItemsMaletaComponent),
   },
   {
+    path: 'viaje/:viajeId/categoria/:categoria',
+    loadComponent: () => import('./MaletasYBilletes/Billetes/lista-billetes/lista-billetes.component').then((m) => m.ListaBilletesComponent),
+  },
+  {
     path: 'crear-itinerario',
     loadComponent: () => import('./crear-itinerario/crear-itinerario.component').then((m) => m.CrearItinerarioComponent),
   },

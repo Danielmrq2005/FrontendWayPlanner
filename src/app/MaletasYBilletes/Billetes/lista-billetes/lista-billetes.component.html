@@ -1,3 +1,210 @@
-<p>
-  lista-billetes works!
-</p>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>WayPlanner - Viaje a </title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      background-color: #ffffff;
+    }
+    .nav-tabs .nav-link.active {
+      background-color: #e5e7eb;
+    }
+
+    .floating-btn {
+      position: fixed;
+      bottom: 80px;
+      right: 20px;
+      background-color: #6ba1d8;
+      color: white;
+      border-radius: 50%;
+      font-size: 24px;
+      width: 50px;
+      height: 50px;
+      text-align: center;
+      line-height: 50px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease;
+    }
+
+    .floating-btn:hover {
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+      transform: scale(1.1);
+    }
+
+    .titulo {
+      font-size: 2rem;
+      color: #6ba1d8;
+    }
+    body {
+      background-color: #ffffff;
+    }
+    .nav-tabs .nav-link.active {
+      background-color: #e5e7eb;
+    }
+
+    /* Body styles */
+    .item-card {
+      border: 2px solid #93c5fd;
+      border-radius: 12px;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px; /* separa cada bloque horizontalmente */
+      background-color: #ffffff;
+      transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+      cursor: pointer;
+    }
+
+    .item-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .item-nombre {
+      font-size: 1.1rem;
+      font-weight: 500;
+      color: #333;
+      flex-grow: 1;
+      margin-left: 0.75rem;
+      margin-right: 0.75rem;
+    }
+
+    .titulo {
+      font-size: 2rem;
+      font-weight: bold;
+      color: #6ba1d8;
+    }
+
+    .container {
+      margin-left: auto;
+      margin-right: auto;
+      padding-left: 15px;
+      padding-right: 15px;
+      max-width: 90%;
+      width: 100%;
+    }
+
+    @media (min-width: 768px) {
+      .container {
+        max-width: 800px;
+      }
+    }
+
+    @media (min-width: 1200px) {
+      .container {
+        max-width: 750px;
+      }
+    }
+
+    .icono {
+      font-size: 1.5rem;
+      color: #5b97d5;
+    }
+
+    .icono-editar {
+      background-color: #dbeafe;
+      color: #1e3a8a;
+      font-weight: 500;
+      font-size: 1rem;
+      padding: 0.3rem 0.8rem;
+      border-radius: 15px;
+      white-space: nowrap;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    }
+
+
+    .acciones-derecha {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .icono-ir {
+      font-size: 1.3rem;
+      color: #6ba1d8;
+      display: flex;
+      align-items: center;
+    }
+
+  </style>
+</head>
+<body>
+
+<!-- Header -->
+<ion-header>
+  <ion-toolbar style="--background: #5B97D5; position: relative; height: 56px;">
+
+    <ion-buttons slot="start">
+      <img src="../../../../assets/logo.png" alt="Logo" style="height: 25px; margin-left: 10px; margin-right: 8px;">
+    </ion-buttons>
+
+    <ion-title style="
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: white;
+      margin: 0;
+    ">
+      Inicio
+    </ion-title>
+
+    <ion-buttons slot="end" style="margin-right: 10px;">
+      <ion-button fill="clear" [routerLink]="['/notificaciones']">
+        <img src="../../../../assets/icons8-campana-48.png" alt="Notificaciones" style="width: 30px; height: 30px;">
+      </ion-button>
+    </ion-buttons>
+
+  </ion-toolbar>
+</ion-header>
+
+
+<!-- Título -->
+<div class="text-center mt-3">
+  <h2 class="titulo fw-bold">{{ billeteNombre }}</h2>
+</div>
+
+<!-- Lista de billetes -->
+<div *ngIf="!mostrarFormulario" class="container mt-3 mb-5">
+  <div class="item-card" *ngFor="let billete of billetes" (click)="verBillete(billete)">
+
+    <div class="left-content">
+      <span class="icono">{{ getEmojiPorCategoria(categoriaNombre) }}</span>
+      <span class="item-nombre">{{ billete.nombre }}</span>
+    </div>
+
+    <div class="acciones-derecha">
+      <i
+        class="bi bi-pencil icono-editar"
+        title="Editar maleta"
+        (click)="editarBillete($event, billete)"
+      ></i>
+      <ion-icon name="chevron-forward-outline" class="icono-ir"></ion-icon>
+    </div>
+  </div>
+</div>
+
+<ng-container *ngIf="mostrarFormulario">
+  <app-form-billete (cancelado)="FormularioCancelado()"></app-form-billete>
+</ng-container>
+
+<!-- Botón flotante para agregar billete -->
+<ion-icon name="add-circle" class="floating-btn" (click)="mostrarFormulario = true"></ion-icon>
+
+<!-- NavBar -->
+
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Bootstrap Icons -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+</body>
+</html>
