@@ -120,8 +120,133 @@
   font-size: 1.2em;
 }
 
+
+.app-container.dark {
+  background-color: #121212;
+  color: #ffffff;
+}
+
+ion-content.dark {
+  --background: #121212 !important;
+  --color: #ffffff;
+
+  .viaje-movil-item {
+    background-color: #1f1f1f;
+    color: #ffffff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  }
+
+  .viajes-movil div[style*="color: #5B97D5"] {
+    color: #7eb5e6 !important;
+  }
+}
+
+.dark {
+  .viaje-movil-item {
+    background-color: #1f1f1f;
+    color: #ffffff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  }
+
+  ion-header ion-toolbar {
+    --background: #1f1f1f !important;
+  }
+
+  .sidebar {
+    background-color: #1f1f1f;
+  }
+
+  ion-content {
+    --background: #121212;
+  }
+
+  .menu-icon {
+    filter: brightness(0) invert(1);
+  }
+}
+
+// Add dark mode styles for the welcome message
+.dark .viajes-movil div[style*="color: #5B97D5"] {
+  color: #7eb5e6 !important;
+}
 @media (min-width: 768px) {
   .viaje-movil-item {
     max-width: 600px;
+  }
+}
+@media (max-width: 768px) {
+  .sidebar {
+    top: auto;
+    bottom: 0;
+    width: 100%;
+    height: 60px;
+    padding: 0;
+    flex-direction: row;
+    justify-content: center;
+    gap: 40px;
+  }
+
+  .toggle-button {
+    display: none;
+  }
+
+  .menu-items {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    margin: 0;
+    height: 100%;
+    padding: 0 20px;
+  }
+
+  .menu-item {
+    flex-direction: column;
+    padding: 8px;
+    width: auto;
+    align-items: center;
+    justify-content: center;
+
+    &:hover {
+      background-color: transparent;
+    }
+  }
+
+  .menu-label {
+    display: none;
+  }
+
+  .menu-icon {
+    width: 32px;
+    height: 32px;
+  }
+  ion-header ion-toolbar {
+    padding: 8px 16px !important;
+    margin: 0;
+  }
+
+  .viajes-movil {
+    padding: 16px;
+    margin-top: 8px;
+  }
+
+  ion-content {
+    --padding-start: 0 !important;
+    --padding-end: 0 !important;
+  }
+  ion-fab {
+    margin-bottom: 70px;
+    z-index: 1000;
+  }
+
+  ion-fab-button {
+    --box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+
+  .main-content {
+    padding-bottom: 80px;
+  }
+
+  .sidebar {
+    z-index: 999;
   }
 }

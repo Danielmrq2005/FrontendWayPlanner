@@ -43,7 +43,7 @@ export const routes: Routes = [
     loadComponent: () => import('./gastos/gastos.component').then((m) => m.GastosComponent),
   },
   {
-    path: 'GraficaViaje',
+    path: 'GraficaViaje/:id',
     loadComponent: () => import('./grafica-viaje/grafica-viaje.component').then((m) => m.GraficaViajeComponent),
   },
   {

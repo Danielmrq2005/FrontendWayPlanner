@@ -69,7 +69,7 @@ export class VerificarComponent implements OnInit {
         color: 'success'
       });
       await toast.present();
-      this.router.navigate(['/login']);
+      this.router.navigate(['/home']);
 
     } catch (error: any) {
       loading.dismiss();

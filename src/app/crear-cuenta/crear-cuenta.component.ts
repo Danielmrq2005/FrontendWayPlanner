@@ -55,7 +55,8 @@ export class CrearCuentaComponent implements OnInit {
     });
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+  }
 
   async showAlert(header: string, message: string) {
     const alert = await this.alertController.create({
@@ -74,13 +75,13 @@ export class CrearCuentaComponent implements OnInit {
       });
       await loading.present();
 
-      this.registro = { ...this.registro, ...this.registroForm.value };
+      this.registro = {...this.registro, ...this.registroForm.value};
 
       this.registroService.registrar(this.registro).subscribe({
         next: async () => {
           await loading.dismiss();
           this.router.navigate(['verificar'], {
-            state: { email: this.registro.email },
+            state: {email: this.registro.email},
             skipLocationChange: true
           });
         },
@@ -173,25 +174,35 @@ export class CrearCuentaComponent implements OnInit {
       }
     }
 
-    if (controls['fecha']?.errors) {
-      if (controls['fecha'].hasError('required')) {
+    if (controls['fechaNacimiento']?.errors) { // Cambiar 'fecha' a 'fechaNacimiento'
+      if (controls['fechaNacimiento'].hasError('required')) {
         errorMessages.push('La fecha de nacimiento es obligatoria.');
       }
-      if (controls['fecha'].hasError('invalidAge')) {
+      if (controls['fechaNacimiento'].hasError('invalidAge')) {
         errorMessages.push('Debes tener al menos 18 años.');
       }
     }
 
     return errorMessages.join(' ');
   }
+
   private validateAge(control: any) {
+    if (!control.value) {
+      return {invalidAge: true};
+    }
+
     const birthDate = new Date(control.value);
     const today = new Date();
-    const age = today.getFullYear() - birthDate.getFullYear();
+
+    let age = today.getFullYear() - birthDate.getFullYear();
     const monthDiff = today.getMonth() - birthDate.getMonth();
-    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
-      return { invalidAge: true };
+    const dayDiff = today.getDate() - birthDate.getDate();
+
+    // Ajustar la edad si el mes o día actual es menor al de nacimiento
+    if (monthDiff < 0 || (monthDiff === 0 && dayDiff < 0)) {
+      age--;
     }
-    return age >= 18 ? null : { invalidAge: true };
+
+    return age >= 18 ? null : {invalidAge: true};
   }
 }

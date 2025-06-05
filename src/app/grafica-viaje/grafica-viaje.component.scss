@@ -1,0 +1,12 @@
+.chart-container {
+  position: relative;
+  height: 300px;
+  width: 100%;
+}
+
+@media screen and (max-width: 600px) {
+  .chart-container {
+    height: 250px;
+  }
+}
+

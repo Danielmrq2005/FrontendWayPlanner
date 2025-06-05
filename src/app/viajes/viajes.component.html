@@ -1,27 +1,28 @@
-<div class="sidebar" [class.expanded]="sidebarExpanded">
-  <div class="toggle-button" (click)="toggleSidebar()">
-    <ion-icon name="menu-outline"></ion-icon>
-  </div>
-  <div class="menu-items">
-    <div class="menu-item" [routerLink]="'/actu-usuario'">
-      <img src="assets/usuario.png" alt="Total Icon" class="menu-icon" />
-      <span class="menu-label">Total</span>
+<div [class.dark]="darkMode" class="container">
+  <div class="sidebar" [class.expanded]="sidebarExpanded">
+    <div class="toggle-button" (click)="toggleSidebar()">
+      <ion-icon name="menu-outline"></ion-icon>
     </div>
-    <div class="menu-item" [routerLink]="'/ajustes'">
-      <img src="assets/Ajustes.png" alt="Settings Icon" class="menu-icon" />
-      <span class="menu-label">Ajustes</span>
+    <div class="menu-items">
+      <div class="menu-item" [routerLink]="'/actu-usuario'">
+        <img src="assets/usuario.png" alt="Total Icon" class="menu-icon" />
+        <span class="menu-label">Total</span>
+      </div>
+      <div class="menu-item" [routerLink]="'/ajustes'">
+        <img src="assets/Ajustes.png" alt="Settings Icon" class="menu-icon" />
+        <span class="menu-label">Ajustes</span>
+      </div>
     </div>
   </div>
 </div>
 
-
-<ion-content
+<ion-content [class.dark]="darkMode"
   [ngClass]="{'main-content': true, 'sidebar-expanded': sidebarExpanded}"
   style="--background: #ffffff; padding: 16px;">
 
 
   <ion-header>
-    <ion-toolbar style="--background: #5B97D5; padding: 8px 16px;">
+    <ion-toolbar [style]="{'--background': darkMode ? '#1f1f1f' : '#5B97D5'}" style="display: flex; align-items: center; justify-content: space-between; padding: 0 16px;">
       <div style="display: flex; align-items: center; flex-wrap: wrap; justify-content: space-between;">
         <div style="display: flex; align-items: center; flex: 1;">
           <img src="assets/logo.png" alt="Logo" style="height: 40px; width: 95px; margin-right: -12px;">

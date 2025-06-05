@@ -44,7 +44,7 @@
           <div class="amount">+{{ resumen?.totalIngresos | currency:'EUR':'symbol'}} €</div>
         </span>
       </div>
-      <img src="assets/grafico.png" [routerLink]="['/GraficaViaje']" alt="Gráfico" class="chart-icon">
+      <img src="assets/grafico.png" [routerLink]="['/GraficaViaje', viajeId]" alt="Gráfico" class="chart-icon">
     </div>
 
     <ion-list class="gastos-list" [class.dark]="darkMode">
