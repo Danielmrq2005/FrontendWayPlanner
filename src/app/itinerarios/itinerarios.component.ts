@@ -118,7 +118,7 @@ export class ItinerariosComponent  implements OnInit {
 
       const dto: DiasItinerario = {
         idViaje: parseInt(this.idViaje!),
-        fecha: diaSeleccionado.fecha
+        idDia: diaSeleccionado.id
       };
       console.info('FFechaDTO: ', dto);
       this.ObtenerItinerariosPorDia(dto);

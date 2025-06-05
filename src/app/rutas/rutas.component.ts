@@ -3,7 +3,7 @@ import * as L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { IonicModule, IonModal } from "@ionic/angular";
 import { addIcons } from "ionicons";
-import { add } from "ionicons/icons";
+import {add, mapOutline} from "ionicons/icons";
 import { FormsModule } from "@angular/forms";
 import { OverlayEventDetail } from "@ionic/core/components";
 import { NgForOf } from "@angular/common";
@@ -32,7 +32,6 @@ export class RutasComponent implements AfterViewInit {
   private map!: L.Map;
   private markers: L.Marker[] = [];
 
-
   message = 'This modal example uses triggers to automatically open a modal when the button is clicked.';
   name!: string;
 
@@ -53,7 +52,7 @@ export class RutasComponent implements AfterViewInit {
     private diaService: DiaService,
     private temaService: TemaService
   ) {
-    addIcons({ add });
+    addIcons({ add: add, mapa: mapOutline });
     this.temaService.darkMode$.subscribe(isDark => {
       this.darkMode = isDark;
     });
@@ -120,6 +119,7 @@ export class RutasComponent implements AfterViewInit {
     this.diaService.obtenerDias(idViaje).subscribe({
       next: (diasRecibidos) => {
         this.dias = diasRecibidos;
+        console.log('Días obtenidos:', this.dias);
       },
       error: (err) => {
         console.error('Error al obtener días del viaje:', err);
@@ -137,16 +137,42 @@ export class RutasComponent implements AfterViewInit {
 
     const dto: DiasItinerario = {
       idViaje: parseInt(this.idViaje),
-      fecha: diaSel.fecha
+      idDia: diaSel.id
     };
 
     this.obtenerItinerariosPorDia(dto);
   }
 
+  abrirRutaEnGoogleMaps() {
+    const puntos = this.itinerariosDia.length > 0 ? this.itinerariosDia : this.itinerarios;
+
+    if (puntos.length === 0) {
+      console.warn('No hay puntos para mostrar en Google Maps');
+      return;
+    }
+
+    // Construye la URL de Google Maps para múltiples paradas
+    const origen = `${puntos[0].latitud},${puntos[0].longitud}`;
+    const destino = `${puntos[puntos.length - 1].latitud},${puntos[puntos.length - 1].longitud}`;
+
+    const waypoints = puntos.slice(1, -1) // todos menos el primero y último
+      .map(p => `${p.latitud},${p.longitud}`)
+      .join('|');
+
+    let url = `https://www.google.com/maps/dir/?api=1&origin=${origen}&destination=${destino}`;
+    if (waypoints) {
+      url += `&waypoints=${waypoints}`;
+    }
+
+    window.open(url, '_blank');
+  }
+
+
   private obtenerItinerariosPorDia(dto: DiasItinerario) {
     this.itinerarioService.obtenerItinerariosPorRutaDia(dto).subscribe({
       next: (response: Itinerario[]) => {
         this.itinerariosDia = response;
+        console.log(response);
         this.plotDayItineraries();
       },
       error: (error) => {

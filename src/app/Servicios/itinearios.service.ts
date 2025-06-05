@@ -25,11 +25,12 @@ export class ItineariosService {
     return this.http.post<any>(`${this.url}/viaje/dia`,dia);
   }
 
-  crearItinerario(itinerario: Itinerario) {
-    return this.http.post<any>(`${this.url}/crear`, itinerario);
+  crearItinerarioConFoto(formData: FormData) {
+    return this.http.post(`${this.url}/crear`, formData);
   }
 
+
   obtenerItinerariosPorRutaDia(dia: DiasItinerario): Observable<Itinerario[]> {
-    return this.http.post<any>(`${this.url}/viaje/dia`,dia);
+    return this.http.post<any>(`${this.url}/rutas/dias`,dia);
   }
 }
