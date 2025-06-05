@@ -1,0 +1,86 @@
+<ion-header>
+  <ion-toolbar color="light">
+    <ion-title class="titulo-itinerario">Actualizar Itinerario</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="cerrar()" color="primary">Cerrar</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding fondo-itinerario">
+  <form [formGroup]="formularioItinerario" (ngSubmit)="actualizarItinerario()">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title class="color-primario">Editar Actividad</ion-card-title>
+      </ion-card-header>
+
+      <ion-item>
+        <ion-label>Foto</ion-label>
+        <label for="foto" class="foto">
+          Seleccionar Foto
+        </label>
+        <input id="foto" type="file" (change)="onFotoChange($event)" accept="image/*" />
+      </ion-item>
+
+
+      <ion-card-content>
+        <ion-list lines="full">
+          <ion-item>
+            <ion-label position="floating">Actividad</ion-label>
+            <ion-input formControlName="actividad"></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="floating">Categoría</ion-label>
+            <ion-select formControlName="categoria">
+              <ion-select-option value="MUSEO">Museo</ion-select-option>
+              <ion-select-option value="IGLESIA">Iglesia</ion-select-option>
+              <ion-select-option value="PARQUE">Parque</ion-select-option>
+              <ion-select-option value="MONUMENTO">Monumento</ion-select-option>
+              <ion-select-option value="EVENTO">Evento</ion-select-option>
+              <ion-select-option value="OTROS">Otros</ion-select-option>
+            </ion-select>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="floating">Hora</ion-label>
+            <ion-input type="time" formControlName="hora"></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="floating">Duración</ion-label>
+            <ion-input formControlName="duracion"></ion-input>
+          </ion-item>
+
+          <div class="form-group">
+            <label>Elige sitio:</label>
+            <input id="autocomplete" type="text" placeholder="Buscar lugar..." class="map-search" />
+            <button class="recargar" (click)="recargarMapa()">Recargar mapa</button>
+            <div id="map" class="map-container"></div>
+          </div>
+
+          <ion-item>
+            <ion-label>¿Está en ruta?</ion-label>
+            <ion-toggle formControlName="estaEnRuta"></ion-toggle>
+          </ion-item>
+
+          <ion-item>
+            <ion-label>¿Aparece en itinerario?</ion-label>
+            <ion-toggle formControlName="apareceEnItinerario"></ion-toggle>
+          </ion-item>
+
+          <ion-item *ngIf="formularioItinerario.get('idbillete')?.value">
+            <ion-label position="floating">ID Billete</ion-label>
+            <ion-input formControlName="idbillete" readonly></ion-input>
+          </ion-item>
+
+
+        </ion-list>
+
+        <ion-button type="submit" expand="block" color="primary" class="ion-margin-top">
+          Guardar Cambios
+        </ion-button>
+      </ion-card-content>
+    </ion-card>
+  </form>
+</ion-content>

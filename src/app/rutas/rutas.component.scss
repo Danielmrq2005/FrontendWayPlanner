@@ -139,3 +139,18 @@ ion-content,
     --color: #5B97D5;
   }
 }
+
+.boton-inferior-modal {
+  position: absolute;
+  bottom: 16px;
+  left: 0;
+  width: 100%;
+  padding: 0 16px;
+  box-sizing: border-box;
+  z-index: 10;
+}
+
+ion-modal .ion-padding {
+  position: relative;
+  padding-bottom: 64px; // deja espacio para el botón
+}
