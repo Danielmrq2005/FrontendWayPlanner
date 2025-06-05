@@ -54,7 +54,7 @@ export class ListaBilletesComponent  implements OnInit {
   getNombreCategoria(nombre: string): string {
     switch (nombre?.toUpperCase()) {
       case 'AVION':
-        return 'Aviónes';
+        return 'Aviones';
       case 'TREN':
         return 'Trenes';
       case 'AUTOBUS':
