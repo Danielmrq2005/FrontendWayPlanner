@@ -21,21 +21,25 @@
 
 
   <ion-header>
-    <ion-toolbar style="--background: #5B97D5; padding: 8px 16px;">
-      <div style="display: flex; align-items: center; flex-wrap: wrap; justify-content: space-between;">
-        <div style="display: flex; align-items: center; flex: 1;">
-          <img src="assets/logo.png" alt="Logo" style="height: 40px; width: 95px; margin-right: -12px;">
-          <ion-title style="font-size: 1.2em; color: white;">Viajes</ion-title>
+    <ion-toolbar style="--background: #5B97D5; padding: 4px 12px;">
+      <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: nowrap; width: 100%; gap: 8px;">
+
+        <div style="display: flex; align-items: center; flex-shrink: 1;">
+          <img src="assets/logo.png" alt="Logo" style="height: 28px; margin-right: -5px;">
+          <ion-title style="font-size: 1em; color: white; margin: 0;">Viajes</ion-title>
         </div>
-        <div style="display: flex; align-items: center; gap: 12px; margin-top: 8px;">
-          <p style="color: white; font-size: 0.9em; margin: 0;">Bienvenido {{ Nombreusuario }}</p>
-          <img src="assets/icons8-campana-48.png" alt="Notificaciones" [routerLink]="['/notificaciones']" style="width: 30px; height: 30px;">
+
+        <div style="display: flex; align-items: center; gap: 8px; flex-shrink: 0;">
+          <p style="color: white; font-size: 0.75em; margin: 0;">Bienvenido {{ Nombreusuario }}</p>
+          <img src="assets/icons8-campana-48.png" alt="Notificaciones" [routerLink]="['/notificaciones']" style="width: 24px; height: 24px;">
         </div>
+
       </div>
-
     </ion-toolbar>
-
   </ion-header>
+
+
+
 
   <div class="viajes-movil">
     <div  class="viaje-movil-grid" *ngIf="viajes?.length">
