@@ -9,6 +9,8 @@ import {ListarObjetosMaletasDTO} from "../../../Modelos/Maletas/Items/ListarObje
 import {ItemsMaletaService} from "../../../Servicios/items-maleta.service";
 import {FormItemMaletaComponent} from "../form-item-maleta/form-item-maleta.component";
 
+import { jsPDF } from 'jspdf';
+
 @Component({
     selector: 'app-lista-items-maleta',
     templateUrl: './lista-items-maleta.component.html',
@@ -143,5 +145,87 @@ export class ListaItemsMaletaComponent  implements OnInit {
       default:
         return 'Otros';
     }
+  }
+
+  exportarPDF() {
+    const doc = new jsPDF();
+
+    const pageWidth = doc.internal.pageSize.getWidth();
+    const margin = 15;
+    let y = 30;
+
+    // Fondo encabezado azul
+    doc.setFillColor(107, 161, 216);
+    doc.rect(0, 0, pageWidth, 25, 'F');
+
+    // Título maleta en blanco
+    doc.setTextColor(255, 255, 255);
+    doc.setFontSize(22);
+    doc.setFont('helvetica', 'bold');
+    doc.text(`Maleta: ${this.maletaNombre}`, margin, 18);
+
+    // Línea separadora debajo del título
+    doc.setDrawColor(107, 161, 216);
+    doc.setLineWidth(1);
+    doc.line(margin, 27, pageWidth - margin, 27);
+
+    // Título sección
+    y = 40;
+    doc.setTextColor(0, 0, 0);
+    doc.setFontSize(16);
+    doc.text('Lista de Objetos:', margin, y);
+    y += 10;
+
+    // Encabezados de tabla
+    doc.setFontSize(12);
+    doc.setFont('helvetica', 'bold');
+
+    // Solo el título de la columna de selección
+    doc.text('', margin + 4, y);
+
+    // Otros encabezados
+    doc.text('Nombre', margin + 20, y);
+    doc.text('Cantidad', margin + 110, y, { align: 'center' });
+    doc.text('Categoría', margin + 145, y);
+    y += 5;
+
+    // Línea bajo encabezado
+    doc.setDrawColor(0, 0, 0);
+    doc.setLineWidth(0.5);
+    doc.line(margin, y, pageWidth - margin, y);
+    y += 7;
+
+    // Para centrar cantidad
+    const cantidadColX = margin + 95;
+    const cantidadColWidth = 30;
+    const cantidadCenterX = cantidadColX + cantidadColWidth / 2;
+
+    // Lista de items con checkbox vacío y cantidad centrada
+    doc.setFont('helvetica', 'normal');
+    const checkboxSize = 6;
+
+    this.itemsMaleta.forEach((item) => {
+      if (y > 280) {
+        doc.addPage();
+        y = 20;
+      }
+
+      // Checkbox vacío (cuadrado)
+      doc.rect(margin, y - checkboxSize + 3, checkboxSize, checkboxSize);
+
+      // Nombre del item
+      doc.text(item.nombre, margin + 20, y);
+
+      // Cantidad centrada
+      doc.text((item.cantidad || 1).toString(), cantidadCenterX, y, { align: 'center' });
+
+      // Categoría
+      doc.text(this.getNombreCategoria(item.categoria), margin + 145, y);
+
+      y += 10;
+    });
+
+    // Guardar PDF con nombre de la maleta
+    doc.save(`${this.maletaNombre || 'maleta'}.pdf`);
   }
 }
