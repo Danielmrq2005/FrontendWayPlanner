@@ -1,7 +1,7 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {IonicModule, IonModal} from "@ionic/angular";
 import {addIcons} from "ionicons";
-import {add} from "ionicons/icons";
+import {add, create, calendarNumberOutline} from "ionicons/icons";
 import {FormsModule} from "@angular/forms";
 import { OverlayEventDetail } from '@ionic/core/components';
 import {ActivatedRoute, RouterLink} from "@angular/router";
@@ -34,7 +34,7 @@ export class ItinerariosComponent  implements OnInit {
   diaSeleccionado: Dia | null = null;
   constructor(private route: ActivatedRoute, private itinerarioService: ItineariosService, private diaService: DiaService, private modalController: ModalController) {
 
-    addIcons({add})
+    addIcons({add, create, calendarNumberOutline})
   }
 
   ngOnInit() {

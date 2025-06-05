@@ -52,6 +52,7 @@
         <ion-card-header>
           <ion-card-title>{{itinerario.actividad}}</ion-card-title>
           <ion-card-subtitle>{{itinerario.duracion}}</ion-card-subtitle>
+          <ion-card-subtitle>{{this.diaSeleccionado?.fecha}}</ion-card-subtitle>
         </ion-card-header>
         <ion-card-content>
           <div *ngFor="let horario of filtrarHorariosPorDia(itinerario, diaSeleccionado?.diaSemana)">
@@ -70,8 +71,16 @@
 </ion-content>
 
 <ion-fab horizontal="end" vertical="bottom">
-  <ion-fab-button [routerLink]="['/crear-itinerario']">
+  <ion-fab-button>
     <ion-icon name="add"></ion-icon>
   </ion-fab-button>
+  <ion-fab-list side="top">
+    <ion-fab-button [routerLink]="['/crear-itinerario']">
+      <ion-icon name="create"></ion-icon>
+    </ion-fab-button>
+    <ion-fab-button [routerLink]="['/crear-dia']">
+      <ion-icon name="calendar-number-outline"></ion-icon>
+    </ion-fab-button>
+  </ion-fab-list>
 </ion-fab>
 

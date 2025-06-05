@@ -442,6 +442,18 @@ export class CrearItinerarioComponent  implements OnInit, AfterViewInit {
     this.obtenerDiasPorViaje();
   }
 
+  onToggleApareceEnItinerario(event: any) {
+    if (!event.detail.checked) {
+      this.itinerario.estaEnRuta = true;
+    }
+  }
+
+  onToggleEstaEnRuta(event: any) {
+    if (!event.detail.checked) {
+      this.itinerario.apareceEnItinerario = true;
+    }
+  }
+
 }
 
 //TODO: Hacer que horarios lo interprete como un objeto horario y hacer que la foto se muestre

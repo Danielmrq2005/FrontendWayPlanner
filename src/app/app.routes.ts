@@ -87,5 +87,9 @@ export const routes: Routes = [
   {
     path:'actu-itinerario',
     loadComponent: () => import('./actu-itinerario/actu-itinerario.component').then((m) => m.ActuItinerarioComponent),
+  },
+  {
+    path: 'crear-dia',
+    loadComponent: () => import('./crear-dia/crear-dia.component').then((m) => m.CrearDiaComponent),
   }
 ];
