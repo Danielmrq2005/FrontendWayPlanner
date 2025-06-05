@@ -18,6 +18,8 @@ Chart.register(ChartDataLabels);
 })
 export class GraficaViajeComponent implements OnInit, AfterViewInit {
   viajeId: number = 1;
+  darkMode = false;
+
 
   @ViewChild(BaseChartDirective) chart: BaseChartDirective | undefined;
 

@@ -1,37 +1,38 @@
-<ion-content class="ion-padding">
+<ion-content class="ion-padding" [class.dark]="darkMode">
   <div class="form-container">
     <h2 class="form-title">Nuevo Viaje</h2>
 
     <form class="form-content">
       <div class="form-group">
-        <label style="color: white" for="nombre">Nombre del viaje</label>
-        <input type="text" id="nombre" placeholder="Ej. Ruta por Europa" [(ngModel)]="nombre" name="nombre" />
+        <label for="nombre">Nombre del viaje</label>
+        <input type="text" id="nombre" placeholder="Ej. Ruta por Europa" />
       </div>
 
       <div class="form-group">
-        <label style="color: white" for="fechaInicio">Fecha de inicio</label>
-        <input type="date" id="fechaInicio" [(ngModel)]="fechaInicioStr" name="fechaInicio" />
+        <label for="fechaInicio">Fecha de inicio</label>
+        <input type="date" id="fechaInicio" />
       </div>
 
       <div class="form-group">
-        <label style="color: white" for="fechaFin">Fecha de fin</label>
-        <input type="date" id="fechaFin" [(ngModel)]="fechaFinStr" name="fechaFin" />
+        <label for="fechaFin">Fecha de fin</label>
+        <input type="date" id="fechaFin" />
       </div>
 
       <div class="form-group">
-        <label style="color: white" for="destino">Destino</label>
-        <input type="text" id="destino" placeholder="Ej. París, Madrid..." [(ngModel)]="destino" name="destino" />
+        <label for="destino">Destino</label>
+        <input type="text" id="destino" placeholder="Ej. París, Madrid..." />
       </div>
 
       <div class="form-group">
-        <label style="color: white" for="descripcion">Descripción</label>
-        <textarea id="descripcion" rows="4" placeholder="Describe tu aventura..." [(ngModel)]="descripcion" name="descripcion"></textarea>
+        <label for="descripcion">Descripción</label>
+        <textarea id="descripcion" rows="4" placeholder="Describe tu aventura..."></textarea>
       </div>
 
       <div class="button-container">
         <ion-button (click)="guardarViaje()" expand="block" style="--background: #5B97D5">
           💾 {{ idViajeEditar ? 'Actualizar Viaje' : 'Crear Viaje' }}
         </ion-button>
+
       </div>
 
       <ion-text color="danger" *ngIf="mensajeError">
@@ -44,10 +45,15 @@
     .form-container {
       max-width: 500px;
       margin: 2rem auto;
-      background-color: #5B97D5;
+      background-color: var(--form-background, #5B97D5);
       padding: 2rem;
-      box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+      box-shadow: 0 1px 4px rgba(0,0,0,0.2);
       border-radius: 12px;
+    }
+
+    :host-context(.dark) .form-container {
+      --form-background: #121010;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.4);
     }
 
     .form-title {
@@ -72,15 +78,24 @@
     .form-group label {
       margin-bottom: 0.5rem;
       font-weight: 500;
-      color: #333;
+      color: white;
     }
 
     .form-group input,
     .form-group textarea {
       padding: 0.75rem;
-      border: 1px solid #ccc;
+      border: 1px solid var(--input-border, #ccc);
       border-radius: 12px;
       font-size: 1rem;
+      background-color: var(--input-background, #ffffff);
+      color: var(--input-text, #000000);
+    }
+
+    :host-context(.dark) .form-group input,
+    :host-context(.dark) .form-group textarea {
+      --input-border: #404040;
+      --input-background: #2a2a2a;
+      --input-text: #ffffff;
     }
 
     .form-group input:focus,
@@ -92,6 +107,7 @@
 
     .button-container {
       margin-top: 1.5rem;
+
     }
 
     label {

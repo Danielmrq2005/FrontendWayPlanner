@@ -1,77 +1,79 @@
+<div class="app-container" [class.dark]="darkMode" [class.sidebar-expanded]="sidebarExpanded">
+  <app-menu-hamburguesa (expansionChange)="sidebarExpanded = $event"></app-menu-hamburguesa>
+  <div class="main-content" >
 
-<ion-content>
-
-  <ion-header>
-    <ion-toolbar   style="display: flex; --background: #5B97D5; align-items: center; justify-content: space-between; padding: 0 16px;">
-      <div style="display: flex; align-items: center;">
-        <img src="assets/logo.png" alt="Logo" style=" height: 25px; margin-right: 8px;">
-        <ion-title style="margin: 0; font-size: 1.0em; color: white">Itinerarios</ion-title>
+    <ion-header>
+      <ion-toolbar [style]="{'--background': darkMode ? '#1f1f1f' : '#5B97D5'}" style="display: flex; align-items: center; justify-content: space-between; padding: 0 16px;">
+        <div style="display: flex; align-items: center;">
+        <img src="assets/logo.png" alt="Logo" style="height: 40px; margin-right: 8px;">
+        <ion-title style="margin-right: -12px; font-size: 1.2em; color: white">Itinerarios</ion-title>
         <img src="assets/icons8-campana-48.png" alt="Notificaciones" [routerLink]="['/notificaciones']"  style="width: 30px; height: 30px;">
       </div>
-    </ion-toolbar>
-  </ion-header>
+      </ion-toolbar>
+    </ion-header>
 
-  <ion-segment [(ngModel)]="segmentoSeleccionado" (ionChange)="seleccionarSegmento(segmentoSeleccionado)">
-    <ion-segment-button value="default">
-      <ion-label>Todos</ion-label>
-    </ion-segment-button>
-    <ion-segment-button
-      *ngFor="let dia of diasViaje; let i = index"
-      [value]="'dia' + i">
-      <ion-label>Día {{ i + 1 }}</ion-label>
-    </ion-segment-button>
-  </ion-segment>
+    <ion-segment [(ngModel)]="segmentoSeleccionado" (ionChange)="seleccionarSegmento(segmentoSeleccionado)">
+      <ion-segment-button value="default">
+        <ion-label>Todos</ion-label>
+      </ion-segment-button>
+      <ion-segment-button
+        *ngFor="let dia of diasViaje; let i = index"
+        [value]="'dia' + i">
+        <ion-label>Día {{ i + 1 }}</ion-label>
+      </ion-segment-button>
+    </ion-segment>
 
-  <!-- TODOS -->
-  <div *ngIf="segmentoSeleccionado === 'default'" class="itinerarios-grid">
-    <div class="itinerario-card" *ngFor="let itinerario of itinerarios">
-      <ion-card class="carta">
-        <img src="https://ionicframework.com/docs/img/demos/card-media.png" class="imagenCarta"/>
-        <ion-card-header>
-          <ion-card-title>{{itinerario.actividad}}</ion-card-title>
-          <ion-card-subtitle>{{itinerario.duracion}}</ion-card-subtitle>
-        </ion-card-header>
-        <ion-card-content>
-          <div *ngFor="let horario of itinerario.horarios">
-            <ion-label>
-              {{horario.dia}} - {{ horario.horaInicio }} - {{ horario.horaFin }}
-              <span *ngIf="horario.isClosed" style="color: red;">(Cerrado)</span>
-              <span *ngIf="!horario.isClosed" style="color: green;">(Abierto)</span>
-            </ion-label>
-          </div>
-        </ion-card-content>
-      </ion-card>
+    <!-- TODOS -->
+    <div *ngIf="segmentoSeleccionado === 'default'" class="itinerarios-grid">
+      <div class="itinerario-card" *ngFor="let itinerario of itinerarios">
+        <ion-card class="carta">
+          <img src="https://ionicframework.com/docs/img/demos/card-media.png" class="imagenCarta"/>
+          <ion-card-header>
+            <ion-card-title>{{itinerario.actividad}}</ion-card-title>
+            <ion-card-subtitle>{{itinerario.duracion}}</ion-card-subtitle>
+          </ion-card-header>
+          <ion-card-content>
+            <div *ngFor="let horario of itinerario.horarios">
+              <ion-label>
+                {{horario.dia}} - {{ horario.horaInicio }} - {{ horario.horaFin }}
+                <span *ngIf="horario.isClosed" style="color: red;">(Cerrado)</span>
+                <span *ngIf="!horario.isClosed" style="color: green;">(Abierto)</span>
+              </ion-label>
+            </div>
+          </ion-card-content>
+        </ion-card>
+      </div>
     </div>
+
+    <!-- ITINERARIOS POR DÍA -->
+    <div *ngIf="segmentoSeleccionado !== 'default'" class="itinerarios-grid">
+      <div class="itinerario-card" *ngFor="let itinerario of itinerariosDia">
+        <ion-card class="carta">
+          <img src="https://ionicframework.com/docs/img/demos/card-media.png" class="imagenCarta"/>
+          <ion-card-header>
+            <ion-card-title>{{itinerario.actividad}}</ion-card-title>
+            <ion-card-subtitle>{{itinerario.duracion}}</ion-card-subtitle>
+          </ion-card-header>
+          <ion-card-content>
+            <div *ngFor="let horario of itinerario.horarios">
+              <ion-label>
+                {{horario.dia}} - {{ horario.horaInicio }} - {{ horario.horaFin }}
+                <span *ngIf="horario.isClosed" style="color: red;">(Cerrado)</span>
+                <span *ngIf="!horario.isClosed" style="color: green;">(Abierto)</span>
+              </ion-label>
+            </div>
+          </ion-card-content>
+        </ion-card>
+      </div>
+    </div>
+
+
   </div>
 
-  <!-- ITINERARIOS POR DÍA -->
-  <div *ngIf="segmentoSeleccionado !== 'default'" class="itinerarios-grid">
-    <div class="itinerario-card" *ngFor="let itinerario of itinerariosDia">
-      <ion-card class="carta">
-        <img src="https://ionicframework.com/docs/img/demos/card-media.png" class="imagenCarta"/>
-        <ion-card-header>
-          <ion-card-title>{{itinerario.actividad}}</ion-card-title>
-          <ion-card-subtitle>{{itinerario.duracion}}</ion-card-subtitle>
-        </ion-card-header>
-        <ion-card-content>
-          <div *ngFor="let horario of itinerario.horarios">
-            <ion-label>
-              {{horario.dia}} - {{ horario.horaInicio }} - {{ horario.horaFin }}
-              <span *ngIf="horario.isClosed" style="color: red;">(Cerrado)</span>
-              <span *ngIf="!horario.isClosed" style="color: green;">(Abierto)</span>
-            </ion-label>
-          </div>
-        </ion-card-content>
-      </ion-card>
-    </div>
-  </div>
-
-
-</ion-content>
-
-<ion-fab horizontal="end" vertical="bottom">
-  <ion-fab-button [routerLink]="['/crear-itinerario']">
-    <ion-icon name="add"></ion-icon>
-  </ion-fab-button>
-</ion-fab>
+  <ion-fab horizontal="end" vertical="bottom">
+    <ion-fab-button [routerLink]="['/crear-itinerario']">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</div>
 

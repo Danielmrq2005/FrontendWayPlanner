@@ -1,14 +1,15 @@
 
-<ion-content>
+<ion-content [class.dark]="darkMode" class="ion-padding">
   <div class="login-container">
     <img src="assets/Logo_WayPlanner.png" alt="login Icono" class="icon">
     <h2>Cambiar datos de ususario</h2>
 
-    <form [formGroup]="usuarioForm" (ngSubmit)="actualizarUsuario()">
+    <form [formGroup]="usuarioForm" (ngSubmit)="actualizarUsuario()" autocomplete="off">
       <ion-item lines="none">
         <ion-label position="floating">Nombre de usuario</ion-label>
         <ion-input
           id="nombre"
+          autocomplete="off"
           placeholder="Nombre de usuario"
           fill="outline"
           formControlName="nombre">
@@ -31,6 +32,7 @@
           id="password"
           placeholder="Contraseña"
           type="password"
+          autocomplete="off"
           fill="outline"
           formControlName="password">
         </ion-input>

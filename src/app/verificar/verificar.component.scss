@@ -1,0 +1,23 @@
+.code-input {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 20px;
+
+  input {
+    width: 40px;
+    height: 50px;
+    font-size: 24px;
+    text-align: center;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    outline: none;
+  }
+}
+.resend-link {
+  text-decoration: underline;
+  cursor: pointer;
+}
+.d-block {
+  display: block;
+}

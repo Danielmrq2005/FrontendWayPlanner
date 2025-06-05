@@ -11,13 +11,15 @@ import {NgForOf, NgIf} from "@angular/common";
 import {DiaService} from "../Servicios/dia.service";
 import {Dia} from "../Modelos/Dia";
 import {DiasItinerario} from "../Modelos/DiasItinerario";
+import {MenuHamburguesaComponent} from "../menu-hamburguesa/menu-hamburguesa.component";
+import {TemaService} from "../Servicios/tema.service";
 
 @Component({
   selector: 'app-itinerarios',
   templateUrl: './itinerarios.component.html',
   styleUrls: ['./itinerarios.component.scss'],
   standalone: true,
-  imports: [IonicModule, FormsModule, RouterLink, NgForOf, NgIf]
+    imports: [IonicModule, FormsModule, RouterLink, NgForOf, NgIf, MenuHamburguesaComponent]
 })
 export class ItinerariosComponent  implements OnInit {
   @ViewChild(IonModal) modal!: IonModal;
@@ -29,9 +31,16 @@ export class ItinerariosComponent  implements OnInit {
   itinerarios: Itinerario[] = [];
   diasViaje : Dia[] = [];
   itinerariosDia : Itinerario[] = [];
-  constructor(private route: ActivatedRoute, private itinerarioService: ItineariosService, private diaService: DiaService) {
+  sidebarExpanded = false;
+  darkMode = false;
+
+
+  constructor(private route: ActivatedRoute, private itinerarioService: ItineariosService, private diaService: DiaService, private temaService: TemaService) {
 
     addIcons({add})
+    this.temaService.darkMode$.subscribe(isDark => {
+      this.darkMode = isDark;
+    });
   }
 
   ngOnInit() {
@@ -42,6 +51,10 @@ export class ItinerariosComponent  implements OnInit {
     } else {
       console.error('ID de viaje no disponible');
     }
+  }
+
+  toggleSidebar() {
+    this.sidebarExpanded = !this.sidebarExpanded;
   }
 
   cancel() {

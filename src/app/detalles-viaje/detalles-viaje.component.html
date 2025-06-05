@@ -1,14 +1,15 @@
 <ion-header>
-  <ion-toolbar style="display: flex; --background: #5B97D5; align-items: center; justify-content: space-between; padding: 0 16px;">
-    <div style="display: flex; align-items: center;">
+  <ion-toolbar [style]="{'--background': darkMode ? '#1f1f1f' : '#5B97D5'}" style="display: flex; align-items: center; justify-content: space-between; padding: 0 16px;">
+    <div style="display: flex; align-items: center;">    <div style="display: flex; align-items: center;">
       <img src="assets/logo.png" alt="Logo" style="height: 40px; margin-right: 8px;">
       <ion-title style="margin: 0; font-size: 20px; color: white">Detalles viaje</ion-title>
       <img src="assets/icons8-campana-48.png" alt="Notificaciones" style="width: 30px; height: 30px;">
     </div>
+    </div>
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding">
+<ion-content class="ion-padding" [class.dark]="darkMode">
   <div class="viaje-detalle-container">
     <div class="contenedor_titulo">
       <h1 class="viaje-nombre">✈️ {{viaje?.nombre}}</h1>
@@ -112,6 +113,36 @@
       justify-content: center;
       align-items: center;
       display: inline-block;
+    }
+    ion-content.dark {
+      --background: #121212;
+
+      .viaje-detalle-container {
+        .viaje-nombre {
+          color: #e0e0e0;
+        }
+
+        .detalle-label {
+          color: #e0e0e0;
+        }
+
+        .detalle-contenido {
+          background-color: #2d2d2d;
+          color: #e0e0e0;
+          box-shadow: 0 1px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .contenedor_titulo {
+          background-color: #2d2d2d;
+          border-color: #3d3d3d;
+        }
+
+        .botones {
+          ion-button {
+            --background: #5B97D5;
+          }
+        }
+      }
     }
   </style>
 </ion-content>

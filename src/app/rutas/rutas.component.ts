@@ -15,6 +15,7 @@ import { ItineariosService } from "../Servicios/itinearios.service";
 import { Itinerario } from "../Modelos/Itinerario";
 import { Dia } from "../Modelos/Dia";
 import { DiasItinerario } from "../Modelos/DiasItinerario";
+import {TemaService} from "../Servicios/tema.service";
 
 @Component({
   selector: 'app-rutas',
@@ -31,6 +32,7 @@ export class RutasComponent implements AfterViewInit {
   private map!: L.Map;
   private markers: L.Marker[] = [];
 
+
   message = 'This modal example uses triggers to automatically open a modal when the button is clicked.';
   name!: string;
 
@@ -39,17 +41,22 @@ export class RutasComponent implements AfterViewInit {
   itinerariosDia: Itinerario[] = [];
   dias: Dia[] = [];
   diaSeleccionado: any;
+  darkMode = false;
 
-  // Coordenadas Madrid para usar por defecto
+
   private readonly madridCoords: L.LatLngExpression = [40.4168, -3.7038];
 
   constructor(
     private route: ActivatedRoute,
     private http: HttpClient,
     private itinerarioService: ItineariosService,
-    private diaService: DiaService
+    private diaService: DiaService,
+    private temaService: TemaService
   ) {
     addIcons({ add });
+    this.temaService.darkMode$.subscribe(isDark => {
+      this.darkMode = isDark;
+    });
   }
 
   ngOnInit() {
@@ -72,16 +79,21 @@ export class RutasComponent implements AfterViewInit {
     this.map = L.map('map', {
       center: this.madridCoords,
       zoom: 6,
+      minZoom: 5,
+      maxZoom: 18,
       attributionControl: false,
     });
+
 
     L.control.attribution({
       position: 'bottomleft'
     }).addTo(this.map);
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '© WayPlanner'
+      attribution: '© WayPlanner',
+      noWrap: true
     }).addTo(this.map);
+
 
     this.puntos.forEach(p => {
       const mk = L.marker([p.lat, p.lng]);
@@ -108,12 +120,6 @@ export class RutasComponent implements AfterViewInit {
     this.diaService.obtenerDias(idViaje).subscribe({
       next: (diasRecibidos) => {
         this.dias = diasRecibidos;
-
-
-        const dia1 = this.dias.find(d => d.numeroDia === 1);
-        if (dia1) {
-          this.diaSeleccionado = dia1.id;
-        }
       },
       error: (err) => {
         console.error('Error al obtener días del viaje:', err);
@@ -125,7 +131,7 @@ export class RutasComponent implements AfterViewInit {
     const diaSel = this.dias.find(d => d.id === idDia);
     if (!diaSel || !this.idViaje) {
       this.clearMarkers();
-      this.map.setView(this.madridCoords, 6);  // CENTRAR EN MADRID SI NO HAY DÍA
+      this.map.setView(this.madridCoords, 6);
       return;
     }
 
@@ -161,7 +167,6 @@ export class RutasComponent implements AfterViewInit {
     this.clearMarkers();
 
     if (this.itinerariosDia.length === 0) {
-      // Si no hay itinerarios para el día, centramos en Madrid
       this.map.setView(this.madridCoords, 6);
       return;
     }
@@ -181,13 +186,11 @@ export class RutasComponent implements AfterViewInit {
       const group = new L.FeatureGroup(this.markers);
       this.map.fitBounds(group.getBounds().pad(0.2));
     } else {
-      // Si por alguna razón no hay marcadores válidos, centramos en Madrid
       this.map.setView(this.madridCoords, 6);
     }
   }
 
   private plotMarkers(itinerarios: Itinerario[]) {
-    // Opcional: limpiar marcadores antes
     this.clearMarkers();
 
     itinerarios.forEach(it => {
@@ -208,8 +211,6 @@ export class RutasComponent implements AfterViewInit {
       this.map.setView(this.madridCoords, 6);
     }
   }
-
-  // Modal y otras funciones sin cambios...
 
   reordenar(event: CustomEvent) {
     const movedItem = this.itinerarios.splice(event.detail.from, 1)[0];
@@ -232,16 +233,10 @@ export class RutasComponent implements AfterViewInit {
   }
 
   eliminarItem(index: number) {
-
     this.itinerarios.splice(index, 1);
-
-
     if (this.markers[index]) {
       this.markers[index].remove();
       this.markers.splice(index, 1);
     }
   }
-
-  //TODO: HACER QUE BORRAR UN ITINERARIO CAMBIE EL BOOLEANO A FALSE EN EL SERVICIO
-
 }

@@ -15,6 +15,7 @@ import {NotificacionesService} from "../Servicios/notificaciones.service";
 import {jwtDecode} from "jwt-decode";
 import {Notificacion} from "../Modelos/notificacion";
 import { CommonModule } from '@angular/common';
+import {TemaService} from "../Servicios/tema.service";
 
 @Component({
   selector: 'app-notificaciones',
@@ -37,8 +38,14 @@ import { CommonModule } from '@angular/common';
 export class NotificacionesComponent  implements OnInit {
     usuarioId: number = 0;
     notificaciones: Notificacion[] = [];
+    darkMode = false;
 
-  constructor(private notificacionesService : NotificacionesService) { }
+
+  constructor(private notificacionesService : NotificacionesService, private temaService: TemaService) {
+    this.temaService.darkMode$.subscribe(isDark => {
+      this.darkMode = isDark;
+    });
+  }
 
   ngOnInit() {
     this.usuarioId = this.obtenerUsuarioId();

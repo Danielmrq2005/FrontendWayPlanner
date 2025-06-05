@@ -14,6 +14,7 @@ import {Billete} from "../Modelos/Billete";
 import {Itinerario} from "../Modelos/Itinerario";
 import { AfterViewInit } from '@angular/core';
 import {ItineariosService} from "../Servicios/itinearios.service";
+import {TemaService} from "../Servicios/tema.service";
 
 
 @Component({
@@ -30,8 +31,14 @@ import {ItineariosService} from "../Servicios/itinearios.service";
   ]
 })
 export class CrearItinerarioComponent  implements OnInit, AfterViewInit {
+  darkMode = false;
 
-  constructor(private viajeService: ViajeService, private diaService : DiaService, private billeteService: BilleteService, private itinerarioService: ItineariosService) { }
+
+  constructor(private viajeService: ViajeService, private diaService : DiaService, private billeteService: BilleteService, private itinerarioService: ItineariosService, private temaService: TemaService) {
+    this.temaService.darkMode$.subscribe(isDark => {
+      this.darkMode = isDark;
+    });
+  }
 
   ngOnInit() {
       this.obtenerViajesPorUsuario();
