@@ -97,7 +97,7 @@ export class ListaBilletesComponent  implements OnInit {
 
   cargarBilletes() {
     this.route.paramMap.subscribe(params => {
-      const viajeId = Number(this.route.snapshot.paramMap.get('viajeId'));
+      const viajeId = Number(this.route.snapshot.paramMap.get('id'));
       console.log('ID del viaje:', viajeId);
       const categoria = this.route.snapshot.paramMap.get('categoria');
       console.log('Categoría:', categoria);

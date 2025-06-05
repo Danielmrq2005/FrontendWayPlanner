@@ -15,6 +15,9 @@ import { FormsModule } from "@angular/forms";
 import { NgIf } from "@angular/common";
 import {DomSanitizer, SafeResourceUrl} from "@angular/platform-browser";
 import {HttpClient} from "@angular/common/http";
+import {Billete} from "../../../Modelos/Billete";
+import {BilleteService} from "../../../Servicios/billete.service";
+import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
   selector: 'app-form-billete',
@@ -40,6 +43,8 @@ export class FormBilleteComponent implements OnInit {
 
   @Output() cancelado  = new EventEmitter<void>();
 
+  viajeId: string | null = null;
+
   tituloBillete: string = '';
   categoriaBillete: string = '';
   archivoPdf: File | null = null;
@@ -47,12 +52,23 @@ export class FormBilleteComponent implements OnInit {
   nombreArchivoPdf: string | null = null;
   vistaPreviaPdfUrl: SafeResourceUrl | null = null;
 
+
+  // Billete
+  billete: Billete = {
+    nombre: '',
+    categoria: '',
+    pdf: '',
+    viajeId: 0
+  }
+
   @Output() cancelarFormulario = new EventEmitter<void>();
   @Output() billeteGuardado = new EventEmitter<any>();
 
-  constructor(private sanitizer: DomSanitizer, private http: HttpClient) {}
+  constructor(private route: ActivatedRoute, private sanitizer: DomSanitizer, private billeteService: BilleteService ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.viajeId = this.route.snapshot.paramMap.get('id');
+  }
 
   seleccionarArchivoPdf(): void {
     const input = document.getElementById('inputPdfBillete') as HTMLInputElement;
@@ -90,20 +106,31 @@ export class FormBilleteComponent implements OnInit {
     }
 
     const formData = new FormData();
-    formData.append('nombre', this.tituloBillete);
-    formData.append('categoria', this.categoriaBillete);
-    formData.append('viajeId', '1'); // 🔁 Puedes reemplazar con el viajeId real
+
+    this.billete.nombre = this.tituloBillete;
+    this.billete.categoria = this.categoriaBillete;
+    this.billete.pdf = this.archivoPdf.name;
+    this.billete.viajeId = Number(this.viajeId);
+
+    formData.append('billete', new Blob([JSON.stringify(this.billete)], { type: 'application/json' }));
     formData.append('pdf', this.archivoPdf);
 
-    this.http.post('http://localhost:8080/nuevo_billete', formData).subscribe({
-      next: (respuesta) => {
-        console.log('Billete guardado:', respuesta);
-        this.billeteGuardado.emit(respuesta);
+    console.log('Datos del billete:', this.billete);
+
+    this.billeteService.crearBillete(formData).subscribe({
+      next: (response) => {
+        console.log('Billete guardado exitosamente:', response);
+        this.billeteGuardado.emit(response);
         this.limpiarFormulario();
       },
-      error: (error) => {
-        console.error('Error al guardar el billete:', error);
-        alert('Ocurrió un error al guardar el billete.');
+      error: (err) => {
+        console.error('Error al guardar el billete:', err);
+        alert('Error al guardar el billete. Por favor, inténtalo de nuevo.');
+      },
+      complete: () => {
+        console.log('Proceso de guardado completado.');
+        this.limpiarFormulario();
+        this.cancelado.emit();
       }
     });
   }
@@ -114,5 +141,6 @@ export class FormBilleteComponent implements OnInit {
     this.categoriaBillete = '';
     this.archivoPdf = null;
     this.nombreArchivoPdf = '';
+    this.vistaPreviaPdfUrl = null;
   }
 }

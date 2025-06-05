@@ -3,5 +3,5 @@ export interface Billete{
   nombre: string;
   categoria: string;
   pdf: string;
-  idViaje: number;
+  viajeId: number;
 }
