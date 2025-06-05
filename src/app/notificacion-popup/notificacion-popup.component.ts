@@ -13,9 +13,10 @@ import { CommonModule } from "@angular/common";
 })
 export class NotificacionPopupComponent implements OnInit {
 
-  notificacion?: Notificacion;
+  notificacion?: Notificacion
   visible = false;
   ultimoIdMostrado: number = 0; // ✅ Nuevo: ID de la última notificación mostrada
+
 
   constructor(private notificacionservice: NotificacionesService) { }
 
@@ -24,10 +25,15 @@ export class NotificacionPopupComponent implements OnInit {
 
     setInterval(() => {
       this.notificacionservice.obtenerNotificacionesPorUsuario(usuarioId).subscribe(notis => {
-        if (notis.length === 0) return;
+        if (notis.length === 0) return; // 👈 No mostrar nada si no hay notificaciones
 
         const ultima = notis[notis.length - 1];
 
+        if (!this.notificacion || this.notificacion.id !== ultima.id) {
+          this.notificacion = ultima;
+          this.visible = true;
+          setTimeout(() => this.visible = false, 5000);
+        }
         if (ultima.id === this.ultimoIdMostrado) return;
 
         this.ultimoIdMostrado = ultima.id;
@@ -39,11 +45,13 @@ export class NotificacionPopupComponent implements OnInit {
     }, 60000);
   }
 
+
   obtenerUsuarioId(): number {
     const token = sessionStorage.getItem('authToken');
     if (token) {
       try {
         const decodedToken: any = jwtDecode(token);
+        console.log(decodedToken);
         return decodedToken.tokenDataDTO?.id || 0;
       } catch (error) {
         console.error('Error al decodificar el token', error);
@@ -51,4 +59,6 @@ export class NotificacionPopupComponent implements OnInit {
     }
     return 0;
   }
+
+
 }

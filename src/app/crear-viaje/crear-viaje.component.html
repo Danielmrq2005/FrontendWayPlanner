@@ -29,10 +29,15 @@
       </div>
 
       <div class="button-container">
-        <ion-button (click)="guardarViaje()" expand="block">
+        <ion-button (click)="guardarViaje()" expand="block" style="--background: #5B97D5">
           💾 {{ idViajeEditar ? 'Actualizar Viaje' : 'Crear Viaje' }}
         </ion-button>
+
       </div>
+
+      <ion-text color="danger" *ngIf="mensajeError">
+        <p class="ion-padding-start">{{ mensajeError }}</p>
+      </ion-text>
     </form>
   </div>
 
@@ -96,16 +101,17 @@
     .form-group input:focus,
     .form-group textarea:focus {
       outline: none;
-      border-color: var(--ion-color-primary);
+      border-color: #3880ff;
       box-shadow: 0 0 0 2px rgba(56, 128, 255, 0.2);
     }
 
     .button-container {
       margin-top: 1.5rem;
+
     }
 
-    ion-button {
-      --background: var(--form-background, #5B97D5);
+    label {
+      color: #fff;
     }
   </style>
 </ion-content>

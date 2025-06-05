@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import * as L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import { IonicModule, IonModal } from "@ionic/angular";
+import {ActionSheetController, IonicModule, IonModal} from "@ionic/angular";
 import { addIcons } from "ionicons";
 import {add, mapOutline} from "ionicons/icons";
 import { FormsModule } from "@angular/forms";
@@ -50,6 +50,7 @@ export class RutasComponent implements AfterViewInit {
     private http: HttpClient,
     private itinerarioService: ItineariosService,
     private diaService: DiaService,
+    private actionSheetCtrl: ActionSheetController,
     private temaService: TemaService
   ) {
     addIcons({ add: add, mapa: mapOutline });
@@ -258,11 +259,59 @@ export class RutasComponent implements AfterViewInit {
     }
   }
 
-  eliminarItem(index: number) {
-    this.itinerarios.splice(index, 1);
-    if (this.markers[index]) {
-      this.markers[index].remove();
-      this.markers.splice(index, 1);
-    }
+  async eliminarItem(index: number) {
+    const actionSheet = await this.actionSheetCtrl.create({
+      header: '¿Qué deseas hacer?',
+      buttons: [
+        {
+          text: 'Eliminar solo de la ruta',
+          icon: 'remove-circle-outline',
+          handler: () => {
+            const itinerario = this.itinerarios[index];
+            // Llama a tu servicio para eliminar el itinerario por completo
+            this.itinerarioService.borrarEnRuta(itinerario.id).subscribe({
+              next: () => {
+                this.itinerarios.splice(index, 1);
+                if (this.markers[index]) {
+                  this.markers[index].remove();
+                  this.markers.splice(index, 1);
+                }
+              },
+              error: (err) => {
+                console.error('Error al eliminar itinerario:', err);
+              }
+            });
+          }
+        },
+        {
+          text: 'Eliminar itinerario por completo',
+          icon: 'trash-outline',
+          role: 'destructive',
+          handler: () => {
+            const itinerario = this.itinerarios[index];
+            // Llama a tu servicio para eliminar el itinerario por completo
+            this.itinerarioService.borrarPorCompleto(itinerario.id).subscribe({
+              next: () => {
+                this.itinerarios.splice(index, 1);
+                if (this.markers[index]) {
+                  this.markers[index].remove();
+                  this.markers.splice(index, 1);
+                }
+              },
+              error: (err) => {
+                console.error('Error al eliminar itinerario:', err);
+              }
+            });
+          }
+        },
+        {
+          text: 'Cancelar',
+          icon: 'close',
+          role: 'cancel'
+        }
+      ]
+    });
+
+    await actionSheet.present();
   }
 }

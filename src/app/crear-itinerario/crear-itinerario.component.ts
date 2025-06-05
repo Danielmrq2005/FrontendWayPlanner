@@ -14,10 +14,10 @@ import {Billete} from "../Modelos/Billete";
 import {Itinerario} from "../Modelos/Itinerario";
 import { AfterViewInit } from '@angular/core';
 import {ItineariosService} from "../Servicios/itinearios.service";
+import {TemaService} from "../Servicios/tema.service";
 import {Horario} from "../Modelos/Horario";
 import {HorarioService} from "../Servicios/horario.service";
 import {Router} from "@angular/router";
-import {TemaService} from "../Servicios/tema.service";
 
 
 @Component({
@@ -35,6 +35,7 @@ import {TemaService} from "../Servicios/tema.service";
 })
 export class CrearItinerarioComponent  implements OnInit, AfterViewInit {
   darkMode = false;
+
 
   constructor(private viajeService: ViajeService, private diaService : DiaService, private billeteService: BilleteService, private itinerarioService: ItineariosService, private horarioService: HorarioService, private router: Router, private temaService: TemaService) {
     this.temaService.darkMode$.subscribe(isDark => {
@@ -113,6 +114,7 @@ export class CrearItinerarioComponent  implements OnInit, AfterViewInit {
     estaEnRuta: false,
     apareceEnItinerario: false,
     hora: '',
+    medioTransporte: '',
     duracion: '',
     foto: '',
     categoria: '',
@@ -149,6 +151,7 @@ export class CrearItinerarioComponent  implements OnInit, AfterViewInit {
   dia = {
     fecha: '',
     numeroDia: 0,
+    diaSemana: '',
     idViaje: 0
   }
 
@@ -230,7 +233,6 @@ export class CrearItinerarioComponent  implements OnInit, AfterViewInit {
       this.billeteService.crearBillete(formData).subscribe({
         next: (response: any) => {
           console.log('Billete creado exitosamente:', response);
-          this.idBilleteSeleccionado = response.id;
         },
         error: (err) => {
           console.error('Error al crear el billete:', err);
@@ -251,11 +253,13 @@ export class CrearItinerarioComponent  implements OnInit, AfterViewInit {
     if (
       this.dia.fecha.trim() !== '' &&
       this.dia.numeroDia > 0 &&
+      this.dia.diaSemana.trim() !== '' &&
       this.idViajeSeleccionado
     ) {
       const diaData: Dia = {
         fecha: this.dia.fecha,
         numeroDia: this.dia.numeroDia,
+        diaSemana: this.dia.diaSemana,
         idViaje: this.idViajeSeleccionado
       };
 
@@ -268,7 +272,7 @@ export class CrearItinerarioComponent  implements OnInit, AfterViewInit {
         },
         complete: () => {
           console.log('Proceso de creación de día completado');
-          this.dia = { fecha: '', numeroDia: 0, idViaje: 0 };
+          this.dia = { fecha: '', numeroDia: 0, diaSemana: '', idViaje: 0 };
           this.mostrarFormularioDia = false;
           this.obtenerDiasPorViaje();
         }
@@ -295,6 +299,7 @@ export class CrearItinerarioComponent  implements OnInit, AfterViewInit {
       this.itinerario.latitud.trim() !== '' &&
       this.itinerario.longitud.trim() !== '' &&
       this.itinerario.hora.trim() !== '' &&
+      this.itinerario.medioTransporte.trim() !== '' &&
       this.itinerario.duracion.trim() !== '' &&
       this.itinerario.categoria.trim() !== ''
     ) {
@@ -324,7 +329,6 @@ export class CrearItinerarioComponent  implements OnInit, AfterViewInit {
         next: (response: any) => {
           console.log('Itinerario creado exitosamente:', response)
           this.itinerarioCreadoId = response.id ;
-          console.log('EL puto id es: '  + this.itinerarioCreadoId);
         },
         error: (err) => {
           console.error('Error al crear el itinerario:', err);
@@ -370,6 +374,7 @@ export class CrearItinerarioComponent  implements OnInit, AfterViewInit {
       estaEnRuta: false,
       apareceEnItinerario: false,
       hora: '',
+      medioTransporte: '',
       duracion: '',
       foto: '',
       categoria: '',
@@ -420,6 +425,12 @@ export class CrearItinerarioComponent  implements OnInit, AfterViewInit {
     }
   }
 
+  recargarMapa() {
+    setTimeout(() => {
+      this.inicializarMapa();
+    }, 100); // Delay opcional para asegurar que el DOM esté listo
+  }
+
 
 
   onPdfSeleccionado(event: Event) {
@@ -432,6 +443,18 @@ export class CrearItinerarioComponent  implements OnInit, AfterViewInit {
 
   onViajeChange() {
     this.obtenerDiasPorViaje();
+  }
+
+  onToggleApareceEnItinerario(event: any) {
+    if (!event.detail.checked) {
+      this.itinerario.estaEnRuta = true;
+    }
+  }
+
+  onToggleEstaEnRuta(event: any) {
+    if (!event.detail.checked) {
+      this.itinerario.apareceEnItinerario = true;
+    }
   }
 
 }

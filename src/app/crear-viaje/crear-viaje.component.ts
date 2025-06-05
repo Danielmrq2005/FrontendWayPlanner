@@ -2,15 +2,15 @@ import { Component, OnInit } from '@angular/core';
 import { FormsModule } from "@angular/forms";
 import {
   IonButton,
-  IonContent
+  IonContent, IonText
 } from "@ionic/angular/standalone";
 import { Viaje } from "../Modelos/Viaje";
 import { ViajeService } from "../Servicios/viaje.service";
 import { ActivatedRoute, Router } from "@angular/router";
 import { jwtDecode } from "jwt-decode";
-import {IonicModule} from "@ionic/angular";
-import {CommonModule} from "@angular/common";
 import {TemaService} from "../Servicios/tema.service";
+import { IonicModule } from "@ionic/angular";
+import { CommonModule } from "@angular/common";
 
 @Component({
   selector: 'app-crear-viaje',
@@ -21,7 +21,8 @@ import {TemaService} from "../Servicios/tema.service";
     FormsModule,
     CommonModule,
     IonContent,
-    IonButton
+    IonButton,
+    IonText
   ]
 })
 export class CrearViajeComponent implements OnInit {
@@ -30,6 +31,13 @@ export class CrearViajeComponent implements OnInit {
   idViajeEditar: number | null = null;
   darkMode = false;
 
+  mensajeError: string | null = null;
+
+  nombre = '';
+  descripcion = '';
+  fechaInicioStr = '';
+  fechaFinStr = '';
+  destino = '';
 
   constructor(
     private viajeservice: ViajeService,
@@ -54,12 +62,11 @@ export class CrearViajeComponent implements OnInit {
   cargarViajeExistente(id: number) {
     this.viajeservice.viajePorId(id).subscribe({
       next: (viaje) => {
-        this.viaje = viaje;
-        (document.getElementById('nombre') as HTMLInputElement).value = viaje.nombre;
-        (document.getElementById('descripcion') as HTMLInputElement).value = viaje.descripcion;
-        (document.getElementById('fechaInicio') as HTMLInputElement).value = this.formatFecha(viaje.fechaInicio);
-        (document.getElementById('fechaFin') as HTMLInputElement).value = this.formatFecha(viaje.fechaFin);
-        (document.getElementById('destino') as HTMLInputElement).value = viaje.destino;
+        this.nombre = viaje.nombre;
+        this.descripcion = viaje.descripcion;
+        this.fechaInicioStr = this.formatFecha(viaje.fechaInicio);
+        this.fechaFinStr = this.formatFecha(viaje.fechaFin);
+        this.destino = viaje.destino;
       },
       error: (err) => console.error('Error cargando viaje:', err)
     });
@@ -71,15 +78,42 @@ export class CrearViajeComponent implements OnInit {
   }
 
   guardarViaje() {
+    const fechaInicio = new Date(this.fechaInicioStr);
+    const fechaFin = new Date(this.fechaFinStr);
+    const hoy = new Date();
+    hoy.setHours(0, 0, 0, 0);
+
+    if (!this.nombre || !this.descripcion || !this.fechaInicioStr || !this.fechaFinStr || !this.destino) {
+      this.mensajeError = 'Por favor, rellena todos los campos.';
+      return;
+    }
+
+    if (fechaInicio < hoy) {
+      this.mensajeError = "La fecha de inicio no puede ser anterior a hoy.";
+      return;
+    }
+
+    if (fechaFin < hoy) {
+      this.mensajeError = "La fecha de fin no puede ser anterior a hoy.";
+      return;
+    }
+
+    if (fechaFin <= fechaInicio) {
+      this.mensajeError = "La fecha de fin debe ser posterior a la de inicio.";
+      return;
+    }
+
+    this.mensajeError = null;
+
     const idusuario = this.obtenerUsuarioId();
 
     const viajeForm: Viaje = {
-      nombre : (document.getElementById('nombre') as HTMLInputElement).value,
-      descripcion : (document.getElementById('descripcion') as HTMLInputElement).value,
-      fechaInicio : new Date((document.getElementById('fechaInicio') as HTMLInputElement).value),
-      fechaFin : new Date((document.getElementById('fechaFin') as HTMLInputElement).value),
-      destino : (document.getElementById('destino') as HTMLInputElement).value,
-      usuario : {
+      nombre: this.nombre,
+      descripcion: this.descripcion,
+      fechaInicio,
+      fechaFin,
+      destino: this.destino,
+      usuario: {
         id: idusuario
       }
     };
@@ -87,20 +121,15 @@ export class CrearViajeComponent implements OnInit {
     if (this.idViajeEditar !== null) {
       viajeForm.id = this.idViajeEditar;
       this.viajeservice.editarViaje(this.idViajeEditar, viajeForm).subscribe({
-        next: () => {
-          console.log('Viaje actualizado exitosamente');
-          this.router.navigate(['/viajes']);
-        },
+        next: () => this.router.navigate(['/viajes']),
         error: (error) => {
           console.error('Error al actualizar el viaje:', error);
+          this.router.navigate(['/viajes']);
         }
       });
     } else {
       this.viajeservice.crearviaje(viajeForm).subscribe({
-        next: () => {
-          console.log('Viaje creado exitosamente');
-          this.router.navigate(['/viajes']);
-        },
+        next: () => this.router.navigate(['/viajes']),
         error: (error) => {
           console.error('Error al crear el viaje:', error);
         }
@@ -108,16 +137,11 @@ export class CrearViajeComponent implements OnInit {
     }
   }
 
-  crearViaje() {
-    // Método original sin modificar por si lo necesitas separado
-  }
-
   obtenerUsuarioId(): number {
     const token = sessionStorage.getItem('authToken');
     if (token) {
       try {
         const decodedToken: any = jwtDecode(token);
-        console.log(decodedToken);
         return decodedToken.tokenDataDTO?.id || 0;
       } catch (error) {
         console.error('Error al decodificar el token', error);
@@ -125,5 +149,4 @@ export class CrearViajeComponent implements OnInit {
     }
     return 0;
   }
-
 }
