@@ -5,8 +5,12 @@
   height: 100%;
   width: 60px;
   background-color: #5B97D5;
-  transition: width 0.3s ease;
+  transition: width 0.3s ease, background-color 0.3s ease;
   z-index: 1000;
+
+  &.dark-theme {
+    background-color: #1e1e1e;
+  }
 }
 
 .sidebar.expanded {
@@ -28,7 +32,7 @@
   width: 100%;
 
   &:hover {
-    background-color: #34495e;
+    background-color: rgba(255, 255, 255, 0.1);
   }
 }
 
@@ -45,6 +49,7 @@
   min-width: 24px;
   width: 24px;
   height: 24px;
+  filter: brightness(0) invert(1);
 }
 
 .toggle-button {
@@ -56,6 +61,7 @@
 :host ::ng-deep ion-content {
   --padding-start: 60px;
   transition: --padding-start 0.3s ease;
+  --background: var(--ion-background-color);
 }
 
 :host ::ng-deep ion-content.sidebar-expanded {
@@ -64,4 +70,58 @@
 
 .main-content {
   transition: all 0.3s ease;
+}
+
+.viajes-movil {
+  padding-top: 16px;
+}
+
+.viaje-movil-grid {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.viaje-movil-item {
+  background-color: #5B97D5;
+  color: white;
+  width: 90%;
+  max-width: 400px;
+  padding: 16px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  font-size: 1.2em;
+  gap: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s;
+
+  .dark & {
+    background-color: #1e1e1e;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  }
+}
+
+.viaje-movil-item:hover {
+  transform: translateY(-5px);
+}
+
+.img-avion {
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  filter: brightness(0) invert(1);
+}
+
+.viaje-movil-item span {
+  flex-grow: 1;
+  font-size: 1.2em;
+}
+
+@media (min-width: 768px) {
+  .viaje-movil-item {
+    max-width: 600px;
+  }
 }

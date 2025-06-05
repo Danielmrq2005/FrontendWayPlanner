@@ -4,6 +4,6 @@ export class Registro{
   email?:string;
   telefono?:string;
   password?:string;
-  fecha?:Date
+  fechaNacimiento?:Date
 
 }

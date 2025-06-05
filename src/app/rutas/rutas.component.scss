@@ -102,3 +102,40 @@ ion-content,
   margin: 0;
   padding: 0;
 }
+.dark {
+  ion-content {
+    --background: #121212;
+  }
+
+  ion-modal {
+    --background: #1e1e1e;
+
+    ion-content {
+      --background: #1e1e1e;
+    }
+
+    ion-toolbar {
+      --background: #1f1f1f;
+      --color: white;
+    }
+
+    ion-item {
+      --background: #1e1e1e;
+      --color: white;
+    }
+  }
+
+  .select-dia {
+    --background: #1e1e1e;
+    --color: white;
+    background: #1e1e1e;
+  }
+
+  ion-button {
+    --color: #5B97D5;
+  }
+
+  ion-reorder {
+    --color: #5B97D5;
+  }
+}

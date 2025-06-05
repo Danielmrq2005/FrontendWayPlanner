@@ -166,3 +166,148 @@ textarea::placeholder {
   --handle-width: 18px;
   --handle-height: 18px;
 }
+
+.dark {
+  ion-content {
+    --background: #121212;
+  }
+
+  .form-container {
+    background-color: #1e1e1e;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+  }
+
+  .form-group {
+    input,
+    select,
+    textarea,
+    .time-input {
+      background-color: #2d2d2d;
+      border-color: #3d3d3d;
+      color: #e0e0e0;
+
+      &:focus {
+        border-color: #5B97D5;
+        box-shadow: 0 0 0 3px rgba(91, 151, 213, 0.2);
+      }
+
+      &::placeholder {
+        color: #666;
+      }
+    }
+
+    input[type="file"] {
+      color: #e0e0e0;
+    }
+  }
+
+  .map-search {
+    background-color: #2d2d2d;
+    border-color: #3d3d3d;
+    color: #e0e0e0;
+  }
+
+  .subformulario {
+    background-color: rgba(0, 0, 0, 0.2);
+  }
+
+  ion-textarea {
+    --background: #2d2d2d;
+    --color: #e0e0e0;
+    --placeholder-color: #666;
+  }
+
+  ion-button {
+    --background: #5B97D5;
+  }
+
+  ion-button[fill="outline"] {
+    --border-color: #5B97D5;
+    --color: #5B97D5;
+  }
+
+  .horarios-container {
+    label {
+      color: #e0e0e0 !important;
+    }
+  }
+
+  .horarioInputFull {
+    background-color: #2d2d2d;
+    border-color: #3d3d3d;
+  }
+}
+ion-content {
+  &:not(.dark) {
+    --background: #f5f5f5; // Light mode background
+  }
+
+  &.dark {
+    --background: #121212; // Dark mode background
+
+    .form-container {
+      background-color: #1e1e1e;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+    }
+
+    .form-group {
+      input,
+      select,
+      textarea,
+      .time-input {
+        background-color: #2d2d2d;
+        border-color: #3d3d3d;
+        color: #e0e0e0;
+
+        &:focus {
+          border-color: #5B97D5;
+          box-shadow: 0 0 0 3px rgba(91, 151, 213, 0.2);
+        }
+
+        &::placeholder {
+          color: #666;
+        }
+      }
+
+      input[type="file"] {
+        color: #e0e0e0;
+      }
+    }
+
+    .map-search {
+      background-color: #2d2d2d;
+      border-color: #3d3d3d;
+      color: #e0e0e0;
+    }
+
+    .subformulario {
+      background-color: rgba(0, 0, 0, 0.2);
+    }
+
+    ion-textarea {
+      --background: #2d2d2d;
+      --color: #e0e0e0;
+      --placeholder-color: #666;
+    }
+
+    ion-button {
+      --background: #5B97D5;
+    }
+
+    ion-button[fill="outline"] {
+      --border-color: #5B97D5;
+      --color: #5B97D5;
+    }
+
+    .horarios-container {
+      label {
+        color: #e0e0e0 !important;
+      }
+    }
+
+    .horarioInputFull {
+      background-color: #2d2d2d;
+      border-color: #3d3d3d;
+    }
+  }
+}

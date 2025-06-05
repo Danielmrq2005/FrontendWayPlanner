@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { jwtDecode } from "jwt-decode";
 import { IonicModule } from "@ionic/angular";
 import { Registro } from "../Modelos/Registro";
+import {TemaService} from "../Servicios/tema.service";
 
 @Component({
   selector: 'app-actu-usuario',
@@ -20,12 +21,15 @@ export class ActuUsuarioComponent implements OnInit {
   usuarioForm: FormGroup;
   idusuario: number = 0;
   actualizar: Registro = new Registro();
+  darkMode = false;
+
 
   constructor(
     private fb: FormBuilder,
     private usuarioService: UsuarioService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private temaService: TemaService
   ) {
     this.usuarioForm = this.fb.group({
       nombre: ['', Validators.required],
@@ -33,6 +37,9 @@ export class ActuUsuarioComponent implements OnInit {
       telefono: ['', Validators.required],
       password: ['', Validators.required],
       fecha: ['', Validators.required],
+    });
+    this.temaService.darkMode$.subscribe(isDark => {
+      this.darkMode = isDark;
     });
   }
 

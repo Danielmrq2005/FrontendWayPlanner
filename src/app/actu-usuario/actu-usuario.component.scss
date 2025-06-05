@@ -2,21 +2,25 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  height: 100vh;
-  padding: 20px;
+  justify-content: flex-start;
+  min-height: 50px;
+  padding: 40px 20px;
   text-align: center;
+
+  .dark & {
+    background-color: var(--ion-background-color);
+  }
 
   .icon {
     font-size: 80px;
-    color: #000;
     margin-bottom: 10px;
+    height: 400px;
   }
 
   h2 {
     font-size: 1.5rem;
     margin-bottom: 20px;
-    color: #000;
+    color: var(--ion-text-color);
   }
 
   form {
@@ -24,73 +28,32 @@
     max-width: 320px;
 
     ion-item {
-      position: relative;
-
+      --background: transparent;
 
       ion-label {
-        position: absolute;
-        top: 0;
-        left: 0;
-        font-size: 19px;
-        color: #0c86bd;
-        font-weight: bold;
-        transition: all 0.2s ease-in-out;
+        color: var(--ion-color-primary);
       }
 
-      ion-input {
+      ion-input, ion-datetime {
         margin-top: 45px;
-        background: #f8f8f8;
+        background: var(--ion-item-background);
         border-radius: 5px;
         padding: 10px;
-        --border-color: #0c86bd;
-        --highlight-color-focused: #0c86bd;
+        --border-color: var(--ion-color-primary);
+        --highlight-color-focused: var(--ion-color-primary);
         --border-width: 2px;
+        --color: var(--ion-text-color);
       }
     }
   }
-  img {
-    width: 20%;
-    height: auto;
-    margin-bottom: 20px;
-  }
+
   .login-button {
-    --background: #0c86bd;
+    --background: var(--ion-color-primary);
     --color: #ffffff;
     margin-top: 30px;
     width: 100%;
     padding-right: 10px;
     border-radius: 5px;
     font-weight: bold;
-  }
-  .signup-link {
-    margin-top: 15px;
-
-    p {
-      font-size: 14px;
-      color: #333;
-    }
-
-    a {
-      color: #002060;
-      font-weight: bold;
-      text-decoration: none;
-    }
-  }
-}
-.icon {
-  width: 150px;
-  height: 150px;
-  margin-bottom: 20px;
-}
-ion-item {
-  ion-datetime {
-    margin-top: 45px;
-    background: #f8f8f8;
-    border-radius: 5px;
-    padding: 10px;
-    --border-color: #0c86bd;
-    --highlight-color-focused: #0c86bd;
-    --border-width: 2px;
-    width: 100%;
   }
 }

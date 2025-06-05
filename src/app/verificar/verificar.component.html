@@ -1,27 +1,58 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>Verificar Código</ion-title>
+  <ion-toolbar color="primary">
+    <ion-title class="ion-text-center">Verifica tu Cuenta</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="ion-padding">
-  <ion-card>
-    <ion-card-content>
-      <form (ngSubmit)="verifyCode()">
-        <ion-item>
-          <ion-label position="stacked">Email</ion-label>
-          <ion-input type="email" [(ngModel)]="email" name="email"></ion-input>
-        </ion-item>
+  <ion-grid>
+    <ion-row class="ion-justify-content-center">
+      <ion-col size="12" size-md="8" size-lg="6">
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title class="ion-text-center">Introduce el código</ion-card-title>
+            <ion-card-subtitle class="ion-text-center">
+              Te hemos enviado un código de 6 dígitos a tu correo
+            </ion-card-subtitle>
+          </ion-card-header>
 
-        <ion-item>
-          <ion-label position="stacked">Código</ion-label>
-          <ion-input type="text" [(ngModel)]="code" name="code"></ion-input>
-        </ion-item>
+          <ion-card-content>
+            <form (ngSubmit)="verifyCode()">
+              <!-- Campos separados por dígito -->
+              <div class="code-input">
+                <input type="text" maxlength="1" [(ngModel)]="codeArray[0]" name="digit0"
+                       (input)="handleInput($event, 0)" (keydown)="handleKeyDown($event, 0)"
+                       (paste)="handlePaste($event)" #input0>
+                <input type="text" maxlength="1" [(ngModel)]="codeArray[1]" name="digit1"
+                       (input)="handleInput($event, 1)" (keydown)="handleKeyDown($event, 1)"
+                       (paste)="handlePaste($event)" #input1>
+                <input type="text" maxlength="1" [(ngModel)]="codeArray[2]" name="digit2"
+                       (input)="handleInput($event, 2)" (keydown)="handleKeyDown($event, 2)"
+                       (paste)="handlePaste($event)" #input2>
+                <input type="text" maxlength="1" [(ngModel)]="codeArray[3]" name="digit3"
+                       (input)="handleInput($event, 3)" (keydown)="handleKeyDown($event, 3)"
+                       (paste)="handlePaste($event)" #input3>
+                <input type="text" maxlength="1" [(ngModel)]="codeArray[4]" name="digit4"
+                       (input)="handleInput($event, 4)" (keydown)="handleKeyDown($event, 4)"
+                       (paste)="handlePaste($event)" #input4>
+                <input type="text" maxlength="1" [(ngModel)]="codeArray[5]" name="digit5"
+                       (input)="handleInput($event, 5)" (keydown)="handleKeyDown($event, 5)"
+                       (paste)="handlePaste($event)" #input5>
+              </div>
 
-        <ion-button expand="block" type="submit" class="ion-margin-top">
-          Verificar
-        </ion-button>
-      </form>
-    </ion-card-content>
-  </ion-card>
+
+
+              <ion-button expand="block" type="submit" class="ion-margin-top" [disabled]="!isCodeComplete()">
+                Verificar
+              </ion-button>
+            </form>
+
+            <ion-text color="medium" class="ion-margin-top ion-text-center d-block">
+              ¿No recibiste el código? <a (click)="reenviarCodigo()" class="resend-link">Reenviar</a>
+            </ion-text>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>

@@ -15,6 +15,7 @@ import { ItineariosService } from "../Servicios/itinearios.service";
 import { Itinerario } from "../Modelos/Itinerario";
 import { Dia } from "../Modelos/Dia";
 import { DiasItinerario } from "../Modelos/DiasItinerario";
+import {TemaService} from "../Servicios/tema.service";
 
 @Component({
   selector: 'app-rutas',
@@ -31,6 +32,7 @@ export class RutasComponent implements AfterViewInit {
   private map!: L.Map;
   private markers: L.Marker[] = [];
 
+
   message = 'This modal example uses triggers to automatically open a modal when the button is clicked.';
   name!: string;
 
@@ -39,6 +41,8 @@ export class RutasComponent implements AfterViewInit {
   itinerariosDia: Itinerario[] = [];
   dias: Dia[] = [];
   diaSeleccionado: any;
+  darkMode = false;
+
 
   private readonly madridCoords: L.LatLngExpression = [40.4168, -3.7038];
 
@@ -46,9 +50,13 @@ export class RutasComponent implements AfterViewInit {
     private route: ActivatedRoute,
     private http: HttpClient,
     private itinerarioService: ItineariosService,
-    private diaService: DiaService
+    private diaService: DiaService,
+    private temaService: TemaService
   ) {
     addIcons({ add });
+    this.temaService.darkMode$.subscribe(isDark => {
+      this.darkMode = isDark;
+    });
   }
 
   ngOnInit() {

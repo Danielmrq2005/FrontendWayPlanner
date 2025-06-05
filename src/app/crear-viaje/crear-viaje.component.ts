@@ -10,6 +10,7 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { jwtDecode } from "jwt-decode";
 import {IonicModule} from "@ionic/angular";
 import {CommonModule} from "@angular/common";
+import {TemaService} from "../Servicios/tema.service";
 
 @Component({
   selector: 'app-crear-viaje',
@@ -27,11 +28,14 @@ export class CrearViajeComponent implements OnInit {
 
   viaje: Viaje | null = null;
   idViajeEditar: number | null = null;
+  darkMode = false;
+
 
   constructor(
     private viajeservice: ViajeService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private temaService: TemaService
   ) {}
 
   ngOnInit() {
@@ -41,6 +45,9 @@ export class CrearViajeComponent implements OnInit {
         this.idViajeEditar = +id;
         this.cargarViajeExistente(this.idViajeEditar);
       }
+    });
+    this.temaService.darkMode$.subscribe(isDark => {
+      this.darkMode = isDark;
     });
   }
 

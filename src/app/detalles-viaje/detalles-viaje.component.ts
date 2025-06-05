@@ -11,6 +11,7 @@ import {
 } from '@ionic/angular/standalone';
 import {Viaje} from "../Modelos/Viaje";
 import {DatePipe} from "@angular/common";
+import {TemaService} from "../Servicios/tema.service";
 
 @Component({
   selector: 'app-detalles-viaje',
@@ -30,8 +31,14 @@ import {DatePipe} from "@angular/common";
 export class DetallesViajeComponent implements OnInit {
   idViaje: number = 0;
   viaje?: Viaje;
+  darkMode = false;
 
-  constructor(private route: ActivatedRoute,private viajeservice: ViajeService, private router: Router) {}
+
+  constructor(private route: ActivatedRoute,private viajeservice: ViajeService, private router: Router, private temaService: TemaService) {
+    this.temaService.darkMode$.subscribe(isDark => {
+      this.darkMode = isDark;
+    });
+  }
 
   ngOnInit() {
     this.route.paramMap.subscribe(params => {

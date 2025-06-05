@@ -13,6 +13,7 @@ import { Login } from "../Modelos/Login";
 import {Viaje} from "../Modelos/Viaje";
 import {NgClass, NgForOf} from "@angular/common";
 import {IonicModule} from "@ionic/angular";
+import {TemaService} from "../Servicios/tema.service";
 
 @Component({
   selector: 'app-viajes',
@@ -37,9 +38,15 @@ export class ViajesComponent implements OnInit {
   idusuario: number = 0;
   Nombreusuario: string | undefined = '';
   viajes: Viaje[] = [];
+  darkMode = false;
 
 
-  constructor(private usuarioservice: UsuarioService,private viajeservice: ViajeService,private router: Router) { }
+
+  constructor(private usuarioservice: UsuarioService,private viajeservice: ViajeService,private router: Router, private temaService: TemaService) {
+    this.temaService.darkMode$.subscribe(isDark => {
+      this.darkMode = isDark;
+    });
+  }
 
 
   obtenerUsuarioId(): number {

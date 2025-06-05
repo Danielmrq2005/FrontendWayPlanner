@@ -5,6 +5,7 @@ import {IonicModule, ToastController} from "@ionic/angular";
 import {ActivatedRoute, Router} from "@angular/router";
 import {Gastos} from "../Modelos/Gastos";
 import {HttpClient} from "@angular/common/http";
+import {TemaService} from "../Servicios/tema.service";
 
 
 @Component({
@@ -24,13 +25,16 @@ export class ActuGastosComponent  implements OnInit {
   gastoForm: FormGroup;
   gastoId: number;
   private viajeId: number = 0;
+  darkMode = false;
+
 
   constructor(
     private formBuilder: FormBuilder,
     private gastosService: GastosService,
     private toastController: ToastController,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private temaService: TemaService,
   ) {
     this.gastoForm = this.formBuilder.group({
       titulo: ['', Validators.required],
@@ -42,6 +46,9 @@ export class ActuGastosComponent  implements OnInit {
       id: [0]
     });
     this.gastoId = +this.route.snapshot.paramMap.get('id')!;
+    this.temaService.darkMode$.subscribe(isDark => {
+      this.darkMode = isDark;
+    });
   }
 
   cargarDatosGasto() {
