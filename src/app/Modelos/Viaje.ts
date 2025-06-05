@@ -1,4 +1,4 @@
-import { Maleta } from './maleta';
+import { Maleta } from './Maletas/maleta';
 import { Gastos } from './Gastos';
 
 export interface Viaje {

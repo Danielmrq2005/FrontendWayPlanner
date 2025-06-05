@@ -1,0 +1,105 @@
+<ion-card class="maleta-card">
+  <div class="maleta-header">
+    <ion-icon name="cube" class="maleta-icon"></ion-icon>
+    {{ nombreObjeto || 'Nuevo Ítem' }}
+  </div>
+
+  <ion-card-content>
+    <ion-item lines="none">
+      <ion-label position="stacked">Nombre del Ítem</ion-label>
+      <ion-input placeholder="Ej. Cargador, Zapatos..." [(ngModel)]="nombreObjeto"></ion-input>
+    </ion-item>
+
+    <ion-item lines="none" class="maleta-item">
+      <ion-label position="stacked">Cantidad</ion-label>
+      <ion-input type="number" min="1" placeholder="Ej. 2" [(ngModel)]="cantidadObjeto"></ion-input>
+    </ion-item>
+
+    <ion-item lines="none" class="maleta-item">
+      <ion-label position="stacked">Categoría</ion-label>
+      <ion-select placeholder="Elige una categoría" [(ngModel)]="categoriaObjeto">
+        <ion-select-option value="ROPA">Ropa</ion-select-option>
+        <ion-select-option value="ELECTRONICA">Electrónica</ion-select-option>
+        <ion-select-option value="HIGIENE">Higiene</ion-select-option>
+        <ion-select-option value="DOCUMENTOS">Documentos</ion-select-option>
+        <ion-select-option value="ACCESORIOS">Accesorios</ion-select-option>
+        <ion-select-option value="OTRO">Otro</ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <div class="maleta-footer">
+      <ion-button fill="outline" size="small" color="primary" (click)="cancelar()">
+        <ion-icon slot="start" name="close-circle"></ion-icon>
+        Cancelar
+      </ion-button>
+      <ion-button fill="solid" size="small" color="primary" (click)="guardarObjeto()">
+        <ion-icon slot="start" name="checkmark-circle"></ion-icon>
+        Ok
+      </ion-button>
+    </div>
+  </ion-card-content>
+</ion-card>
+
+<p class="maleta-general-aviso">Organiza tus objetos para no olvidar nada.</p>
+
+
+<style>
+  .maleta-card {
+    margin: 20px auto;
+    border-radius: 15px;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    max-width: 90%;
+    width: 100%;
+  }
+
+  @media (min-width: 768px) {
+    .maleta-card {
+      max-width: 800px; /* más ancho en pantallas medianas */
+    }
+  }
+
+  @media (min-width: 1200px) {
+    .maleta-card {
+      max-width: 750px; /* un poco menos ancho en pantallas muy grandes */
+    }
+  }
+
+  .maleta-header {
+    background-color: #5B97D5;
+    color: white;
+    padding: 14px;
+    text-align: center;
+    font-size: 1.2rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+
+  .maleta-icon {
+    font-size: 1.4rem;
+  }
+
+  .maleta-item {
+    margin-top: 15px;
+  }
+
+  .maleta-footer {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px 0 0;
+  }
+
+  ion-button {
+    --border-radius: 8px;
+  }
+
+  .maleta-general-aviso {
+    text-align: center;
+    margin-top: 10px;
+    font-size: 0.85rem;
+    color: #444;
+  }
+</style>
