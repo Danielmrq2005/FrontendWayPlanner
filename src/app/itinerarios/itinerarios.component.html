@@ -13,8 +13,7 @@
       </ion-toolbar>
     </ion-header>
 
-    <ion-segment [(ngModel)]="segmentoSeleccionado" (ionChange)="seleccionarSegmento(segmentoSeleccionado)">
-      <ion-segment-button value="default">
+      <ion-segment [(ngModel)]="segmentoSeleccionado" [ngModelOptions]="{standalone: true}" (ionChange)="seleccionarSegmento(segmentoSeleccionado)">      <ion-segment-button value="default">
         <ion-label>Todos</ion-label>
       </ion-segment-button>
       <ion-segment-button

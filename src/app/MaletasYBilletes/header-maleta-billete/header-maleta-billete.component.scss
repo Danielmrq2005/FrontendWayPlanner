@@ -61,3 +61,42 @@ body {
   cursor: pointer;
   box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
 }
+
+
+.app-container {
+  display: flex;
+  width: 100%;
+  min-height: 100vh;
+  position: relative;
+}
+
+.main-content {
+  position: relative;
+  flex: 1;
+  margin-left: 45px;
+  transition: margin-left 0.3s ease;
+  min-height: 100vh;
+  width: calc(100% - 45px);
+  @media (max-width: 768px) {
+    margin-left: 0;
+    width: 100%;
+    padding-bottom: 80px;
+  }
+}
+
+.app-container.sidebar-expanded .main-content {
+  margin-left: 200px;
+  width: calc(100% - 200px);
+}
+
+
+ion-fab {
+  z-index: 1000;
+  margin-bottom: 70px;
+}
+
+@media (min-width: 769px) {
+  ion-fab {
+    margin-bottom: 16px;
+  }
+}

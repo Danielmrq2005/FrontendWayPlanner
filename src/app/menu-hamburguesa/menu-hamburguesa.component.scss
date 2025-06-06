@@ -60,18 +60,16 @@
     top: auto;
     bottom: 0;
     width: 100%;
-    height: 60px;
+    height: 50px;
     padding: 0;
     flex-direction: row;
     justify-content: center;
-    gap: 40px;
-    z-index: 999; // Lower z-index than FAB button
+    z-index: 999;
 
     &.expanded {
       width: 100%;
     }
   }
-
 
   .toggle-button {
     display: none;
@@ -79,16 +77,15 @@
 
   .menu-items {
     display: flex;
-    justify-content: center; /* Changed from space-around */
-    gap: 40px; /* Added specific gap between items */
+    justify-content: space-between;
     margin: 0;
     height: 100%;
-    padding: 0 20px; /* Added horizontal padding */
+    padding: 0 10px;
   }
 
   .menu-item {
     flex-direction: column;
-    padding: 8px;
+    padding: 4px;
     width: auto;
     align-items: center;
     justify-content: center;
@@ -103,8 +100,8 @@
   }
 
   .menu-icon {
-    width: 32px;
-    height: 32px;
+    width: 24px;
+    height: 24px;
   }
 }
 

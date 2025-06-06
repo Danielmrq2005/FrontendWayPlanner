@@ -4,12 +4,12 @@
 
     <div class="toggle-group">
       <label>¿Quiere que este itinerario se añada a su lista?</label>
-      <ion-toggle [(ngModel)]="itinerario.apareceEnItinerario" (ionChange)="onToggleApareceEnItinerario($event)"></ion-toggle>
+      <ion-toggle name="apareceEnItinerario" [(ngModel)]="itinerario.apareceEnItinerario" (ionChange)="onToggleApareceEnItinerario($event)" standalone="true"></ion-toggle>
     </div>
 
     <div class="toggle-group">
       <label>¿Quiere que este itinerario se añada a sus rutas?</label>
-      <ion-toggle [(ngModel)]="itinerario.estaEnRuta" (ionChange)="onToggleEstaEnRuta($event)"></ion-toggle>
+      <ion-toggle name="estaEnRuta" [(ngModel)]="itinerario.estaEnRuta" (ionChange)="onToggleEstaEnRuta($event)" standalone="true"></ion-toggle>
     </div>
 
 
@@ -330,7 +330,7 @@
 
         <div class="horario-field toggle-container">
           <label for="cerrado" style="color: black">¿Está cerrado?</label>
-          <ion-toggle id="cerrado" [(ngModel)]="cerrado"></ion-toggle>
+          <ion-toggle id="cerrado" name="cerrado" [(ngModel)]="cerrado" standalone="true"></ion-toggle>
         </div>
       </div>
 

@@ -13,6 +13,7 @@ import {IonIcon, IonLabel} from "@ionic/angular/standalone";
     RouterLink,
     IonIcon
   ],
+  standalone: true,
   styleUrls: ['./lista-maletas.component.scss']
 })
 export class ListaMaletasComponent implements OnInit {

@@ -182,10 +182,17 @@ export class CrearItinerarioComponent  implements OnInit, AfterViewInit {
         ? this.horarios + '\n' + descripcion
         : descripcion;
 
+      // Limpia los valores de los campos
       this.horaInicio = '';
       this.horaFin = '';
       this.diaHorario = '';
       this.cerrado = false;
+
+      // Notifica a Angular que los campos han cambiado
+      const horaInicioInput = document.getElementById('horaInicio') as HTMLInputElement;
+      const horaFinInput = document.getElementById('horaFin') as HTMLInputElement;
+      if (horaInicioInput) horaInicioInput.value = '';
+      if (horaFinInput) horaFinInput.value = '';
     } else {
       console.warn('Por favor, completa todos los campos del horario.');
     }
