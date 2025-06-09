@@ -68,9 +68,6 @@
           </ion-label>
         </ion-item>
 
-        <ion-item *ngIf="itinerario.idbillete">
-          <ion-label><strong>ID Billete:</strong> {{ itinerario.idbillete }}</ion-label>
-        </ion-item>
       </ion-list>
 
       <ion-label class="titulo-horarios"><strong>Horarios:</strong></ion-label>
@@ -85,6 +82,7 @@
         </ion-item>
       </ion-list>
       <ion-button (click)="irAActualizarItinerario()" class="btn-actualizar">Actualizar Itinerario</ion-button>
+      <ion-button (click)="eliminarItinerario()" class="btn-eliminar">Eliminar Itinerario</ion-button>
     </ion-card-content>
   </ion-card>
 </ion-content>

@@ -6,51 +6,36 @@
   --background: #f6f9fc;
 }
 
-.color-primario {
-  color: #5B97D5;
-  font-weight: bold;
-  font-size: 1.3em;
+.card-itinerario {
+  margin-top: 20px;
+  padding-bottom: 10px;
 }
 
 .titulo-itinerario {
-  font-size: 1.2em;
+  font-size: 1.3em;
   font-weight: bold;
   color: #5B97D5;
 }
 
-.imagen-itinerario {
-  width: 100%;
-  height: auto;
-  border-radius: 10px;
-}
-
-.icono-estado {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.map-container {
-  width: 100%;
-  height: 300px;
-  border-radius: 12px;
+.color-primario {
+  color: #5B97D5;
+  font-weight: bold;
+  font-size: 1.2em;
   margin-top: 10px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
 }
 
-.recargar {
-  margin: 8px 0;
-  padding: 4px 8px;
-  font-size: 14px;
-  background-color: #3880ff;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
+.subtitulo {
+  font-size: 1.1em;
+  font-weight: 600;
+  color: #5B97D5;
+  margin-top: 1.5rem;
 }
 
-.recargar:hover {
-  background-color: #3171e0;
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+  gap: 8px;
 }
 
 .map-search {
@@ -62,45 +47,201 @@
   margin-bottom: 0.5rem;
 }
 
-.titulo-horarios {
-  margin-top: 1rem;
-  font-size: 1.1em;
-  color: #5B97D5;
-  display: block;
+.recargar {
+  align-self: flex-start;
+  padding: 6px 16px;
+  font-size: 14px;
+  background-color: #5B97D5;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
-.lista-horarios {
-  padding-left: 0.5rem;
+.recargar:hover {
+  background-color: #487bcf;
 }
 
-.item-horario {
-  background: #eef4fb;
-  border-radius: 10px;
-  margin-bottom: 0.5rem;
-  padding: 0.5rem 1rem;
+.map-container {
+  width: 100%;
+  height: 300px;
+  border-radius: 12px;
+  margin-top: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 }
 
-/* Ocultar el input file real */
+.horarios-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 1rem;
+  align-items: flex-end;
+}
+
+.horario-field {
+  flex: 1;
+  min-width: 180px;
+  display: flex;
+  flex-direction: column;
+}
+
+.horario-field label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+/* Ajuste específico para inputs de tipo "time" en .horario-field */
+.horario-field input[type="time"] {
+  border: 1px solid #5B97D5;
+  border-radius: 20px;
+  padding: 0.75rem;
+  font-size: 1rem;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Sombra suave al enfocar */
+.horario-field input[type="time"]:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(91, 151, 213, 0.25);
+  border-color: #5B97D5;
+}
+
+
+.toggle-container {
+  flex-direction: row;
+  align-items: center;
+}
+
+.toggle-container label {
+  margin-right: 10px;
+  margin-bottom: 0;
+  white-space: nowrap;
+}
+
 input[type="file"] {
   display: none;
 }
 
-/* Estilo del botón personalizado para subir foto */
 .foto {
   display: inline-block;
   padding: 10px 20px;
   color: white;
-  background-color: var(--ion-color-primary);
+  background-color: #5B97D5;
   border-radius: 8px;
   cursor: pointer;
   font-weight: 600;
   text-align: center;
+  margin-left: 1rem;
   transition: background-color 0.3s ease;
 }
 
 .foto:hover {
-  background-color: #487bcf; /* un azul más oscuro */
+  background-color: #487bcf;
 }
 
+ion-item.foto-item {
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.foto-label {
+  margin-left: 1rem;
+  padding: 6px 14px;
+  background-color: #5B97D5;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background-color 0.3s ease;
+}
+
+.foto-label:hover {
+  background-color: #487bcf;
+}
+
+input[type="file"] {
+  display: none;
+}
+
+
+.btn-primario {
+  --background: #5B97D5;
+  --background-hover: #487bcf;
+  --color: white;
+}
+
+.btn-warning {
+  --background: #5B97D5;
+  --color: #fff;
+  margin-left: 10px;
+}
+
+.btn-danger {
+  --background: #e06666;
+  --color: white;
+  margin-left: 10px;
+}
+
+.titulo-horarios {
+  margin-top: 2rem;
+  margin-bottom: 0.5rem;
+  font-size: 1.2em;
+  color: #5B97D5;
+}
+
+/* Aplica a todos los campos con clase horarioInputFull */
+.horarioInputFull {
+  border: 1px solid #5B97D5 !important;
+  border-radius: 20px !important;
+  padding: 0.75rem;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* También a los ion-input y ion-select nativos */
+ion-input.input-wrapper,
+ion-select {
+  --border-width: 1px;
+  --border-style: solid;
+  --border-color: #5B97D5;
+  --border-radius: 20px;
+  --padding-start: 12px;
+  --padding-end: 12px;
+}
+
+/* Si usas ion-item con formControlName */
+ion-item ion-input,
+ion-item ion-select {
+  .native-input {
+    border: 1px solid #5B97D5 !important;
+    border-radius: 20px !important;
+  }
+}
+
+/* Focus: sombra suave */
+.horarioInputFull:focus,
+ion-input.input-wrapper:focus-within,
+ion-select:focus-within {
+  box-shadow: 0 0 0 3px rgba(91, 151, 213, 0.25);
+  outline: none;
+}
+
+/* Para los select nativos dentro de .form-group */
+.form-group select {
+  border: 1px solid #5B97D5;
+  border-radius: 20px;
+  padding: 0.75rem;
+  background-color: #fff;
+}
+
+/* Ajuste general de inputs/textareas */
+.form-group input,
+.form-group textarea {
+  border: 1px solid #5B97D5;
+  border-radius: 20px;
+  padding: 0.75rem;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
 
 

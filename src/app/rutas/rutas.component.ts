@@ -16,6 +16,7 @@ import { Itinerario } from "../Modelos/Itinerario";
 import { Dia } from "../Modelos/Dia";
 import { DiasItinerario } from "../Modelos/DiasItinerario";
 import {TemaService} from "../Servicios/tema.service";
+import {ViajeService} from "../Servicios/viaje.service";
 
 @Component({
   selector: 'app-rutas',
@@ -41,6 +42,7 @@ export class RutasComponent implements AfterViewInit {
   dias: Dia[] = [];
   diaSeleccionado: any;
   darkMode = false;
+  viajeNombre: string = '';
 
 
   private readonly madridCoords: L.LatLngExpression = [40.4168, -3.7038];
@@ -51,7 +53,8 @@ export class RutasComponent implements AfterViewInit {
     private itinerarioService: ItineariosService,
     private diaService: DiaService,
     private actionSheetCtrl: ActionSheetController,
-    private temaService: TemaService
+    private temaService: TemaService,
+    private viajeService: ViajeService
   ) {
     addIcons({ add: add, mapa: mapOutline });
     this.temaService.darkMode$.subscribe(isDark => {
@@ -64,6 +67,19 @@ export class RutasComponent implements AfterViewInit {
     if (this.idViaje) {
       this.obtenerItinerariosEnRuta(this.idViaje);
       this.obtenerDiasPorViaje(parseInt(this.idViaje));
+
+      this.viajeService.viajePorId(+this.idViaje).subscribe({
+        next: (viaje) => {
+          this.viajeNombre = viaje.nombre;
+        },
+        error: (err) => {
+          console.error('Error al obtener el viaje:', err);
+          this.viajeNombre = 'Desconocido';
+        }
+      });
+
+
+
     }
   }
 

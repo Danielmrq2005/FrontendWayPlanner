@@ -14,4 +14,12 @@ export class HorarioService {
   crearHorario(horario: Horario[]) {
     return this.http.post(`${this.url}/crear`, horario);
   }
+
+  actualizarHorario(horario: Horario[]) {
+    return this.http.put(`${this.url}/actualizar`, horario);
+  }
+
+  eliminarHorario(id: number) {
+    return this.http.delete(`${this.url}/eliminar/${id}`);
+  }
 }

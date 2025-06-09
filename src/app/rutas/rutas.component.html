@@ -4,7 +4,7 @@
       <!-- Lado izquierdo: logo + título -->
       <div class="toolbar-left">
         <img src="assets/logo.png" alt="Logo" class="logo" />
-        <ion-title class="titulo">Rutas (Nombre Viaje)</ion-title>
+        <ion-title class="titulo">Rutas {{this.viajeNombre}}</ion-title>
       </div>
 
       <!-- Lado derecho: select + campana -->
@@ -49,7 +49,7 @@
     </ion-fab-button>
   </ion-fab>
 
-  <ion-modal trigger="open-modal" (willDismiss)="onWillDismiss($event)">
+    <ion-modal trigger="open-modal" (willDismiss)="onWillDismiss($event)">
     <ng-template>
       <ion-header>
         <ion-toolbar [style]="{'--background': darkMode ? '#1f1f1f' : '#5B97D5'}" style="display: flex; align-items: center; justify-content: space-between; padding: 0 16px;">

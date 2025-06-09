@@ -15,6 +15,7 @@ import { ModalController } from '@ionic/angular';
 import {DetallesItinerarioComponent} from "../detalles-itinerario/detalles-itinerario.component";
 import {MenuHamburguesaComponent} from "../menu-hamburguesa/menu-hamburguesa.component";
 import {TemaService} from "../Servicios/tema.service";
+import {ViajeService} from "../Servicios/viaje.service";
 
 @Component({
   selector: 'app-itinerarios',
@@ -36,8 +37,9 @@ export class ItinerariosComponent  implements OnInit {
   sidebarExpanded = false;
   darkMode = false;
   diaSeleccionado: Dia | null = null;
+  viajeNombre: string = '';
 
-  constructor(private route: ActivatedRoute, private itinerarioService: ItineariosService, private diaService: DiaService, private temaService: TemaService, private modalController: ModalController) {
+  constructor(private route: ActivatedRoute, private itinerarioService: ItineariosService, private diaService: DiaService, private temaService: TemaService, private modalController: ModalController, private viajeService: ViajeService) {
 
     addIcons({add, create, calendarNumberOutline})
     addIcons({add})
@@ -51,6 +53,17 @@ export class ItinerariosComponent  implements OnInit {
     if (this.idViaje) {
       this.ObtenerItinearios();
       this.ObtenerDiasPorViaje();
+
+      this.viajeService.viajePorId(+this.idViaje).subscribe({
+        next: (viaje) => {
+          this.viajeNombre = viaje.nombre;
+        },
+        error: (err) => {
+          console.error('Error al obtener el viaje:', err);
+          this.viajeNombre = 'Desconocido';
+        }
+      });
+
     } else {
       console.error('ID de viaje no disponible');
     }
@@ -153,7 +166,7 @@ export class ItinerariosComponent  implements OnInit {
   async abrirDetalle(itinerario: any) {
     const modal = await this.modalController.create({
       component: DetallesItinerarioComponent,
-      componentProps: { itinerario }
+      componentProps: { itinerario, idViaje: this.idViaje },
     });
     await modal.present();
   }

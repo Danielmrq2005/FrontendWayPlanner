@@ -2,26 +2,24 @@
   <ion-toolbar color="light">
     <ion-title class="titulo-itinerario">Actualizar Itinerario</ion-title>
     <ion-buttons slot="end">
-      <ion-button (click)="cerrar()" color="primary">Cerrar</ion-button>
+      <ion-button (click)="cerrar()" class="btn-primario">Cerrar</ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="ion-padding fondo-itinerario">
   <form [formGroup]="formularioItinerario" (ngSubmit)="actualizarItinerario()">
-    <ion-card>
+    <ion-card class="card-itinerario">
+
       <ion-card-header>
         <ion-card-title class="color-primario">Editar Actividad</ion-card-title>
       </ion-card-header>
 
-      <ion-item>
+      <ion-item lines="none" class="foto-item">
         <ion-label>Foto</ion-label>
-        <label for="foto" class="foto">
-          Seleccionar Foto
-        </label>
+        <label for="foto" class="foto">Seleccionar Foto</label>
         <input id="foto" type="file" (change)="onFotoChange($event)" accept="image/*" />
       </ion-item>
-
 
       <ion-card-content>
         <ion-list lines="full">
@@ -31,14 +29,16 @@
           </ion-item>
 
           <ion-item>
+            <ion-label position="floating">Medio de transporte</ion-label>
+            <ion-select formControlName="medioTransporte">
+              <ion-select-option *ngFor="let medio of mediosTransporte" [value]="medio">{{ medio }}</ion-select-option>
+            </ion-select>
+          </ion-item>
+
+          <ion-item>
             <ion-label position="floating">Categoría</ion-label>
             <ion-select formControlName="categoria">
-              <ion-select-option value="MUSEO">Museo</ion-select-option>
-              <ion-select-option value="IGLESIA">Iglesia</ion-select-option>
-              <ion-select-option value="PARQUE">Parque</ion-select-option>
-              <ion-select-option value="MONUMENTO">Monumento</ion-select-option>
-              <ion-select-option value="EVENTO">Evento</ion-select-option>
-              <ion-select-option value="OTROS">Otros</ion-select-option>
+              <ion-select-option *ngFor="let categoria of categorias" [value]="categoria">{{ categoria }}</ion-select-option>
             </ion-select>
           </ion-item>
 
@@ -51,33 +51,114 @@
             <ion-label position="floating">Duración</ion-label>
             <ion-input formControlName="duracion"></ion-input>
           </ion-item>
-
-          <div class="form-group">
-            <label>Elige sitio:</label>
-            <input id="autocomplete" type="text" placeholder="Buscar lugar..." class="map-search" />
-            <button class="recargar" (click)="recargarMapa()">Recargar mapa</button>
-            <div id="map" class="map-container"></div>
-          </div>
-
-          <ion-item>
-            <ion-label>¿Está en ruta?</ion-label>
-            <ion-toggle formControlName="estaEnRuta"></ion-toggle>
-          </ion-item>
-
-          <ion-item>
-            <ion-label>¿Aparece en itinerario?</ion-label>
-            <ion-toggle formControlName="apareceEnItinerario"></ion-toggle>
-          </ion-item>
-
-          <ion-item *ngIf="formularioItinerario.get('idbillete')?.value">
-            <ion-label position="floating">ID Billete</ion-label>
-            <ion-input formControlName="idbillete" readonly></ion-input>
-          </ion-item>
-
-
         </ion-list>
 
-        <ion-button type="submit" expand="block" color="primary" class="ion-margin-top">
+        <div class="form-group">
+          <label>Elige sitio:</label>
+          <input id="autocomplete" type="text" placeholder="Buscar lugar..." class="map-search" />
+          <button type="button" class="recargar" (click)="recargarMapa()">Recargar mapa</button>
+          <div id="map" class="map-container"></div>
+        </div>
+
+        <ion-item>
+          <ion-label>¿Está en ruta?</ion-label>
+          <ion-toggle formControlName="estaEnRuta"></ion-toggle>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>¿Aparece en itinerario?</ion-label>
+          <ion-toggle formControlName="apareceEnItinerario"></ion-toggle>
+        </ion-item>
+
+        <h3 class="titulo-horarios">Horarios del itinerario</h3>
+
+        <h4 class="subtitulo">Añadir nuevo horario</h4>
+        <div [formGroup]="formularioHorarioManual">
+          <div class="form-group">
+            <label>Día de la semana:</label>
+            <select formControlName="diaHorario" required>
+              <option *ngFor="let dia of diasSemana" [value]="dia">{{ dia }}</option>
+            </select>
+          </div>
+
+          <div class="horarios-container">
+            <div class="horario-field ">
+              <label>Hora de apertura:</label>
+              <input  type="time" formControlName="horaInicio"  required />
+            </div>
+            <div class="horario-field ">
+              <label>Hora de cierre:</label>
+              <input type="time" formControlName="horaFin" required />
+            </div>
+            <div class="horario-field toggle-container ">
+              <label>¿Está cerrado?</label>
+              <ion-toggle formControlName="cerrado"></ion-toggle>
+            </div>
+          </div>
+
+          <ion-button expand="block" class="btn-primario" (click)="agregarHorarioManual()">Añadir horario</ion-button>
+        </div>
+
+        <h4 class="subtitulo">Horarios actuales</h4>
+
+        <ion-list *ngIf="itinerario.horarios.length > 0; else sinHorarios">
+          <ion-item *ngFor="let horario of itinerario.horarios; let i = index">
+            <ion-label>
+              <h5>{{ horario.dia }}</h5>
+              <p>{{ horario.horaInicio }} - {{ horario.horaFin }} | {{ horario.isClosed ? 'CERRADO' : 'ABIERTO' }}</p>
+            </ion-label>
+            <ion-button class="btn-warning" (click)="abrirModalEditarHorario(i)">Editar</ion-button>
+            <ion-button class="btn-danger" (click)="eliminarHorario(i)">Eliminar</ion-button>
+          </ion-item>
+        </ion-list>
+
+        <ng-template #sinHorarios>
+          <ion-text color="medium">No hay horarios asignados aún.</ion-text>
+        </ng-template>
+
+        <!-- Modal Inline para editar horario -->
+        <ion-modal [isOpen]="modalAbierto" (didDismiss)="cerrarModalEditarHorario()">
+          <ng-template>
+            <form [formGroup]="formularioHorarioEditado" (ngSubmit)="guardarHorarioEditado()">
+              <ion-header>
+                <ion-toolbar>
+                  <ion-buttons slot="start">
+                    <ion-button (click)="cancel()">Cancelar</ion-button>
+                  </ion-buttons>
+                  <ion-title>Editar horario</ion-title>
+                  <ion-buttons slot="end">
+                    <ion-button type="submit" [strong]="true">Guardar</ion-button>
+                  </ion-buttons>
+                </ion-toolbar>
+              </ion-header>
+              <ion-item>
+                <ion-label position="floating">Día</ion-label>
+                <ion-select formControlName="dia">
+                  <ion-select-option *ngFor="let dia of diasSemana" [value]="dia">{{ dia }}</ion-select-option>
+                </ion-select>
+              </ion-item>
+
+              <ion-item>
+                <ion-label position="floating">Hora inicio</ion-label>
+                <ion-input type="time" formControlName="horaInicio"></ion-input>
+              </ion-item>
+
+              <ion-item>
+                <ion-label position="floating">Hora fin</ion-label>
+                <ion-input type="time" formControlName="horaFin"></ion-input>
+              </ion-item>
+
+              <ion-item>
+                <ion-label>¿Cerrado?</ion-label>
+                <ion-checkbox formControlName="isClosed" slot="start"></ion-checkbox>
+              </ion-item>
+            </form>
+          </ng-template>
+        </ion-modal>
+
+
+
+        <ion-button type="submit" expand="block" class="btn-primario ion-margin-top">
           Guardar Cambios
         </ion-button>
       </ion-card-content>

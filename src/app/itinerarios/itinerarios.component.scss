@@ -44,6 +44,12 @@ ion-header, ion-toolbar,ion-fab,ion-fab-button {
   position: relative;
 }
 
+.logo {
+  height: 25px;
+  margin-right: 8px;
+  flex-shrink: 0;
+}
+
 .main-content {
   position: relative;
   flex: 1;
