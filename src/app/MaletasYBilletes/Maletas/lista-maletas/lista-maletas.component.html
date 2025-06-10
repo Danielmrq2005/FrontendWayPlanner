@@ -1,4 +1,4 @@
-<div class="container mt-4 mb-5">
+<div class="container mt-4 mb-5" *ngIf="!maletaSeleccionada">
   <div
     class="item-card shadow-sm"
     [routerLink]="['/items-maleta', maleta.id]"
@@ -20,7 +20,13 @@
   </div>
 </div>
 
-
+<!-- Formulario de edición -->
+<app-form-editar-maleta
+  *ngIf="maletaSeleccionada"
+  [maleta]="maletaSeleccionada"
+  (EdicionCancelada)="cancelarEdicion()"
+  (EdicionActualizada)="guardarEdicion($event)">
+</app-form-editar-maleta>
 
 <style>
   body {

@@ -1,0 +1,180 @@
+<ion-card class="maleta-card">
+  <div class="maleta-header">
+    <ion-icon name="briefcase" class="maleta-icon"></ion-icon>
+    {{ tituloMaleta || maleta.nombre }}
+    <ion-icon name="create-outline" class="edit-hint-icon" title="Editar"></ion-icon>
+  </div>
+
+
+  <ion-card-content>
+    <!-- Mensaje amigable arriba -->
+    <div class="editable-hint">
+      <ion-icon name="create-outline"></ion-icon>
+      Puedes editar la información de tu maleta
+    </div>
+
+    <ion-item lines="none">
+      <ion-label position="stacked">Título</ion-label>
+      <ion-input placeholder="Ingresa un título" [(ngModel)]="tituloMaleta"></ion-input>
+    </ion-item>
+
+    <ion-item lines="none" class="maleta-item">
+      <ion-label position="stacked">Tipo de Maleta</ion-label>
+      <ion-select placeholder="Elige el tipo de maleta" [(ngModel)]="tipoMaleta">
+        <ion-select-option value="MALETA_FACTURADA">Maleta Facturada</ion-select-option>
+        <ion-select-option value="MALETA_CABINA">Maleta de Cabina</ion-select-option>
+        <ion-select-option value="MALETIN_PORTATIL">Maletín del Portátil</ion-select-option>
+        <ion-select-option value="MOCHILA">Mochila</ion-select-option>
+        <ion-select-option value="BOLSO">Bolso</ion-select-option>
+        <ion-select-option value="OTRO">Otro</ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item lines="none" class="maleta-item">
+      <ion-label position="stacked">Peso (kg)</ion-label>
+      <ion-input type="number" min="0" step="0.1" placeholder="Ej. 8.5" [(ngModel)]="pesoMaleta"></ion-input>
+    </ion-item>
+
+    <!-- Aviso Condicional -->
+    <div class="maleta-aviso" *ngIf="tipoMaleta === 'MALETA_FACTURADA'">
+      El peso permitido para maletas facturadas varía por agencia.<br>
+      No excedas el límite para evitar cargos.
+    </div>
+
+    <div class="maleta-aviso" *ngIf="tipoMaleta === 'MALETA_CABINA'">
+      Las maletas de cabina tienen requisitos que varían por agencia.
+    </div>
+
+    <div class="maleta-footer">
+      <ion-button fill="outline" size="small" color="primary" (click)="cancelar()">
+        <ion-icon slot="start" name="close-circle"></ion-icon>
+        Cancelar
+      </ion-button>
+      <ion-button fill="solid" size="small" color="primary" (click)="guardar()">
+        <ion-icon slot="start" name="checkmark-circle"></ion-icon>
+        Guardar Cambios
+      </ion-button>
+    </div>
+  </ion-card-content>
+</ion-card>
+
+<!-- Aviso general -->
+<p class="maleta-general-aviso">Verifica dimensiones y peso antes del vuelo.</p>
+
+
+<style>
+  .maleta-card {
+    margin: 20px auto;
+    border-radius: 15px;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    max-width: 90%;
+    width: 100%;
+  }
+
+  @media (min-width: 768px) {
+    .maleta-card {
+      max-width: 800px; /* más ancho en pantallas medianas */
+    }
+  }
+
+  @media (min-width: 1200px) {
+    .maleta-card {
+      max-width: 750px; /* un poco menos ancho en pantallas muy grandes */
+    }
+  }
+
+  .maleta-header {
+    background-color: #5B97D5;
+    color: white;
+    padding: 14px;
+    text-align: center;
+    font-size: 1.2rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+
+  .maleta-icon {
+    font-size: 1.4rem;
+  }
+
+  .maleta-item {
+    margin-top: 3px;
+  }
+
+  .maleta-footer {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px 0 0;
+  }
+
+  ion-button {
+    --border-radius: 8px;
+  }
+
+  .maleta-aviso {
+    margin-top: 20px;
+    background-color: #fff8e1;
+    color: #7a5700;
+    padding: 12px;
+    border-left: 4px solid #ffcc00;
+    border-radius: 8px;
+    font-size: 0.95rem;
+  }
+
+  .maleta-general-aviso {
+    text-align: center;
+    margin-top: 10px;
+    font-size: 0.85rem;
+    color: #444;
+  }
+
+  .editable-hint {
+    background-color: #eef4fb;
+    color: #2e5c9a;
+    font-size: 0.9rem;
+    padding: 9px 13px;
+    border-radius: 8px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+  }
+
+  .edit-hint-icon {
+    font-size: 1.2rem;
+    margin-left: 8px;
+    opacity: 0.9;
+  }
+
+  ion-input,
+  ion-select {
+    --background: #f9fafe;
+    --padding-start: 10px;
+    --border-radius: 10px;
+    border: 1px solid #ccd5e0;
+    transition: all 0.3s ease;
+  }
+
+  ion-input:focus-within,
+  ion-select:focus-within {
+    border: 1px solid #5B97D5;
+    box-shadow: 0 0 0 2px rgba(91, 151, 213, 0.3);
+  }
+
+  ion-item ion-label {
+    margin-bottom: 8px; /* Ajusta este valor según tu gusto */
+    font-weight: 500;
+    color: #333;
+  }
+
+  ion-item ion-input,
+  ion-item ion-select {
+    margin-top: 0; /* Remueve separación innecesaria */
+  }
+
+</style>

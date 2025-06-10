@@ -2,8 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute, RouterLink} from '@angular/router';
 import { MaletaService } from '../../../Servicios/maleta.service';
 import { VerMaletasDTO } from '../../../Modelos/Maletas/ver-maletas-dto';
-import {NgForOf} from "@angular/common";
+import {NgForOf, NgIf} from "@angular/common";
 import {IonIcon, IonLabel} from "@ionic/angular/standalone";
+import {FormEditarMaletaComponent} from "../form-editar-maleta/form-editar-maleta.component";
+import {VerMaletaDTO} from "../../../Modelos/Maletas/ver-maleta-dto";
 
 @Component({
   selector: 'app-lista-maletas',
@@ -11,12 +13,16 @@ import {IonIcon, IonLabel} from "@ionic/angular/standalone";
   imports: [
     NgForOf,
     RouterLink,
-    IonIcon
+    IonIcon,
+    FormEditarMaletaComponent,
+    NgIf
   ],
   styleUrls: ['./lista-maletas.component.scss']
 })
 export class ListaMaletasComponent implements OnInit {
   maletas: VerMaletasDTO[] = [];
+
+  maletaSeleccionada: VerMaletaDTO | null = null;
 
   constructor(private route: ActivatedRoute, private maletaService: MaletaService) {}
 
@@ -57,9 +63,26 @@ export class ListaMaletasComponent implements OnInit {
     }
   }
 
-  editarMaleta(event: Event, maleta: any) {
+
+  editarMaleta(event: Event, maleta: VerMaletaDTO) {
     event.stopPropagation();
-    // Aquí va la lógica para editar la maleta
-    console.log('Editar maleta:', maleta);
+    this.maletaSeleccionada = { ...maleta }; // Se clona para evitar cambios directos
   }
+
+  cancelarEdicion() {
+    this.maletaSeleccionada = null;
+  }
+
+  guardarEdicion(maletaEditada: VerMaletaDTO) {
+    if (!maletaEditada.id) {
+      console.error('No se puede actualizar la maleta: ID faltante');
+      return;
+    }
+
+    this.maletaService.actualizarMaleta(maletaEditada.id, maletaEditada).subscribe(() => {
+      this.cargarMaletas();
+      this.maletaSeleccionada = null;
+    });
+  }
+
 }
