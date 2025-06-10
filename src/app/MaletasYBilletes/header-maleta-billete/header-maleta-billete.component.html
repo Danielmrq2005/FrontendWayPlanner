@@ -99,7 +99,7 @@
     <app-lista-grupos-billetes></app-lista-grupos-billetes>
   </ng-container>
   <ng-container *ngIf="mostrarFormularioBillete">
-    <app-form-billete (cancelado)="cancelarFormularioBillete()"></app-form-billete>
+    <app-form-billete (cancelado)="cancelarFormularioBillete()" (billeteGuardado)="cargarGruposBilletes()"></app-form-billete>
   </ng-container>
 </ng-container>
 

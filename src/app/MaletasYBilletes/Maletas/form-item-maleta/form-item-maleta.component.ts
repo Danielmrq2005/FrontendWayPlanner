@@ -35,6 +35,8 @@ import {ActivatedRoute} from "@angular/router";
 })
 export class FormItemMaletaComponent  implements OnInit {
 
+  @Output() itemGuardado = new EventEmitter<void>();
+
   @Output() cancelado  = new EventEmitter<void>();
 
   nombreObjeto: string = '';
@@ -80,6 +82,7 @@ export class FormItemMaletaComponent  implements OnInit {
           console.log('Objeto creado correctamente:', res);
           this.cancelado.emit();
           this.limpiarFormulario();
+          this.itemGuardado.emit();
         },
         error: (error) => {
           console.error('Error al crear el objeto:', error);

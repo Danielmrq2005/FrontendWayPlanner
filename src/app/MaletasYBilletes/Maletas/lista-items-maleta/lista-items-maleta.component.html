@@ -281,7 +281,7 @@
 </div>
 
 <ng-container *ngIf="mostrarFormulario">
-  <app-form-item-maleta (cancelado)="FormularioCancelado()"></app-form-item-maleta>
+  <app-form-item-maleta (cancelado)="FormularioCancelado()" (itemGuardado)="alGuardarItem()"></app-form-item-maleta>
 </ng-container>
 
 <!-- Botón flotante -->

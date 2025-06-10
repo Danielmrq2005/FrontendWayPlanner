@@ -211,7 +211,7 @@
 </div>
 
 <ng-container *ngIf="mostrarFormulario">
-  <app-form-billete (cancelado)="FormularioCancelado()"></app-form-billete>
+  <app-form-billete (cancelado)="FormularioCancelado()" (billeteGuardado)="cargarBilletes()"></app-form-billete>
 </ng-container>
 
 <!-- Botón flotante para agregar billete -->

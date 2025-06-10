@@ -65,6 +65,26 @@ export class ListaItemsMaletaComponent  implements OnInit {
     }
   }
 
+  alGuardarItem() {
+    this.mostrarFormulario = false;
+    this.cargarItems();
+  }
+
+  private cargarItems() {
+    const maletaId = this.route.snapshot.paramMap.get('id');
+    if (maletaId) {
+      this.itemsMaletaService.getItemsPorMaleta(+maletaId).subscribe({
+        next: (data) => {
+          this.itemsMaleta = data;
+        },
+        error: (err) => {
+          console.error('Error al obtener los items de la maleta:', err);
+        }
+      });
+    }
+  }
+
+
   // Selección de item
   seleccionarItem(item: ListarObjetosMaletasDTO) {
     const nuevoValor = !item.isSelected;

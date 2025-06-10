@@ -97,4 +97,12 @@ export class HeaderMaletaBilleteComponent implements OnInit {
     this.mostrarFormularioBillete = false;
     this.mostrarListaBilletes = true;
   }
+
+  cargarGruposBilletes() {
+    this.mostrarListaBilletes = false;
+    setTimeout(() => {
+      this.mostrarListaBilletes = true;
+    });
+  }
+
 }
