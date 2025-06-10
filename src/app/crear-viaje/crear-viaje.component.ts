@@ -90,7 +90,11 @@ export class CrearViajeComponent implements OnInit {
     const fechaInicio = new Date(this.fechaInicioStr);
     const fechaFin = new Date(this.fechaFinStr);
     const hoy = new Date();
-    hoy.setHours(0, 0, 0, 0); // Elimina hora para comparar solo fechas
+
+    // Normaliza todas las fechas a medianoche para evitar errores de zona horaria
+    hoy.setHours(0, 0, 0, 0);
+    fechaInicio.setHours(0, 0, 0, 0);
+    fechaFin.setHours(0, 0, 0, 0);
 
     // Validaciones del formulario
     if (!this.nombre || !this.descripcion || !this.fechaInicioStr || !this.fechaFinStr || !this.destino) {
@@ -155,6 +159,7 @@ export class CrearViajeComponent implements OnInit {
       });
     }
   }
+
 
   // Decodifica el token JWT para obtener el ID del usuario
   obtenerUsuarioId(): number {

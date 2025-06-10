@@ -3,7 +3,7 @@ import { ChartConfiguration, ChartOptions } from 'chart.js';
 import { GastosService } from '../Servicios/gastos.service';
 import { IonicModule } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
-import { BaseChartDirective } from 'ng2-charts';
+import {BaseChartDirective, NgChartsModule} from 'ng2-charts';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { Chart } from 'chart.js';
 import {TemaService} from "../Servicios/tema.service";
@@ -16,7 +16,7 @@ Chart.register(ChartDataLabels);
   templateUrl: './grafica-viaje.component.html',
   styleUrls: ['./grafica-viaje.component.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, BaseChartDirective]
+  imports: [IonicModule, CommonModule, NgChartsModule]
 })
 export class GraficaViajeComponent implements OnInit, AfterViewInit {
   viajeId: number = 0;
