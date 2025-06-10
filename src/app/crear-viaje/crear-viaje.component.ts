@@ -91,6 +91,7 @@ export class CrearViajeComponent implements OnInit {
     const fechaFin = new Date(this.fechaFinStr);
     const hoy = new Date();
 
+
     // Normaliza todas las fechas a medianoche para evitar errores de zona horaria
     hoy.setHours(0, 0, 0, 0);
     fechaInicio.setHours(0, 0, 0, 0);
