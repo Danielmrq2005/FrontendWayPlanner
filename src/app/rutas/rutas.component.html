@@ -1,92 +1,99 @@
-<ion-header>
-  <ion-toolbar [style]="{'--background': darkMode ? '#1f1f1f' : '#5B97D5'}" style="display: flex; align-items: center; justify-content: space-between; padding: 0 16px;">
-    <div style="display: flex; align-items: center;">    <div class="toolbar-flex">
-      <!-- Lado izquierdo: logo + título -->
-      <div class="toolbar-left">
-        <img src="assets/logo.png" alt="Logo" class="logo" />
-        <ion-title class="titulo">Rutas {{this.viajeNombre}}</ion-title>
-      </div>
-
-      <!-- Lado derecho: select + campana -->
-      <div class="select-notif-wrapper">
-        <ion-select
-          id="selectDia"
-          interface="popover"
-          placeholder="Día"
-          class="select-dia"
-          [(ngModel)]="diaSeleccionado"
-          (ionChange)="onDiaSeleccionado($event.detail.value)"
-        >
-          <ion-select-option *ngFor="let dia of dias" [value]="dia.id">
-            Día {{ dia.numeroDia }}
-          </ion-select-option>
-        </ion-select>
-
-        <img
-          src="assets/icons8-campana-48.png"
-          alt="Notificaciones"
-          [routerLink]="['/notificaciones']"
-          class="icon-notif"
-        />
-      </div>
-      </div>
-    </div>
-  </ion-toolbar>
-</ion-header>
-
-<ion-content>
-  <!-- El resto de tu contenido (fab, modal, mapa) permanece igual -->
-
-  <ion-fab horizontal="start" vertical="bottom" (click)="abrirRutaEnGoogleMaps()">
-    <ion-fab-button>
-      <ion-icon name="mapa"></ion-icon>
-    </ion-fab-button>
-  </ion-fab>
-
-  <ion-fab horizontal="end" vertical="bottom" id="open-modal">
-    <ion-fab-button>
-      <ion-icon name="add"></ion-icon>
-    </ion-fab-button>
-  </ion-fab>
-
-    <ion-modal trigger="open-modal" (willDismiss)="onWillDismiss($event)">
-    <ng-template>
-      <ion-header>
-        <ion-toolbar [style]="{'--background': darkMode ? '#1f1f1f' : '#5B97D5'}" style="display: flex; align-items: center; justify-content: space-between; padding: 0 16px;">
-          <div style="display: flex; align-items: center;">    <div class="toolbar-flex">          <ion-buttons slot="start">
-            <ion-button (click)="cancel()">Cancelar</ion-button>
-          </ion-buttons>
-          <ion-title>Ruta de Viaje</ion-title>
-          <ion-buttons slot="end">
-            <ion-button (click)="confirm()">Confirmar</ion-button>
-          </ion-buttons>
-          </div>
+  <ion-header>
+    <ion-toolbar [style]="{'--background': darkMode ? '#1f1f1f' : '#5B97D5'}" style="display: flex; align-items: center; justify-content: space-between; padding: 0 16px;">
+      <div style="display: flex; align-items: center;">    <div class="toolbar-flex">
+        <!-- Lado izquierdo: logo + título -->
+        <div class="toolbar-left">
+          <img src="assets/logo.png" alt="Logo" class="logo" />
+          <ion-title class="titulo">Rutas {{this.viajeNombre}}</ion-title>
         </div>
-        </ion-toolbar>
 
-      </ion-header>
-      <ion-content class="ion-padding">
-        <ion-reorder-group (ionItemReorder)="reordenar($event)" disabled="false">
-          <ion-item *ngFor="let item of itinerarios; let i = index">
-            <ion-label>
-              <strong>{{ i + 1 }}. {{ item.actividad }}</strong><br />
-              {{ item.hora }} - {{ item.duracion }}
-            </ion-label>
-            <ion-button
-              fill="clear"
-              slot="end"
-              color="danger"
-              (click)="eliminarItem(i)"
-            >
-              <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
-            </ion-button>
-            <ion-reorder slot="end"></ion-reorder>
-          </ion-item>
-        </ion-reorder-group>
-        <ion-button class="boton-inferior-modal" [routerLink]="['/crear-itinerario']" (click)="cancel()">Crear una ruta</ion-button>
-      </ion-content>
-    </ng-template>
-  </ion-modal>
+        <!-- Lado derecho: select + campana -->
+        <div class="select-notif-wrapper">
+          <ion-select
+            id="selectDia"
+            interface="popover"
+            placeholder="Día"
+            class="select-dia"
+            [(ngModel)]="diaSeleccionado"
+            (ionChange)="onDiaSeleccionado($event.detail.value)"
+          >
+            <ion-select-option *ngFor="let dia of dias" [value]="dia.id">
+              Día {{ dia.numeroDia }}
+            </ion-select-option>
+          </ion-select>
 
-  <div id="map"></div>
-</ion-content>
+          <img
+            src="assets/icons8-campana-48.png"
+            alt="Notificaciones"
+            [routerLink]="['/notificaciones']"
+            class="icon-notif"
+          />
+        </div>
+        </div>
+      </div>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-content>
+    <!-- El resto de tu contenido (fab, modal, mapa) permanece igual -->
+
+    <ion-fab horizontal="start" vertical="bottom" (click)="abrirRutaEnGoogleMaps()">
+      <ion-fab-button>
+        <ion-icon name="mapa"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
+
+    <ion-fab horizontal="end" vertical="bottom" id="open-modal">
+      <ion-fab-button>
+        <ion-icon name="add"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
+
+      <ion-modal trigger="open-modal" (willDismiss)="onWillDismiss($event)">
+      <ng-template>
+        <ion-header>
+          <ion-toolbar [style]="{'--background': darkMode ? '#1f1f1f' : '#5B97D5'}" style="display: flex; align-items: center; justify-content: space-between; padding: 0 16px;">
+            <div style="display: flex; align-items: center;">    <div class="toolbar-flex">          <ion-buttons slot="start">
+              <ion-button (click)="cancel()">Cancelar</ion-button>
+            </ion-buttons>
+            <ion-title>Ruta de Viaje</ion-title>
+            <ion-buttons slot="end">
+              <ion-button (click)="confirm()">Confirmar</ion-button>
+            </ion-buttons>
+            </div>
+          </div>
+          </ion-toolbar>
+
+        </ion-header>
+        <ion-content class="ion-padding">
+          <ng-container *ngIf="itinerariosDia && itinerariosDia.length > 0; else sinRutas">
+            <ion-reorder-group (ionItemReorder)="reordenar($event)" disabled="false">
+              <ion-item *ngFor="let item of itinerariosDia; let i = index">
+                <ion-label>
+                  <strong>{{ i + 1 }}. {{ item.actividad }}</strong><br />
+                  {{ item.hora }} - {{ item.duracion }}
+                </ion-label>
+                <ion-button
+                  fill="clear"
+                  slot="end"
+                  color="danger"
+                  (click)="eliminarItem(i)"
+                >
+                  <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+                </ion-button>
+                <ion-reorder slot="end"></ion-reorder>
+              </ion-item>
+            </ion-reorder-group>
+          </ng-container>
+          <ng-template #sinRutas>
+            <div style="text-align: center; color: #888; margin: 2em 0;">
+              No hay rutas. Añade una ruta para este día.
+            </div>
+          </ng-template>
+          <ion-button class="boton-inferior-modal" [routerLink]="['/crear-itinerario']" (click)="cancel()">Crear una ruta</ion-button>
+        </ion-content>
+      </ng-template>
+    </ion-modal>
+
+    <div id="map"></div>
+  </ion-content>

@@ -1,12 +1,12 @@
 import { AfterViewInit, Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import * as L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import {ActionSheetController, IonicModule, IonModal} from "@ionic/angular";
+import {ActionSheetController, AlertController, IonicModule, IonModal} from "@ionic/angular";
 import { addIcons } from "ionicons";
 import {add, mapOutline} from "ionicons/icons";
 import { FormsModule } from "@angular/forms";
 import { OverlayEventDetail } from "@ionic/core/components";
-import { NgForOf } from "@angular/common";
+import {NgForOf, NgIf} from "@angular/common";
 import { ActivatedRoute, RouterLink } from "@angular/router";
 import { HttpClient } from "@angular/common/http";
 
@@ -23,7 +23,7 @@ import {ViajeService} from "../Servicios/viaje.service";
   standalone: true,
   templateUrl: './rutas.component.html',
   styleUrls: ['./rutas.component.scss'],
-  imports: [IonicModule, FormsModule, NgForOf, RouterLink]
+  imports: [IonicModule, FormsModule, NgForOf, RouterLink, NgIf]
 })
 export class RutasComponent implements AfterViewInit {
   @ViewChild(IonModal) modal!: IonModal;
@@ -49,12 +49,12 @@ export class RutasComponent implements AfterViewInit {
 
   constructor(
     private route: ActivatedRoute,
-    private http: HttpClient,
     private itinerarioService: ItineariosService,
     private diaService: DiaService,
     private actionSheetCtrl: ActionSheetController,
     private temaService: TemaService,
-    private viajeService: ViajeService
+    private viajeService: ViajeService,
+    private alertController: AlertController,
   ) {
     addIcons({ add: add, mapa: mapOutline });
     this.temaService.darkMode$.subscribe(isDark => {
@@ -137,6 +137,12 @@ export class RutasComponent implements AfterViewInit {
       next: (diasRecibidos) => {
         this.dias = diasRecibidos;
         console.log('Días obtenidos:', this.dias);
+
+        const dia1 = this.dias.find(d => d.id === 0);
+        if (dia1) {
+          this.diaSeleccionado = dia1.id;
+          this.onDiaSeleccionado(dia1.id);
+        }
       },
       error: (err) => {
         console.error('Error al obtener días del viaje:', err);
@@ -144,7 +150,9 @@ export class RutasComponent implements AfterViewInit {
     });
   }
 
-  onDiaSeleccionado(idDia: number) {
+
+
+  onDiaSeleccionado(idDia?: number) {
     const diaSel = this.dias.find(d => d.id === idDia);
     if (!diaSel || !this.idViaje) {
       this.clearMarkers();
@@ -191,10 +199,15 @@ export class RutasComponent implements AfterViewInit {
         this.itinerariosDia = response;
         console.log(response);
         this.plotDayItineraries();
+        if (this.itinerariosDia.length === 0) {
+          this.map.setView(this.madridCoords, 6);
+          this.mostrarAlertaSinRutas();
+        }
       },
       error: (error) => {
         this.clearMarkers();
         this.map.setView(this.madridCoords, 6);
+        console.error('Error al obtener itinerarios por día:', error);
       }
     });
   }
@@ -330,4 +343,15 @@ export class RutasComponent implements AfterViewInit {
 
     await actionSheet.present();
   }
+
+  async mostrarAlertaSinRutas() {
+    const alert = await this.alertController.create({
+      header: 'No hay rutas',
+      message: 'No hay rutas disponibles. Por favor, añade rutas para continuar.',
+      buttons: ['Aceptar']
+    });
+
+    await alert.present();
+  }
+
 }
