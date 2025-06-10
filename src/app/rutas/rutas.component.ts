@@ -127,6 +127,10 @@ export class RutasComponent implements AfterViewInit {
       next: (itins) => {
         this.itinerarios = itins;
         this.plotMarkers(this.itinerarios);
+        if (this.itinerarios.length === 0) {
+          this.map.setView(this.madridCoords, 6);
+          this.mostrarAlertaSinRutas();
+        }
       },
       error: (err) => console.error('Error al obtener itinerarios:', err),
     });

@@ -17,6 +17,9 @@
             [(ngModel)]="diaSeleccionado"
             (ionChange)="onDiaSeleccionado($event.detail.value)"
           >
+            <ion-select-option *ngIf="!dias || dias.length === 0" [disabled]="true">
+              Crea un día
+            </ion-select-option>
             <ion-select-option *ngFor="let dia of dias" [value]="dia.id">
               Día {{ dia.numeroDia }}
             </ion-select-option>
