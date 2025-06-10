@@ -104,7 +104,13 @@
 </ng-container>
 
 <!-- Botón flotante -->
-<ion-icon name="add-circle" class="floating-btn" *ngIf="segmento_seleccionado === 'lista_maletas' || segmento_seleccionado === 'lista_grupos_billetes'" (click)="mostrarFormulario()"></ion-icon>
+<ion-icon
+  name="add-circle"
+  class="floating-btn"
+  *ngIf="(segmento_seleccionado === 'lista_maletas' && !mostrarFormularioMaleta) ||
+         (segmento_seleccionado === 'lista_grupos_billetes' && !mostrarFormularioBillete)"
+  (click)="mostrarFormulario()">
+</ion-icon>
 
 <!-- NavBar -->
 

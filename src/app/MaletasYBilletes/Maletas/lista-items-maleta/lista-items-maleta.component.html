@@ -285,7 +285,12 @@
 </ng-container>
 
 <!-- Botón flotante -->
-<ion-icon name="add-circle" class="floating-btn" (click)="mostrarFormulario = true"></ion-icon>
+<ion-icon
+  name="add-circle"
+  class="floating-btn"
+  *ngIf="!mostrarFormulario"
+  (click)="mostrarFormulario = true">
+</ion-icon>
 
 <!-- NavBar -->
 
