@@ -103,7 +103,7 @@ export class CrearViajeComponent implements OnInit {
       return;
     }
 
-    if (fechaInicio == hoy) {
+    if (fechaInicio.getTime() === hoy.getTime()) {
       this.mensajeError = "La fecha de inicio no puede ser hoy.";
       return;
     }
