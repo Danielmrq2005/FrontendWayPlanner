@@ -92,6 +92,20 @@
   margin-bottom: 4px;
 }
 
+.foto-preview {
+  display: block;
+  max-width: 200px;
+  max-height: 200px;
+  margin: 10px auto;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  object-fit: cover;
+}
+.preview-container {
+  text-align: center;
+  margin-bottom: 16px;
+}
+
 /* Ajuste específico para inputs de tipo "time" en .horario-field */
 .horario-field input[type="time"] {
   border: 1px solid #5B97D5;

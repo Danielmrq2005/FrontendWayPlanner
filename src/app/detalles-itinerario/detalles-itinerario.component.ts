@@ -4,6 +4,7 @@ import {NgForOf, NgIf} from "@angular/common";
 import {SafeResourceUrl,DomSanitizer} from "@angular/platform-browser";
 import {Router} from "@angular/router";
 import {ItineariosService} from "../Servicios/itinearios.service";
+import {Itinerario} from "../Modelos/Itinerario";
 
 @Component({
   selector: 'app-detalles-itinerario',
@@ -19,6 +20,7 @@ import {ItineariosService} from "../Servicios/itinearios.service";
 export class DetallesItinerarioComponent  implements OnInit {
   @Input() itinerario: any;
   @Input() idViaje: string | null = null;
+  @Input() diaSemana: any;
   mapaUrl: SafeResourceUrl | undefined;
 
   constructor(private modalCtrl: ModalController, private sanitizer: DomSanitizer, private router: Router, private itinerarioService: ItineariosService) {}
@@ -71,6 +73,10 @@ export class DetallesItinerarioComponent  implements OnInit {
         console.error('Error al eliminar el itinerario:', error);
       }
     });
+  }
+
+  filtrarHorariosPorDia(itinerario: Itinerario, diaSemana?: string) {
+    return itinerario.horarios.filter(horario => horario.dia === diaSemana);
   }
 
 }

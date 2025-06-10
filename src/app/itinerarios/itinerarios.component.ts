@@ -166,7 +166,7 @@ export class ItinerariosComponent  implements OnInit {
   async abrirDetalle(itinerario: any) {
     const modal = await this.modalController.create({
       component: DetallesItinerarioComponent,
-      componentProps: { itinerario, idViaje: this.idViaje },
+      componentProps: { itinerario, idViaje: this.idViaje, diaSemana: this.diaSeleccionado },
     });
     await modal.present();
   }

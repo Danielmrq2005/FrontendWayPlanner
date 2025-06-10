@@ -199,6 +199,8 @@ ion-button:hover {
   justify-content: flex-start;
 }
 
+
+
 .horarios-container button {
   background-color: #5B97D5;
   color: white;
@@ -216,6 +218,37 @@ ion-button:hover {
 
 .horarios-container button:hover {
   background-color: #4c85c9;
+}
+
+.foto {
+  display: inline-block;
+  padding: 10px 20px;
+  color: white;
+  background-color: #5B97D5;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  text-align: center;
+  margin-left: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+.foto:hover {
+  background-color: #487bcf;
+}
+
+.foto-preview {
+  display: block;
+  max-width: 200px;
+  max-height: 200px;
+  margin: 10px auto;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  object-fit: cover;
+}
+.preview-container {
+  text-align: center;
+  margin-bottom: 16px;
 }
 
 .horarios-container button:disabled {

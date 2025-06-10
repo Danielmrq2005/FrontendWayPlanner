@@ -15,6 +15,8 @@ import { ItineariosService } from '../Servicios/itinearios.service';
 import { NgForOf, NgIf } from '@angular/common';
 import { HorarioService } from '../Servicios/horario.service';
 import { Horario } from '../Modelos/Horario';
+import {DiaService} from "../Servicios/dia.service";
+import {Dia} from "../Modelos/Dia";
 
 @Component({
   selector: 'app-actu-itinerario',
@@ -49,6 +51,8 @@ export class ActuItinerarioComponent implements OnInit, AfterViewInit {
   formularioHorarioManual!: FormGroup;
   formularioHorarioEditado!: FormGroup;
   idViaje: number = 0;
+  fotoPreview: string | null = null;
+  dias: Dia[] = [];
 
   modalAbierto = false;
   indiceHorarioEditado = -1;
@@ -87,7 +91,8 @@ export class ActuItinerarioComponent implements OnInit, AfterViewInit {
     private itinerarioService: ItineariosService,
     private modalCtrl: ModalController,
     private horarioService: HorarioService,
-    private alertController: AlertController
+    private alertController: AlertController,
+    private diaService: DiaService
   ) {
     const nav = this.router.getCurrentNavigation();
     this.itinerario = nav?.extras.state?.['itinerario'] || this.itinerario;
@@ -111,12 +116,16 @@ export class ActuItinerarioComponent implements OnInit, AfterViewInit {
       horarios: this.fb.array(this.itinerario.horarios.map(horario => this.crearHorarioFormGroup(horario)))
     });
 
+
+
     this.formularioHorarioManual = this.fb.group({
       diaHorario: ['', Validators.required],
       horaInicio: ['', Validators.required],
       horaFin: ['', Validators.required],
       cerrado: [false]
     });
+
+    this.obtenerDiasPorViaje();
 
     this.inicializarMapa();
   }
@@ -125,15 +134,18 @@ export class ActuItinerarioComponent implements OnInit, AfterViewInit {
     this.inicializarMapa();
   }
 
-  // Crear FormGroup para cada horario (para usar en el FormArray)
+
   crearHorarioFormGroup(horario: Horario): FormGroup {
     return this.fb.group({
+      id: [horario.id],  // <- este campo es necesario
+      idItinerario: [horario.idItinerario], // <- también necesario para asignar correctamente
       dia: [horario.dia, Validators.required],
       horaInicio: [horario.horaInicio, Validators.required],
       horaFin: [horario.horaFin, Validators.required],
       isClosed: [horario.isClosed]
     });
   }
+
 
   get horariosFormArray(): FormArray {
     return this.formularioItinerario.get('horarios') as FormArray;
@@ -219,11 +231,11 @@ export class ActuItinerarioComponent implements OnInit, AfterViewInit {
   }
 
   eliminarHorario(index: number) {
-    const idHorario = this.itinerario.horarios[index]
+    const idHorario = this.itinerario.horarios[index].id
     this.itinerario.horarios.splice(index, 1);
     this.horariosFormArray.removeAt(index);
 
-    this.horarioService.eliminarHorario(+idHorario)
+    this.horarioService.eliminarHorario(idHorario)
       .subscribe({
         next: (respuesta) => {
           console.log('Horario eliminado:', respuesta);
@@ -256,15 +268,24 @@ export class ActuItinerarioComponent implements OnInit, AfterViewInit {
   }
 
   actualizarItinerario() {
-    this.horariosFormArray.clear();
-    this.itinerario.horarios.forEach(horario => {
-      this.horariosFormArray.push(this.crearHorarioFormGroup(horario));
-    });
-
     if (this.formularioItinerario.valid) {
       const formData = new FormData();
-      // Copiar valores incluyendo horarios actualizados
+
+      // Asegura que el FormArray refleja el array real de horarios
+      this.formularioItinerario.setControl('horarios', this.fb.array(
+        this.itinerario.horarios.map(horario => this.crearHorarioFormGroup(horario))
+      ));
+
+      this.formularioItinerario.get('iddia')?.valueChanges.subscribe(value => {
+        this.itinerario.iddia = value;
+      });
+
+      // Obtener todos los valores actualizados desde el formulario
       const valoresFormulario = { ...this.formularioItinerario.value, id: this.itinerario.id };
+
+      // Asegurar que el campo horarios incluye los actuales del FormArray
+      valoresFormulario.horarios = this.horariosFormArray.value;
+
       const itinerarioBlob = new Blob([JSON.stringify(valoresFormulario)], { type: 'application/json' });
       formData.append('itinerario', itinerarioBlob);
 
@@ -291,6 +312,7 @@ export class ActuItinerarioComponent implements OnInit, AfterViewInit {
       this.presentAlert('Por favor, rellena correctamente todos los campos obligatorios.');
     }
   }
+
 
   inicializarMapa() {
     const input = document.getElementById('autocomplete') as HTMLInputElement;
@@ -364,8 +386,28 @@ export class ActuItinerarioComponent implements OnInit, AfterViewInit {
       reader.onload = () => {
         const base64 = (reader.result as string).split(',')[1];
         this.formularioItinerario.patchValue({ foto: base64 });
+        this.fotoPreview = reader.result as string; // Guardar la previsualización
       };
       reader.readAsDataURL(file);
+    }
+  }
+
+  obtenerDiasPorViaje() {
+    if (this.idViaje) {
+      this.diaService.obtenerDias(this.idViaje).subscribe({
+        next: (dias) => {
+          console.log('Días recibidos:', dias);
+          this.dias = dias;
+        },
+        error: (err) => {
+          console.error('Error al obtener días:', err);
+        },
+        complete: () => {
+          console.log('Consulta de días completada');
+        }
+      });
+    } else {
+      console.warn('No se ha seleccionado un viaje válido');
     }
   }
 

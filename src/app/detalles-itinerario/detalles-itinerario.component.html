@@ -72,14 +72,21 @@
 
       <ion-label class="titulo-horarios"><strong>Horarios:</strong></ion-label>
       <ion-list class="lista-horarios" lines="none">
-        <ion-item *ngFor="let horario of itinerario.horarios" class="item-horario">
-          <ion-label>
-            {{ horario.dia }} - {{ horario.horaInicio }} - {{ horario.horaFin }}
-            <span [style.color]="horario.isClosed ? 'red' : 'green'">
-              {{ horario.isClosed ? '(Cerrado)' : '(Abierto)' }}
-            </span>
-          </ion-label>
-        </ion-item>
+        <ng-container *ngIf="filtrarHorariosPorDia(itinerario, diaSemana.diaSemana).length > 0; else sinHorarios">
+          <ion-item *ngFor="let horario of filtrarHorariosPorDia(itinerario, diaSemana.diaSemana)" class="item-horario">
+            <ion-label>
+              {{ horario.dia }} - {{ horario.horaInicio }} - {{ horario.horaFin }}
+              <span [style.color]="horario.isClosed ? 'red' : 'green'">
+          {{ horario.isClosed ? '(Cerrado)' : '(Abierto)' }}
+        </span>
+            </ion-label>
+          </ion-item>
+        </ng-container>
+        <ng-template #sinHorarios>
+          <ion-item>
+            <ion-label>Sin horarios para este día</ion-label>
+          </ion-item>
+        </ng-template>
       </ion-list>
       <ion-button (click)="irAActualizarItinerario()" class="btn-actualizar">Actualizar Itinerario</ion-button>
       <ion-button (click)="eliminarItinerario()" class="btn-eliminar">Eliminar Itinerario</ion-button>

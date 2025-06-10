@@ -6,7 +6,7 @@ import {jwtDecode} from "jwt-decode";
 import {DiaService} from "../Servicios/dia.service";
 import {ViajeService} from "../Servicios/viaje.service";
 import {Viaje} from "../Modelos/Viaje";
-import {IonicModule} from "@ionic/angular";
+import {AlertController, IonicModule} from "@ionic/angular";
 
 @Component({
   selector: 'app-crear-dia',
@@ -20,7 +20,7 @@ import {IonicModule} from "@ionic/angular";
 })
 export class CrearDiaComponent implements OnInit {
 
-  constructor(private diaService: DiaService, private viajeService: ViajeService) { }
+  constructor(private diaService: DiaService, private viajeService: ViajeService, private alertController: AlertController) { }
 
   dia = {
     fecha: '',
@@ -37,37 +37,49 @@ export class CrearDiaComponent implements OnInit {
     this.obtenerViajesPorUsuario();
   }
 
-  crearDia() {
-    console.log('Valores actuales del día:', this.dia);
-    if (
-      this.dia.fecha.trim() !== '' &&
-      this.dia.numeroDia > 0 &&
-      this.dia.diaSemana.trim() !== '' &&
-      this.idViajeSeleccionado
-    ) {
-      const diaData: Dia = {
-        fecha: this.dia.fecha,
-        numeroDia: this.dia.numeroDia,
-        diaSemana: this.dia.diaSemana,
-        idViaje: this.idViajeSeleccionado
-      };
-
-      this.diaService.crearDia(diaData).subscribe({
-        next: (response) => {
-          console.log('Día creado exitosamente:', response);
-        },
-        error: (err) => {
-          console.error('Error al crear el día:', err);
-        },
-        complete: () => {
-          console.log('Proceso de creación de día completado');
-          this.dia = { fecha: '', numeroDia: 0, diaSemana: '', idViaje: 0 };
-        }
-      });
-    } else {
-      console.warn('Por favor, completa todos los campos del día antes de enviar.');
+  async crearDia() {
+    if (this.dia.fecha.trim() === '') {
+      await this.presentAlert('Por favor, selecciona una fecha.');
+      return;
     }
+
+    if (this.dia.numeroDia <= 0) {
+      await this.presentAlert('El número de día debe ser mayor que cero.');
+      return;
+    }
+
+    if (this.dia.diaSemana.trim() === '') {
+      await this.presentAlert('Por favor, selecciona un día de la semana.');
+      return;
+    }
+
+    if (!this.idViajeSeleccionado) {
+      await this.presentAlert('Por favor, selecciona un viaje.');
+      return;
+    }
+
+    const diaData: Dia = {
+      fecha: this.dia.fecha,
+      numeroDia: this.dia.numeroDia,
+      diaSemana: this.dia.diaSemana,
+      idViaje: this.idViajeSeleccionado
+    };
+
+    this.diaService.crearDia(diaData).subscribe({
+      next: (response) => {
+        console.log('Día creado exitosamente:', response);
+      },
+      error: (err) => {
+        console.error('Error al crear el día:', err);
+        this.presentAlert('Ocurrió un error al crear el día.');
+      },
+      complete: () => {
+        console.log('Proceso de creación de día completado');
+        this.dia = { fecha: '', numeroDia: 0, diaSemana: '', idViaje: 0 };
+      }
+    });
   }
+
 
   obtenerUsuarioId(): number {
     const token = sessionStorage.getItem('authToken');
@@ -102,6 +114,13 @@ export class CrearDiaComponent implements OnInit {
     }
   }
 
-
+  async presentAlert(mensaje: string) {
+    const alert = await this.alertController.create({
+      header: 'Atención',
+      message: mensaje,
+      buttons: ['OK'],
+    });
+    await alert.present();
+  }
 
 }

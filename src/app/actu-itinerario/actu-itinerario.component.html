@@ -20,6 +20,9 @@
         <label for="foto" class="foto">Seleccionar Foto</label>
         <input id="foto" type="file" (change)="onFotoChange($event)" accept="image/*" />
       </ion-item>
+      <div *ngIf="fotoPreview" class="preview-container">
+        <img [src]="fotoPreview" alt="Previsualización" class="foto-preview" />
+      </div>
 
       <ion-card-content>
         <ion-list lines="full">
@@ -50,6 +53,15 @@
           <ion-item>
             <ion-label position="floating">Duración</ion-label>
             <ion-input formControlName="duracion"></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <!--Select de dias de obtener dias por viaje id-->
+            <ion-label position="floating">Día</ion-label>
+            <ion-select formControlName="iddia">
+              <ion-select-option *ngFor="let dia of dias" [value]="dia.id">Día {{dia.numeroDia}} - ({{dia.fecha}})
+              </ion-select-option>
+            </ion-select>
           </ion-item>
         </ion-list>
 

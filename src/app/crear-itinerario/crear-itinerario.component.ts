@@ -64,6 +64,7 @@ export class CrearItinerarioComponent  implements OnInit, AfterViewInit {
 
   map: any;
   marker: any;
+  fotoPreview: string | null = null;
 
   inicializarMapa() {
     const input = document.getElementById('autocomplete') as HTMLInputElement;
@@ -346,7 +347,11 @@ export class CrearItinerarioComponent  implements OnInit, AfterViewInit {
   onFotoSeleccionada(event: any) {
     const file = event.target.files[0];
     if (file) {
-      this.fotoSeleccionada = file;
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.fotoPreview = reader.result as string;
+      };
+      reader.readAsDataURL(file);
     }
   }
 
