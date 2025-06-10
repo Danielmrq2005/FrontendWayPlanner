@@ -103,6 +103,11 @@ export class CrearViajeComponent implements OnInit {
       return;
     }
 
+    if (fechaInicio == hoy) {
+      this.mensajeError = "La fecha de inicio no puede ser hoy.";
+      return;
+    }
+
     if (fechaFin < hoy) {
       this.mensajeError = "La fecha de fin no puede ser anterior a hoy.";
       return;
