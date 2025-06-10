@@ -59,6 +59,16 @@
       transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
       box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
       cursor: pointer;
+      flex-wrap: nowrap;
+
+    }
+
+    .left-content {
+      display: flex;
+      align-items: center;
+      flex: 1 1 auto;
+      min-width: 0; /* Esto es esencial para que los hijos usen ellipsis */
+      gap: 8px;
     }
 
     .item-card:hover {
@@ -73,6 +83,9 @@
       flex-grow: 1;
       margin-left: 0.75rem;
       margin-right: 0.75rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     .titulo {
@@ -86,6 +99,7 @@
       margin-right: auto;
       padding-left: 15px;
       padding-right: 15px;
+      padding-top: 8px;
       max-width: 90%;
       width: 100%;
 
