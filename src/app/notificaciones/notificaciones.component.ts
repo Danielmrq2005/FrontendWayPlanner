@@ -10,7 +10,6 @@ import {
   IonToolbar
 } from "@ionic/angular/standalone";
 import {DatePipe} from "@angular/common";
-import {Router} from "@angular/router";
 import {NotificacionesService} from "../Servicios/notificaciones.service";
 import {jwtDecode} from "jwt-decode";
 import {Notificacion} from "../Modelos/notificacion";
@@ -36,20 +35,32 @@ import {TemaService} from "../Servicios/tema.service";
   ]
 })
 export class NotificacionesComponent  implements OnInit {
-    usuarioId: number = 0;
-    notificaciones: Notificacion[] = [];
-    darkMode = false;
 
+  // ID del usuario autenticado
+  usuarioId: number = 0;
 
-  constructor(private notificacionesService : NotificacionesService, private temaService: TemaService) {
+  // Arreglo que almacenará las notificaciones obtenidas
+  notificaciones: Notificacion[] = [];
+
+  // Controla si está activado el modo oscuro
+  darkMode = false;
+
+  constructor(
+    private notificacionesService : NotificacionesService,
+    private temaService: TemaService
+  ) {
+    // Se suscribe al observable para actualizar el modo oscuro dinámicamente
     this.temaService.darkMode$.subscribe(isDark => {
       this.darkMode = isDark;
     });
   }
 
   ngOnInit() {
+    // Se obtiene el ID del usuario desde el token JWT
     this.usuarioId = this.obtenerUsuarioId();
     console.log(this.usuarioId);
+
+    // Si el ID del usuario es válido, se cargan sus notificaciones
     if (this.usuarioId) {
       this.listaNotificaciones();
     } else {
@@ -57,10 +68,10 @@ export class NotificacionesComponent  implements OnInit {
     }
   }
 
-
-  listaNotificaciones(){
+  // Método que obtiene la lista de notificaciones desde el backend
+  listaNotificaciones() {
     this.notificacionesService.obtenerNotificacionesPorUsuario(this.usuarioId).subscribe({
-      next:(notis: Notificacion[]) => {
+      next: (notis: Notificacion[]) => {
         this.notificaciones = notis;
         console.log(this.notificaciones);
       },
@@ -70,17 +81,20 @@ export class NotificacionesComponent  implements OnInit {
     });
   }
 
+  // Método para eliminar una notificación por su ID
   eliminarNotificacion(id: number) {
     this.notificacionesService.eliminarNotificacion(id).subscribe({
       next : () => {
-        console.log('Notificacion eliminada');
-        this.listaNotificaciones();
-      } ,
+        console.log('Notificación eliminada');
+        this.listaNotificaciones(); // Se recarga la lista después de eliminar
+      },
       error: (error) => {
-        console.error('Error al eliminar la notificacion', error);
+        console.error('Error al eliminar la notificación', error);
       }
-    })
+    });
   }
+
+  // Extrae el ID del usuario desde el token almacenado en sessionStorage
   obtenerUsuarioId(): number {
     const token = sessionStorage.getItem('authToken');
     if (token) {
