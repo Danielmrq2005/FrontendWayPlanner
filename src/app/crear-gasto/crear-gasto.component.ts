@@ -3,6 +3,7 @@ import {IonicModule, ToastController} from "@ionic/angular";
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {GastosService} from "../Servicios/gastos.service";
 import {ActivatedRoute, Router} from "@angular/router";
+import {TemaService} from "../Servicios/tema.service";
 
 
 @Component({
@@ -18,13 +19,16 @@ import {ActivatedRoute, Router} from "@angular/router";
 })
 export class CrearGastoComponent  implements OnInit {
   gastoForm: FormGroup;
+  darkMode = false;
+
 
   constructor(
     private formBuilder: FormBuilder,
     private gastosService: GastosService,
     private toastController: ToastController,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private temaService: TemaService
   ) {
     this.gastoForm = this.formBuilder.group({
       titulo: ['', Validators.required],
@@ -33,6 +37,9 @@ export class CrearGastoComponent  implements OnInit {
       categoria: ['', Validators.required],
       fecha: [''],
       viajeId: ['', Validators.required],
+    });
+    this.temaService.darkMode$.subscribe(isDark => {
+      this.darkMode = isDark;
     });
   }
 

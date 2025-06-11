@@ -1,3 +1,4 @@
+// Importación de módulos necesarios de Angular y Ionic
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from "@angular/forms";
 import {
@@ -8,6 +9,7 @@ import { Viaje } from "../Modelos/Viaje";
 import { ViajeService } from "../Servicios/viaje.service";
 import { ActivatedRoute, Router } from "@angular/router";
 import { jwtDecode } from "jwt-decode";
+import { TemaService } from "../Servicios/tema.service";
 import { IonicModule } from "@ionic/angular";
 import { CommonModule } from "@angular/common";
 
@@ -25,9 +27,15 @@ import { CommonModule } from "@angular/common";
   ]
 })
 export class CrearViajeComponent implements OnInit {
+
+  // Variables para manipular el viaje
+  viaje: Viaje | null = null;
   idViajeEditar: number | null = null;
+  darkMode = false;
+
   mensajeError: string | null = null;
 
+  // Campos del formulario
   nombre = '';
   descripcion = '';
   fechaInicioStr = '';
@@ -37,10 +45,12 @@ export class CrearViajeComponent implements OnInit {
   constructor(
     private viajeservice: ViajeService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private temaService: TemaService
   ) {}
 
   ngOnInit() {
+    // Detecta si se pasó un ID por parámetro para editar un viaje
     this.route.paramMap.subscribe(params => {
       const id = params.get('id');
       if (id) {
@@ -48,8 +58,14 @@ export class CrearViajeComponent implements OnInit {
         this.cargarViajeExistente(this.idViajeEditar);
       }
     });
+
+    // Se suscribe al tema para saber si está en modo oscuro
+    this.temaService.darkMode$.subscribe(isDark => {
+      this.darkMode = isDark;
+    });
   }
 
+  // Carga los datos del viaje que se quiere editar
   cargarViajeExistente(id: number) {
     this.viajeservice.viajePorId(id).subscribe({
       next: (viaje) => {
@@ -63,17 +79,25 @@ export class CrearViajeComponent implements OnInit {
     });
   }
 
+  // Da formato YYYY-MM-DD a una fecha
   formatFecha(fecha: string | Date): string {
     const d = new Date(fecha);
     return d.toISOString().split('T')[0];
   }
 
+  // Valida y guarda un viaje nuevo o actualizado
   guardarViaje() {
     const fechaInicio = new Date(this.fechaInicioStr);
     const fechaFin = new Date(this.fechaFinStr);
     const hoy = new Date();
-    hoy.setHours(0, 0, 0, 0);
 
+
+    // Normaliza todas las fechas a medianoche para evitar errores de zona horaria
+    hoy.setHours(0, 0, 0, 0);
+    fechaInicio.setHours(0, 0, 0, 0);
+    fechaFin.setHours(0, 0, 0, 0);
+
+    // Validaciones del formulario
     if (!this.nombre || !this.descripcion || !this.fechaInicioStr || !this.fechaFinStr || !this.destino) {
       this.mensajeError = 'Por favor, rellena todos los campos.';
       return;
@@ -81,6 +105,11 @@ export class CrearViajeComponent implements OnInit {
 
     if (fechaInicio < hoy) {
       this.mensajeError = "La fecha de inicio no puede ser anterior a hoy.";
+      return;
+    }
+
+    if (fechaInicio.getTime() === hoy.getTime()) {
+      this.mensajeError = "La fecha de inicio no puede ser hoy.";
       return;
     }
 
@@ -96,8 +125,10 @@ export class CrearViajeComponent implements OnInit {
 
     this.mensajeError = null;
 
+    // Obtiene el ID del usuario desde el token
     const idusuario = this.obtenerUsuarioId();
 
+    // Se arma el objeto Viaje
     const viajeForm: Viaje = {
       nombre: this.nombre,
       descripcion: this.descripcion,
@@ -109,6 +140,7 @@ export class CrearViajeComponent implements OnInit {
       }
     };
 
+    // Si se está editando un viaje, se actualiza
     if (this.idViajeEditar !== null) {
       viajeForm.id = this.idViajeEditar;
       this.viajeservice.editarViaje(this.idViajeEditar, viajeForm).subscribe({
@@ -119,6 +151,7 @@ export class CrearViajeComponent implements OnInit {
         }
       });
     } else {
+      // Si es nuevo, se crea
       this.viajeservice.crearviaje(viajeForm).subscribe({
         next: () => this.router.navigate(['/viajes']),
         error: (error) => {
@@ -128,6 +161,8 @@ export class CrearViajeComponent implements OnInit {
     }
   }
 
+
+  // Decodifica el token JWT para obtener el ID del usuario
   obtenerUsuarioId(): number {
     const token = sessionStorage.getItem('authToken');
     if (token) {

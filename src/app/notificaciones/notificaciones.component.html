@@ -1,5 +1,6 @@
 <ion-header>
-  <ion-toolbar style="--background: #5B97D5;">
+  <ion-toolbar [style]="{'--background': darkMode ? '#1f1f1f' : '#5B97D5'}" style="display: flex; align-items: center; justify-content: space-between; padding: 0 16px;">
+    <div style="display: flex; align-items: center;">
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/viajes" style="color: white;"></ion-back-button>
     </ion-buttons>
@@ -7,10 +8,11 @@
       <img src="assets/icons8-notifications-78.png" style="height: 42px; margin-right: 20px;">
       <ion-title style="color: white; margin-left: -30px;">Notificaciones</ion-title>
     </div>
+  </div>
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding">
+<ion-content class="ion-padding" [class.dark]="darkMode">
   <div class="notificaciones-container" *ngIf="notificaciones?.length; else sinNotificaciones">
     <ion-card *ngFor="let noti of notificaciones" class="notificacion-card">
       <ion-card-content>
@@ -93,5 +95,19 @@
     .no-data p {
       font-size: 1.1rem;
     }
+    .dark {
+      ion-content {
+        --background: #121212;
+      }
+
+      ion-card {
+        --background: #1e1e1e;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+      }
+
+      .no-data {
+        color: #b3b3b3;
+      }
+      }
   </style>
 </ion-content>

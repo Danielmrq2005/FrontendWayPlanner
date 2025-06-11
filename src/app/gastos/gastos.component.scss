@@ -55,11 +55,7 @@ ion-badge {
   font-weight: bold;
 }
 
-.app-container {
-  display: flex;
-  height: 100%;
-  width: 100%;
-}
+
 
 .sidebar {
   width: 45px;
@@ -118,15 +114,42 @@ ion-badge {
 }
 
 
-.main-content {
-  margin-left: 60px;
-  padding: 20px;
+
+.app-container {
+  display: flex;
   width: 100%;
-  transition: margin-left 0.3s ease;
+  min-height: 100vh;
+  position: relative;
 }
 
-.sidebar.expanded ~ .main-content {
+.main-content {
+  position: relative;
+  flex: 1;
+  margin-left: 45px;
+  transition: margin-left 0.3s ease;
+  min-height: 100vh;
+  width: calc(100% - 45px);
+  @media (max-width: 768px) {
+    margin-left: 0;
+    width: 100%;
+    padding-bottom: 80px;
+  }
+}
+
+.app-container.sidebar-expanded .main-content {
   margin-left: 200px;
+  width: calc(100% - 200px);
+}
+
+ion-fab {
+  z-index: 1000;
+  margin-bottom: 70px;
+}
+
+@media (min-width: 769px) {
+  ion-fab {
+    margin-bottom: 16px;
+  }
 }
 .menu-icon {
   width: 24px;
@@ -168,3 +191,45 @@ ion-fab-button {
 .tab.ingreso {
   margin-left: auto;
 }
+
+@media (max-width: 768px) {
+  .top-tabs {
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    padding: 8px;
+  }
+
+  .tabs-container {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    gap: 12px;
+    padding: 0 16px;
+    overflow-x: auto;
+    flex-wrap: nowrap;
+  }
+
+
+  .tab {
+    padding: 8px 12px;
+    border-radius: 15px;
+    font-size: 14px;
+    min-width: 120px;
+    text-align: center;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+
+  .tab.gasto, .tab.total, .tab.ingreso {
+    margin: 0;
+  }
+
+  .chart-icon {
+    width: 32px;
+    height: 32px;
+    margin-top: 8px;
+  }
+}
+

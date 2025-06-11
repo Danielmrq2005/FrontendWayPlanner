@@ -84,7 +84,7 @@ export class AjustesComponent  implements OnInit {
 
   logout() {
     sessionStorage.removeItem('authToken');
-    this.router.navigate(['/login']);
+    this.router.navigate(['/home']);
   }
 
 
