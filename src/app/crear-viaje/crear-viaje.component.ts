@@ -87,17 +87,15 @@ export class CrearViajeComponent implements OnInit {
 
   // Valida y guarda un viaje nuevo o actualizado
   guardarViaje() {
+    const hoy = new Date();
+    hoy.setHours(0, 0, 0, 0);
+
     const fechaInicio = new Date(this.fechaInicioStr);
     const fechaFin = new Date(this.fechaFinStr);
-    const hoy = new Date();
 
-
-    // Normaliza todas las fechas a medianoche para evitar errores de zona horaria
-    hoy.setHours(0, 0, 0, 0);
     fechaInicio.setHours(0, 0, 0, 0);
     fechaFin.setHours(0, 0, 0, 0);
 
-    // Validaciones del formulario
     if (!this.nombre || !this.descripcion || !this.fechaInicioStr || !this.fechaFinStr || !this.destino) {
       this.mensajeError = 'Por favor, rellena todos los campos.';
       return;
@@ -125,22 +123,19 @@ export class CrearViajeComponent implements OnInit {
 
     this.mensajeError = null;
 
-    // Obtiene el ID del usuario desde el token
     const idusuario = this.obtenerUsuarioId();
 
-    // Se arma el objeto Viaje
     const viajeForm: Viaje = {
       nombre: this.nombre,
       descripcion: this.descripcion,
-      fechaInicio,
-      fechaFin,
+      fechaInicio: this.fechaInicioStr, // ← ENVÍAS STRING
+      fechaFin: this.fechaFinStr,       // ← ENVÍAS STRING
       destino: this.destino,
       usuario: {
         id: idusuario
       }
     };
 
-    // Si se está editando un viaje, se actualiza
     if (this.idViajeEditar !== null) {
       viajeForm.id = this.idViajeEditar;
       this.viajeservice.editarViaje(this.idViajeEditar, viajeForm).subscribe({
@@ -151,7 +146,6 @@ export class CrearViajeComponent implements OnInit {
         }
       });
     } else {
-      // Si es nuevo, se crea
       this.viajeservice.crearviaje(viajeForm).subscribe({
         next: () => this.router.navigate(['/viajes']),
         error: (error) => {

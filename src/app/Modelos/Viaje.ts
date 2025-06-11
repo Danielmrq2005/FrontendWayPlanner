@@ -4,8 +4,8 @@ import { Gastos } from './Gastos';
 export interface Viaje {
   id?: number;
   nombre: string;
-  fechaInicio: Date;
-  fechaFin: Date;
+  fechaInicio: string; // ← CAMBIO AQUÍ
+  fechaFin: string;    // ← CAMBIO AQUÍ
   destino: string;
   descripcion: string;
   usuario: {
