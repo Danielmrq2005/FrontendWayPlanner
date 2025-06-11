@@ -49,6 +49,11 @@ export class ViajesComponent implements OnInit {
     });
   }
 
+  NavegaActu() {
+    const currentUrl = this.router.url; // Get the current URL
+    this.router.navigate(['/actu-usuario'], { queryParams: { returnUrl: currentUrl } });
+  }
+
 
   obtenerUsuarioId(): number {
     const token = sessionStorage.getItem('authToken');

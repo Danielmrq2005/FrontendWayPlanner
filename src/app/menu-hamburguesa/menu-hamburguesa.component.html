@@ -3,6 +3,10 @@
     <ion-icon name="menu-outline"></ion-icon>
   </div>
   <div class="menu-items">
+    <div class="menu-item"  [routerLink]="['/maletas', viajeId]">
+      <img src="assets/casa.png" alt="Rutas Icon" class="menu-icon" />
+      <span class="menu-label">Inicio</span>
+    </div>
     <div class="menu-item">
       <img src="assets/Avion.png" [routerLink]="'/viajes'" alt="Gastos Icon" class="menu-icon" />
       <span class="menu-label">Viajes</span>
@@ -15,17 +19,19 @@
       <img src="assets/Gastos.png" alt="Ingresos Icon" class="menu-icon" />
       <span class="menu-label" >Gastos</span>
     </div>
-    <div class="menu-item" [routerLink]="'/actu-usuario'">
+    <div class="menu-item" (click)="navegaActu()">
       <img src="assets/usuario.png" alt="Total Icon" class="menu-icon" />
       <span class="menu-label">Actualizar perfil</span>
     </div>
-    <div class="menu-item">
-      <img src="assets/Ajustes.png"  [routerLink]="['/ajustes']" alt="Settings Icon" class="menu-icon" />
+    <div class="menu-item" [routerLink]="['/ajustes']">
+      <img src="assets/Ajustes.png"  alt="Settings Icon" class="menu-icon" />
       <span class="menu-label" >Ajustes</span>
     </div>
     <div class="menu-item" [routerLink]="['/rutas', viajeId]">
       <img src="assets/ruta.png" alt="Rutas Icon" class="menu-icon" />
       <span class="menu-label">Rutas</span>
     </div>
+
+
   </div>
 </div>

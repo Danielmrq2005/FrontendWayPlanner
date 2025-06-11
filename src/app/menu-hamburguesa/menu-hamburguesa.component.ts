@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {IonicModule} from "@ionic/angular";
-import {ActivatedRoute, RouterLink} from "@angular/router";
+import {ActivatedRoute, Router, RouterLink} from "@angular/router";
 import {TemaService} from "../Servicios/tema.service";
 
 @Component({
@@ -20,8 +20,9 @@ export class MenuHamburguesaComponent  implements OnInit {
 
 
 
+
   @Output() expansionChange = new EventEmitter<boolean>();
-  constructor(private route: ActivatedRoute, private temaService: TemaService) {
+  constructor(private route: ActivatedRoute, private temaService: TemaService, private router: Router) {
     this.temaService.darkMode$.subscribe(isDark => {
       this.darkMode = isDark;
     });
@@ -32,7 +33,10 @@ export class MenuHamburguesaComponent  implements OnInit {
     this.expansionChange.emit(this.sidebarExpanded);
   }
 
-
+  navegaActu() {
+    const currentUrl = this.router.url;
+    this.router.navigate(['/actu-usuario'], { queryParams: { returnUrl: currentUrl } });
+  }
 
   ngOnInit() {
     this.route.params.subscribe(params => {

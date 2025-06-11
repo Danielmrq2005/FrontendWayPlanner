@@ -4,9 +4,9 @@
       <ion-icon name="menu-outline"></ion-icon>
     </div>
     <div class="menu-items">
-      <div class="menu-item" [routerLink]="'/actu-usuario'">
+      <div class="menu-item" (click)="NavegaActu()">
         <img src="assets/usuario.png" alt="Total Icon" class="menu-icon" />
-        <span class="menu-label">Total</span>
+        <span class="menu-label">Actualizar perfil</span>
       </div>
       <div class="menu-item" [routerLink]="'/ajustes'">
         <img src="assets/Ajustes.png" alt="Settings Icon" class="menu-icon" />

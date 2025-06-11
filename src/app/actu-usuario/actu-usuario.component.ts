@@ -96,6 +96,9 @@ export class ActuUsuarioComponent implements OnInit {
             buttons: ['OK']
           });
           await alert.present();
+
+          const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+          this.router.navigateByUrl(returnUrl);
         },
         error: async (e) => {
           console.error('Error al actualizar:', e); // Log para depurar
