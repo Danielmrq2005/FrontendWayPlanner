@@ -49,11 +49,6 @@ export class ViajesComponent implements OnInit {
     });
   }
 
-  NavegaActu() {
-    const currentUrl = this.router.url; // Get the current URL
-    this.router.navigate(['/actu-usuario'], { queryParams: { returnUrl: currentUrl } });
-  }
-
 
   obtenerUsuarioId(): number {
     const token = sessionStorage.getItem('authToken');
@@ -79,6 +74,10 @@ export class ViajesComponent implements OnInit {
 
   }
 
+  NavegaActu() {
+    const currentUrl = this.router.url;
+    this.router.navigate(['/actu-usuario'], { queryParams: { returnUrl: currentUrl } });
+  }
 
   ngOnInit() {
     this.idusuario = this.obtenerUsuarioId();
@@ -87,23 +86,20 @@ export class ViajesComponent implements OnInit {
       this.viajeservice.listarViajesPorUsuario(this.idusuario).subscribe({
         next: (viajes: Viaje[]) => {
           const hoy = new Date();
+          hoy.setHours(0, 0, 0, 0);
+
+          const inicioManana = new Date(hoy);
+          inicioManana.setDate(hoy.getDate() + 1);
 
           viajes.forEach(via => {
             const fechafinViaje = new Date(via.fechaFin);
 
-            if (fechafinViaje <= hoy) {
-              this.viajeservice.eliminarViaje(via.id).subscribe({
-                next: () => {
-                  console.log('Viaje eliminado:', via.id);
-                },
-                error: (error) => {
-                  console.error('Error al eliminar el viaje:', error);
-                }
-              });
-            }
           });
 
-          this.viajes = viajes.filter(v => new Date(v.fechaInicio) > hoy);
+          this.viajes = viajes.filter(v => {
+            const fechaInicioViaje = new Date(v.fechaInicio);
+            return fechaInicioViaje >= hoy;
+          });
         },
         error: (err: any) => console.error('Error al obtener los viajes:', err)
       });
