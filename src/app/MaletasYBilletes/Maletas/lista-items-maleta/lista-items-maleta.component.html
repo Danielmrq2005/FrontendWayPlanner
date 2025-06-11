@@ -254,7 +254,7 @@
 </div>
 
 <!-- Contenido dinámico -->
-<div *ngIf="!mostrarFormulario" class="container mt-3 mb-5">
+<div *ngIf="!mostrarFormulario && !mostrarFormularioEdicion" class="container mt-3 mb-5">
   <div class="item-card" *ngFor="let item of itemsMaleta" (click)="seleccionarItem(item)">
     <ion-icon
       [name]="item.isSelected ? 'checkmark-circle' : 'ellipse-outline'"
@@ -262,11 +262,10 @@
     </ion-icon>
     <span class="item-nombre">{{ item.nombre }}</span>
 
-    <span class="item-categoria" (click)="$event.stopPropagation()">
+    <span class="item-categoria" (click)="editarCategoria($event, item)">
       {{ getNombreCategoria(item.categoria) }}
           <i class="bi bi-pencil"
-             title="Editar categoría"
-             (click)="editarCategoria(item); $event.stopPropagation()">
+             title="Editar categoría">
       </i>
     </span>
 
@@ -288,9 +287,18 @@
 <ion-icon
   name="add-circle"
   class="floating-btn"
-  *ngIf="!mostrarFormulario"
+  *ngIf="!mostrarFormulario && !mostrarFormularioEdicion"
   (click)="mostrarFormulario = true">
 </ion-icon>
+
+<!-- Editar item -->
+<app-form-editar-objeto-maleta
+  *ngIf="itemSeleccionado && mostrarFormularioEdicion"
+  [item]="itemSeleccionado"
+  (EdicionActualizada)="guardarEdicionItem($event)"
+  (EdicionCancelada)="cancelarEdicionItem()">
+</app-form-editar-objeto-maleta>
+
 
 <!-- NavBar -->
 

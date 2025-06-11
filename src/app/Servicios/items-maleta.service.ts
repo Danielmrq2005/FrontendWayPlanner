@@ -5,6 +5,7 @@ import {ListarObjetosMaletasDTO} from "../Modelos/Maletas/Items/ListarObjetosMal
 import {ObjetoSeleccionadoDTO} from "../Modelos/Maletas/Items/ObjetoSeleccionadoDTO";
 import {MasCantidadObjetoDTO} from "../Modelos/Maletas/Items/MasCantidadObjetoDTO";
 import {CrearItemDTO} from "../Modelos/Maletas/Items/CrearItemDTO";
+import {VerItemDTO} from "../Modelos/Maletas/Items/VerItemDTO";
 
 @Injectable({
   providedIn: 'root'
@@ -30,6 +31,10 @@ export class ItemsMaletaService {
   actualizarItemMaleta(id: number, isSelected: boolean): Observable<any> {
     const body = { isSelected }; // Esto corresponde a ObjetoSeleccionadoDTO en Java
     return this.http.put(`${this.baseUrl}/seleccionar_objeto/${id}`, body);
+  }
+
+  actualizarItemMaletaEntero(id: number, item: VerItemDTO): Observable<VerItemDTO> {
+    return this.http.put<VerItemDTO>(`${this.baseUrl}/actualizar_objeto/${id}`, item);
   }
 
   // Cambiar cantidad

@@ -1,7 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {IonicModule} from "@ionic/angular";
-import {ListaGruposBilletesComponent} from "../../Billetes/lista-grupos-billetes/lista-grupos-billetes.component";
-import {ListaMaletasComponent} from "../lista-maletas/lista-maletas.component";
 import {NgForOf, NgIf} from "@angular/common";
 import {ActivatedRoute, RouterLink} from "@angular/router";
 import {MaletaService} from "../../../Servicios/maleta.service";
@@ -10,6 +8,8 @@ import {ItemsMaletaService} from "../../../Servicios/items-maleta.service";
 import {FormItemMaletaComponent} from "../form-item-maleta/form-item-maleta.component";
 
 import { jsPDF } from 'jspdf';
+import {VerItemDTO} from "../../../Modelos/Maletas/Items/VerItemDTO";
+import {FormEditarObjetoMaletaComponent} from "../form-editar-objeto-maleta/form-editar-objeto-maleta.component";
 
 @Component({
     selector: 'app-lista-items-maleta',
@@ -21,7 +21,8 @@ import { jsPDF } from 'jspdf';
     RouterLink,
     NgForOf,
     NgIf,
-    FormItemMaletaComponent
+    FormItemMaletaComponent,
+    FormEditarObjetoMaletaComponent
   ]
 })
 export class ListaItemsMaletaComponent  implements OnInit {
@@ -31,7 +32,13 @@ export class ListaItemsMaletaComponent  implements OnInit {
   mostrarFormulario: boolean = false;
   mostrarListaItems: boolean = true;
 
+  mostrarFormularioEdicion: boolean = false;
+
   itemsMaleta: ListarObjetosMaletasDTO[] = [];
+
+  itemSeleccionado: VerItemDTO | null = null;
+
+  @Output() editandoItem = new EventEmitter<boolean>();
 
   constructor(private route: ActivatedRoute, private maletaService: MaletaService, private itemsMaletaService: ItemsMaletaService) { }
 
@@ -139,14 +146,20 @@ export class ListaItemsMaletaComponent  implements OnInit {
     });
   }
 
-  editarCategoria(item: any) {
-    // Aquí pones la lógica para editar la categoría, por ejemplo abrir un modal o formulario
+  editarCategoria(event: Event, item: VerItemDTO) {
+    event.stopPropagation();
+    this.itemSeleccionado = { ...item };
+    this.mostrarFormularioEdicion = true;
+    this.mostrarListaItems = false;
+    this.editandoItem.emit(true);
+
     console.log('Editar categoría de:', item);
   }
 
 
   FormularioCancelado() {
     this.mostrarFormulario = false;
+    this.mostrarFormularioEdicion = false;
     this.mostrarListaItems = true;
   }
 
@@ -247,5 +260,27 @@ export class ListaItemsMaletaComponent  implements OnInit {
 
     // Guardar PDF con nombre de la maleta
     doc.save(`${this.maletaNombre || 'maleta'}.pdf`);
+  }
+
+  cancelarEdicionItem() {
+    this.itemSeleccionado = null;
+    this.mostrarFormularioEdicion = false;
+    this.mostrarListaItems = true;
+    this.editandoItem.emit(false);
+  }
+
+  guardarEdicionItem(itemEditado: VerItemDTO) {
+    if (!itemEditado.id) {
+      console.error('No se puede actualizar el item: ID faltante');
+      return;
+    }
+
+    this.itemsMaletaService.actualizarItemMaletaEntero(itemEditado.id, itemEditado).subscribe(() => {
+      this.cargarItems();
+      this.itemSeleccionado = null;
+      this.editandoItem.emit(false);
+      this.mostrarFormularioEdicion = false;
+      this.mostrarListaItems = true;
+    });
   }
 }
