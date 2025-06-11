@@ -1,4 +1,4 @@
-export interface ListarBilletesDTO {
+export interface VerBilleteDTO {
   id: number;
   nombre: string;
   categoria: string;

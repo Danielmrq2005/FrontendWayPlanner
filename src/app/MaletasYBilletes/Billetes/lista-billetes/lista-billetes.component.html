@@ -191,7 +191,7 @@
 </div>
 
 <!-- Lista de billetes -->
-<div *ngIf="!mostrarFormulario" class="container mt-3 mb-5">
+<div *ngIf="!mostrarFormulario && !mostrarFormularioEdicion" class="container mt-3 mb-5">
   <div class="item-card" *ngFor="let billete of billetes" (click)="verBillete(billete)">
 
     <div class="left-content">
@@ -218,10 +218,17 @@
 <ion-icon
   name="add-circle"
   class="floating-btn"
-  *ngIf="!mostrarFormulario"
+  *ngIf="!mostrarFormulario && !mostrarFormularioEdicion"
   (click)="mostrarFormulario = true">
 </ion-icon>
 
+
+<app-form-editar-billete
+  *ngIf="mostrarFormularioEdicion && billeteSeleccionado"
+  [billete]="billeteSeleccionado"
+  (EdicionActualizada)="guardarEdicionBillete($event)"
+  (EdicionCancelada)="cancelarEdicionBillete()">
+</app-form-editar-billete>
 <!-- NavBar -->
 
 

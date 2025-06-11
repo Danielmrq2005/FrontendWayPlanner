@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {FormItemMaletaComponent} from "../../Maletas/form-item-maleta/form-item-maleta.component";
 import {IonicModule} from "@ionic/angular";
 import {NgForOf, NgIf} from "@angular/common";
@@ -7,6 +7,8 @@ import {FormBilleteComponent} from "../form-billete/form-billete.component";
 import {BilleteService} from "../../../Servicios/billete.service";
 import {ListarBilletesDTO} from "../../../Modelos/Billetes/ListarBilletesDTO";
 import {IonIcon} from "@ionic/angular/standalone";
+import {FormEditarBilleteComponent} from "../form-editar-billete/form-editar-billete.component";
+import {VerBilleteDTO} from "../../../Modelos/Billetes/VerBilleteDTO";
 
 @Component({
   selector: 'app-lista-billetes',
@@ -18,7 +20,8 @@ import {IonIcon} from "@ionic/angular/standalone";
     NgForOf,
     NgIf,
     RouterLink,
-    FormBilleteComponent
+    FormBilleteComponent,
+    FormEditarBilleteComponent
   ]
 })
 export class ListaBilletesComponent  implements OnInit {
@@ -30,6 +33,12 @@ export class ListaBilletesComponent  implements OnInit {
 
   mostrarFormulario: boolean = false;
   mostrarListaBilletes: boolean = true;
+
+  mostrarFormularioEdicion: boolean = false;
+
+  billeteSeleccionado: VerBilleteDTO | null = null;
+
+  @Output() editandoBillete = new EventEmitter<boolean>();
 
   constructor(private route: ActivatedRoute, private billeteService: BilleteService) { }
 
@@ -132,8 +141,36 @@ export class ListaBilletesComponent  implements OnInit {
     this.mostrarListaBilletes = true;
   }
 
-  editarBillete(event: Event, billete: ListarBilletesDTO) {
-  event.stopPropagation();
-    localStorage.setItem('billeteId', billete.id.toString());
+  editarBillete(event: Event, billete: VerBilleteDTO) {
+    event.stopPropagation();
+    this.billeteSeleccionado = { ...billete };
+
+    this.mostrarFormularioEdicion = true;
+    this.mostrarListaBilletes = false;
+    this.editandoBillete.emit(true);
+
+    console.log('Billete seleccionado para edición:', this.billeteSeleccionado);
+  }
+
+
+  guardarEdicionBillete(billeteEditado: VerBilleteDTO | VerBilleteDTO[]) {
+    const billete = Array.isArray(billeteEditado) ? billeteEditado[0] : billeteEditado;
+
+    if (!billete?.id) {
+      console.error('El billete editado no tiene un ID válido.');
+
+      return;
+    }
+
+    this.cargarBilletes();
+    this.billeteSeleccionado = null;
+    this.editandoBillete.emit(false);
+  }
+
+  cancelarEdicionBillete() {
+    this.billeteSeleccionado = null;
+    this.mostrarFormularioEdicion = false;
+    this.mostrarListaBilletes = true;
+    this.editandoBillete.emit(false);
   }
 }

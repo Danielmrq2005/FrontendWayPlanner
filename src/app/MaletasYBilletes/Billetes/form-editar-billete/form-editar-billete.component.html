@@ -2,7 +2,7 @@
 <ion-card id="form-billete" class="billete-card" style="display: block;">
   <div class="billete-header">
     <ion-icon name="ticket-outline" class="billete-icon"></ion-icon>
-    {{ tituloBillete || 'Nuevo Billete' }}
+    {{ nombreBillete || billete.nombre }}
   </div>
 
   <ion-card-content>
@@ -10,7 +10,7 @@
     <ion-item lines="none">
       <ion-label position="stacked">Título</ion-label>
       <ion-input
-        [(ngModel)]="tituloBillete"
+        [(ngModel)]="nombreBillete"
         placeholder="Escribe el título que le quieras dar al Billete"
         type="text">
       </ion-input>

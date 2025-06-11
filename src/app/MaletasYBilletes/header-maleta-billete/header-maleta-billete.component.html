@@ -108,7 +108,7 @@
   name="add-circle"
   class="floating-btn"
   *ngIf="(segmento_seleccionado === 'lista_maletas' && !mostrarFormularioMaleta && !estaEditandoMaleta) ||
-         (segmento_seleccionado === 'lista_grupos_billetes' && !mostrarFormularioBillete)"
+         (segmento_seleccionado === 'lista_grupos_billetes' && !mostrarFormularioBillete && !estaEditandoBillete)"
   (click)="mostrarFormulario()">
 </ion-icon>
 

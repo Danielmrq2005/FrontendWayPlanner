@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Billete} from "../Modelos/Billete";
+import {Observable} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +14,10 @@ export class BilleteService {
 
   crearBillete(billete: FormData) {
     return this.http.post(`${this.apiUrl}/nuevo_billete`, billete);
+  }
+
+  actualizarBillete(billeteId: number, formData: FormData): Observable<any> {
+    return this.http.put(`${this.apiUrl}/actualizar_billete/${billeteId}`, formData);
   }
 
 
