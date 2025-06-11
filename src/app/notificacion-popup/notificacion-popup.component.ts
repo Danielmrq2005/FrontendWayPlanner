@@ -3,13 +3,14 @@ import { Notificacion } from '../Modelos/notificacion';
 import { NotificacionesService } from '../Servicios/notificaciones.service';
 import { jwtDecode } from "jwt-decode";
 import { CommonModule } from "@angular/common";
+import {FormsModule} from "@angular/forms";
 
 @Component({
   selector: 'app-notificacion-popup',
   templateUrl: './notificacion-popup.component.html',
   styleUrls: ['./notificacion-popup.component.scss'],
   standalone: true,
-  imports: [CommonModule]
+  imports: [CommonModule, FormsModule]
 })
 export class NotificacionPopupComponent implements OnInit {
 
