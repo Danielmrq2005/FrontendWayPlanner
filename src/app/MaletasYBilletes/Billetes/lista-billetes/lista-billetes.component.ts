@@ -7,6 +7,7 @@ import {FormBilleteComponent} from "../form-billete/form-billete.component";
 import {BilleteService} from "../../../Servicios/billete.service";
 import {ListarBilletesDTO} from "../../../Modelos/Billetes/ListarBilletesDTO";
 import {IonIcon} from "@ionic/angular/standalone";
+import {TemaService} from "../../../Servicios/tema.service";
 
 @Component({
   selector: 'app-lista-billetes',
@@ -31,7 +32,14 @@ export class ListaBilletesComponent  implements OnInit {
   mostrarFormulario: boolean = false;
   mostrarListaBilletes: boolean = true;
 
-  constructor(private route: ActivatedRoute, private billeteService: BilleteService) { }
+  darkMode = false;
+
+
+  constructor(private route: ActivatedRoute, private billeteService: BilleteService, private temaService: TemaService) {
+    this.temaService.darkMode$.subscribe(isDark => {
+      this.darkMode = isDark;
+    });
+  }
 
   ngOnInit() {
     this.cargarBilletes();

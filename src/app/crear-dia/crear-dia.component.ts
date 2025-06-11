@@ -7,6 +7,7 @@ import {DiaService} from "../Servicios/dia.service";
 import {ViajeService} from "../Servicios/viaje.service";
 import {Viaje} from "../Modelos/Viaje";
 import {IonicModule} from "@ionic/angular";
+import {TemaService} from "../Servicios/tema.service";
 
 @Component({
   selector: 'app-crear-dia',
@@ -20,7 +21,11 @@ import {IonicModule} from "@ionic/angular";
 })
 export class CrearDiaComponent implements OnInit {
 
-  constructor(private diaService: DiaService, private viajeService: ViajeService) { }
+  constructor(private diaService: DiaService, private viajeService: ViajeService, private temaService: TemaService) {
+    this.temaService.darkMode$.subscribe(isDark => {
+      this.darkMode = isDark;
+    });
+  }
 
   dia = {
     fecha: '',
@@ -32,6 +37,9 @@ export class CrearDiaComponent implements OnInit {
   idViajeSeleccionado: number = 0;
   idusuario: number = 0;
   viajes: Viaje[] = [];
+
+  darkMode = false;
+
 
   ngOnInit() {
     this.obtenerViajesPorUsuario();
