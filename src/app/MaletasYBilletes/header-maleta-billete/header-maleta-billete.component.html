@@ -86,7 +86,7 @@
 <!-- Contenido dinámico -->
 <ng-container *ngIf="segmento_seleccionado === 'lista_maletas'">
   <ng-container *ngIf="mostrarListaMaletas">
-    <app-lista-maletas></app-lista-maletas>
+    <app-lista-maletas (editandoMaleta)="estaEditandoMaleta = $event"></app-lista-maletas>
   </ng-container>
   <ng-container *ngIf="mostrarFormularioMaleta">
     <app-form-maleta (cancelado)="cancelarFormularioMaleta()"></app-form-maleta>
@@ -107,10 +107,11 @@
 <ion-icon
   name="add-circle"
   class="floating-btn"
-  *ngIf="(segmento_seleccionado === 'lista_maletas' && !mostrarFormularioMaleta) ||
+  *ngIf="(segmento_seleccionado === 'lista_maletas' && !mostrarFormularioMaleta && !estaEditandoMaleta) ||
          (segmento_seleccionado === 'lista_grupos_billetes' && !mostrarFormularioBillete)"
   (click)="mostrarFormulario()">
 </ion-icon>
+
 
 <!-- NavBar -->
 

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {ActivatedRoute, RouterLink} from '@angular/router';
 import { MaletaService } from '../../../Servicios/maleta.service';
 import { VerMaletasDTO } from '../../../Modelos/Maletas/ver-maletas-dto';
@@ -23,6 +23,8 @@ export class ListaMaletasComponent implements OnInit {
   maletas: VerMaletasDTO[] = [];
 
   maletaSeleccionada: VerMaletaDTO | null = null;
+
+  @Output() editandoMaleta = new EventEmitter<boolean>();
 
   constructor(private route: ActivatedRoute, private maletaService: MaletaService) {}
 
@@ -66,11 +68,14 @@ export class ListaMaletasComponent implements OnInit {
 
   editarMaleta(event: Event, maleta: VerMaletaDTO) {
     event.stopPropagation();
-    this.maletaSeleccionada = { ...maleta }; // Se clona para evitar cambios directos
+    this.maletaSeleccionada = { ...maleta };
+    this.editandoMaleta.emit(true);
+
   }
 
   cancelarEdicion() {
     this.maletaSeleccionada = null;
+    this.editandoMaleta.emit(false);
   }
 
   guardarEdicion(maletaEditada: VerMaletaDTO) {
@@ -82,6 +87,7 @@ export class ListaMaletasComponent implements OnInit {
     this.maletaService.actualizarMaleta(maletaEditada.id, maletaEditada).subscribe(() => {
       this.cargarMaletas();
       this.maletaSeleccionada = null;
+      this.editandoMaleta.emit(false);
     });
   }
 

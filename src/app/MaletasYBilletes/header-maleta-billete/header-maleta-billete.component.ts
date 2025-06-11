@@ -46,6 +46,9 @@ export class HeaderMaletaBilleteComponent implements OnInit {
   mostrarListaMaletas: boolean = true;
   mostrarListaBilletes: boolean = true;
 
+  estaEditandoMaleta: boolean = false;
+  estaEditandoBillete: boolean = false;
+
   constructor(private route: ActivatedRoute, private viajeService: ViajeService) {}
 
   ngOnInit() {
