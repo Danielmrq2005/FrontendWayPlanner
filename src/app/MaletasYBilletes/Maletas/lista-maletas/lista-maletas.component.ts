@@ -4,6 +4,7 @@ import { MaletaService } from '../../../Servicios/maleta.service';
 import { VerMaletasDTO } from '../../../Modelos/Maletas/ver-maletas-dto';
 import {NgForOf} from "@angular/common";
 import {IonIcon, IonLabel} from "@ionic/angular/standalone";
+import {TemaService} from "../../../Servicios/tema.service";
 
 @Component({
   selector: 'app-lista-maletas',
@@ -18,8 +19,14 @@ import {IonIcon, IonLabel} from "@ionic/angular/standalone";
 })
 export class ListaMaletasComponent implements OnInit {
   maletas: VerMaletasDTO[] = [];
+  darkMode = false;
 
-  constructor(private route: ActivatedRoute, private maletaService: MaletaService) {}
+
+  constructor(private route: ActivatedRoute, private maletaService: MaletaService, private temaService: TemaService) {
+    this.temaService.darkMode$.subscribe(isDark => {
+      this.darkMode = isDark;
+    });
+  }
 
   ngOnInit(): void {
     this.cargarMaletas();

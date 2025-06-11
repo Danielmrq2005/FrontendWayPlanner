@@ -10,6 +10,7 @@ import {ItemsMaletaService} from "../../../Servicios/items-maleta.service";
 import {FormItemMaletaComponent} from "../form-item-maleta/form-item-maleta.component";
 
 import { jsPDF } from 'jspdf';
+import {TemaService} from "../../../Servicios/tema.service";
 
 @Component({
     selector: 'app-lista-items-maleta',
@@ -33,7 +34,13 @@ export class ListaItemsMaletaComponent  implements OnInit {
 
   itemsMaleta: ListarObjetosMaletasDTO[] = [];
 
-  constructor(private route: ActivatedRoute, private maletaService: MaletaService, private itemsMaletaService: ItemsMaletaService) { }
+  darkMode = false;
+
+  constructor(private route: ActivatedRoute, private maletaService: MaletaService, private itemsMaletaService: ItemsMaletaService, private temaService: TemaService) {
+    this.temaService.darkMode$.subscribe(isDark => {
+      this.darkMode = isDark;
+    });
+  }
 
   ngOnInit() {
     const maletaId = this.route.snapshot.paramMap.get('id');

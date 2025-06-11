@@ -83,19 +83,19 @@ export class AjustesComponent  implements OnInit {
 
 
   logout() {
+    this.temaService.setDarkMode(false);
     sessionStorage.removeItem('authToken');
     this.router.navigate(['/home']);
   }
-
 
   eliminar() {
     if (this.idusuario) {
       this.usuarioService.eliminarUsuarioporId(this.idusuario).subscribe({
         next: (response) => {
           console.log('Usuario eliminado', response);
+          this.temaService.setDarkMode(false);
           sessionStorage.removeItem('authToken');
           this.router.navigate(['/home']);
-
         },
         error: (error) => {
           console.error('Error al eliminar el usuario', error);
@@ -103,8 +103,6 @@ export class AjustesComponent  implements OnInit {
       });
     }
   }
-
-
 
   guardarHoraNotificacion(hora: string) {
     const id = this.obtenerUsuarioId();

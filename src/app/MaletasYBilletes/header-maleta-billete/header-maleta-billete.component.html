@@ -40,7 +40,7 @@
   <app-menu-hamburguesa (expansionChange)="sidebarExpanded = $event"  [viajeId]="viajeId"></app-menu-hamburguesa>
   <div class="main-content" [class.dark]="darkMode">
     <ion-header>
-      <ion-toolbar style="--background: #5B97D5; position: relative; height: 56px;">
+      <ion-toolbar [style]="{'--background': darkMode ? '#1f1f1f' : '#5B97D5'}" style="display: flex; align-items: center; justify-content: space-between; padding: 0 16px;">
 
         <ion-buttons slot="start">
           <img src="../../../assets/logo.png" alt="Logo" style="height: 25px; margin-left: 10px; margin-right: 8px;">

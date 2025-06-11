@@ -183,13 +183,98 @@
       box-shadow: 0 3px 10px rgba(54, 114, 179, 0.5);
     }
 
+    /* Dark mode styles */
+    :host-context(.dark) .container {
+      background-color: #121212;
+    }
+
+    :host-context(.dark) .item-card {
+      background-color: #1f1f1f;
+      border-color: #333;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    }
+
+    :host-context(.dark) .item-nombre {
+      color: white;
+    }
+
+    :host-context(.dark) .item-categoria {
+      background-color: #333;
+      color: #93c5fd;
+    }
+
+    :host-context(.dark) .cantidad-control {
+      background-color: #333;
+      border-color: #555;
+      color: #93c5fd;
+    }
+
+    :host-context(.dark) .cantidad-control button {
+      color: #93c5fd;
+    }
+
+    :host-context(.dark) .cantidad-control span {
+      color: white;
+    }
+
+    :host-context(.dark) .icono-check {
+      color: #3b82f6;
+    }
+
+    :host-context(.dark) .titulo {
+      color: #93c5fd;
+    }
+
+    :host-context(.dark) body {
+      background-color: #121212;
+      color: white;
+    }
+
+    :host-context(.dark) .btn-exportar {
+      background: linear-gradient(135deg, #2563eb, #1e40af);
+      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.5);
+    }
+    /* Dark mode styles - updated with pink color #DC2786FF */
+    :host-context(.dark) .item-categoria {
+      background-color: #333;
+      color: #DC2786FF;
+    }
+
+    :host-context(.dark) .cantidad-control {
+      background-color: #333;
+      border-color: #555;
+      color: #DC2786FF;
+    }
+
+    :host-context(.dark) .cantidad-control button {
+      color: #DC2786FF;
+    }
+
+    :host-context(.dark) .icono-check {
+      color: #DC2786FF;
+    }
+
+    :host-context(.dark) .titulo {
+      color: #DC2786FF;
+    }
+
+    :host-context(.dark) .btn-exportar {
+      background: linear-gradient(135deg, #DC2786FF, #aa1f67);
+      box-shadow: 0 4px 12px rgba(220, 39, 134, 0.5);
+    }
+
+    :host-context(.dark) .floating-btn {
+      background-color: #DC2786FF;
+    }
+
+
   </style>
 </head>
 <body>
 
 <!-- Header -->
 <ion-header>
-  <ion-toolbar style="--background: #5B97D5; position: relative; height: 56px;">
+  <ion-toolbar [style]="{'--background': darkMode ? '#1f1f1f' : '#5B97D5'}" style="display: flex; align-items: center; justify-content: space-between; padding: 0 16px;">
 
     <ion-buttons slot="start">
       <img src="../../../../assets/logo.png" alt="Logo" style="height: 25px; margin-left: 10px; margin-right: 8px;">
@@ -227,7 +312,7 @@
 </div>
 
 <!-- Contenido dinámico -->
-<div *ngIf="!mostrarFormulario" class="container mt-3 mb-5">
+<div *ngIf="!mostrarFormulario" class="container mt-3 mb-5"  [class.dark]="darkMode">
   <div class="item-card" *ngFor="let item of itemsMaleta" (click)="seleccionarItem(item)">
     <ion-icon
       [name]="item.isSelected ? 'checkmark-circle' : 'ellipse-outline'"
