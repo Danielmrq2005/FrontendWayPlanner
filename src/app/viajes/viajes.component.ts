@@ -89,9 +89,9 @@ export class ViajesComponent implements OnInit {
           const hoy = new Date();
 
           viajes.forEach(via => {
-            const fechaViaje = new Date(via.fechaInicio);
+            const fechafinViaje = new Date(via.fechaFin);
 
-            if (fechaViaje <= hoy) {
+            if (fechafinViaje <= hoy) {
               this.viajeservice.eliminarViaje(via.id).subscribe({
                 next: () => {
                   console.log('Viaje eliminado:', via.id);
