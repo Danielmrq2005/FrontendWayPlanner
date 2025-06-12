@@ -68,7 +68,7 @@ export class NotificacionesComponent  implements OnInit {
     }
   }
 
-  // Método que obtiene la lista de notificaciones desde el backend
+  // Obtiene la lista de notificaciones desde el backend
   listaNotificaciones() {
     this.notificacionesService.obtenerNotificacionesPorUsuario(this.usuarioId).subscribe({
       next: (notis: Notificacion[]) => {
@@ -81,7 +81,7 @@ export class NotificacionesComponent  implements OnInit {
     });
   }
 
-  // Método para eliminar una notificación por su ID
+  // Eliminar una notificación por su ID
   eliminarNotificacion(id: number) {
     this.notificacionesService.eliminarNotificacion(id).subscribe({
       next : () => {
