@@ -185,7 +185,23 @@ export class ItinerariosComponent  implements OnInit {
     });
 
     await modal.present();
+
+    const { data } = await modal.onWillDismiss();
+
+    if (data?.eliminado) {
+      // Recargar la vista correspondiente
+      if (this.segmentoSeleccionado === 'default') {
+        this.ObtenerItinearios();
+      } else if (this.diaSeleccionado) {
+        const dto: DiasItinerario = {
+          idViaje: parseInt(this.idViaje!),
+          idDia: this.diaSeleccionado.id
+        };
+        this.ObtenerItinerariosPorDia(dto);
+      }
+    }
   }
+
 
   async eliminarDia(dia: Dia | null) {
     if (!dia || !dia.id) {

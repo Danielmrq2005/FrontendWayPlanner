@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {IonicModule, ModalController} from "@ionic/angular";
+import {AlertController, IonicModule, ModalController} from "@ionic/angular";
 import {NgForOf, NgIf} from "@angular/common";
 import {SafeResourceUrl,DomSanitizer} from "@angular/platform-browser";
 import {Router} from "@angular/router";
@@ -23,7 +23,7 @@ export class DetallesItinerarioComponent  implements OnInit {
   @Input() diaSemana: any;
   mapaUrl: SafeResourceUrl | undefined;
 
-  constructor(private modalCtrl: ModalController, private sanitizer: DomSanitizer, private router: Router, private itinerarioService: ItineariosService) {}
+  constructor(private modalCtrl: ModalController, private sanitizer: DomSanitizer, private router: Router, private itinerarioService: ItineariosService, private alertController: AlertController) {}
 
   ngOnInit() {
     if (this.itinerario?.latitud && this.itinerario?.longitud) {
@@ -55,9 +55,10 @@ export class DetallesItinerarioComponent  implements OnInit {
     }
   }
 
-  cerrar() {
-    this.modalCtrl.dismiss();
+  cerrar(requiereRecarga: boolean = false) {
+    this.modalCtrl.dismiss({ eliminado: requiereRecarga });
   }
+
   irAActualizarItinerario() {
     this.router.navigate(['/actu-itinerario'], { state: { itinerario: this.itinerario, idViaje: this.idViaje } });
     this.cerrar()
@@ -66,17 +67,26 @@ export class DetallesItinerarioComponent  implements OnInit {
   eliminarItinerario() {
     this.itinerarioService.borrarPorCompleto(this.itinerario.id).subscribe({
       next: () => {
-        console.log('Itinerario eliminado correctamente');
-        this.cerrar();
+        this.presentAlert('Itinerario eliminado correctamente.');
+        this.cerrar(true);
       },
       error: (error) => {
-        console.error('Error al eliminar el itinerario:', error);
+        this.presentAlert(error.message);
       }
     });
   }
 
+
   filtrarHorariosPorDia(itinerario: Itinerario, diaSemana?: string) {
     return itinerario.horarios.filter(horario => horario.dia === diaSemana);
+  }
+
+  presentAlert(mensaje: string) {
+    this.alertController.create({
+      header: 'Atención',
+      message: mensaje,
+      buttons: ['OK']
+    }).then(alert => alert.present());
   }
 
 }
