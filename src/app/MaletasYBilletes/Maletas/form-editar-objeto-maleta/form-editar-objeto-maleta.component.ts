@@ -12,6 +12,7 @@ import {
 } from "@ionic/angular/standalone";
 import { FormsModule } from "@angular/forms";
 import {VerItemDTO} from "../../../Modelos/Maletas/Items/VerItemDTO";
+import {TemaService} from "../../../Servicios/tema.service";
 
 @Component({
   selector: 'app-form-editar-objeto-maleta',
@@ -42,6 +43,15 @@ export class FormEditarObjetoMaletaComponent implements OnInit, OnChanges {
   nombreObjeto = '';
   cantidadObjeto: number | null = null;
   categoriaObjeto = '';
+
+  darkMode = false;
+
+  constructor(private temaService: TemaService) {
+    this.temaService.darkMode$.subscribe(isDark => {
+      this.darkMode = isDark;
+    });
+  }
+
 
   ngOnInit() {
     if (this.item) {
