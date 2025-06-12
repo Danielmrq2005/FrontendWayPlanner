@@ -248,35 +248,41 @@
 <!-- Título -->
 <div class="text-center mt-3">
   <h2 class="titulo fw-bold">{{ maletaNombre }}</h2>
-  <button class="btn-exportar" (click)="exportarPDF()">
+  <button class="btn-exportar" *ngIf="itemsMaleta.length > 0" (click)="exportarPDF()">
     <i class="bi bi-file-earmark-arrow-up"></i> Exportar Maleta
   </button>
 </div>
 
 <!-- Contenido dinámico -->
 <div *ngIf="!mostrarFormulario && !mostrarFormularioEdicion" class="container mt-3 mb-5">
-  <div class="item-card" *ngFor="let item of itemsMaleta" (click)="seleccionarItem(item)">
-    <ion-icon
-      [name]="item.isSelected ? 'checkmark-circle' : 'ellipse-outline'"
-      class="icono-check">
-    </ion-icon>
-    <span class="item-nombre">{{ item.nombre }}</span>
+  <ng-container *ngIf="itemsMaleta.length > 0; else sinItems">
+    <div class="item-card" *ngFor="let item of itemsMaleta" (click)="seleccionarItem(item)">
+      <ion-icon
+        [name]="item.isSelected ? 'checkmark-circle' : 'ellipse-outline'"
+        class="icono-check">
+      </ion-icon>
+      <span class="item-nombre">{{ item.nombre }}</span>
 
-    <span class="item-categoria" (click)="editarCategoria($event, item)">
+      <span class="item-categoria" (click)="editarCategoria($event, item)">
       {{ getNombreCategoria(item.categoria) }}
-          <i class="bi bi-pencil"
-             title="Editar categoría">
-      </i>
+        <i class="bi bi-pencil" title="Editar categoría"></i>
     </span>
 
-
-    <div class="cantidad-control" (click)="$event.stopPropagation()">
-      <button (click)="menosCantidad(item); $event.stopPropagation()">−</button>
-      <span>{{ item.cantidad || 1 }}</span>
-      <button (click)="masCantidad(item); $event.stopPropagation()">+</button>
+      <div class="cantidad-control" (click)="$event.stopPropagation()">
+        <button (click)="menosCantidad(item); $event.stopPropagation()">−</button>
+        <span>{{ item.cantidad || 1 }}</span>
+        <button (click)="masCantidad(item); $event.stopPropagation()">+</button>
+      </div>
     </div>
+  </ng-container>
 
-  </div>
+  <ng-template #sinItems>
+    <div class="text-center mt-5 text-muted">
+      <i class="bi bi-bag-dash" style="font-size: 2rem;"></i>
+      <p class="mt-3">Esta maleta aún no tiene objetos. ¡Empieza a añadir lo que necesites!</p>
+    </div>
+  </ng-template>
+
 </div>
 
 <ng-container *ngIf="mostrarFormulario">

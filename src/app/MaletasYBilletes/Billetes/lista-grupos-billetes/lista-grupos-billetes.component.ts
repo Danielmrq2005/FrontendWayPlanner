@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {NgForOf} from "@angular/common";
+import {NgForOf, NgIf} from "@angular/common";
 import { BilleteService } from "../../../Servicios/billete.service";
 import { CategoriasBilleteDTO } from "../../../Modelos/Billetes/categorias-billete-dto";
 import {ActivatedRoute, RouterLink} from "@angular/router";
@@ -13,7 +13,8 @@ import {IonIcon, IonLabel} from "@ionic/angular/standalone";
   imports: [
     NgForOf,
     IonIcon,
-    RouterLink
+    RouterLink,
+    NgIf
   ]
 })
 export class ListaGruposBilletesComponent  implements OnInit {

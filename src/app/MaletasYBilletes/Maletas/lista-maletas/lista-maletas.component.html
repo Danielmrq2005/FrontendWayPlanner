@@ -1,23 +1,33 @@
 <div class="container mt-4 mb-5" *ngIf="!maletaSeleccionada">
-  <div
-    class="item-card shadow-sm"
-    [routerLink]="['/items-maleta', maleta.id]"
-    *ngFor="let maleta of maletas"
-  >
-    <div class="left-content">
-      <span class="icono">{{ getIconoPorCategoria(maleta.tipoMaleta) }}</span>
-      <span class="nombre">{{ maleta.nombre }}</span>
-    </div>
+  <ng-container *ngIf="maletas.length > 0; else sinMaletas">
+    <div
+      class="item-card shadow-sm"
+      [routerLink]="['/items-maleta', maleta.id]"
+      *ngFor="let maleta of maletas"
+    >
+      <div class="left-content">
+        <span class="icono">{{ getIconoPorCategoria(maleta.tipoMaleta) }}</span>
+        <span class="nombre">{{ maleta.nombre }}</span>
+      </div>
 
-    <div class="acciones-derecha">
-      <i
-        class="bi bi-pencil icono-editar"
-        title="Editar maleta"
-        (click)="editarMaleta($event, maleta)"
-      ></i>
-      <ion-icon name="chevron-forward-outline" class="icono-ir"></ion-icon>
+      <div class="acciones-derecha">
+        <i
+          class="bi bi-pencil icono-editar"
+          title="Editar maleta"
+          (click)="editarMaleta($event, maleta)"
+        ></i>
+        <ion-icon name="chevron-forward-outline" class="icono-ir"></ion-icon>
+      </div>
     </div>
-  </div>
+  </ng-container>
+
+  <!-- Mensaje si no hay maletas -->
+  <ng-template #sinMaletas>
+    <div class="text-center mt-5 text-muted">
+      <i class="bi bi-bag-x" style="font-size: 2rem;"></i>
+      <p class="mt-3">No tienes ninguna maleta creada todavía.</p>
+    </div>
+  </ng-template>
 </div>
 
 <!-- Formulario de edición -->
@@ -27,6 +37,7 @@
   (EdicionCancelada)="cancelarEdicion()"
   (EdicionActualizada)="guardarEdicion($event)">
 </app-form-editar-maleta>
+
 
 <style>
   body {

@@ -1,15 +1,30 @@
 <div class="container mt-4 mb-5">
-  <div class="item-card shadow-sm" [routerLink]="['/viaje', viajeId, 'categoria', grupo.nombre]" *ngFor="let grupo of gruposBilletes">
-    <div class="left-content">
-      <span class="icono">{{ getEmojiPorCategoria(grupo.nombre) }}</span>
-      <span class="nombre">{{ getNombreCategoria(grupo.nombre) }}</span>
+  <ng-container *ngIf="gruposBilletes.length > 0; else sinGrupos">
+    <div
+      class="item-card shadow-sm"
+      [routerLink]="['/viaje', viajeId, 'categoria', grupo.nombre]"
+      *ngFor="let grupo of gruposBilletes"
+    >
+      <div class="left-content">
+        <span class="icono">{{ getEmojiPorCategoria(grupo.nombre) }}</span>
+        <span class="nombre">{{ getNombreCategoria(grupo.nombre) }}</span>
+      </div>
+      <div class="cantidad-destacada">
+        <span>{{ grupo.cantidad }}</span>
+        <ion-icon name="chevron-forward-outline" class="icono-ir"></ion-icon>
+      </div>
     </div>
-    <div class="cantidad-destacada">
-      <span>{{ grupo.cantidad }}</span>
-      <ion-icon name="chevron-forward-outline" class="icono-ir"></ion-icon>
+  </ng-container>
+
+  <!-- Mensaje cuando no hay grupos -->
+  <ng-template #sinGrupos>
+    <div class="text-center mt-5 text-muted">
+      <i class="bi bi-collection" style="font-size: 2rem;"></i>
+      <p class="mt-3">No hay categorías de billetes disponibles.</p>
     </div>
-  </div>
+  </ng-template>
 </div>
+
 
 <style>
   body {
