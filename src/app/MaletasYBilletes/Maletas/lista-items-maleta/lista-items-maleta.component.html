@@ -387,7 +387,8 @@
   *ngIf="itemSeleccionado && mostrarFormularioEdicion"
   [item]="itemSeleccionado"
   (EdicionActualizada)="guardarEdicionItem($event)"
-  (EdicionCancelada)="cancelarEdicionItem()">
+  (EdicionCancelada)="cancelarEdicionItem()"
+  (ObjetoEliminado)="eliminarObjeto($event)">
 </app-form-editar-objeto-maleta>
 
 

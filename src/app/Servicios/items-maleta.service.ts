@@ -42,4 +42,9 @@ export class ItemsMaletaService {
     const body: MasCantidadObjetoDTO = { cantidad };
     return this.http.put<ListarObjetosMaletasDTO[]>(`${this.baseUrl}/cambiar_cantidad_objeto/${id}`, body);
   }
+
+  // Eliminar un item de maleta
+  eliminarItemMaleta(id: number): Observable<any> {
+    return this.http.delete(`${this.baseUrl}/eliminar_objeto/${id}`);
+  }
 }

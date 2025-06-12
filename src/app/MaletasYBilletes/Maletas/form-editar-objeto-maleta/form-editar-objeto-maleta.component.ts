@@ -37,6 +37,8 @@ export class FormEditarObjetoMaletaComponent implements OnInit, OnChanges {
   @Output() EdicionCancelada = new EventEmitter<void>();
   @Output() EdicionActualizada = new EventEmitter<VerItemDTO>();
 
+  @Output() ObjetoEliminado = new EventEmitter<VerItemDTO>();
+
   nombreObjeto = '';
   cantidadObjeto: number | null = null;
   categoriaObjeto = '';
@@ -75,4 +77,9 @@ export class FormEditarObjetoMaletaComponent implements OnInit, OnChanges {
   cancelar() {
     this.EdicionCancelada.emit();
   }
+
+  eliminarObjeto() {
+    this.ObjetoEliminado.emit(this.item);
+  }
+
 }

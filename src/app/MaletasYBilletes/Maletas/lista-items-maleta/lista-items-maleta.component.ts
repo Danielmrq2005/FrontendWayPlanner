@@ -1,5 +1,5 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
-import {IonicModule} from "@ionic/angular";
+import {AlertController, IonicModule} from "@ionic/angular";
 import {NgForOf, NgIf} from "@angular/common";
 import {ActivatedRoute, RouterLink} from "@angular/router";
 import {MaletaService} from "../../../Servicios/maleta.service";
@@ -43,7 +43,7 @@ export class ListaItemsMaletaComponent  implements OnInit {
 
   darkMode = false;
 
-  constructor(private route: ActivatedRoute, private maletaService: MaletaService, private itemsMaletaService: ItemsMaletaService, private temaService: TemaService) {
+  constructor(private route: ActivatedRoute, private maletaService: MaletaService, private itemsMaletaService: ItemsMaletaService, private temaService: TemaService, private alertController: AlertController) {
     this.temaService.darkMode$.subscribe(isDark => {
       this.darkMode = isDark;
     });
@@ -289,5 +289,48 @@ export class ListaItemsMaletaComponent  implements OnInit {
       this.mostrarFormularioEdicion = false;
       this.mostrarListaItems = true;
     });
+  }
+
+  async eliminarObjeto(item: VerItemDTO) {
+    if (!item.id) return;
+
+    const alert = await this.alertController.create({
+      header: 'Eliminar objeto',
+      message: `🗑️ ¿Eliminar "${item.nombre}" de la maleta? Esta acción es irreversible.`,
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+          cssClass: 'alert-cancel-button'
+        },
+        {
+          text: 'Sí, eliminar',
+          role: 'destructive',
+          cssClass: 'alert-danger-button',
+          handler: () => {
+            this.itemsMaletaService.eliminarItemMaleta(item.id!).subscribe({
+              next: () => {
+                this.itemsMaleta = this.itemsMaleta.filter(i => i.id !== item.id);
+              },
+              error: (err) => {
+                console.error('Error al eliminar el item:', err);
+              },
+              complete: () => {
+                console.log(`Objeto "${item.nombre}" eliminado de la maleta.`);
+
+                this.mostrarFormularioEdicion = false;
+                this.mostrarFormulario = false;
+                this.mostrarListaItems = true;
+                this.itemSeleccionado = null;
+                this.editandoItem.emit(false);
+              }
+            });
+          }
+        }
+      ],
+      cssClass: this.darkMode ? 'custom-alert dark-alert' : 'custom-alert'
+    });
+
+    await alert.present();
   }
 }
