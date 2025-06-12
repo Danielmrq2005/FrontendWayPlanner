@@ -45,6 +45,8 @@ export class FormEditarBilleteComponent  implements OnInit {
   @Output() EdicionCancelada = new EventEmitter<void>();
   @Output() EdicionActualizada = new EventEmitter<VerBilleteDTO>();
 
+  @Output() BilleteEliminado = new EventEmitter<VerBilleteDTO>();
+
   nombreBillete = '';
   categoriaBillete = '';
   pdfBillete: File | null = null;
@@ -175,5 +177,9 @@ export class FormEditarBilleteComponent  implements OnInit {
     this.pdfBillete = null;
     this.nombreArchivoPdf = null;
     this.vistaPreviaPdfUrl = null;
+  }
+
+  eliminarBillete() {
+    this.BilleteEliminado.emit(this.billete);
   }
 }

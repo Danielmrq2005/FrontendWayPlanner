@@ -30,4 +30,9 @@ export class BilleteService {
   getBilletesPorCategoriaYViaje(viajeId: number, categoria: string) {
     return this.http.get<any>(`${this.apiUrl}/viaje/${viajeId}/categoria/${categoria}`);
   }
+
+  // Eliminar billete
+  eliminarBillete(billeteId: number): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/eliminar_billete/${billeteId}`);
+  }
 }

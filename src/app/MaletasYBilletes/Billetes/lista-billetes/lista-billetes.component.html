@@ -290,7 +290,8 @@
   *ngIf="mostrarFormularioEdicion && billeteSeleccionado"
   [billete]="billeteSeleccionado"
   (EdicionActualizada)="guardarEdicionBillete($event)"
-  (EdicionCancelada)="cancelarEdicionBillete()">
+  (EdicionCancelada)="cancelarEdicionBillete()"
+  (BilleteEliminado)="eliminarBillete($event)">
 </app-form-editar-billete>
 <!-- NavBar -->
 

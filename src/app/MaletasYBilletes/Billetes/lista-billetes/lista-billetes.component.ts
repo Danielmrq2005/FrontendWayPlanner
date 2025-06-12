@@ -1,6 +1,6 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {FormItemMaletaComponent} from "../../Maletas/form-item-maleta/form-item-maleta.component";
-import {IonicModule} from "@ionic/angular";
+import {AlertController, IonicModule} from "@ionic/angular";
 import {NgForOf, NgIf} from "@angular/common";
 import {ActivatedRoute, RouterLink} from "@angular/router";
 import {FormBilleteComponent} from "../form-billete/form-billete.component";
@@ -43,7 +43,7 @@ export class ListaBilletesComponent  implements OnInit {
 
   darkMode = false;
 
-  constructor(private route: ActivatedRoute, private billeteService: BilleteService, private temaService: TemaService) {
+  constructor(private route: ActivatedRoute, private billeteService: BilleteService, private temaService: TemaService, private alertController: AlertController) {
     this.temaService.darkMode$.subscribe(isDark => {
       this.darkMode = isDark;
     });
@@ -179,5 +179,45 @@ export class ListaBilletesComponent  implements OnInit {
     this.mostrarFormularioEdicion = false;
     this.mostrarListaBilletes = true;
     this.editandoBillete.emit(false);
+  }
+
+  async eliminarBillete(billete: VerBilleteDTO) {
+    if (!billete.id) {
+      console.error('No se puede eliminar el billete: ID faltante');
+      return;
+    }
+
+    const alert = await this.alertController.create({
+      header: 'Eliminar Billete',
+      message: `🗑️ ¿Eliminar "${billete.nombre}"? Esta acción es irreversible.`,
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+          cssClass: 'alert-cancel-button'
+        },
+        {
+          text: 'Sí, eliminar',
+          role: 'destructive',
+          cssClass: 'alert-danger-button',
+          handler: () => {
+            this.billeteService.eliminarBillete(billete.id).subscribe({
+              next: () => {
+                this.billetes = this.billetes.filter(b => b.id !== billete.id);
+                console.log(`Billete "${billete.nombre}" eliminado.`);
+                this.billeteSeleccionado = null;
+                this.editandoBillete.emit(false);
+              },
+              error: (err) => {
+                console.error('Error al eliminar el billete:', err);
+              }
+            });
+          }
+        }
+      ],
+      cssClass: this.darkMode ? 'custom-alert dark-alert' : 'custom-alert'
+    });
+
+    await alert.present();
   }
 }
