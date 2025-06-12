@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {IonicModule, ModalController} from "@ionic/angular";
+import {AlertController, IonicModule, ModalController} from "@ionic/angular";
 import {NgForOf, NgIf} from "@angular/common";
 import {SafeResourceUrl,DomSanitizer} from "@angular/platform-browser";
 import {Router} from "@angular/router";
@@ -18,13 +18,18 @@ import {Itinerario} from "../Modelos/Itinerario";
   ]
 })
 export class DetallesItinerarioComponent  implements OnInit {
+  // Recibe el itinerario a mostrar como input
   @Input() itinerario: any;
+  // Recibe el id del viaje como input
   @Input() idViaje: string | null = null;
+  // Recibe el día de la semana como input
   @Input() diaSemana: any;
+  // URL segura para el mapa de Google Maps
   mapaUrl: SafeResourceUrl | undefined;
 
-  constructor(private modalCtrl: ModalController, private sanitizer: DomSanitizer, private router: Router, private itinerarioService: ItineariosService) {}
+  constructor(private modalCtrl: ModalController, private sanitizer: DomSanitizer, private router: Router, private itinerarioService: ItineariosService, private alertController: AlertController) {}
 
+  // Inicializa el componente y genera la URL del mapa si hay latitud y longitud
   ngOnInit() {
     if (this.itinerario?.latitud && this.itinerario?.longitud) {
       const url = `https://www.google.com/maps?q=${this.itinerario.latitud},${this.itinerario.longitud}&hl=es&z=16&output=embed`;
@@ -32,6 +37,7 @@ export class DetallesItinerarioComponent  implements OnInit {
     }
   }
 
+  // Abre Google Maps con la ruta desde la ubicación actual hasta el destino
   abrirRutaEnGoogleMaps() {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
@@ -55,28 +61,43 @@ export class DetallesItinerarioComponent  implements OnInit {
     }
   }
 
-  cerrar() {
-    this.modalCtrl.dismiss();
+
+  // Cierra el modal actual
+  cerrar(requiereRecarga: boolean = false) {
+    this.modalCtrl.dismiss({ eliminado: requiereRecarga });
   }
+
+  // Navega a la pantalla de actualización de itinerario y cierra el modal
   irAActualizarItinerario() {
     this.router.navigate(['/actu-itinerario'], { state: { itinerario: this.itinerario, idViaje: this.idViaje } });
     this.cerrar()
   }
 
+  // Elimina el itinerario usando el servicio y cierra el modal si tiene éxito
   eliminarItinerario() {
     this.itinerarioService.borrarPorCompleto(this.itinerario.id).subscribe({
       next: () => {
-        console.log('Itinerario eliminado correctamente');
-        this.cerrar();
+        this.presentAlert('Itinerario eliminado correctamente.');
+        this.cerrar(true);
       },
       error: (error) => {
-        console.error('Error al eliminar el itinerario:', error);
+        this.presentAlert(error.message);
       }
     });
   }
 
+
+  // Filtra los horarios del itinerario por el día de la semana recibido
   filtrarHorariosPorDia(itinerario: Itinerario, diaSemana?: string) {
     return itinerario.horarios.filter(horario => horario.dia === diaSemana);
+  }
+
+  presentAlert(mensaje: string) {
+    this.alertController.create({
+      header: 'Atención',
+      message: mensaje,
+      buttons: ['OK']
+    }).then(alert => alert.present());
   }
 
 }

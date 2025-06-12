@@ -286,6 +286,7 @@ export class ActuItinerarioComponent implements OnInit, AfterViewInit {
       // Asegurar que el campo horarios incluye los actuales del FormArray
       valoresFormulario.horarios = this.horariosFormArray.value;
 
+      // Convertimos el objeto a un Blob para enviarlo como JSON
       const itinerarioBlob = new Blob([JSON.stringify(valoresFormulario)], { type: 'application/json' });
       formData.append('itinerario', itinerarioBlob);
 
@@ -315,9 +316,11 @@ export class ActuItinerarioComponent implements OnInit, AfterViewInit {
 
 
   inicializarMapa() {
+    // Obtenemos el mapa y el input de autocompletado
     const input = document.getElementById('autocomplete') as HTMLInputElement;
     const mapElement = document.getElementById('map');
 
+    // Centramos el mapa en Madrid por defecto
     if (mapElement) {
       this.map = new google.maps.Map(mapElement, {
         center: { lat: 40.4168, lng: -3.7038 },
@@ -325,6 +328,7 @@ export class ActuItinerarioComponent implements OnInit, AfterViewInit {
       });
     }
 
+    // Si ya tenemos latitud y longitud, centramos el mapa en esa ubicación
     const autocomplete = new google.maps.places.Autocomplete(input);
     autocomplete.bindTo('bounds', this.map);
 
@@ -333,6 +337,7 @@ export class ActuItinerarioComponent implements OnInit, AfterViewInit {
       draggable: true,
     });
 
+    // Si el itinerario tiene latitud y longitud, centramos el mapa y colocamos el marcador
     autocomplete.addListener('place_changed', () => {
       const place = autocomplete.getPlace();
       if (!place.geometry || !place.geometry.location) return;
@@ -353,6 +358,7 @@ export class ActuItinerarioComponent implements OnInit, AfterViewInit {
       });
     });
 
+
     this.map.addListener('click', (e: any) => {
       const clickedLatLng = e.latLng;
       this.marker.setPosition(clickedLatLng);
@@ -367,16 +373,19 @@ export class ActuItinerarioComponent implements OnInit, AfterViewInit {
     });
   }
 
+  // Métdo para recargar el mapa
   recargarMapa() {
     setTimeout(() => {
       this.inicializarMapa();
     }, 100);
   }
 
+  // Métdo para cerrar el modal
   cerrar() {
     this.modalCtrl.dismiss();
   }
 
+  // Métdo para manejar el cambio de foto
   onFotoChange(event: any) {
     const file = event.target.files[0];
     if (file) {
@@ -392,6 +401,7 @@ export class ActuItinerarioComponent implements OnInit, AfterViewInit {
     }
   }
 
+  // Métdo para obtener los días del viaje
   obtenerDiasPorViaje() {
     if (this.idViaje) {
       this.diaService.obtenerDias(this.idViaje).subscribe({
@@ -411,6 +421,7 @@ export class ActuItinerarioComponent implements OnInit, AfterViewInit {
     }
   }
 
+  // Métdo para mostrar alertas
   async presentAlert(mensaje: string) {
     const alert = await this.alertController.create({
       header: 'Atención',
