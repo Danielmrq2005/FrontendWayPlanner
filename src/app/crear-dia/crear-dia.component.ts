@@ -27,6 +27,7 @@ export class CrearDiaComponent implements OnInit {
     });
   }
 
+  // Inicializar el objeto dia con valores por defecto
   dia = {
     fecha: '',
     numeroDia: 0,
@@ -46,6 +47,7 @@ export class CrearDiaComponent implements OnInit {
   }
 
   async crearDia() {
+    // Validaciones antes de crear el día
     if (this.dia.fecha.trim() === '') {
       await this.presentAlert('Por favor, selecciona una fecha.');
       return;
@@ -66,6 +68,7 @@ export class CrearDiaComponent implements OnInit {
       return;
     }
 
+    // Asignar los valores del día al objeto Dia
     const diaData: Dia = {
       fecha: this.dia.fecha,
       numeroDia: this.dia.numeroDia,
@@ -73,6 +76,7 @@ export class CrearDiaComponent implements OnInit {
       idViaje: this.idViajeSeleccionado
     };
 
+    // Creamos el dia
     this.diaService.crearDia(diaData).subscribe({
       next: (response) => {
         console.log('Día creado exitosamente:', response);
@@ -88,6 +92,7 @@ export class CrearDiaComponent implements OnInit {
     });
   }
 
+  // Métdo para obtener el ID del usuario desde el token
   obtenerUsuarioId(): number {
     const token = sessionStorage.getItem('authToken');
     if (token) {
@@ -102,6 +107,7 @@ export class CrearDiaComponent implements OnInit {
     return 0;
   }
 
+  // Métdo para obtener los viajes del usuario
   obtenerViajesPorUsuario() {
     this.idusuario = this.obtenerUsuarioId();
     if (this.idusuario) {
@@ -121,6 +127,7 @@ export class CrearDiaComponent implements OnInit {
     }
   }
 
+  // Métdo para mostrar alertas
   async presentAlert(mensaje: string) {
     const alert = await this.alertController.create({
       header: 'Atención',
