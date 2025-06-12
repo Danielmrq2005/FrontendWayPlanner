@@ -50,9 +50,13 @@
         <ion-icon slot="start" name="close-circle"></ion-icon>
         Cancelar
       </ion-button>
+      <ion-button fill="outline" size="small" color="danger" (click)="eliminarMaleta()">
+        <ion-icon slot="start" name="trash"></ion-icon>
+        Eliminar
+      </ion-button>
       <ion-button fill="solid" size="small" color="primary" (click)="guardar()">
         <ion-icon slot="start" name="checkmark-circle"></ion-icon>
-        Guardar Cambios
+        Guardar
       </ion-button>
     </div>
   </ion-card-content>
@@ -176,5 +180,15 @@
   ion-item ion-select {
     margin-top: 0; /* Remueve separación innecesaria */
   }
+
+  .maleta-footer ion-button {
+    --padding-top: 4px;
+    --padding-bottom: 4px;
+    --padding-start: 10px;
+    --padding-end: 10px;
+    --min-height: 28px;
+    font-size: 0.75rem;
+  }
+
 
 </style>

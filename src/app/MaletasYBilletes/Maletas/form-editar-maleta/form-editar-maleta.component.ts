@@ -37,6 +37,8 @@ export class FormEditarMaletaComponent  implements OnInit {
   @Output() EdicionCancelada = new EventEmitter<void>();
   @Output() EdicionActualizada = new EventEmitter<VerMaletaDTO>();
 
+  @Output() MaletaEliminada = new EventEmitter<VerMaletaDTO>();
+
   tituloMaleta = '';
   tipoMaleta = '';
   pesoMaleta: number | null = null;
@@ -61,5 +63,9 @@ export class FormEditarMaletaComponent  implements OnInit {
 
   cancelar() {
     this.EdicionCancelada.emit();
+  }
+
+  eliminarMaleta() {
+    this.MaletaEliminada.emit(this.maleta);
   }
 }

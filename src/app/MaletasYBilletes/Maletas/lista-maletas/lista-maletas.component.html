@@ -35,7 +35,8 @@
   *ngIf="maletaSeleccionada"
   [maleta]="maletaSeleccionada"
   (EdicionCancelada)="cancelarEdicion()"
-  (EdicionActualizada)="guardarEdicion($event)">
+  (EdicionActualizada)="guardarEdicion($event)"
+  (MaletaEliminada)="eliminarMaleta($event)">
 </app-form-editar-maleta>
 
 

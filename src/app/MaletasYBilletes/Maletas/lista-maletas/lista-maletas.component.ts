@@ -7,6 +7,8 @@ import {IonIcon, IonLabel} from "@ionic/angular/standalone";
 import {FormEditarMaletaComponent} from "../form-editar-maleta/form-editar-maleta.component";
 import {VerMaletaDTO} from "../../../Modelos/Maletas/ver-maleta-dto";
 import {TemaService} from "../../../Servicios/tema.service";
+import {VerItemDTO} from "../../../Modelos/Maletas/Items/VerItemDTO";
+import {AlertController} from "@ionic/angular";
 
 @Component({
   selector: 'app-lista-maletas',
@@ -30,7 +32,7 @@ export class ListaMaletasComponent implements OnInit {
 
   @Output() editandoMaleta = new EventEmitter<boolean>();
 
-  constructor(private route: ActivatedRoute, private maletaService: MaletaService, private temaService: TemaService) {
+  constructor(private route: ActivatedRoute, private maletaService: MaletaService, private temaService: TemaService, private alertController: AlertController) {
     this.temaService.darkMode$.subscribe(isDark => {
       this.darkMode = isDark;
     });
@@ -99,4 +101,45 @@ export class ListaMaletasComponent implements OnInit {
     });
   }
 
+  async eliminarMaleta(maleta: VerMaletaDTO) {
+    if (!maleta.id) {
+      console.error('No se puede eliminar la maleta: ID faltante');
+      return;
+    }
+
+    const alert = await this.alertController.create({
+      header: 'Eliminar maleta',
+      message: `🗑️ ¿Eliminar "${maleta.nombre}"? Esta acción es irreversible.`,
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+          cssClass: 'alert-cancel-button'
+        },
+        {
+          text: 'Sí, eliminar',
+          role: 'destructive',
+          cssClass: 'alert-danger-button',
+          handler: () => {
+            this.maletaService.eliminarMaleta(maleta.id!).subscribe({
+              next: () => {
+                this.maletas = this.maletas.filter(m => m.id !== maleta.id);
+              },
+              error: (err) => {
+                console.error('Error al eliminar la maleta:', err);
+              },
+              complete: () => {
+                console.log(`Maleta "${maleta.nombre}" eliminada.`);
+                this.maletaSeleccionada = null;
+                this.editandoMaleta.emit(false);
+              }
+            });
+          }
+        }
+      ],
+      cssClass: this.darkMode ? 'custom-alert dark-alert' : 'custom-alert'
+    });
+
+    await alert.present();
+  }
 }
