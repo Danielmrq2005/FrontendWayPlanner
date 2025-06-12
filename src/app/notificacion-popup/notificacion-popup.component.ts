@@ -39,7 +39,7 @@ export class NotificacionPopupComponent implements OnInit {
           }
         });
       });
-    }, 60000);
+    }, 10000);
   }
 
   obtenerUsuarioId(): number {

@@ -1,4 +1,4 @@
-import {Gastos} from "./Gastos";
+import {Gastos} from "./gastos";
 
 export interface VerGastos {
   fecha: string;

@@ -3,7 +3,6 @@ import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} fr
 import {GastosService} from "../Servicios/gastos.service";
 import {IonicModule, ToastController} from "@ionic/angular";
 import {ActivatedRoute, Router} from "@angular/router";
-import {Gastos} from "../Modelos/Gastos";
 import {HttpClient} from "@angular/common/http";
 import {TemaService} from "../Servicios/tema.service";
 
