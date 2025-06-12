@@ -66,7 +66,7 @@
       <input type="file" id="inputPdfBillete" hidden accept="application/pdf" (change)="cargarPdf($event)">
 
       <!-- Vista previa del PDF cargado -->
-      <div *ngIf="vistaPreviaPdfUrl" class="vista-previa-pdf ion-margin-top">
+      <div *ngIf="vistaPreviaPdfUrl && !isMobile()" class="vista-previa-pdf ion-margin-top">
         <!-- Iframe para mostrar el PDF cargado -->
         <iframe
           [src]="vistaPreviaPdfUrl"

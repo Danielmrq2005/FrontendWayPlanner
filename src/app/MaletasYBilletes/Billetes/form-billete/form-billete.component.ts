@@ -190,4 +190,9 @@ export class FormBilleteComponent implements OnInit {
     this.nombreArchivoPdf = '';
     this.vistaPreviaPdfUrl = null;
   }
+
+  // Función para saber si está en móvil
+  isMobile(): boolean {
+    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+  }
 }
