@@ -89,15 +89,6 @@ body {
   }
 }
 
-ion-segment {
-  --background: var(--ion-background-color);
-
-  ion-segment-button {
-    --background-checked: var(--ion-color-primary);
-    --color-checked: #ffffff;
-    --color: var(--ion-text-color);
-  }
-}
 
 .titulo {
   font-size: 2rem;
