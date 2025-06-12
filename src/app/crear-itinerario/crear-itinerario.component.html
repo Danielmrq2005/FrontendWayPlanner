@@ -49,7 +49,7 @@
       </div>
 
       <div class="form-group">
-        <label for="foto" class="foto" style="color: white;">Foto:</label>
+        <label  for="foto" class="foto" style="color: white;">Foto:</label>
         <input
           id="foto"
           type="file"
@@ -57,8 +57,6 @@
           accept="image/*"
           (change)="onFotoSeleccionada($event)"
           required
-          #foto="ngModel"
-          ngModel
         />
         <div *ngIf="fotoPreview" class="preview-container">
           <img [src]="fotoPreview" alt="Previsualización" class="foto-preview" />

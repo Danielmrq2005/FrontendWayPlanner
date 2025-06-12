@@ -384,6 +384,7 @@ export class CrearItinerarioComponent  implements OnInit, AfterViewInit {
     }
 
     if (!this.fotoSeleccionada) {
+      console.info('coñooooooooo')
       const response = await fetch('assets/default.jpg');
       const blob = await response.blob();
       this.fotoSeleccionada = new File([blob], 'default.jpg', { type: blob.type });

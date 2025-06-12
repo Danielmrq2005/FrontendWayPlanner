@@ -28,7 +28,7 @@
     <div *ngIf="itinerarios.length === 0" class="mensaje-vacio">No hay itinerarios. ¡Añade alguno!</div>
     <div class="itinerario-card" *ngFor="let itinerario of itinerarios" (click)="abrirDetalle(itinerario)">
       <ion-card class="carta">
-      <img [src]="itinerario.foto ? 'data:image/jpeg;base64,' + itinerario.foto : 'assets/default.jpg'" class="imagenCarta"/>
+        <img [src]="itinerario.foto ? 'data:image/jpeg;base64,' + itinerario.foto : 'assets/default.jpg'" class="imagenCarta"/>
         <ion-card-header>
           <ion-card-title>{{itinerario.actividad}}</ion-card-title>
           <ion-card-subtitle>{{itinerario.duracion}}</ion-card-subtitle>
@@ -76,19 +76,23 @@
 
 </ion-content></div>
 
-<ion-fab horizontal="end" vertical="bottom">
-  <ion-fab-button>
-    <ion-icon name="add"></ion-icon>
-  </ion-fab-button>
-  <ion-fab-list side="top">
-    <ion-fab-button [routerLink]="['/crear-itinerario']">
-      <ion-icon name="create"></ion-icon>
+  <ion-fab horizontal="end" vertical="bottom">
+    <ion-fab-button>
+      <ion-icon name="add"></ion-icon>
     </ion-fab-button>
-    <ion-fab-button [routerLink]="['/crear-dia']">
-      <ion-icon name="calendar-number-outline"></ion-icon>
-    </ion-fab-button>
-  </ion-fab-list>
-</ion-fab>
+    <ion-fab-list side="top">
+      <ion-fab-button [routerLink]="['/crear-itinerario']">
+        <ion-icon name="create"></ion-icon>
+      </ion-fab-button>
+      <ion-fab-button [routerLink]="['/crear-dia']">
+        <ion-icon name="calendar-number-outline"></ion-icon>
+      </ion-fab-button>
+      <ion-fab-button *ngIf="segmentoSeleccionado !== 'default'" color="danger" (click)="eliminarDia(diaSeleccionado)">
+        <ion-icon name="close-circle"></ion-icon>
+      </ion-fab-button>
+    </ion-fab-list>
+  </ion-fab>
+
 
 </div>
 
