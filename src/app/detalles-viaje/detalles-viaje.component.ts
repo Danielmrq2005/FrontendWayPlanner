@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { ViajeService } from '../Servicios/viaje.service';
 import { Router } from '@angular/router';
+import { mensajeService } from '../Servicios/mensajes.service';
 import {
   IonButton,
   IonContent,
@@ -35,12 +36,7 @@ export class DetallesViajeComponent implements OnInit {
   darkMode = false;         // Variable para manejar el modo oscuro
 
   // Inyección de dependencias necesarias
-  constructor(
-    private route: ActivatedRoute,
-    private viajeservice: ViajeService,
-    private router: Router,
-    private temaService: TemaService
-  ) {
+  constructor(private route: ActivatedRoute, private viajeservice: ViajeService, private router: Router, private temaService: TemaService,private mensajeService: mensajeService) {
     // Suscripción al observable para aplicar modo oscuro
     this.temaService.darkMode$.subscribe(isDark => {
       this.darkMode = isDark;
@@ -77,6 +73,7 @@ export class DetallesViajeComponent implements OnInit {
     this.viajeservice.eliminarViaje(id).subscribe({
       next: () => {
         console.log('Viaje eliminado exitosamente');
+        this.mensajeService.mostrarMensaje('Viaje eliminado correctamente');
         this.router.navigate(['/viajes']); // Redirige a la lista de viajes
       },
       error: (error) => {

@@ -2,6 +2,9 @@ import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import { UsuarioService } from '../Servicios/usuario.service';
 import { ViajeService } from '../Servicios/viaje.service';
 import {NavigationEnd, Router, RouterLink} from '@angular/router';
+import { mensajeService } from '../Servicios/mensajes.service';
+import { ToastController } from '@ionic/angular';
+
 
 import {
   IonContent, IonFab, IonFabButton,
@@ -43,7 +46,7 @@ export class ViajesComponent implements OnInit {
 
 
 
-  constructor(private usuarioservice: UsuarioService, private viajeservice: ViajeService, private router: Router, private temaService: TemaService) {
+  constructor(private usuarioservice: UsuarioService, private viajeservice: ViajeService, private router: Router, private temaService: TemaService, private mensajeService: mensajeService, private toastController: ToastController) {
     this.temaService.darkMode$.subscribe(isDark => {
       this.darkMode = isDark;
     });
@@ -83,6 +86,14 @@ export class ViajesComponent implements OnInit {
 
 
   ngOnInit() {
+
+    this.mensajeService.mensaje$.subscribe(async mensaje => {
+      if (mensaje) {
+        await this.mostrarToast(mensaje);
+        this.mensajeService.limpiarMensaje();
+      }
+    });
+
     this.idusuario = this.obtenerUsuarioId();
     this.cargarViajes();
 
@@ -99,6 +110,16 @@ export class ViajesComponent implements OnInit {
     }
   }
 
+  async mostrarToast(mensaje: string) {
+    const toast = await this.toastController.create({
+      message: mensaje,
+      duration: 2000,
+      position: 'bottom',
+      color: 'success'
+    });
+    await toast.present();
+  }
+
   cargarViajes() {
     if (this.idusuario) {
       this.viajeservice.listarViajesPorUsuario(this.idusuario).subscribe({
@@ -111,10 +132,8 @@ export class ViajesComponent implements OnInit {
             if (fechafinViaje <= hoy) {
               this.viajeservice.eliminarViaje(via.id).subscribe({
                 next: () => {
-                  console.log('Viaje eliminado:', via.id);
                 },
                 error: (error) => {
-                  console.error('Error al eliminar el viaje:', error);
                 }
               });
             }
