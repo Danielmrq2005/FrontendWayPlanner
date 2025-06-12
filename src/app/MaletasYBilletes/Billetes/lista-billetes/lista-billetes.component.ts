@@ -172,6 +172,8 @@ export class ListaBilletesComponent  implements OnInit {
     this.cargarBilletes();
     this.billeteSeleccionado = null;
     this.editandoBillete.emit(false);
+    this.mostrarFormularioEdicion = false;
+    this.mostrarListaBilletes = true;
   }
 
   cancelarEdicionBillete() {
