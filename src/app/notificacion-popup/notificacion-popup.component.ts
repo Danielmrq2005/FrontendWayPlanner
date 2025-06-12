@@ -24,6 +24,7 @@ export class NotificacionPopupComponent implements OnInit {
     const usuarioId = this.obtenerUsuarioId();
 
     setInterval(() => {
+      // Cada 10 segundos, consulta las notificaciones del usuario
       this.notificacionservice.obtenerNotificacionesPorUsuario(usuarioId).subscribe(notis => {
         if (!notis.length) return;
 
@@ -41,7 +42,7 @@ export class NotificacionPopupComponent implements OnInit {
       });
     }, 10000);
   }
-
+ // Obtener el ID del usuario desde el token JWT almacenado en sessionStorage
   obtenerUsuarioId(): number {
     const token = sessionStorage.getItem('authToken');
     if (token) {
