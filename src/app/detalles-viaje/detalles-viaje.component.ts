@@ -31,9 +31,9 @@ import { TemaService } from "../Servicios/tema.service";
   ]
 })
 export class DetallesViajeComponent implements OnInit {
-  idViaje: number = 0;      // ID del viaje obtenido desde la URL
-  viaje?: Viaje;            // Objeto del viaje con todos sus detalles
-  darkMode = false;         // Variable para manejar el modo oscuro
+  idViaje: number = 0;
+  viaje?: Viaje;
+  darkMode = false;
 
   // Inyección de dependencias necesarias
   constructor(private route: ActivatedRoute, private viajeservice: ViajeService, private router: Router, private temaService: TemaService,private mensajeService: mensajeService) {
@@ -51,12 +51,12 @@ export class DetallesViajeComponent implements OnInit {
         this.idViaje = +id;
         console.log('ID del viaje:', this.idViaje);
       }
-      // Llama al método para obtener los detalles del viaje
+      // Llamada para obtener los detalles del viaje
       this.obtenerDetallesViaje(this.idViaje);
     });
   }
 
-  // Método para obtener los datos del viaje por su ID
+  // Obtener los datos del viaje por su ID
   obtenerDetallesViaje(id: number): void {
     this.viajeservice.viajePorId(id).subscribe({
       next: (data) => {
@@ -68,7 +68,7 @@ export class DetallesViajeComponent implements OnInit {
     });
   }
 
-  // Método para eliminar el viaje actual
+  // eliminar el viaje actual
   eliminarViaje(id: number): void {
     this.viajeservice.eliminarViaje(id).subscribe({
       next: () => {
@@ -82,7 +82,7 @@ export class DetallesViajeComponent implements OnInit {
     });
   }
 
-  // Método para redirigir al formulario de edición del viaje
+  // redirigir al formulario de edición del viaje
   editarviaje(id: number): void {
     this.router.navigate(['/crear-viaje', id]);
   }

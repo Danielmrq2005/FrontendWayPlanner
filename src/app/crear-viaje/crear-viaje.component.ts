@@ -130,8 +130,8 @@ export class CrearViajeComponent implements OnInit {
     const viajeForm: Viaje = {
       nombre: this.nombre,
       descripcion: this.descripcion,
-      fechaInicio: this.fechaInicioStr, // ← ENVÍAS STRING
-      fechaFin: this.fechaFinStr,       // ← ENVÍAS STRING
+      fechaInicio: this.fechaInicioStr,
+      fechaFin: this.fechaFinStr,
       destino: this.destino,
       usuario: {
         id: idusuario
