@@ -1,23 +1,28 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {IonicModule, IonModal} from "@ionic/angular";
 import {addIcons} from "ionicons";
-import {add} from "ionicons/icons";
+import {add, create, calendarNumberOutline} from "ionicons/icons";
 import {FormsModule} from "@angular/forms";
 import { OverlayEventDetail } from '@ionic/core/components';
-import {ActivatedRoute, RouterLink} from "@angular/router";
+import {ActivatedRoute, NavigationEnd, Router, RouterLink} from "@angular/router";
 import {ItineariosService} from "../Servicios/itinearios.service";
 import {Itinerario} from "../Modelos/Itinerario";
 import {NgForOf, NgIf} from "@angular/common";
 import {DiaService} from "../Servicios/dia.service";
 import {Dia} from "../Modelos/Dia";
 import {DiasItinerario} from "../Modelos/DiasItinerario";
+import { ModalController } from '@ionic/angular';
+import {DetallesItinerarioComponent} from "../detalles-itinerario/detalles-itinerario.component";
+import {MenuHamburguesaComponent} from "../menu-hamburguesa/menu-hamburguesa.component";
+import {TemaService} from "../Servicios/tema.service";
+import {ViajeService} from "../Servicios/viaje.service";
 
 @Component({
   selector: 'app-itinerarios',
   templateUrl: './itinerarios.component.html',
   styleUrls: ['./itinerarios.component.scss'],
   standalone: true,
-  imports: [IonicModule, FormsModule, RouterLink, NgForOf, NgIf]
+    imports: [IonicModule, FormsModule, RouterLink, NgForOf, NgIf, MenuHamburguesaComponent]
 })
 export class ItinerariosComponent  implements OnInit {
   @ViewChild(IonModal) modal!: IonModal;
@@ -29,9 +34,25 @@ export class ItinerariosComponent  implements OnInit {
   itinerarios: Itinerario[] = [];
   diasViaje : Dia[] = [];
   itinerariosDia : Itinerario[] = [];
-  constructor(private route: ActivatedRoute, private itinerarioService: ItineariosService, private diaService: DiaService) {
+  sidebarExpanded = false;
+  darkMode = false;
+  diaSeleccionado: Dia | null = null;
+  viajeNombre: string = '';
 
+  constructor(private route: ActivatedRoute, private itinerarioService: ItineariosService, private diaService: DiaService, private temaService: TemaService, private modalController: ModalController, private viajeService: ViajeService, private router: Router) {
+
+    addIcons({add, create, calendarNumberOutline})
     addIcons({add})
+    this.temaService.darkMode$.subscribe(isDark => {
+      this.darkMode = isDark;
+    });
+
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        this.ObtenerItinearios();
+        this.ObtenerDiasPorViaje();
+      }
+    });
   }
 
   ngOnInit() {
@@ -39,9 +60,26 @@ export class ItinerariosComponent  implements OnInit {
     if (this.idViaje) {
       this.ObtenerItinearios();
       this.ObtenerDiasPorViaje();
+
+      this.viajeService.viajePorId(+this.idViaje).subscribe({
+        next: (viaje) => {
+          this.viajeNombre = viaje.nombre;
+        },
+        error: (err) => {
+          console.error('Error al obtener el viaje:', err);
+          this.viajeNombre = 'Desconocido';
+        }
+      });
+
     } else {
       console.error('ID de viaje no disponible');
     }
+  }
+
+
+
+  toggleSidebar() {
+    this.sidebarExpanded = !this.sidebarExpanded;
   }
 
   cancel() {
@@ -101,13 +139,13 @@ export class ItinerariosComponent  implements OnInit {
 
     if (segmento !== 'default') {
       const index = parseInt(segmento.replace('dia', ''));
-      const diaSeleccionado = this.diasViaje[index];
+      this.diaSeleccionado = this.diasViaje[index];
 
       const dto: DiasItinerario = {
         idViaje: parseInt(this.idViaje!),
-        fecha: diaSeleccionado.fecha
+        idDia: this.diaSeleccionado.id
       };
-      console.info('FFechaDTO: ', dto);
+      console.info('FechaDTO: ', dto);
       this.ObtenerItinerariosPorDia(dto);
     }
   }
@@ -117,6 +155,7 @@ export class ItinerariosComponent  implements OnInit {
       next: (response) => {
         console.log('Itinerarios obtenidos para el día:', response);
         this.itinerariosDia = response;
+
         return response;
       },
       error: (error) => {
@@ -128,5 +167,25 @@ export class ItinerariosComponent  implements OnInit {
       }
     })
   }
+
+  filtrarHorariosPorDia(itinerario: Itinerario, diaSemana?: string) {
+    return itinerario.horarios.filter(horario => horario.dia === diaSemana);
+  }
+
+  async abrirDetalle(itinerario: any) {
+    const componentProps: any = {
+      itinerario,
+      idViaje: this.idViaje,
+      ...(this.diaSeleccionado ? { diaSemana: this.diaSeleccionado } : {})
+    };
+
+    const modal = await this.modalController.create({
+      component: DetallesItinerarioComponent,
+      componentProps
+    });
+
+    await modal.present();
+  }
+
 
 }

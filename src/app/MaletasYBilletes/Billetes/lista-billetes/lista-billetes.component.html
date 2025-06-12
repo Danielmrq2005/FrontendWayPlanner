@@ -150,13 +150,66 @@
       align-items: center;
     }
 
+    /* Dark mode styles for lista-billetes */
+    :host-context(.dark) body {
+      background-color: #121212;
+      color: white;
+    }
+
+    :host-context(.dark) .container {
+      background-color: #121212;
+    }
+
+    :host-context(.dark) .item-card {
+      background-color: #1f1f1f;
+      border-color: #333;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    }
+
+    :host-context(.dark) .item-card:hover {
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    }
+
+    :host-context(.dark) .item-nombre {
+      color: white;
+    }
+
+    :host-context(.dark) .titulo {
+      color: #DC2786FF;
+    }
+
+    :host-context(.dark) .icono {
+      color: #DC2786FF;
+    }
+
+    :host-context(.dark) .icono-editar {
+      background-color: #333;
+      color: #DC2786FF;
+    }
+
+    :host-context(.dark) .icono-ir {
+      color: #DC2786FF;
+    }
+
+    :host-context(.dark) .floating-btn {
+      background-color: #DC2786FF;
+    }
+
+    :host-context(.dark) ion-header ion-toolbar {
+      --background: #121212;
+    }
+
+    :host-context(.dark) ion-title {
+      color: white;
+    }
+
   </style>
 </head>
 <body>
 
 <!-- Header -->
 <ion-header>
-  <ion-toolbar style="--background: #5B97D5; position: relative; height: 56px;">
+  <ion-toolbar [style]="{'--background': darkMode ? '#1f1f1f' : '#5B97D5'}" style="display: flex; align-items: center; justify-content: space-between; padding: 0 16px;">
 
     <ion-buttons slot="start">
       <img src="../../../../assets/logo.png" alt="Logo" style="height: 25px; margin-left: 10px; margin-right: 8px;">
@@ -191,7 +244,7 @@
 </div>
 
 <!-- Lista de billetes -->
-<div *ngIf="!mostrarFormulario && !mostrarFormularioEdicion" class="container mt-3 mb-5">
+<div *ngIf="!mostrarFormulario && !mostrarFormularioEdicion" class="container mt-3 mb-5" [class.dark]="darkMode">
   <div class="item-card" *ngFor="let billete of billetes" (click)="verBillete(billete)">
 
     <div class="left-content">

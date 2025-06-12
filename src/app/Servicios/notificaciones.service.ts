@@ -18,4 +18,10 @@ export class NotificacionesService {
   eliminarNotificacion(id: number): Observable<void> {
     return this.http.delete<void>(`${this.url}/eliminar/${id}`);
   }
+
+  establecerHoraNotificacion(id: number, hora: string): Observable<void> {
+    const body = { hora };
+    return this.http.put<void>(`http://localhost:8080/notificaciones/establecer-hora/${id}`, body);
+  }
+
 }

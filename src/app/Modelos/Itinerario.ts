@@ -8,8 +8,9 @@ export interface Itinerario {
   estaEnRuta: boolean;
   apareceEnItinerario: boolean;
   hora: string;
+  medioTransporte: string;
   duracion: string;
-  foto?: string | File;
+  foto: string;
   categoria: string;
   idbillete?: number;
   iddia?: number;

@@ -1,6 +1,7 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {IonicModule} from "@ionic/angular";
-import {RouterLink} from "@angular/router";
+import {ActivatedRoute, Router, RouterLink} from "@angular/router";
+import {TemaService} from "../Servicios/tema.service";
 
 @Component({
   selector: 'app-menu-hamburguesa',
@@ -14,21 +15,34 @@ import {RouterLink} from "@angular/router";
 })
 export class MenuHamburguesaComponent  implements OnInit {
   sidebarExpanded = false;
+  @Input() viajeId: number = 0;
+  darkMode = false;
 
-  // menu-hamburguesa.component.ts
+
+
+
   @Output() expansionChange = new EventEmitter<boolean>();
+  constructor(private route: ActivatedRoute, private temaService: TemaService, private router: Router) {
+    this.temaService.darkMode$.subscribe(isDark => {
+      this.darkMode = isDark;
+    });
+  }
 
   toggleSidebar() {
     this.sidebarExpanded = !this.sidebarExpanded;
     this.expansionChange.emit(this.sidebarExpanded);
-
-    const content = document.querySelector('.main-content') as HTMLElement;
-    if (content) {
-      content.style.marginLeft = this.sidebarExpanded ? '200px' : '60px';
-    }
   }
 
+  navegaActu() {
+    const currentUrl = this.router.url;
+    this.router.navigate(['/actu-usuario'], { queryParams: { returnUrl: currentUrl } });
+  }
 
-  ngOnInit() {}
-
+  ngOnInit() {
+    this.route.params.subscribe(params => {
+      if (params['id']) {
+        this.viajeId = +params['id'];
+      }
+    });
+  }
 }

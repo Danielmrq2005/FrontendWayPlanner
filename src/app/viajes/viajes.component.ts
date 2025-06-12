@@ -11,8 +11,9 @@ import {
 import { jwtDecode } from "jwt-decode";
 import { Login } from "../Modelos/Login";
 import {Viaje} from "../Modelos/Viaje";
-import {NgClass, NgForOf} from "@angular/common";
+import {NgClass, NgForOf, NgIf} from "@angular/common";
 import {IonicModule} from "@ionic/angular";
+import {TemaService} from "../Servicios/tema.service";
 
 @Component({
   selector: 'app-viajes',
@@ -30,6 +31,7 @@ import {IonicModule} from "@ionic/angular";
     NgForOf,
     RouterLink,
     NgClass,
+    NgIf,
 
   ]
 })
@@ -37,9 +39,15 @@ export class ViajesComponent implements OnInit {
   idusuario: number = 0;
   Nombreusuario: string | undefined = '';
   viajes: Viaje[] = [];
+  darkMode = false;
 
 
-  constructor(private usuarioservice: UsuarioService,private viajeservice: ViajeService,private router: Router) { }
+
+  constructor(private usuarioservice: UsuarioService,private viajeservice: ViajeService,private router: Router, private temaService: TemaService) {
+    this.temaService.darkMode$.subscribe(isDark => {
+      this.darkMode = isDark;
+    });
+  }
 
 
   obtenerUsuarioId(): number {
@@ -66,15 +74,37 @@ export class ViajesComponent implements OnInit {
 
   }
 
+  NavegaActu() {
+    const currentUrl = this.router.url;
+    this.router.navigate(['/actu-usuario'], { queryParams: { returnUrl: currentUrl } });
+  }
 
   ngOnInit() {
     this.idusuario = this.obtenerUsuarioId();
+
     if (this.idusuario) {
       this.viajeservice.listarViajesPorUsuario(this.idusuario).subscribe({
-        next: (viajes:Viaje[]) => this.viajes = viajes,
+        next: (viajes: Viaje[]) => {
+          const hoy = new Date();
+          hoy.setHours(0, 0, 0, 0);
+
+          const inicioManana = new Date(hoy);
+          inicioManana.setDate(hoy.getDate() + 1);
+
+          viajes.forEach(via => {
+            const fechafinViaje = new Date(via.fechaFin);
+
+          });
+
+          this.viajes = viajes.filter(v => {
+            const fechaInicioViaje = new Date(v.fechaInicio);
+            return fechaInicioViaje >= hoy;
+          });
+        },
         error: (err: any) => console.error('Error al obtener los viajes:', err)
       });
     }
+
     if (this.idusuario) {
       this.usuarioservice.obtenerUsuarioId(this.idusuario).subscribe({
         next: (usuario: Login) => {

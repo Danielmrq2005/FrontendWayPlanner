@@ -1,0 +1,15 @@
+<div *ngFor="let noti of notificaciones" style="
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: #323232;
+  color: white;
+  padding: 16px;
+  border-radius: 8px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.3);
+  z-index: 1000;
+  transition: opacity 0.5s ease-in-out;
+  margin-top: 10px;
+" [style.transform]="'translateY(-' + (notificaciones.indexOf(noti) * 110) + '%)'">
+  <strong>Notificación:</strong> {{ noti.mensaje }}
+</div>

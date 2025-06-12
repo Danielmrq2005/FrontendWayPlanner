@@ -1,40 +1,115 @@
 ion-content {
-  --background: #FFF2DB;
+  --background: #f6f9fc;
 }
 
 .form-container {
-  max-width: 600px;
-  margin: 2rem auto;
-  background-color: #5B97D5;
-  padding: 2rem;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-  border-radius: 16px;
+  margin: 20px auto;
+  border-radius: 15px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  max-width: 90%;
+  width: 100%;
+  background-color: white;
+  border: 2px solid #5B97D5;
 }
+
+@media (min-width: 768px) {
+  .form-container {
+    max-width: 800px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .form-container {
+    max-width: 750px;
+  }
+}
+
+ion-button.botones {
+  --background: white;
+  --color: #5B97D5;
+  --border-color: #5B97D5;
+  --border-style: solid;
+  --border-width: 2px;
+  --box-shadow: none;
+  --ripple-color: transparent;
+  --border-radius: 12px;
+}
+
+/*Literalmete esto para desactivar un hover del botón*/
+ion-button.botones::part(native) {
+  background: white !important;
+  color: #5B97D5 !important;
+  border: 2px solid #5B97D5 !important;
+  box-shadow: none !important;
+  transition: none !important;
+}
+
+/*Literalmete esto para desactivar un hover del botón*/
+ion-button.botones:hover::part(native),
+ion-button.botones:focus::part(native),
+ion-button.botones.ion-focused::part(native) {
+  background: white !important;
+  color: #5B97D5 !important;
+  border: 2px solid #5B97D5 !important;
+  box-shadow: none !important;
+}
+
+
+
+
 
 .form-title {
-  text-align: center;
-  font-size: 1.8rem;
-  font-weight: 600;
-  margin-bottom: 1.5rem;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background-color: #5B97D5;
   color: white;
+  font-size: 1.2rem;
+  padding: 16px 20px;
+  border-radius: 0;
+  font-weight: bold;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin: 0;
 }
 
+.toggle-group {
+  display: flex;
+  align-items: center;
+  margin: 12px;
+  color: black;
+}
+
+.toggle-group label {
+  margin: 16px;
+  flex: 1;  /* Para que el label tome todo el espacio posible y el toggle quede pegado al borde derecho */
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+
 .form-content {
+  padding: 1rem 1.5rem; /* o lo que prefieras */
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
 }
 
+
 .form-group {
   display: flex;
   flex-direction: column;
+  margin-bottom: 1rem;
 }
+
 
 .form-group label {
   font-size: 1rem;
   font-weight: 600;
   margin-bottom: 0.5rem;
-  color: white;
+  color: #333;
 }
 
 .form-group input,
@@ -42,27 +117,35 @@ ion-content {
 .form-group textarea {
   padding: 0.75rem;
   font-size: 1rem;
-  border: 1px solid #d1d5db;
+  border: 1px solid #ccc;
   border-radius: 12px;
-  background-color: #ffffff;
+  background-color: #fff;
   color: #333;
-}
-
-.form-group input[type="file"] {
-  padding: 0.3rem;
-  font-size: 0.95rem;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .form-group input:focus,
 .form-group select:focus,
 .form-group textarea:focus {
   border-color: #3880ff;
-  box-shadow: 0 0 0 3px rgba(56, 128, 255, 0.3);
+  box-shadow: 0 0 0 3px rgba(56, 128, 255, 0.25);
   outline: none;
 }
 
-.button-container {
-  margin-top: 1.5rem;
+.recargar {
+  margin: 8px 0;
+  padding: 6px 12px;
+  font-size: 14px;
+  background-color: #5B97D5;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.recargar:hover {
+  background-color: #4c85c9;
 }
 
 .map-container {
@@ -70,7 +153,7 @@ ion-content {
   height: 300px;
   border-radius: 12px;
   margin-top: 10px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
 }
 
 .map-search {
@@ -80,26 +163,106 @@ ion-content {
   border-radius: 12px;
   font-size: 1rem;
   margin-bottom: 0.5rem;
+  background-color: white;
+  color: #333;
+  transition: border-color 0.3s ease;
 }
 
-.location-display {
-  margin-top: 0.75rem;
-  color: white;
-  font-size: 0.95rem;
-}
-
-.subformulario {
-  background-color: rgba(255, 255, 255, 0.15);
-  padding: 1rem;
+ion-button {
+  --background: #5B97D5;
+  font-weight: 600;
   border-radius: 12px;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
+  text-transform: none;
+  --color: white;
+  transition: background-color 0.3s ease;
+}
+
+ion-button:hover {
+  --background: #4c85c9;
+}
+
+.error-msg {
+  color: red;
+  font-size: 0.9em;
+  margin-top: 4px;
+}
+
+.input-error {
+  border-color: red !important;
+  box-shadow: 0 0 0 3px rgba(255, 0, 0, 0.25) !important;
 }
 
 .horarios-container {
   display: flex;
-  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 1rem;
+  justify-content: flex-start;
+}
+
+
+
+.horarios-container button {
+  background-color: #5B97D5;
+  color: white;
+  border: none;
+  padding: 10px 18px;
+  font-size: 1rem;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.horarios-container button:hover {
+  background-color: #4c85c9;
+}
+
+.foto {
+  display: inline-block;
+  padding: 10px 20px;
+  color: white;
+  background-color: #5B97D5;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  text-align: center;
+  margin-left: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+.foto:hover {
+  background-color: #487bcf;
+}
+
+.foto-preview {
+  display: block;
+  max-width: 200px;
+  max-height: 200px;
+  margin: 10px auto;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  object-fit: cover;
+}
+.preview-container {
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+.horarios-container button:disabled {
+  background-color: #a0bce8;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.subformulario {
+  background-color: #f0f4fb;
+  padding: 1rem;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
   gap: 1rem;
 }
 
@@ -110,59 +273,396 @@ ion-content {
   min-width: 140px;
 }
 
+.horario-field label {
+  font-weight: 600;
+  font-size: 1rem;
+  margin-bottom: 8px;
+}
+
+.toggle-container {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: black;
+  margin-bottom: 12px;
+}
+
+.toggle-container label {
+  font-weight: 600;
+  font-size: 1rem;
+  flex: 1;
+  cursor: pointer;
+}
+
+.toggle-container ion-toggle {
+  --width: 50px;
+  --height: 28px;
+  --handle-background: #5B97D5;
+  --background-checked: #5B97D5;
+  --handle-background-checked: white;
+}
+
+
 .horarioInputFull {
   width: 100%;
   background-color: white;
-  border: 1px solid #ccc;
+  border: 1px solid #5B97D5;
   border-radius: 12px;
   padding: 0.75rem;
   font-size: 1rem;
-}
-
-ion-textarea {
-  --padding-start: 10px;
-  --padding-end: 10px;
-  --padding-top: 8px;
-  --padding-bottom: 8px;
-}
-
-ion-button {
-  --background: #5B97D5;
-  font-weight: 600;
-  border-radius: 12px;
-  text-transform: none;
-}
-
-input::placeholder,
-textarea::placeholder {
-  color: #aaa;
-}
-
-.time-input {
-  padding: 0.6rem;
-  font-size: 1rem;
-  border: 1px solid #ccc;
-  border-radius: 12px;
-  background-color: white;
   color: #333;
-  width: 100%;
-  box-sizing: border-box;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-.time-input:focus {
-  outline: none;
-  border-color: #3880ff;
-  box-shadow: 0 0 0 3px rgba(56, 128, 255, 0.3);
+.dark {
+  ion-content {
+    --background: #121212;
+  }
+
+  .form-container {
+    background-color: #1e1e1e;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+  }
+
+  .form-group {
+    input,
+    select,
+    textarea,
+    .time-input {
+      background-color: #2d2d2d;
+      border-color: #3d3d3d;
+      color: #e0e0e0;
+
+      &:focus {
+        border-color: #5B97D5;
+        box-shadow: 0 0 0 3px rgba(91, 151, 213, 0.2);
+      }
+
+      &::placeholder {
+        color: #666;
+      }
+    }
+
+    input[type="file"] {
+      color: #e0e0e0;
+    }
+  }
+
+  .map-search {
+    background-color: #2d2d2d;
+    border-color: #3d3d3d;
+    color: #e0e0e0;
+  }
+
+  .subformulario {
+    background-color: rgba(0, 0, 0, 0.2);
+  }
+
+  ion-textarea {
+    --background: #2d2d2d;
+    --color: #e0e0e0;
+    --placeholder-color: #666;
+  }
+
+  ion-button {
+    --background: #5B97D5;
+  }
+
+  ion-button[fill="outline"] {
+    --border-color: #5B97D5;
+    --color: #5B97D5;
+  }
+
+  .horarios-container {
+    label {
+      color: #e0e0e0 !important;
+    }
+  }
+
+  .horarioInputFull {
+    background-color: #2d2d2d;
+    border-color: #3d3d3d;
+  }
+}
+ion-content {
+  &:not(.dark) {
+    --background: #f5f5f5; // Light mode background
+  }
+
+  &.dark {
+    --background: #121212; // Dark mode background
+
+    .form-container {
+      background-color: #1e1e1e;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+    }
+
+    .form-group {
+      input,
+      select,
+      textarea,
+      .time-input {
+        background-color: #2d2d2d;
+        border-color: #3d3d3d;
+        color: #e0e0e0;
+
+        &:focus {
+          border-color: #5B97D5;
+          box-shadow: 0 0 0 3px rgba(91, 151, 213, 0.2);
+        }
+
+        &::placeholder {
+          color: #666;
+        }
+      }
+
+      input[type="file"] {
+        color: #e0e0e0;
+      }
+    }
+
+    .map-search {
+      background-color: #2d2d2d;
+      border-color: #3d3d3d;
+      color: #e0e0e0;
+    }
+
+    .subformulario {
+      background-color: rgba(0, 0, 0, 0.2);
+    }
+
+    ion-textarea {
+      --background: #2d2d2d;
+      --color: #e0e0e0;
+      --placeholder-color: #666;
+    }
+
+    ion-button {
+      --background: #5B97D5;
+    }
+
+    ion-button[fill="outline"] {
+      --border-color: #5B97D5;
+      --color: #5B97D5;
+    }
+
+    .horarios-container {
+      label {
+        color: #e0e0e0 !important;
+      }
+    }
+
+    .horarioInputFull {
+      background-color: #2d2d2d;
+      border-color: #3d3d3d;
+    }
+  }
 }
 
-.toggle-wrapper {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+/* Dark mode styles for crear-itinerario */
+:host-context(.dark) {
+  .form-title {
+    background-color: #DC2786FF;
+    color: white;
+  }
+
+  .toggle-group {
+    color: white;
+  }
+
+  .form-group label {
+    color: white;
+  }
+
+  h3 {
+    color: white !important; /* Override the inline style */
+  }
+
+  .toggle-container label {
+    color: white !important;
+  }
+
+  /* Form inputs and selects styling */
+  select,
+  option {
+    background-color: #2d2d2d;
+    color: white;
+  }
+
+  select option {
+    background-color: #2d2d2d;
+    color: white;
+  }
+
+  /* Fix for autocomplete dropdown */
+  .pac-container {
+    background-color: #2d2d2d;
+    border-color: #3d3d3d;
+  }
+
+  .pac-item {
+    color: white;
+    background-color: #2d2d2d;
+    border-color: #3d3d3d;
+  }
+
+  .pac-item-query {
+    color: white;
+  }
+
+  .pac-icon {
+    filter: invert(1);
+  }
+
+  /* Error messages */
+  .error {
+    color: #ff6b6b;
+  }
+
+  /* Day selection text */
+  ion-textarea {
+    color: white;
+  }
 }
 
-.toggle-wrapper ion-toggle {
-  margin-top: 0.5rem;
-  --handle-width: 18px;
-  --handle-height: 18px;
+/* Fix for dropdown in dark mode */
+::ng-deep .dark ion-alert {
+  --background: #2d2d2d !important;
+  --color: white !important;
+}
+
+::ng-deep .dark ion-action-sheet {
+  --background: #2d2d2d !important;
+  --color: white !important;
+  --button-color: white !important;
+}
+
+::ng-deep .dark .select-alert {
+  background-color: #2d2d2d !important;
+}
+
+::ng-deep .dark .action-sheet-group {
+  background-color: #2d2d2d !important;
+}
+
+::ng-deep .dark ion-select-option,
+::ng-deep .dark ion-select {
+  color: white !important;
+}
+/* Update all blue colors to pink in dark mode */
+:host-context(.dark) {
+  .form-container {
+    border-color: #DC2786FF;
+  }
+
+  ion-button.botones {
+    --color: #DC2786FF;
+    --border-color: #DC2786FF;
+  }
+
+  ion-button.botones::part(native) {
+    color: #DC2786FF !important;
+    border: 2px solid #DC2786FF !important;
+  }
+
+  ion-button.botones:hover::part(native),
+  ion-button.botones:focus::part(native),
+  ion-button.botones.ion-focused::part(native) {
+    color: #DC2786FF !important;
+    border: 2px solid #DC2786FF !important;
+  }
+
+  .form-group input:focus,
+  .form-group select:focus,
+  .form-group textarea:focus {
+    border-color: #DC2786FF;
+    box-shadow: 0 0 0 3px rgba(220, 39, 134, 0.25);
+  }
+
+  .recargar {
+    background-color: #DC2786FF;
+  }
+
+  .recargar:hover {
+    background-color: #c12277;
+  }
+
+  ion-button {
+    --background: #DC2786FF;
+  }
+
+  ion-button:hover {
+    --background: #c12277;
+  }
+
+  .horarios-container button {
+    background-color: #DC2786FF;
+  }
+
+  .horarios-container button:hover {
+    background-color: #c12277;
+  }
+
+  .horarios-container button:disabled {
+    background-color: #e06bae;
+  }
+
+  .horarioInputFull {
+    border-color: #DC2786FF;
+  }
+
+  .toggle-container ion-toggle {
+    --handle-background: #DC2786FF;
+    --background-checked: #DC2786FF;
+  }
+
+  .form-group input:focus,
+  .form-group select:focus,
+  .form-group textarea:focus {
+    border-color: #DC2786FF;
+    box-shadow: 0 0 0 3px rgba(220, 39, 134, 0.2);
+  }
+}
+
+/* Fix color in nested dark selectors */
+.dark {
+  ion-button {
+    --background: #DC2786FF;
+  }
+
+  ion-button[fill="outline"] {
+    --border-color: #DC2786FF;
+    --color: #DC2786FF;
+  }
+
+  .form-group {
+    input:focus,
+    select:focus,
+    textarea:focus,
+    .time-input:focus {
+      border-color: #DC2786FF;
+      box-shadow: 0 0 0 3px rgba(220, 39, 134, 0.2);
+    }
+  }
+}
+
+ion-content.dark {
+  .form-group {
+    input:focus,
+    select:focus,
+    textarea:focus,
+    .time-input:focus {
+      border-color: #DC2786FF;
+      box-shadow: 0 0 0 3px rgba(220, 39, 134, 0.2);
+    }
+  }
+
+  ion-button {
+    --background: #DC2786FF;
+  }
+
+  ion-button[fill="outline"] {
+    --border-color: #DC2786FF;
+    --color: #DC2786FF;
+  }
 }

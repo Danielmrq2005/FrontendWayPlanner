@@ -1,11 +1,11 @@
 import { Maleta } from './Maletas/maleta';
-import { Gastos } from './Gastos';
+import {Gastos} from "./gastos";
 
 export interface Viaje {
   id?: number;
   nombre: string;
-  fechaInicio: Date;
-  fechaFin: Date;
+  fechaInicio: string;
+  fechaFin: string;
   destino: string;
   descripcion: string;
   usuario: {

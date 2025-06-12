@@ -43,7 +43,7 @@ export const routes: Routes = [
     loadComponent: () => import('./gastos/gastos.component').then((m) => m.GastosComponent),
   },
   {
-    path: 'GraficaViaje',
+    path: 'GraficaViaje/:id',
     loadComponent: () => import('./grafica-viaje/grafica-viaje.component').then((m) => m.GraficaViajeComponent),
   },
   {
@@ -95,5 +95,13 @@ export const routes: Routes = [
   {
     path: 'ajustes',
     loadComponent: () => import('./ajustes/ajustes.component').then((m) => m.AjustesComponent),
+  },
+  {
+    path:'actu-itinerario',
+    loadComponent: () => import('./actu-itinerario/actu-itinerario.component').then((m) => m.ActuItinerarioComponent),
+  },
+  {
+    path: 'crear-dia',
+    loadComponent: () => import('./crear-dia/crear-dia.component').then((m) => m.CrearDiaComponent),
   }
 ];

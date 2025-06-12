@@ -1,4 +1,4 @@
-<div class="container mt-4 mb-5" *ngIf="!maletaSeleccionada">
+<div class="container mt-4 mb-5" *ngIf="!maletaSeleccionada" [class.dark]="darkMode">
   <ng-container *ngIf="maletas.length > 0; else sinMaletas">
     <div
       class="item-card shadow-sm"

@@ -18,6 +18,8 @@ import { FormBilleteComponent } from '../Billetes/form-billete/form-billete.comp
 import { IonicModule } from "@ionic/angular";
 import { ActivatedRoute, RouterLink } from "@angular/router";
 import { ViajeService } from "../../Servicios/viaje.service";
+import {MenuHamburguesaComponent} from "../../menu-hamburguesa/menu-hamburguesa.component";
+import {TemaService} from "../../Servicios/tema.service";
 
 @Component({
   selector: 'app-header-maleta-billete',
@@ -32,13 +34,17 @@ import { ViajeService } from "../../Servicios/viaje.service";
     IonicModule,
     RouterLink,
     FormBilleteComponent,
-    FormMaletaComponent
+    FormMaletaComponent,
+    MenuHamburguesaComponent
   ]
 })
 export class HeaderMaletaBilleteComponent implements OnInit {
 
   viajeNombre: string = '';
   segmento_seleccionado: string = 'lista_maletas';
+
+  viajeId: number = 0;
+
 
   mostrarFormularioMaleta: boolean = false;
   mostrarFormularioBillete: boolean = false;
@@ -49,7 +55,18 @@ export class HeaderMaletaBilleteComponent implements OnInit {
   estaEditandoMaleta: boolean = false;
   estaEditandoBillete: boolean = false;
 
-  constructor(private route: ActivatedRoute, private viajeService: ViajeService) {}
+  darkMode = false;
+  sidebarExpanded = false;
+
+  constructor(private route: ActivatedRoute, private viajeService: ViajeService, private temaService: TemaService) {
+    this.temaService.darkMode$.subscribe(isDark => {
+      this.darkMode = isDark;
+    });
+  }
+
+  toggleSidebar() {
+    this.sidebarExpanded = !this.sidebarExpanded;
+  }
 
   ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id');

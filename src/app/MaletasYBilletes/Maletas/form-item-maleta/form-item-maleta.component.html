@@ -102,4 +102,66 @@
     font-size: 0.85rem;
     color: #444;
   }
+  /* Dark mode styles for form-item-maleta */
+  :host-context(.dark) .maleta-header {
+    background-color: #1f1f1f;
+    color: white;
+  }
+
+  :host-context(.dark) .maleta-card {
+    background-color: #121212;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
+  }
+
+  :host-context(.dark) ion-card-content {
+    background-color: #121212;
+    color: white;
+  }
+
+  :host-context(.dark) ion-item {
+    --background: #1f1f1f;
+    --color: white;
+  }
+
+  :host-context(.dark) ion-item ion-label {
+    color: white !important;
+  }
+
+  :host-context(.dark) ion-item ion-input {
+    color: white;
+  }
+
+  :host-context(.dark) ion-item ion-select {
+    color: white !important;
+  }
+
+  :host-context(.dark) .maleta-general-aviso {
+    color: #bbb;
+  }
+
+  :host-context(.dark) ion-button[color="primary"] {
+    --ion-color-primary: #DC2786FF;
+    --ion-color-primary-contrast: white;
+  }
+
+  :host-context(.dark) ion-select-option {
+    color: white !important;
+  }
+
+  ::ng-deep .dark .alert-radio-label {
+    color: white !important;
+  }
+
+  ::ng-deep .dark .action-sheet-group .action-sheet-button {
+    color: white !important;
+  }
+
+  ::ng-deep .dark .select-popover .ion-select-option {
+    color: white !important;
+  }
+
+  ::ng-deep .dark ion-alert .alert-checkbox-label,
+  ::ng-deep .dark ion-alert .alert-radio-label {
+    color: white !important;
+  }
 </style>

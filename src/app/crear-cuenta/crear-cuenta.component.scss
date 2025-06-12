@@ -1,17 +1,36 @@
+ion-content {
+  &::part(scroll) {
+    background: url('/assets/loginAvion.jpg') no-repeat center center / cover;
+  }
+}
+
 .login-container {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100vh;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 15px;
   padding: 20px;
-  text-align: center;
+  max-width: 400px;
+  width: 90%;
+  margin: auto;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 
-  .icon {
-    font-size: 80px;
-    color: #000;
-    margin-bottom: 10px;
+  img {
+    width: 150px;
+    height: auto;
+    margin-bottom: 20px;
   }
+
+
+.icon {
+  display: block;
+  margin: 0 auto;
+  width: 150px;
+  height: 150px;
+  margin-bottom: 20px;
+}
 
   h2 {
     font-size: 1.5rem;
@@ -25,7 +44,6 @@
 
     ion-item {
       position: relative;
-
 
       ion-label {
         position: absolute;
@@ -46,13 +64,20 @@
         --highlight-color-focused: #0c86bd;
         --border-width: 2px;
       }
+
+      ion-datetime {
+        margin-top: 45px;
+        background: #f8f8f8;
+        border-radius: 5px;
+        padding: 10px;
+        --border-color: #0c86bd;
+        --highlight-color-focused: #0c86bd;
+        --border-width: 2px;
+        width: 100%;
+      }
     }
   }
-  img {
-    width: 20%;
-    height: auto;
-    margin-bottom: 20px;
-  }
+
   .login-button {
     --background: #0c86bd;
     --color: #ffffff;
@@ -62,6 +87,7 @@
     border-radius: 5px;
     font-weight: bold;
   }
+
   .signup-link {
     margin-top: 15px;
 
@@ -77,16 +103,24 @@
     }
   }
 }
+
 .icon {
   width: 150px;
   height: 150px;
   margin-bottom: 20px;
 }
 
-
+// Estilos para pantallas grandes (PC)
 @media screen and (min-width: 768px) {
-  ion-content::part(scroll) {
-    background: url('/assets/loginAvion.jpg') no-repeat center center / cover;
+  ion-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+
+    &::part(scroll) {
+      background: url('/assets/loginAvion.jpg') no-repeat center center / cover;
+    }
   }
 
   .login-container {
@@ -98,16 +132,6 @@
     height: auto;
     margin: auto;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-    position: relative;
-    top: 50%;
-    transform: translateY(-50%);
-  }
-
-  ion-content {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
   }
 
   .login-container h2 {
@@ -117,23 +141,4 @@
   .login-container img {
     width: 120px;
   }
-  ion-item {
-    ion-datetime {
-      margin-top: 45px;
-      background: #f8f8f8;
-      border-radius: 5px;
-      padding: 10px;
-      --border-color: #0c86bd;
-      --highlight-color-focused: #0c86bd;
-      --border-width: 2px;
-      width: 100%;
-    }
-  }
-
-
 }
-
-
-
-
-

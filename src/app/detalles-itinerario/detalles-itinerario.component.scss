@@ -1,0 +1,91 @@
+:host {
+  --ion-color-primary: #5B97D5;
+}
+
+.fondo-itinerario {
+  --background: #f6f9fc;
+}
+
+.color-primario {
+  color: #5B97D5;
+  font-weight: bold;
+  font-size: 1.3em;
+}
+
+.titulo-itinerario {
+  font-size: 1.2em;
+  font-weight: bold;
+  color: #5B97D5;
+}
+
+.imagen-itinerario {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+}
+
+.icono-estado {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.titulo-horarios {
+  margin-top: 1rem;
+  font-size: 1.1em;
+  color: #5B97D5;
+  display: block;
+}
+
+.lista-horarios {
+  padding-left: 0.5rem;
+}
+
+.item-horario {
+  background: #eef4fb;
+  border-radius: 10px;
+  margin-bottom: 0.5rem;
+  padding: 0.5rem 1rem;
+}
+
+.btn-actualizar {
+  --background: #5B97D5;
+  --color: white;
+  --border-radius: 12px;
+  font-weight: 600;
+  margin-top: 1.5rem;
+  width: 100%;
+  text-transform: none;
+  font-size: 1em;
+  box-shadow: 0 4px 8px rgba(91, 151, 213, 0.2);
+}
+
+.btn-eliminar{
+  --background: #c80808;
+  --color: white;
+  --border-radius: 12px;
+  font-weight: 600;
+  margin-top: 1.5rem;
+  width: 100%;
+  text-transform: none;
+  font-size: 1em;
+  box-shadow: 0 4px 8px rgba(91, 151, 213, 0.2);
+}
+
+.btn-como-llegar {
+  --background: #5B97D5; // Un verde que contraste con el azul primario
+  --color: white;
+  --border-radius: 12px;
+  font-weight: 600;
+  margin-top: 1rem;
+  width: 97%;
+  text-transform: none;
+  font-size: 1em;
+  box-shadow: 0 4px 8px rgba(76, 175, 80, 0.2);
+  margin-bottom: 1rem;
+
+  &:hover {
+    --background: #45a049;
+  }
+}
+

@@ -1,74 +1,82 @@
-<div class="app-container" [class.sidebar-expanded]="sidebarExpanded">
-  <app-menu-hamburguesa (expansionChange)="sidebarExpanded = $event"></app-menu-hamburguesa>
+
+<div class="app-container" [class.dark]="darkMode" [class.sidebar-expanded]="sidebarExpanded">
+
+  <app-menu-hamburguesa (expansionChange)="sidebarExpanded = $event"  [viajeId]="viajeId"></app-menu-hamburguesa>
 
 
-      <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-        <ion-fab-button>
-          <img src="assets/añadir.png" alt="WayPlanner Icono" class="icon">
-        </ion-fab-button>
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button>
+      <img src="assets/añadir.png" alt="WayPlanner Icono" class="icon">
+    </ion-fab-button>
 
-        <ion-fab-list side="top">
-          <ion-fab-button color="danger" [routerLink]="['/crear-gasto', viajeId]">
-            <img src="assets/Gasto.png" alt="Gastos Icon" class="menu-icon" />
-          </ion-fab-button>
-          <ion-fab-button color="success" [routerLink]="['/crear-ingreso', viajeId]">
-            <img src="assets/Ingreso.png" alt="Ingresos Icon" class="menu-icon" />
-          </ion-fab-button>
-        </ion-fab-list>
-      </ion-fab>
+    <ion-fab-list side="top">
+      <ion-fab-button color="danger" [routerLink]="['/crear-gasto', viajeId]">
+        <img src="assets/Gasto.png" alt="Gastos Icon" class="menu-icon" />
+      </ion-fab-button>
+      <ion-fab-button color="success" [routerLink]="['/crear-ingreso', viajeId]">
+        <img src="assets/Ingreso.png" alt="Ingresos Icon" class="menu-icon" />
+      </ion-fab-button>
+    </ion-fab-list>
+  </ion-fab>
 
-  <div class="main-content">
+  <div class="main-content" [class.dark]="darkMode">
+    <ion-header>
+      <ion-toolbar [style]="{'--background': darkMode ? '#1f1f1f' : '#5B97D5'}" style="display: flex; align-items: center; justify-content: space-between; padding: 0 16px;">
+        <div style="display: flex; align-items: center;">
+          <img src="assets/logo.png" alt="Logo" style="height: 40px; margin-right: 8px;">
+          <ion-title style="margin-right: -12px; font-size: 1.2em; color: white">Itinerarios</ion-title>
+          <img src="assets/icons8-campana-48.png" alt="Notificaciones" [routerLink]="['/notificaciones']"  style="width: 30px; height: 30px;">
+        </div>
+      </ion-toolbar>
+    </ion-header>
     <div class="top-tabs">
       <div class="tabs-container">
-        <span class="tab gasto selected">
+        <span class="tab gasto selected" *ngIf="resumen">
           ● Gastos
-          <div class="amount">-{{resumen?.totalGastos | currency:'EUR':'symbol' }}</div>
+          <div class="amount">-{{ resumen.totalGastos | currency:'EUR':'symbol' }}</div>
         </span>
-        <span class="tab total">
+                <span class="tab total" *ngIf="resumen">
           = Total
           <div class="amount">{{ resumen?.saldo | currency:'EUR':'symbol'}}€</div>
         </span>
-        <span class="tab ingreso">
+                <span class="tab ingreso" *ngIf="resumen">
           = Ingresos
           <div class="amount">+{{ resumen?.totalIngresos | currency:'EUR':'symbol'}} €</div>
         </span>
       </div>
-      <img src="assets/grafico.png" [routerLink]="['/GraficaViaje']" alt="Gráfico" class="chart-icon">
+      <img src="assets/grafico.png" [routerLink]="['/GraficaViaje', viajeId]" alt="Gráfico" class="chart-icon">
     </div>
 
+    <ion-list class="gastos-list" [class.dark]="darkMode">
+      <ng-container *ngFor="let dia of Gastos">
+        <ion-item-divider [class.dark]="darkMode">
+          <ion-label class="fecha">{{ dia.fecha }}</ion-label>
+        </ion-item-divider>
+        <ng-container *ngFor="let gasto of dia.gastos">
+          <ion-item lines="none" [class.dark]="darkMode">
+            <ion-icon [name]="gasto.esIngreso ? 'card' : 'wallet'" slot="start" [color]="gasto.esIngreso ? 'success' : 'danger'"></ion-icon>
+            <ion-label>
+              <h2>{{ gasto.titulo }}</h2>
+            </ion-label>
+            <ion-text [color]="gasto.esIngreso ? 'success' : 'danger'">
+              <strong>{{ gasto.esIngreso ? '+' : '-' }}{{ gasto.cantidad | currency:'EUR' }}</strong>
+            </ion-text>
 
+            <img
+              class="lapiz"
+              src="assets/Lapiz.png"
+              slot="end"
+              [routerLink]="['/actualizar-gasto', gasto.id]"
+              (click)="verificarId(gasto.id)" />
 
-    <ion-list>
-          <ng-container *ngFor="let dia of Gastos">
-            <ion-item-divider>
-              <ion-label class="fecha">{{ dia.fecha }}</ion-label>
-            </ion-item-divider>
-            <ng-container *ngFor="let gasto of dia.gastos">
-              <ion-item lines="none">
-                <ion-icon [name]="gasto.esIngreso ? 'card' : 'wallet'" slot="start" [color]="gasto.esIngreso ? 'success' : 'danger'"></ion-icon>
-                <ion-label>
-                  <h2>{{ gasto.titulo }}</h2>
-                </ion-label>
-                <ion-text [color]="gasto.esIngreso ? 'success' : 'danger'">
-                  <strong>{{ gasto.esIngreso ? '+' : '-' }}{{ gasto.cantidad | currency:'EUR' }}</strong>
-                </ion-text>
-
-                <img
-                  class="lapiz"
-                  src="assets/Lapiz.png"
-                  slot="end"
-                  [routerLink]="['/actualizar-gasto', gasto.id]"
-                  (click)="verificarId(gasto.id)" />
-
-                <img
-                  class="papelera"
-                  src="assets/eliminar.png"
-                  slot="end"
-                  (click)="eliminarGasto(gasto.id)" />
-              </ion-item>
-            </ng-container>
-          </ng-container>
-        </ion-list>
-      </div>
+            <img
+              class="papelera"
+              src="assets/eliminar.png"
+              slot="end"
+              (click)="eliminarGasto(gasto.id)" />
+          </ion-item>
+        </ng-container>
+      </ng-container>
+    </ion-list>
+  </div>
 </div>
-

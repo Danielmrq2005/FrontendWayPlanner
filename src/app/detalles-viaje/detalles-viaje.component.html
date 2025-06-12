@@ -1,14 +1,21 @@
 <ion-header>
-  <ion-toolbar style="display: flex; --background: #5B97D5; align-items: center; justify-content: space-between; padding: 0 16px;">
-    <div style="display: flex; align-items: center;">
-      <img src="assets/logo.png" alt="Logo" style="height: 40px; margin-right: 8px;">
-      <ion-title style="margin: 0; font-size: 20px; color: white">Detalles viaje</ion-title>
-      <img src="assets/icons8-campana-48.png" alt="Notificaciones" style="width: 30px; height: 30px;">
-    </div>
-  </ion-toolbar>
-</ion-header>
+  <ion-toolbar [style]="{'--background': darkMode ? '#1f1f1f' : '#5B97D5'}" style="display: flex; align-items: center; justify-content: space-between; padding: 0 16px;">
+    <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: nowrap; width: 100%; gap: 8px;">
 
-<ion-content class="ion-padding">
+      <div style="display: flex; align-items: center; flex-shrink: 1;">
+        <img src="assets/logo.png" alt="Logo" style="height: 28px; margin-right: -5px;">
+        <ion-title style="font-size: 21px; color: white; margin: 0;">Detalles Viaje</ion-title>
+      </div>
+
+      <div style="display: flex; align-items: center; gap: 8px; flex-shrink: 0;">
+        <img src="assets/icons8-campana-48.png" alt="Notificaciones" [routerLink]="['/notificaciones']" style="width: 24px; height: 24px;">
+      </div>
+    </div>
+
+  </ion-toolbar>
+
+</ion-header>
+<ion-content class="ion-padding" [class.dark]="darkMode">
   <div class="viaje-detalle-container">
     <div class="contenedor_titulo">
       <h1 class="viaje-nombre">✈️ {{viaje?.nombre}}</h1>
@@ -112,6 +119,36 @@
       justify-content: center;
       align-items: center;
       display: inline-block;
+    }
+    ion-content.dark {
+      --background: #121212;
+
+      .viaje-detalle-container {
+        .viaje-nombre {
+          color: #e0e0e0;
+        }
+
+        .detalle-label {
+          color: #e0e0e0;
+        }
+
+        .detalle-contenido {
+          background-color: #2d2d2d;
+          color: #e0e0e0;
+          box-shadow: 0 1px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .contenedor_titulo {
+          background-color: #2d2d2d;
+          border-color: #3d3d3d;
+        }
+
+        .botones {
+          ion-button {
+            --background: #5B97D5;
+          }
+        }
+      }
     }
   </style>
 </ion-content>

@@ -10,6 +10,7 @@ import {FormItemMaletaComponent} from "../form-item-maleta/form-item-maleta.comp
 import { jsPDF } from 'jspdf';
 import {VerItemDTO} from "../../../Modelos/Maletas/Items/VerItemDTO";
 import {FormEditarObjetoMaletaComponent} from "../form-editar-objeto-maleta/form-editar-objeto-maleta.component";
+import {TemaService} from "../../../Servicios/tema.service";
 
 @Component({
     selector: 'app-lista-items-maleta',
@@ -40,7 +41,13 @@ export class ListaItemsMaletaComponent  implements OnInit {
 
   @Output() editandoItem = new EventEmitter<boolean>();
 
-  constructor(private route: ActivatedRoute, private maletaService: MaletaService, private itemsMaletaService: ItemsMaletaService) { }
+  darkMode = false;
+
+  constructor(private route: ActivatedRoute, private maletaService: MaletaService, private itemsMaletaService: ItemsMaletaService, private temaService: TemaService) {
+    this.temaService.darkMode$.subscribe(isDark => {
+      this.darkMode = isDark;
+    });
+  }
 
   ngOnInit() {
     const maletaId = this.route.snapshot.paramMap.get('id');

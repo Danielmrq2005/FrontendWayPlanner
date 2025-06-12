@@ -1,48 +1,128 @@
-<ion-content class="ion-padding">
+<ion-content class="ion-padding" [class.dark]="darkMode">
   <div class="form-container">
     <h2 class="form-title">Nuevo Itinerario</h2>
 
-    <div style="display: flex; align-items: center; margin-bottom: 10px;">
-      <label style="margin-right: 20px; color: white;">¿Quiere que este itinerario se añada a su lista?</label>
-      <ion-toggle [(ngModel)]="itinerario.apareceEnItinerario"></ion-toggle>
+    <div class="toggle-group">
+      <label>¿Quiere que este itinerario se añada a su lista?</label>
+      <ion-toggle name="apareceEnItinerario" [(ngModel)]="itinerario.apareceEnItinerario" (ionChange)="onToggleApareceEnItinerario($event)" standalone="true"></ion-toggle>
     </div>
 
-    <div style="display: flex; align-items: center; margin-bottom: 10px;">
-      <label style="margin-right: 20px; color: white;">¿Quiere que este itinerario se añada a sus rutas?</label>
-      <ion-toggle [(ngModel)]="itinerario.estaEnRuta"></ion-toggle>
+    <div class="toggle-group">
+      <label>¿Quiere que este itinerario se añada a sus rutas?</label>
+      <ion-toggle name="estaEnRuta" [(ngModel)]="itinerario.estaEnRuta" (ionChange)="onToggleEstaEnRuta($event)" standalone="true"></ion-toggle>
     </div>
 
-    <form class="form-content">
+
+    <form class="form-content"  (ngSubmit)="crearItinerario()">
+
       <div class="form-group">
         <label for="viaje">Seleccionar viaje:</label>
-        <select id="viaje" name="viaje" [(ngModel)]="idViajeSeleccionado" (change)="onViajeChange()">
+        <select
+          id="viaje"
+          name="viaje"
+          [(ngModel)]="idViajeSeleccionado"
+          #viaje="ngModel"
+          required
+          (change)="onViajeChange()"
+        >
+          <option value="" disabled selected>Selecciona un viaje</option>
           <option *ngFor="let viaje of viajes" [value]="viaje.id">{{ viaje.nombre }}</option>
         </select>
       </div>
 
       <div class="form-group">
         <label for="actividad">Nombre de la actividad:</label>
-        <input id="actividad" type="text" name="actividad" placeholder="Ej. Museo del Prado" [(ngModel)]="itinerario.actividad" />
+        <input
+          id="actividad"
+          type="text"
+          name="actividad"
+          placeholder="Ej. Museo del Prado"
+          [(ngModel)]="itinerario.actividad"
+          #actividad="ngModel"
+          required
+          minlength="3"
+        />
+        <div class="error" *ngIf="actividad.invalid && (actividad.dirty || actividad.touched)">
+          <small *ngIf="actividad.errors?.['required']">Este campo es obligatorio.</small>
+          <small *ngIf="actividad.errors?.['minlength']">Mínimo 3 caracteres.</small>
+        </div>
       </div>
 
       <div class="form-group">
-        <label for="foto">Foto:</label>
-        <input id="foto" type="file" name="foto" accept="image/*"/>
+        <label for="foto" class="foto" style="color: white;">Foto:</label>
+        <input
+          id="foto"
+          type="file"
+          name="foto"
+          accept="image/*"
+          (change)="onFotoSeleccionada($event)"
+          required
+          #foto="ngModel"
+          ngModel
+        />
+        <div *ngIf="fotoPreview" class="preview-container">
+          <img [src]="fotoPreview" alt="Previsualización" class="foto-preview" />
+        </div>
       </div>
 
       <div class="form-group">
         <label for="hora">Hora a la que ir:</label>
-        <input id="hora" type="time" name="hora" [(ngModel)]="itinerario.hora" />
+        <input
+          id="hora"
+          type="time"
+          name="hora"
+          [(ngModel)]="itinerario.hora"
+          #hora="ngModel"
+          required
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="medioTransporte">Medio de tranporte: </label>
+        <select
+          id="medioTransporte"
+          name="medioTransporte"
+          [(ngModel)]="itinerario.medioTransporte"
+          required
+        >
+          <option value="" disabled selected>Selecciona un medio de transporte</option>
+          <option value="ANDANDO">Andando</option>
+          <option value="BICICLETA">Bicicleta</option>
+          <option value="COCHE">Coche</option>
+          <option value="AUTOBUS">Autobús</option>
+          <option value="TREN">Tren</option>
+          <option value="METRO">Metro</option>
+          <option value="TAXI">Taxi</option>
+          <option value="BARCO">Barco</option>
+          <option value="TRANVIA">Tranvía</option>
+          <option value="OTRO">Otro</option>
+        </select>
       </div>
 
       <div class="form-group">
         <label for="duracion">Duración:</label>
-        <input id="duracion" type="text" name="duracion" placeholder="2 horas" [(ngModel)]="itinerario.duracion" />
+        <input
+          id="duracion"
+          type="text"
+          name="duracion"
+          placeholder="2 horas"
+          [(ngModel)]="itinerario.duracion"
+          #duracion="ngModel"
+          required
+          minlength="2"
+        />
       </div>
 
       <div class="form-group">
         <label for="categoria">Categoría:</label>
-        <select id="categoria" name="categoria" [(ngModel)]="itinerario.categoria">
+        <select
+          id="categoria"
+          name="categoria"
+          [(ngModel)]="itinerario.categoria"
+          #categoria="ngModel"
+          required
+        >
+          <option value="" disabled selected>Selecciona una categoría</option>
           <option *ngFor="let categoria of categoriaItinerario" [value]="categoria">{{ categoria }}</option>
         </select>
       </div>
@@ -50,61 +130,125 @@
       <div class="form-group">
         <label>Elige sitio:</label>
         <input id="autocomplete" type="text" placeholder="Buscar lugar..." class="map-search" />
+        <button type="button" class="recargar" (click)="recargarMapa()">Recargar mapa</button>
         <div id="map" class="map-container"></div>
-        <div class="location-display">
-          Latitud: {{ itinerario.latitud }} <br />
-          Longitud: {{ itinerario.longitud }}
-        </div>
       </div>
 
       <div class="form-group">
         <label>Billete (opcional):</label>
-        <ion-button fill="outline" color="secondary" (click)="toggleBilleteForm()">
+        <ion-button class="botones" (click)="toggleBilleteForm()">
           {{ mostrarFormularioBillete ? 'Ocultar Billete' : 'Crear Billete' }}
         </ion-button>
       </div>
 
       <div *ngIf="mostrarFormularioBillete" class="form-group subformulario">
         <label>Nombre del billete:</label>
-        <input type="text" name="nombreBillete" [(ngModel)]="billete.nombre" placeholder="Ej. Entrada museo..." />
+        <input
+          type="text"
+          name="nombreBillete"
+          [(ngModel)]="billete.nombre"
+          placeholder="Ej. Entrada museo..."
+          #nombreBillete="ngModel"
+          required
+        />
 
-        <select name="categoriaBillete" [(ngModel)]="billete.categoria">
-          <option value="">Selecciona una categoría</option>
+
+        <select name="categoriaBillete" [(ngModel)]="billete.categoria" #categoriaBillete="ngModel" required>
+          <option value="" disabled selected>Selecciona una categoría</option>
           <option *ngFor="let opcion of categorias" [value]="opcion">{{ opcion }}</option>
         </select>
-
         <label>Subir PDF:</label>
-        <input type="file" (change)="onPdfSeleccionado($event)" name="pdf" accept="application/pdf" />
+        <input
+          type="file"
+          (change)="onPdfSeleccionado($event)"
+          name="pdf"
+          accept="application/pdf"
+          #pdfBillete="ngModel"
+          [(ngModel)]="this.billeteSeleccionado"
+          ngModel
+          required
+        />
+
 
         <ion-button (click)="crearBillete()">Crear Billete</ion-button>
       </div>
 
       <div class="form-group">
         <label for="dias">Días del itinerario:</label>
-        <select id="dias" name="dias">
+        <select
+          id="dias"
+          name="dias"
+          [(ngModel)]="diaSeleccionado"
+          style="margin-bottom: 10px"
+          #diasSelect="ngModel"
+          required
+        >
+          <option value="" disabled selected>Selecciona un día</option>
           <option *ngFor="let dia of dias" [value]="dia.id">Día {{ dia.numeroDia }} ({{ dia.fecha }})</option>
         </select>
-        <ion-button fill="outline" color="secondary" (click)="toggleDiaForm()">
+        <ion-button class="botones" (click)="toggleDiaForm()">
           {{ mostrarFormularioDia ? 'Ocultar Día' : 'Crear Día' }}
         </ion-button>
       </div>
 
       <div *ngIf="mostrarFormularioDia" class="form-group subformulario">
         <label>Fecha:</label>
-        <input type="date" name="fecha" [(ngModel)]="dia.fecha" />
+        <input
+          type="date"
+          name="fecha"
+          [(ngModel)]="dia.fecha"
+          #fechaDia="ngModel"
+          required
+        />
 
         <label>Número de Día:</label>
-        <input type="number" name="numeroDia" [(ngModel)]="dia.numeroDia" placeholder="Ej. 1" />
+        <input
+          type="number"
+          name="numeroDia"
+          [(ngModel)]="dia.numeroDia"
+          placeholder="Ej. 1"
+          #numeroDia="ngModel"
+          required
+          min="1"
+        />
+        <div class="error" *ngIf="numeroDia.invalid && (numeroDia.dirty || numeroDia.touched)">
+          <small *ngIf="numeroDia.errors?.['required']">Este campo es obligatorio.</small>
+          <small *ngIf="numeroDia.errors?.['min']">Número de día debe ser al menos 1.</small>
+        </div>
 
-        <ion-button (click)="crearDia()">Crear Día</ion-button>
+        <label>Dia de la semana:</label>
+        <select name="diaSemana" [(ngModel)]="dia.diaSemana" #diaSemana="ngModel" required>
+          <option value="" disabled selected>Selecciona un día de la semana</option>
+          <option value="LUNES">Lunes</option>
+          <option value="MARTES">Martes</option>
+          <option value="MIERCOLES">Miércoles</option>
+          <option value="JUEVES">Jueves</option>
+          <option value="VIERNES">Viernes</option>
+          <option value="SABADO">Sábado</option>
+          <option value="DOMINGO">Domingo</option>
+        </select>
+
+
+        <ion-button (click)="crearDia()" [disabled]="
+      fechaDia.invalid ||
+      numeroDia.invalid ||
+      diaSemana.invalid
+    ">Crear Día</ion-button>
       </div>
 
-      <!-- Texto para avidsar de que es la seccion horarios !-->
-      <h3 style="color: white">Horarios del Itinerario</h3>
+      <!-- Texto para avisar que es la seccion horarios -->
+      <h3 style="color: black">Horarios del Itinerario</h3>
 
       <div class="form-group">
         <label for="dia">Día de la semana:</label>
-        <select id="dia" name="dia" [(ngModel)]="diaHorario">
+        <select
+          id="dia"
+          name="dia"
+          [(ngModel)]="diaHorario"
+          #diaHorarioSelect="ngModel"
+          required
+        >
+          <option value="" disabled selected>Selecciona un día</option>
           <option value="LUNES">Lunes</option>
           <option value="MARTES">Martes</option>
           <option value="MIERCOLES">Miércoles</option>
@@ -117,24 +261,45 @@
 
       <div class="horarios-container">
         <div class="horario-field">
-          <label for="horaInicio" style="color: white">Hora de apertura:</label>
-          <input type="time" id="horaInicio" name="horaInicio" [(ngModel)]="horaInicio" class="time-input" />
+          <label for="horaInicio">Hora de apertura:</label>
+          <input
+            type="time"
+            id="horaInicio"
+            name="horaInicio"
+            [(ngModel)]="horaInicio"
+            #horaInicioInput="ngModel"
+            class="horarioInputFull"
+            required
+          />
+
         </div>
 
         <div class="horario-field">
-          <label for="horaFin" style="color: white">Hora de cierre:</label>
-          <input type="time" id="horaFin" name="horaFin" [(ngModel)]="horaFin" class="time-input" />
+          <label for="horaFin">Hora de cierre:</label>
+          <input
+            type="time"
+            id="horaFin"
+            name="horaFin"
+            [(ngModel)]="horaFin"
+            #horaFinInput="ngModel"
+            class="horarioInputFull"
+            required
+          />
         </div>
 
-        <div class="horario-field toggle-wrapper">
-          <label for="cerrado" style="color: white">¿Está cerrado?</label>
-          <ion-toggle id="cerrado" [(ngModel)]="cerrado"></ion-toggle>
+
+        <div class="horario-field toggle-container">
+          <label for="cerrado" style="color: black">¿Está cerrado?</label>
+          <ion-toggle id="cerrado" name="cerrado" [(ngModel)]="cerrado" standalone="true"></ion-toggle>
         </div>
       </div>
 
-
-      <div class="form-group">
-        <ion-button (click)="agregarHorario()">Añadir</ion-button>
+      <div class="form-group horarios-container">
+        <ion-button (click)="agregarHorario()" [disabled]="
+      diaHorarioSelect.invalid ||
+      horaInicioInput.invalid ||
+      horaFinInput.invalid
+    ">Añadir</ion-button>
       </div>
 
       <ion-textarea
@@ -144,12 +309,20 @@
         readonly
         autoGrow="true"
         name="horarios"
-        [(ngModel)]="itinerario.horarios">
+        [(ngModel)]="horarios">
       </ion-textarea>
 
       <div class="button-container">
-        <ion-button expand="full" color="primary" (click)="crearItinerario()">Crear Itinerario</ion-button>
+        <ion-button
+          expand="full"
+          color="primary"
+          type="submit"
+        >
+          Crear Itinerario
+        </ion-button>
       </div>
+
     </form>
+
   </div>
 </ion-content>

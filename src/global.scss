@@ -36,15 +36,4 @@
 /* @import "@ionic/angular/css/palettes/dark.class.css"; */
 @import '@ionic/angular/css/palettes/dark.system.css';
 
-input:-webkit-autofill,
-input:-webkit-autofill:hover,
-input:-webkit-autofill:focus,
-ion-input.sc-ion-input-md-h:-webkit-autofill {
-  box-shadow: 0 0 0px 1000px #f8f8f8 inset !important;
-  -webkit-box-shadow: 0 0 0px 1000px #f8f8f8 inset !important;
-  -webkit-text-fill-color: #000 !important;
-  --border-color: #0c86bd;
 
-  border-radius: 5px;
-  transition: background-color 5000s ease-in-out 0s;
-}

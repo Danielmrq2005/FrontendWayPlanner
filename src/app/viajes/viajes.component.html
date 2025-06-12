@@ -1,43 +1,55 @@
-<div class="sidebar" [class.expanded]="sidebarExpanded">
-  <div class="toggle-button" (click)="toggleSidebar()">
-    <ion-icon name="menu-outline"></ion-icon>
-  </div>
-  <div class="menu-items">
-    <div class="menu-item" [routerLink]="'/actu-usuario'">
-      <img src="assets/usuario.png" alt="Total Icon" class="menu-icon" />
-      <span class="menu-label">Total</span>
+<div [class.dark]="darkMode" class="container">
+  <div class="sidebar" [class.expanded]="sidebarExpanded">
+    <div class="toggle-button" (click)="toggleSidebar()">
+      <ion-icon name="menu-outline"></ion-icon>
     </div>
-    <div class="menu-item" [routerLink]="'/gastos'">
-      <img src="assets/Ajustes.png" alt="Settings Icon" class="menu-icon" />
-      <span class="menu-label">Ajustes</span>
+    <div class="menu-items">
+      <div class="menu-item" (click)="NavegaActu()">
+        <img src="assets/usuario.png" alt="Total Icon" class="menu-icon" />
+        <span class="menu-label">Actualizar perfil</span>
+      </div>
+      <div class="menu-item" [routerLink]="'/ajustes'">
+        <img src="assets/Ajustes.png" alt="Settings Icon" class="menu-icon" />
+        <span class="menu-label">Ajustes</span>
+      </div>
     </div>
   </div>
 </div>
 
-
-<ion-content
+<ion-content [class.dark]="darkMode"
   [ngClass]="{'main-content': true, 'sidebar-expanded': sidebarExpanded}"
   style="--background: #ffffff; padding: 16px;">
 
 
   <ion-header>
-    <ion-toolbar   style="display: flex; --background: #5B97D5; align-items: center; justify-content: space-between; padding: 0 16px;">
-      <div style="display: flex; align-items: center;">
-        <img src="assets/logo.png" alt="Logo" style="height: 40px; margin-right: 8px;">
-        <p style="color: white; margin-left: auto; font-size: 0.9em;">Bienvenido {{ Nombreusuario }}</p>
-        <ion-title style="margin-right: -12px; font-size: 1.2em; color: white">Viajes</ion-title>
-        <img src="assets/icons8-campana-48.png" alt="Notificaciones" [routerLink]="['/notificaciones']"  style="width: 30px; height: 30px;">
+    <ion-toolbar [style]="{'--background': darkMode ? '#1f1f1f' : '#5B97D5'}" style="display: flex; align-items: center; justify-content: space-between; padding: 0 16px;">
+      <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: nowrap; width: 100%; gap: 8px;">
+
+        <div style="display: flex; align-items: center; flex-shrink: 1;">
+          <img src="assets/logo.png" alt="Logo" style="height: 28px; margin-right: -5px;">
+          <ion-title style="font-size: 1em; color: white; margin: 0;">Viajes</ion-title>
+        </div>
+
+        <div style="display: flex; align-items: center; gap: 8px; flex-shrink: 0;">
+          <p style="color: white; font-size: 0.75em; margin: 0;">Bienvenido {{ Nombreusuario }}</p>
+          <img src="assets/icons8-campana-48.png" alt="Notificaciones" [routerLink]="['/notificaciones']" style="width: 24px; height: 24px;">
+        </div>
       </div>
+
     </ion-toolbar>
+
   </ion-header>
 
-   <div class="viajes-movil">
-    <div  class="viaje-movil-grid">
+  <div class="viajes-movil">
+    <div  class="viaje-movil-grid" *ngIf="viajes?.length">
       <div  class="viaje-movil-item"  *ngFor="let viaje of viajes">
         <img src="assets/icons8-activar-el-modo-avión-50.png" alt="Avión" class="img-avion">
         <span [routerLink]="['/maletas', viaje.id]">{{viaje.nombre}}</span>
         <img [routerLink]="['/viajes', viaje.id]" src="assets/icons8-visible-30.png" style="margin-bottom: 22px; width: 20px; height: 20px;" alt="Ver Detalles">
       </div>
+    </div>
+    <div *ngIf="!viajes?.length" style="text-align: center; margin-top: 12rem; color: #5B97D5; font-size: 2.5rem;">
+      No tienes viajes aún. <br> ¡Crea uno para comenzar tu aventura! 🌍✈️
     </div>
   </div>
 

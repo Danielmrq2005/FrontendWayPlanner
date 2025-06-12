@@ -35,82 +35,88 @@
 <body>
 
 <!-- Header -->
-<ion-header>
-  <ion-toolbar style="--background: #5B97D5; position: relative; height: 56px;">
+<div class="app-container" [class.dark]="darkMode" [class.sidebar-expanded]="sidebarExpanded">
 
-    <ion-buttons slot="start">
-      <img src="../../../assets/logo.png" alt="Logo" style="height: 25px; margin-left: 10px; margin-right: 8px;">
-    </ion-buttons>
+  <app-menu-hamburguesa (expansionChange)="sidebarExpanded = $event"  [viajeId]="viajeId"></app-menu-hamburguesa>
+  <div class="main-content" [class.dark]="darkMode">
+    <ion-header>
+      <ion-toolbar [style]="{'--background': darkMode ? '#1f1f1f' : '#5B97D5'}" style="display: flex; align-items: center; justify-content: space-between; padding: 0 16px;">
 
-    <ion-title style="
-      position: absolute;
-      left: 50%;
-      top: 50%;
-      transform: translate(-50%, -50%);
-      font-size: 1.5rem;
-      font-weight: bold;
-      color: white;
-      margin: 0;
-    ">
-      Inicio
-    </ion-title>
+        <ion-buttons slot="start">
+          <img src="../../../assets/logo.png" alt="Logo" style="height: 25px; margin-left: 10px; margin-right: 8px;">
+        </ion-buttons>
 
-    <ion-buttons slot="end" style="margin-right: 10px;">
-      <ion-button fill="clear" [routerLink]="['/notificaciones']">
-        <img src="../../../assets/icons8-campana-48.png" alt="Notificaciones" style="width: 30px; height: 30px;">
-      </ion-button>
-    </ion-buttons>
+        <ion-title style="
+          position: absolute;
+          left: 50%;
+          top: 50%;
+          transform: translate(-50%, -50%);
+          font-size: 1.5rem;
+          font-weight: bold;
+          color: white;
+          margin: 0;
+        ">
+          Inicio
+        </ion-title>
 
-  </ion-toolbar>
-</ion-header>
+        <ion-buttons slot="end" style="margin-right: 10px;">
+          <ion-button fill="clear" [routerLink]="['/notificaciones']">
+            <img src="../../../assets/icons8-campana-48.png" alt="Notificaciones" style="width: 30px; height: 30px;">
+          </ion-button>
+        </ion-buttons>
+
+      </ion-toolbar>
+    </ion-header>
 
 
 
 
 
-<!-- Título -->
-<div class="text-center mt-3">
-  <h2 class="titulo fw-bold">{{ viajeNombre }}</h2>
+    <!-- Título -->
+    <div class="text-center mt-3">
+      <h2 class="titulo fw-bold">{{ viajeNombre }}</h2>
+    </div>
+
+    <!-- Segmentos -->
+    <ion-segment [(ngModel)]="segmento_seleccionado" (ionChange)="Segmento_cambiado($event)">
+      <ion-segment-button value="lista_maletas">
+        <ion-label>Maletas</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="lista_grupos_billetes">
+        <ion-label>Billetes</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+
+    <!-- Contenido dinámico -->
+    <ng-container *ngIf="segmento_seleccionado === 'lista_maletas'">
+      <ng-container *ngIf="mostrarListaMaletas">
+        <app-lista-maletas (editandoMaleta)="estaEditandoMaleta = $event"></app-lista-maletas>
+      </ng-container>
+      <ng-container *ngIf="mostrarFormularioMaleta">
+        <app-form-maleta (cancelado)="cancelarFormularioMaleta()"></app-form-maleta>
+      </ng-container>
+    </ng-container>
+
+
+    <ng-container *ngIf="segmento_seleccionado === 'lista_grupos_billetes'">
+      <ng-container *ngIf="mostrarListaBilletes">
+        <app-lista-grupos-billetes></app-lista-grupos-billetes>
+      </ng-container>
+      <ng-container *ngIf="mostrarFormularioBillete">
+        <app-form-billete (cancelado)="cancelarFormularioBillete()" (billeteGuardado)="cargarGruposBilletes()"></app-form-billete>
+      </ng-container>
+    </ng-container>
+
+    <!-- Botón flotante -->
+    <ion-icon
+      name="add-circle"
+      class="floating-btn"
+      *ngIf="(segmento_seleccionado === 'lista_maletas' && !mostrarFormularioMaleta && !estaEditandoMaleta) ||
+             (segmento_seleccionado === 'lista_grupos_billetes' && !mostrarFormularioBillete && !estaEditandoBillete)"
+      (click)="mostrarFormulario()">
+    </ion-icon>
+  </div>
 </div>
-
-<!-- Segmentos -->
-<ion-segment [(ngModel)]="segmento_seleccionado" (ionChange)="Segmento_cambiado($event)">
-  <ion-segment-button value="lista_maletas">
-    <ion-label>Maletas</ion-label>
-  </ion-segment-button>
-  <ion-segment-button value="lista_grupos_billetes">
-    <ion-label>Billetes</ion-label>
-  </ion-segment-button>
-</ion-segment>
-
-<!-- Contenido dinámico -->
-<ng-container *ngIf="segmento_seleccionado === 'lista_maletas'">
-  <ng-container *ngIf="mostrarListaMaletas">
-    <app-lista-maletas (editandoMaleta)="estaEditandoMaleta = $event"></app-lista-maletas>
-  </ng-container>
-  <ng-container *ngIf="mostrarFormularioMaleta">
-    <app-form-maleta (cancelado)="cancelarFormularioMaleta()"></app-form-maleta>
-  </ng-container>
-</ng-container>
-
-
-<ng-container *ngIf="segmento_seleccionado === 'lista_grupos_billetes'">
-  <ng-container *ngIf="mostrarListaBilletes">
-    <app-lista-grupos-billetes></app-lista-grupos-billetes>
-  </ng-container>
-  <ng-container *ngIf="mostrarFormularioBillete">
-    <app-form-billete (cancelado)="cancelarFormularioBillete()" (billeteGuardado)="cargarGruposBilletes()"></app-form-billete>
-  </ng-container>
-</ng-container>
-
-<!-- Botón flotante -->
-<ion-icon
-  name="add-circle"
-  class="floating-btn"
-  *ngIf="(segmento_seleccionado === 'lista_maletas' && !mostrarFormularioMaleta && !estaEditandoMaleta) ||
-         (segmento_seleccionado === 'lista_grupos_billetes' && !mostrarFormularioBillete && !estaEditandoBillete)"
-  (click)="mostrarFormulario()">
-</ion-icon>
 
 
 <!-- NavBar -->

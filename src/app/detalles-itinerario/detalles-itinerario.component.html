@@ -1,0 +1,95 @@
+<ion-header>
+  <ion-toolbar color="light">
+    <ion-title class="titulo-itinerario">Detalle del Itinerario</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="cerrar()" color="primary">Cerrar</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding fondo-itinerario">
+
+  <ion-card>
+    <img *ngIf="itinerario.foto" [src]="'data:image/jpeg;base64,' + itinerario.foto" class="imagen-itinerario" />
+
+    <ion-card-header>
+      <ion-row>
+        <ion-card-title class="color-primario">{{ itinerario.actividad }}</ion-card-title>
+        <ion-card-title class="color-primario" style="margin-left: 5%">{{ itinerario.categoria }}</ion-card-title>
+      </ion-row>
+      <ion-card-subtitle>{{ itinerario.duracion }}</ion-card-subtitle>
+    </ion-card-header>
+
+    <ion-card-content>
+      <ion-list lines="none">
+        <ion-item lines="none">
+          <iframe
+            width="100%"
+            height="250"
+            frameborder="0"
+            style="border:0; border-radius: 10px;"
+            [src]="mapaUrl"
+            allowfullscreen>
+          </iframe>
+        </ion-item>
+
+        <ion-button expand="block" color="secondary" class="btn-como-llegar" (click)="abrirRutaEnGoogleMaps()">
+          Cómo llegar
+        </ion-button>
+
+
+        <ion-item>
+          <ion-label><strong>Hora:</strong> {{ itinerario.hora }}</ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-label><strong>Medio de transporte:</strong> {{ itinerario.medioTransporte }}</ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-label><strong>Duración:</strong> {{ itinerario.duracion }}</ion-label>
+        </ion-item>
+
+        <ion-item lines="none">
+          <ion-label class="icono-estado">
+            <strong>¿Está en ruta?</strong>
+            <ion-icon
+              [name]="itinerario.estaEnRuta ? 'checkmark-circle' : 'close-circle'"
+              [color]="itinerario.estaEnRuta ? 'success' : 'danger'">
+            </ion-icon>
+          </ion-label>
+        </ion-item>
+
+        <ion-item lines="none">
+          <ion-label class="icono-estado">
+            <strong>¿Aparece en itinerario?</strong>
+            <ion-icon
+              [name]="itinerario.apareceEnItinerario ? 'checkmark-circle' : 'close-circle'"
+              [color]="itinerario.apareceEnItinerario ? 'success' : 'danger'">
+            </ion-icon>
+          </ion-label>
+        </ion-item>
+
+      </ion-list>
+
+      <ion-label class="titulo-horarios"><strong>Horarios:</strong></ion-label>
+      <ion-list class="lista-horarios" lines="none">
+        <ng-container *ngIf="diaSemana && filtrarHorariosPorDia(itinerario, diaSemana.diaSemana).length > 0; else sinHorarios">
+        <ion-item *ngFor="let horario of filtrarHorariosPorDia(itinerario, diaSemana.diaSemana)" class="item-horario">
+            <ion-label>
+              {{ horario.dia }} - {{ horario.horaInicio }} - {{ horario.horaFin }}
+              <span [style.color]="horario.isClosed ? 'red' : 'green'">
+          {{ horario.isClosed ? '(Cerrado)' : '(Abierto)' }}
+        </span>
+            </ion-label>
+          </ion-item>
+        </ng-container>
+        <ng-template #sinHorarios>
+          <ion-item>
+            <ion-label>Sin horarios para este día</ion-label>
+          </ion-item>
+        </ng-template>
+      </ion-list>
+      <ion-button (click)="irAActualizarItinerario()" class="btn-actualizar">Actualizar Itinerario</ion-button>
+      <ion-button (click)="eliminarItinerario()" class="btn-eliminar">Eliminar Itinerario</ion-button>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

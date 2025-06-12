@@ -6,6 +6,7 @@ import {NgForOf, NgIf} from "@angular/common";
 import {IonIcon, IonLabel} from "@ionic/angular/standalone";
 import {FormEditarMaletaComponent} from "../form-editar-maleta/form-editar-maleta.component";
 import {VerMaletaDTO} from "../../../Modelos/Maletas/ver-maleta-dto";
+import {TemaService} from "../../../Servicios/tema.service";
 
 @Component({
   selector: 'app-lista-maletas',
@@ -17,16 +18,23 @@ import {VerMaletaDTO} from "../../../Modelos/Maletas/ver-maleta-dto";
     FormEditarMaletaComponent,
     NgIf
   ],
+  standalone: true,
   styleUrls: ['./lista-maletas.component.scss']
 })
 export class ListaMaletasComponent implements OnInit {
   maletas: VerMaletasDTO[] = [];
 
+  darkMode = false;
+
   maletaSeleccionada: VerMaletaDTO | null = null;
 
   @Output() editandoMaleta = new EventEmitter<boolean>();
 
-  constructor(private route: ActivatedRoute, private maletaService: MaletaService) {}
+  constructor(private route: ActivatedRoute, private maletaService: MaletaService, private temaService: TemaService) {
+    this.temaService.darkMode$.subscribe(isDark => {
+      this.darkMode = isDark;
+    });
+  }
 
   ngOnInit(): void {
     this.cargarMaletas();
