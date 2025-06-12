@@ -176,7 +176,13 @@ export class RutasComponent implements AfterViewInit {
     const puntos = this.itinerariosDia.length > 0 ? this.itinerariosDia : this.itinerarios;
 
     if (puntos.length === 0) {
-      console.warn('No hay puntos para mostrar en Google Maps');
+      this.mostrarAlerta('No hay puntos para mostrar en Google Maps.');
+      return;
+    }
+
+    // Verifica que haya al menos dos puntos para crear una ruta
+    if (puntos.length < 2) {
+      this.mostrarAlerta('Se necesitan al menos dos puntos para crear una ruta.');
       return;
     }
 
@@ -358,4 +364,14 @@ export class RutasComponent implements AfterViewInit {
     await alert.present();
   }
 
+  async mostrarAlerta(mensaje: string) {
+    const alert = await this.alertController.create({
+      header: 'Información',
+      message: mensaje,
+      buttons: ['Aceptar']
+    });
+
+    await alert.present();
+
+  }
 }

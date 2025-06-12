@@ -1,5 +1,5 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {IonicModule, IonModal} from "@ionic/angular";
+import {AlertController, IonicModule, IonModal} from "@ionic/angular";
 import {addIcons} from "ionicons";
 import {add, create, calendarNumberOutline} from "ionicons/icons";
 import {FormsModule} from "@angular/forms";
@@ -39,7 +39,7 @@ export class ItinerariosComponent  implements OnInit {
   diaSeleccionado: Dia | null = null;
   viajeNombre: string = '';
 
-  constructor(private route: ActivatedRoute, private itinerarioService: ItineariosService, private diaService: DiaService, private temaService: TemaService, private modalController: ModalController, private viajeService: ViajeService, private router: Router) {
+  constructor(private route: ActivatedRoute, private itinerarioService: ItineariosService, private diaService: DiaService, private temaService: TemaService, private modalController: ModalController, private viajeService: ViajeService, private router: Router, private alertController: AlertController) {
 
     addIcons({add, create, calendarNumberOutline})
     addIcons({add})
@@ -187,5 +187,58 @@ export class ItinerariosComponent  implements OnInit {
     await modal.present();
   }
 
+  async eliminarDia(dia: Dia | null) {
+    if (!dia || !dia.id) {
+      this.presentAlert("No se puede eliminar el día seleccionado. Por favor, selecciona un día válido.");
+      return;
+    }
 
+    const alert = await this.alertController.create({
+      header: '¿Estás seguro?',
+      message: 'Se eliminará el día y todos sus itinerarios asociados. ¿Deseas continuar?',
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel'
+        },
+        {
+          text: 'Eliminar',
+          role: 'confirm',
+          handler: () => {
+            this.diaService.eliminarDia(dia.id).subscribe({
+              next: () => {
+                this.presentAlert("Día eliminado correctamente.");
+
+                // Actualizar la lista de días
+                this.ObtenerDiasPorViaje();
+
+                // Resetear la selección
+                this.segmentoSeleccionado = 'default';
+                this.diaSeleccionado = null;
+
+                // Recargar itinerarios generales
+                this.ObtenerItinearios();
+              },
+              error: (error) => {
+                this.presentAlert("Error al eliminar el día: " + error.message);
+              }
+            });
+          }
+        }
+      ]
+    });
+
+    await alert.present();
+  }
+
+
+  presentAlert(mensaje: string) {
+
+    this.alertController.create({
+      header: 'Información',
+      message: mensaje,
+      buttons: ['OK']
+    }).then(alert => alert.present());
+
+  }
 }

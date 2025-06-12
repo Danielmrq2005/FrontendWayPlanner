@@ -19,4 +19,8 @@ export class DiaService {
   crearDia(dia: Dia): Observable<Dia> {
     return this.http.post<Dia>(`${this.apiUrl}/CrearDia`, dia);
   }
+
+  eliminarDia(id?: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/EliminarDia/${id}`);
+  }
 }
