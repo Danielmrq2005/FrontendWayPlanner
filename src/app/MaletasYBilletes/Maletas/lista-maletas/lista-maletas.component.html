@@ -7,7 +7,7 @@
     >
       <div class="left-content">
         <span class="icono">{{ getIconoPorCategoria(maleta.tipoMaleta) }}</span>
-        <span class="nombre">{{ maleta.nombre }}</span>
+        <span class="item-nombre">{{ maleta.nombre }}</span>
       </div>
 
       <div class="acciones-derecha">
@@ -62,18 +62,32 @@
     display: flex;
     align-items: center;
     gap: 0.75rem;
+
+    flex-grow: 1;     /* que crezca para ocupar espacio */
+    min-width: 0;     /* permite que los hijos con overflow se corten */
   }
+
+  .item-nombre {
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: #333;
+
+    flex-grow: 1;       /* que tome el máximo espacio posible */
+    min-width: 0;       /* necesario para que text-overflow funcione */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    margin-left: 0.75rem;
+    margin-right: 0.75rem;
+  }
+
 
   .icono {
     font-size: 1.5rem;
     color: #5b97d5;
   }
 
-  .nombre {
-    font-size: 1.1rem;
-    font-weight: 500;
-    color: #333;
-  }
 
   .icono-ir {
     font-size: 1.2rem;
