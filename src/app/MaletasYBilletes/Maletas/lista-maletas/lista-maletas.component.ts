@@ -24,30 +24,40 @@ import {AlertController} from "@ionic/angular";
   styleUrls: ['./lista-maletas.component.scss']
 })
 export class ListaMaletasComponent implements OnInit {
-  maletas: VerMaletasDTO[] = [];
+  maletas: VerMaletasDTO[] = []; // Lista de maletas para mostrar en la UI
 
-  darkMode = false;
+  darkMode = false; // Estado para modo oscuro
 
-  maletaSeleccionada: VerMaletaDTO | null = null;
+  maletaSeleccionada: VerMaletaDTO | null = null; // Maleta actualmente seleccionada para edición o detalle
 
   @Output() editandoMaleta = new EventEmitter<boolean>();
+  // Evento para notificar si se está editando una maleta (true/false)
 
-  constructor(private route: ActivatedRoute, private maletaService: MaletaService, private temaService: TemaService, private alertController: AlertController) {
+  // Inyección de dependencias: ruta activa, servicios, y controlador de alertas
+  constructor(
+    private route: ActivatedRoute,
+    private maletaService: MaletaService,
+    private temaService: TemaService,
+    private alertController: AlertController
+  ) {
+    // Suscripción al observable del modo oscuro para actualizar la variable darkMode
     this.temaService.darkMode$.subscribe(isDark => {
       this.darkMode = isDark;
     });
   }
 
+  // Ciclo de vida Angular: se ejecuta al inicializar el componente
   ngOnInit(): void {
-    this.cargarMaletas();
+    this.cargarMaletas(); // Cargar la lista de maletas al iniciar
   }
 
+  // Función para obtener maletas relacionadas a un viaje específico (obteniendo id de la ruta)
   cargarMaletas() {
-    const viajeId = this.route.snapshot.paramMap.get('id');
+    const viajeId = this.route.snapshot.paramMap.get('id'); // Obtener id del parámetro de la URL
     if (viajeId) {
       this.maletaService.getMaletasPorViaje(+viajeId).subscribe({
         next: (data) => {
-          this.maletas = data;
+          this.maletas = data; // Asignar la lista obtenida
           console.log('Maletas:', this.maletas);
         },
         error: (err) => {
@@ -57,6 +67,7 @@ export class ListaMaletasComponent implements OnInit {
     }
   }
 
+  // Función para devolver un icono emoji según la categoría de la maleta
   getIconoPorCategoria(categoria: String): string {
     switch (categoria) {
       case 'MALETA_CABINA':
@@ -71,29 +82,31 @@ export class ListaMaletasComponent implements OnInit {
         return '🎒'; // mochila
       case 'OTRO':
       default:
-        return '❓'; // signo de pregunta para otro tipo
+        return '❓'; // signo de pregunta para categoría desconocida
     }
   }
 
-
+  // Función para iniciar la edición de una maleta (detiene propagación para evitar navegación)
   editarMaleta(event: Event, maleta: VerMaletaDTO) {
-    event.stopPropagation();
-    this.maletaSeleccionada = { ...maleta };
-    this.editandoMaleta.emit(true);
-
+    event.stopPropagation(); // Evita que se active el routerLink al hacer click en editar
+    this.maletaSeleccionada = { ...maleta }; // Clonar la maleta seleccionada para editar
+    this.editandoMaleta.emit(true); // Emitir evento que indica que se está editando
   }
 
+  // Cancelar la edición, limpiando maleta seleccionada y notificando evento
   cancelarEdicion() {
     this.maletaSeleccionada = null;
     this.editandoMaleta.emit(false);
   }
 
+  // Guardar cambios tras editar una maleta
   guardarEdicion(maletaEditada: VerMaletaDTO) {
     if (!maletaEditada.id) {
       console.error('No se puede actualizar la maleta: ID faltante');
       return;
     }
 
+    // Llamar al servicio para actualizar maleta y luego recargar lista y limpiar selección
     this.maletaService.actualizarMaleta(maletaEditada.id, maletaEditada).subscribe(() => {
       this.cargarMaletas();
       this.maletaSeleccionada = null;
@@ -101,12 +114,14 @@ export class ListaMaletasComponent implements OnInit {
     });
   }
 
+  // Función para eliminar una maleta con confirmación mediante un alert modal
   async eliminarMaleta(maleta: VerMaletaDTO) {
     if (!maleta.id) {
       console.error('No se puede eliminar la maleta: ID faltante');
       return;
     }
 
+    // Crear alerta de confirmación para eliminar la maleta
     const alert = await this.alertController.create({
       header: 'Eliminar maleta',
       message: `🗑️ ¿Eliminar "${maleta.nombre}"? Esta acción es irreversible.`,
@@ -121,6 +136,7 @@ export class ListaMaletasComponent implements OnInit {
           role: 'destructive',
           cssClass: 'alert-danger-button',
           handler: () => {
+            // Si el usuario confirma, se llama al servicio para eliminar y actualizar la lista
             this.maletaService.eliminarMaleta(maleta.id!).subscribe({
               next: () => {
                 this.maletas = this.maletas.filter(m => m.id !== maleta.id);
@@ -137,9 +153,10 @@ export class ListaMaletasComponent implements OnInit {
           }
         }
       ],
-      cssClass: this.darkMode ? 'custom-alert dark-alert' : 'custom-alert'
+      cssClass: this.darkMode ? 'custom-alert dark-alert' : 'custom-alert' // Clases CSS para modo oscuro
     });
 
+    // Mostrar la alerta modal
     await alert.present();
   }
 }

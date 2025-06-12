@@ -40,35 +40,44 @@ import {TemaService} from "../../Servicios/tema.service";
 })
 export class HeaderMaletaBilleteComponent implements OnInit {
 
+  // Propiedades básicas
   viajeNombre: string = '';
   segmento_seleccionado: string = 'lista_maletas';
-
   viajeId: number = 0;
 
-
+  // Estados para mostrar/ocultar formularios y listas
   mostrarFormularioMaleta: boolean = false;
   mostrarFormularioBillete: boolean = false;
 
   mostrarListaMaletas: boolean = true;
   mostrarListaBilletes: boolean = true;
 
+  // Estados para saber si se está editando
   estaEditandoMaleta: boolean = false;
   estaEditandoBillete: boolean = false;
 
+  // Tema y estado del sidebar
   darkMode = false;
   sidebarExpanded = false;
 
-  constructor(private route: ActivatedRoute, private viajeService: ViajeService, private temaService: TemaService) {
+  constructor(
+    private route: ActivatedRoute,
+    private viajeService: ViajeService,
+    private temaService: TemaService
+  ) {
+    // Suscripción al tema (modo oscuro)
     this.temaService.darkMode$.subscribe(isDark => {
       this.darkMode = isDark;
     });
   }
 
+  // Alterna la expansión del menú hamburguesa
   toggleSidebar() {
     this.sidebarExpanded = !this.sidebarExpanded;
   }
 
   ngOnInit() {
+    // Obtener el ID del viaje desde la URL y cargar los datos
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
       this.viajeService.viajePorId(+id).subscribe({
@@ -83,17 +92,20 @@ export class HeaderMaletaBilleteComponent implements OnInit {
     }
   }
 
+  // Cambia entre segmentos (maletas / billetes)
   Segmento_cambiado(event: any) {
     this.segmento_seleccionado = event.detail.value;
 
-    // Ocultar formularios y mostrar listas al cambiar de segmento
+    // Al cambiar de segmento, cerramos cualquier formulario abierto
     this.mostrarFormularioMaleta = false;
     this.mostrarFormularioBillete = false;
 
+    // Mostramos listas correspondientes
     this.mostrarListaMaletas = true;
     this.mostrarListaBilletes = true;
   }
 
+  // Mostrar el formulario de acuerdo al segmento activo
   mostrarFormulario() {
     if (this.segmento_seleccionado === 'lista_maletas') {
       if (!this.mostrarFormularioMaleta) {
@@ -108,16 +120,19 @@ export class HeaderMaletaBilleteComponent implements OnInit {
     }
   }
 
+  // Cancelar el formulario de maleta y volver a mostrar la lista
   cancelarFormularioMaleta() {
     this.mostrarFormularioMaleta = false;
     this.mostrarListaMaletas = true;
   }
 
+  // Cancelar el formulario de billete y volver a mostrar la lista
   cancelarFormularioBillete() {
     this.mostrarFormularioBillete = false;
     this.mostrarListaBilletes = true;
   }
 
+  // Refrescar lista de billetes (por ejemplo, tras guardar uno nuevo)
   cargarGruposBilletes() {
     this.mostrarListaBilletes = false;
     setTimeout(() => {
