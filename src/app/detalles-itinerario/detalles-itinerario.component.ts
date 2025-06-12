@@ -61,6 +61,7 @@ export class DetallesItinerarioComponent  implements OnInit {
     }
   }
 
+
   // Cierra el modal actual
   cerrar(requiereRecarga: boolean = false) {
     this.modalCtrl.dismiss({ eliminado: requiereRecarga });
