@@ -2,11 +2,11 @@ import {Component, EventEmitter, Input, OnInit, Output, SimpleChanges} from '@an
 import {
   IonButton,
   IonCard,
-  IonCardContent,
+  IonCardContent, IonContent,
   IonIcon,
   IonInput,
   IonItem,
-  IonLabel,
+  IonLabel, IonModal,
   IonSelect, IonSelectOption, IonText
 } from "@ionic/angular/standalone";
 import {NgIf} from "@angular/common";
@@ -47,6 +47,12 @@ export class FormEditarBilleteComponent  implements OnInit {
 
   @Output() BilleteEliminado = new EventEmitter<VerBilleteDTO>();
 
+  @Input() soloLectura: boolean = false;
+
+  modalPdfAbierto: boolean = false;
+
+
+
   nombreBillete = '';
   categoriaBillete = '';
   pdfBillete: File | null = null;
@@ -76,6 +82,11 @@ export class FormEditarBilleteComponent  implements OnInit {
       this.setFormValues();
     }
   }
+
+  isMobile(): boolean {
+    return /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+  }
+
 
   seleccionarArchivoPdf() {
     const input = document.getElementById('inputPdfBillete') as HTMLInputElement;
@@ -181,5 +192,24 @@ export class FormEditarBilleteComponent  implements OnInit {
 
   eliminarBillete() {
     this.BilleteEliminado.emit(this.billete);
+  }
+
+  descargarPdf() {
+    if (this.billete.pdf) {
+      const byteCharacters = atob(this.billete.pdf);
+      const byteNumbers = new Array(byteCharacters.length).fill(0).map((_, i) => byteCharacters.charCodeAt(i));
+      const byteArray = new Uint8Array(byteNumbers);
+      const blob = new Blob([byteArray], { type: 'application/pdf' });
+      const url = URL.createObjectURL(blob);
+
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = this.billete.nombre + '.pdf';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    } else {
+      alert('No hay PDF disponible para descargar.');
+    }
   }
 }

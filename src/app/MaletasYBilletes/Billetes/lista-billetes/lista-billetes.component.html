@@ -246,7 +246,7 @@
 <!-- Lista de billetes -->
 <div *ngIf="!mostrarFormulario && !mostrarFormularioEdicion" class="container mt-3 mb-5">
   <ng-container *ngIf="billetes.length > 0; else sinBilletes">
-    <div class="item-card" *ngFor="let billete of billetes" (click)="verBillete(billete)">
+    <div class="item-card" *ngFor="let billete of billetes" (click)="verBillete($event, billete)">
       <div class="left-content">
         <span class="icono">{{ getEmojiPorCategoria(categoriaNombre) }}</span>
         <span class="item-nombre">{{ billete.nombre }}</span>
@@ -291,7 +291,8 @@
   [billete]="billeteSeleccionado"
   (EdicionActualizada)="guardarEdicionBillete($event)"
   (EdicionCancelada)="cancelarEdicionBillete()"
-  (BilleteEliminado)="eliminarBillete($event)">
+  (BilleteEliminado)="eliminarBillete($event)"
+  [soloLectura]="modoSoloLectura">
 </app-form-editar-billete>
 <!-- NavBar -->
 

@@ -11,6 +11,7 @@
       <ion-label position="stacked">Título</ion-label>
       <ion-input
         [(ngModel)]="nombreBillete"
+        [readonly]="soloLectura"
         placeholder="Escribe el título que le quieras dar al Billete"
         type="text">
       </ion-input>
@@ -21,7 +22,8 @@
       <ion-label position="stacked">Categoría</ion-label>
       <ion-select
         placeholder="Elige la categoría del Billete"
-        [(ngModel)]="categoriaBillete">
+        [(ngModel)]="categoriaBillete"
+        [disabled]="soloLectura">
         <ion-select-option value="AVION">Avión</ion-select-option>
         <ion-select-option value="TREN">Tren</ion-select-option>
         <ion-select-option value="AUTOBUS">Autobús</ion-select-option>
@@ -44,29 +46,52 @@
         expand="block"
         class="upload-btn"
         (click)="seleccionarArchivoPdf()"
+        *ngIf="!soloLectura"
         color="secondary">
         <span *ngIf="!vistaPreviaPdfUrl">Seleccionar archivo PDF</span>
-        <span *ngIf="vistaPreviaPdfUrl">Seleccionar otro archivo PDF</span>
+        <span *ngIf="vistaPreviaPdfUrl">Seleccionar otro PDF</span>
       </ion-button>
+
+      <ion-button
+        expand="block"
+        class="upload-btn"
+        (click)="descargarPdf()"
+        *ngIf="!soloLectura && vistaPreviaPdfUrl && isMobile()"
+        color="secondary">
+        <ion-icon slot="start" name="download-outline"></ion-icon>
+        <span>Descargar PDF</span>
+      </ion-button>
+
+      <ion-button
+          expand="block"
+          class="upload-btn"
+          (click)="descargarPdf()"
+          *ngIf="soloLectura"
+          color="secondary">
+        <ion-icon slot="start" name="download-outline"></ion-icon>
+        <span *ngIf="vistaPreviaPdfUrl">Descargar PDF</span>
+      </ion-button>
+
+
       <input type="file" id="inputPdfBillete" hidden accept="application/pdf" (change)="cargarPdf($event)">
 
       <!-- Vista previa del PDF -->
-      <div *ngIf="vistaPreviaPdfUrl" class="vista-previa-pdf ion-margin-top">
-        <iframe
-          [src]="vistaPreviaPdfUrl"
-          class="iframe-pdf"
-          frameborder="0">
-        </iframe>
-      </div>
+        <!-- Vista previa del PDF solo en escritorio -->
+        <div *ngIf="vistaPreviaPdfUrl && !isMobile()" class="vista-previa-pdf ion-margin-top">
+            <iframe
+                    [src]="vistaPreviaPdfUrl"
+                    class="iframe-pdf"
+                    frameborder="0">
+            </iframe>
+        </div>
     </div>
-
 
     <div *ngIf="nombreArchivoPdf" class="archivo-seleccionado">
       <ion-text color="medium">📄 {{ nombreArchivoPdf }}</ion-text>
     </div>
 
     <!-- Botones -->
-    <div class="billete-footer">
+    <div class="billete-footer" *ngIf="!soloLectura">
       <ion-button fill="outline" color="primary" size="small" (click)="cancelar()">
         <ion-icon slot="start" name="close-circle"></ion-icon>
         Cancelar
@@ -76,6 +101,17 @@
         Eliminar
       </ion-button>
       <ion-button fill="solid" color="primary" size="small" (click)="guardarBillete()">
+        <ion-icon slot="start" name="checkmark-circle"></ion-icon>
+        Ok
+      </ion-button>
+    </div>
+
+    <div *ngIf="soloLectura" class="billete-footer">
+      <ion-button fill="outline" color="primary" size="small" (click)="cancelar()">
+        <ion-icon slot="start" name="close-circle"></ion-icon>
+        Cerrar
+      </ion-button>
+      <ion-button fill="solid" color="primary" size="small" (click)="cancelar()">
         <ion-icon slot="start" name="checkmark-circle"></ion-icon>
         Ok
       </ion-button>

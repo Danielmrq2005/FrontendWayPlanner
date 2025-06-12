@@ -39,7 +39,11 @@ export class ListaBilletesComponent  implements OnInit {
 
   billeteSeleccionado: VerBilleteDTO | null = null;
 
+  modoSoloLectura = false;
+
   @Output() editandoBillete = new EventEmitter<boolean>();
+
+  @Output() viendoBillete = new EventEmitter<boolean>();
 
   darkMode = false;
 
@@ -143,15 +147,23 @@ export class ListaBilletesComponent  implements OnInit {
     this.mostrarListaBilletes = true;
   }
 
-  verBillete(billete: ListarBilletesDTO) {
-    this.mostrarFormulario = false;
-    this.mostrarListaBilletes = true;
+  verBillete(event: Event, billete: VerBilleteDTO) {
+    event.stopPropagation();
+    this.billeteSeleccionado = { ...billete };
+
+    this.modoSoloLectura = true;
+    this.mostrarFormularioEdicion = true;
+    this.mostrarListaBilletes = false;
+    this.viendoBillete.emit(true);
+
+    console.log('Billete seleccionado para ver:', this.billeteSeleccionado);
   }
 
   editarBillete(event: Event, billete: VerBilleteDTO) {
     event.stopPropagation();
     this.billeteSeleccionado = { ...billete };
 
+    this.modoSoloLectura = false;
     this.mostrarFormularioEdicion = true;
     this.mostrarListaBilletes = false;
     this.editandoBillete.emit(true);
