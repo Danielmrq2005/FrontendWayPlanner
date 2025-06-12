@@ -31,6 +31,7 @@ export class ActuUsuarioComponent implements OnInit {
     private temaService: TemaService,
     private alertController: AlertController
   ) {
+    // Inicializa el formulario con validaciones
     this.usuarioForm = this.fb.group({
       nombre: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
       email: ['', [Validators.required, Validators.email]],
@@ -43,11 +44,13 @@ export class ActuUsuarioComponent implements OnInit {
       fechaNacimiento: ['', [Validators.required, this.validateAge]]
     });
 
+    // Se suscribe al modo oscuro desde el servicio de tema
     this.temaService.darkMode$.subscribe(isDark => {
       this.darkMode = isDark;
     });
   }
 
+  // Método que se ejecuta al iniciar el componente
   ngOnInit() {
     this.idusuario = this.obtenerUsuarioId();
     if (this.idusuario) {
@@ -55,6 +58,7 @@ export class ActuUsuarioComponent implements OnInit {
     }
   }
 
+  // Carga los datos del usuario desde el backend y los aplica al formulario
   cargarDatosUsuario() {
     this.usuarioService.obtenerUsuarioPorId(this.idusuario).subscribe({
       next: (usuario) => {
@@ -62,7 +66,7 @@ export class ActuUsuarioComponent implements OnInit {
           nombre: usuario.nombre,
           email: usuario.email,
           telefono: usuario.telefono,
-          password: '', // no se recupera, debe escribirse de nuevo
+          password: '', // Por seguridad, no se carga la contraseña actual
           fechaNacimiento: usuario.fechaRegistro
         });
       },
@@ -72,6 +76,7 @@ export class ActuUsuarioComponent implements OnInit {
     });
   }
 
+  // Extrae el ID del usuario del token JWT almacenado en sessionStorage
   obtenerUsuarioId(): number {
     const token = sessionStorage.getItem('authToken');
     if (token) {
@@ -86,10 +91,12 @@ export class ActuUsuarioComponent implements OnInit {
     return 0;
   }
 
+  // Envía los datos actualizados del formulario al backend
   async actualizarUsuario(): Promise<void> {
     if (this.usuarioForm.valid) {
       this.usuarioService.ActualizarUsuario(this.idusuario, this.usuarioForm.value).subscribe({
         next: async () => {
+          // Muestra alerta de éxito y redirige al returnUrl
           const alert = await this.alertController.create({
             header: 'Éxito',
             message: 'Datos actualizados correctamente.',
@@ -101,7 +108,8 @@ export class ActuUsuarioComponent implements OnInit {
           this.router.navigateByUrl(returnUrl);
         },
         error: async (e) => {
-          console.error('Error al actualizar:', e); // Log para depurar
+          console.error('Error al actualizar:', e);
+          // Muestra alerta de error si falla la actualización
           const alert = await this.alertController.create({
             header: 'Error',
             message: 'Error al actualizar los datos. Intenta de nuevo.',
@@ -111,6 +119,7 @@ export class ActuUsuarioComponent implements OnInit {
         }
       });
     } else {
+      // Si el formulario no es válido, muestra los errores en una alerta
       const errors = this.getFormErrors();
       const alert = await this.alertController.create({
         header: 'Formulario inválido',
@@ -121,6 +130,7 @@ export class ActuUsuarioComponent implements OnInit {
     }
   }
 
+  // Genera un mensaje con los errores de validación del formulario
   private getFormErrors(): string {
     const errorMessages: string[] = [];
     const controls = this.usuarioForm.controls;
@@ -157,6 +167,7 @@ export class ActuUsuarioComponent implements OnInit {
     return errorMessages.join(' ');
   }
 
+  // Valida que el usuario tenga al menos 18 años
   private validateAge(control: any) {
     if (!control.value) return { invalidAge: true };
 

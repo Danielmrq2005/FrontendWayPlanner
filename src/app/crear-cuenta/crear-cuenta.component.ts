@@ -27,6 +27,7 @@ export class CrearCuentaComponent implements OnInit {
     private router: Router,
     private alertController: AlertController
   ) {
+    // Inicializar el formulario con validadores
     this.registroForm = this.fb.group({
       nombre: [
         this.registro.nombre,
@@ -58,6 +59,7 @@ export class CrearCuentaComponent implements OnInit {
   ngOnInit() {
   }
 
+  // Mostrar una alerta con un mensaje personalizado
   async showAlert(header: string, message: string) {
     const alert = await this.alertController.create({
       header: header,
@@ -67,19 +69,24 @@ export class CrearCuentaComponent implements OnInit {
     await alert.present();
   }
 
+  // Método para registrar al usuario si el formulario es válido
   async doRegister() {
     if (this.registroForm.valid) {
+      // Mostrar mensaje de carga
       const loading = await this.alertController.create({
         message: 'Creando cuenta...',
         backdropDismiss: false
       });
       await loading.present();
 
+      // Combinar los datos del formulario con el modelo
       this.registro = {...this.registro, ...this.registroForm.value};
 
+      // Llamar al servicio para registrar el usuario
       this.registroService.registrar(this.registro).subscribe({
         next: async () => {
           await loading.dismiss();
+          // Redirigir a pantalla de verificación con el email
           this.router.navigate(['verificar'], {
             state: {email: this.registro.email},
             skipLocationChange: true
@@ -87,8 +94,9 @@ export class CrearCuentaComponent implements OnInit {
         },
         error: async (e: any) => {
           await loading.dismiss();
-          let message = 'Ocurrió un error inesperado. Por favor, inténtalo de nuevo.';
 
+          // Definir mensaje según el código de error
+          let message = 'Ocurrió un error inesperado. Por favor, inténtalo de nuevo.';
           switch (e.status) {
             case 400:
               message = 'Solicitud inválida. Verifica los datos ingresados.';
@@ -113,15 +121,18 @@ export class CrearCuentaComponent implements OnInit {
               break;
           }
 
+          // Mostrar alerta con el mensaje correspondiente
           await this.showAlert('Error', message);
         }
       });
     } else {
+      // Si el formulario no es válido, mostrar errores
       const errors = this.getFormErrors();
       await this.showAlert('Formulario inválido', errors);
     }
   }
 
+  // Obtener los mensajes de error del formulario
   private getFormErrors(): string {
     const errorMessages: string[] = [];
     const controls = this.registroForm.controls;
@@ -186,6 +197,7 @@ export class CrearCuentaComponent implements OnInit {
     return errorMessages.join(' ');
   }
 
+  // Validador personalizado para comprobar si el usuario tiene al menos 18 años
   private validateAge(control: any) {
     if (!control.value) {
       return {invalidAge: true};
@@ -205,4 +217,3 @@ export class CrearCuentaComponent implements OnInit {
     return age >= 18 ? null : {invalidAge: true};
   }
 }
-
