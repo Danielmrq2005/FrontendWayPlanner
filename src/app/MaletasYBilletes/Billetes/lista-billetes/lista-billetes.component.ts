@@ -207,6 +207,8 @@ export class ListaBilletesComponent  implements OnInit {
                 console.log(`Billete "${billete.nombre}" eliminado.`);
                 this.billeteSeleccionado = null;
                 this.editandoBillete.emit(false);
+                this.mostrarListaBilletes = true;
+                this.mostrarFormularioEdicion = false;
               },
               error: (err) => {
                 console.error('Error al eliminar el billete:', err);
