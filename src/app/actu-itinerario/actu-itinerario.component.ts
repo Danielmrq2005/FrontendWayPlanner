@@ -219,7 +219,10 @@ export class ActuItinerarioComponent implements OnInit, AfterViewInit {
     this.actualizarHorario(this.itinerario.horarios);
 
     // Resetear formulario manual
-    this.formularioHorarioManual.reset({ cerrado: false });
+    this.formularioHorarioManual.reset({
+      diaHorario: '',
+      cerrado: false
+    });
   }
 
   cancel() {
