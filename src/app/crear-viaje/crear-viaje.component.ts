@@ -98,7 +98,7 @@ export class CrearViajeComponent implements OnInit {
     fechaInicio.setHours(0, 0, 0, 0);
     fechaFin.setHours(0, 0, 0, 0);
 
-    if (!this.nombre || !this.descripcion || !this.fechaInicioStr || !this.fechaFinStr || !this.destino) {
+    if (!this.nombre || !this.fechaInicioStr || !this.fechaFinStr || !this.destino) {
       this.mensajeError = 'Por favor, rellena todos los campos.';
       return;
     }
