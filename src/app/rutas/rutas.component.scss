@@ -148,6 +148,27 @@ ion-content,
   padding: 0 16px;
   box-sizing: border-box;
   z-index: 10;
+  --background: #5B97D5;
+  color: white;
+}
+
+ion-select,
+ion-select-option {
+  --color: white;
+  color: white;
+  --icon-color: white;
+}
+
+ion-select {
+  --color: white;
+  --placeholder-color: white;
+  --icon-color: white !important;
+  color: white;
+}
+
+ion-select::part(icon) {
+  color: white !important;
+  fill: white !important;
 }
 
 ion-modal .ion-padding {

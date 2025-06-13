@@ -157,7 +157,17 @@ input[type="file"] {
 
 ion-item.foto-item {
   align-items: center;
-  margin-bottom: 10px;
+  margin-top: 20px;
+}
+
+.titulo-itinerario-horario {
+  color: #487bcf; // Azul Ionic
+  font-weight: bold;
+}
+
+.labelFoto{
+  margin: 20px;
+  margin-top: 10px;
 }
 
 .foto-label {

@@ -125,6 +125,24 @@ ion-fab {
   object-fit: cover;
 }
 
+.segment-scroll-container {
+  overflow-x: auto;
+  white-space: nowrap;
+  -webkit-overflow-scrolling: touch;
+  margin-bottom: 16px;
+}
+
+.segment-scroll-container ion-segment {
+  flex-wrap: nowrap !important;
+  display: inline-flex !important;
+}
+
+ion-segment {
+  min-width: max-content;
+  display: inline-block;
+}
+
+
 .dark {
   ion-content {
     --background: #121212;

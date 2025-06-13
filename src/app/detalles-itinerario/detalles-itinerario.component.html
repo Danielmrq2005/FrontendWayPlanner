@@ -72,8 +72,8 @@
 
       <ion-label class="titulo-horarios"><strong>Horarios:</strong></ion-label>
       <ion-list class="lista-horarios" lines="none">
-        <ng-container *ngIf="diaSemana && filtrarHorariosPorDia(itinerario, diaSemana.diaSemana).length > 0; else sinHorarios">
-        <ion-item *ngFor="let horario of filtrarHorariosPorDia(itinerario, diaSemana.diaSemana)" class="item-horario">
+        <ng-container *ngIf="segmentoSeleccionado === 'default' ? itinerario.horarios.length > 0 : (diaSemana && filtrarHorariosPorDia(itinerario, diaSemana.diaSemana).length > 0); else sinHorarios">
+          <ion-item *ngFor="let horario of (segmentoSeleccionado === 'default' ? itinerario.horarios : filtrarHorariosPorDia(itinerario, diaSemana.diaSemana))" class="item-horario">
             <ion-label>
               {{ horario.dia }} - {{ horario.horaInicio }} - {{ horario.horaFin }}
               <span [style.color]="horario.isClosed ? 'red' : 'green'">

@@ -36,7 +36,7 @@ ion-button.botones {
   --border-radius: 12px;
 }
 
-/*Literalmete esto para desactivar un hover del botón*/
+
 ion-button.botones::part(native) {
   background: white !important;
   color: #5B97D5 !important;
@@ -45,7 +45,7 @@ ion-button.botones::part(native) {
   transition: none !important;
 }
 
-/*Literalmete esto para desactivar un hover del botón*/
+
 ion-button.botones:hover::part(native),
 ion-button.botones:focus::part(native),
 ion-button.botones.ion-focused::part(native) {
@@ -54,9 +54,6 @@ ion-button.botones.ion-focused::part(native) {
   border: 2px solid #5B97D5 !important;
   box-shadow: none !important;
 }
-
-
-
 
 
 .form-title {
@@ -84,14 +81,14 @@ ion-button.botones.ion-focused::part(native) {
 
 .toggle-group label {
   margin: 16px;
-  flex: 1;  /* Para que el label tome todo el espacio posible y el toggle quede pegado al borde derecho */
+  flex: 1;
   font-weight: 600;
   font-size: 1rem;
 }
 
 
 .form-content {
-  padding: 1rem 1.5rem; /* o lo que prefieras */
+  padding: 1rem 1.5rem;
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
@@ -233,6 +230,13 @@ ion-button:hover {
   transition: background-color 0.3s ease;
 }
 
+.form-group input[type="file"] {
+  border: none;
+  box-shadow: none;
+  outline: none;
+  background: transparent;
+}
+
 .foto:hover {
   background-color: #487bcf;
 }
@@ -312,6 +316,10 @@ ion-button:hover {
   font-size: 1rem;
   color: #333;
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.horarioInputFull ion-textarea{
+
 }
 
 .dark {
@@ -450,6 +458,13 @@ ion-content {
       label {
         color: #e0e0e0 !important;
       }
+    }
+
+    .horarioInputFull ion-textarea::part(native) {
+      border: none !important;
+      box-shadow: none !important;
+      outline: none !important;
+      background: transparent !important;
     }
 
     .horarioInputFull {

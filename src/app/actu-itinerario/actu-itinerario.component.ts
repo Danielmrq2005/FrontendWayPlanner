@@ -230,23 +230,44 @@ export class ActuItinerarioComponent implements OnInit, AfterViewInit {
     this.indiceHorarioEditado = -1;
   }
 
-  eliminarHorario(index: number) {
-    const idHorario = this.itinerario.horarios[index].id
-    this.itinerario.horarios.splice(index, 1);
-    this.horariosFormArray.removeAt(index);
+  // Métdo para eliminar un horario
+  async eliminarHorario(index: number) {
+    const alert = await this.alertController.create({
+      header: 'Confirmar',
+      message: '¿Seguro que deseas eliminar este horario?',
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel'
+        },
+        {
+          text: 'Eliminar',
+          handler: () => {
+            const idHorario = this.itinerario.horarios[index].id;
+            this.itinerario.horarios.splice(index, 1);
+            this.horariosFormArray.removeAt(index);
 
-    this.horarioService.eliminarHorario(idHorario)
-      .subscribe({
-        next: (respuesta) => {
-          console.log('Horario eliminado:', respuesta);
-        },
-        error: (err) => {
-          this.presentAlert("Error al eliminar el horario: " + err.error.message);
-        },
-        complete: () => {
-          this.presentAlert("Horario eliminado correctamente.");
+            this.horarioService.eliminarHorario(idHorario)
+              .subscribe({
+                next: (respuesta) => {
+                  console.log('Horario eliminado:', respuesta);
+                },
+                error: (err) => {
+                  this.presentAlert("Error al eliminar el horario: " + err.error.message);
+                },
+                complete: () => {
+                  this.presentAlert("Horario eliminado correctamente.");
+                }
+              });
+          }
         }
-      });
+      ]
+    });
+    await alert.present();
+  }
+
+  cancelar() {
+    this.router.navigate(['/itinerarios/' + this.idViaje]);
   }
 
   actualizarHorario(horarios: Horario[]) {
