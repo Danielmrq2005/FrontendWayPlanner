@@ -203,12 +203,13 @@
       color: white;
     }
 
-  </style>
+  </style> <!-- Estilos para el componente lista-billetes -->
 </head>
 <body>
 
 <!-- Header -->
 <ion-header>
+  <!-- Toolbar -->
   <ion-toolbar [style]="{'--background': darkMode ? '#1f1f1f' : '#5B97D5'}" style="display: flex; align-items: center; justify-content: space-between; padding: 0 16px;">
 
     <ion-buttons slot="start">
@@ -240,24 +241,32 @@
 
 <!-- Título -->
 <div class="text-center mt-3">
+  <!-- Título de la página -->
   <h2 class="titulo fw-bold">{{ billeteNombre }}</h2>
 </div>
 
 <!-- Lista de billetes -->
-<div *ngIf="!mostrarFormulario && !mostrarFormularioEdicion" class="container mt-3 mb-5">
+<div *ngIf="!mostrarFormulario && !mostrarFormularioEdicion" class="container mt-3 mb-5"> <!-- Si no se está mostrando el formulario, muestra la lista de billetes -->
+  <!-- Verifica si hay billetes en la categoría -->
   <ng-container *ngIf="billetes.length > 0; else sinBilletes">
-    <div class="item-card" *ngFor="let billete of billetes" (click)="verBillete(billete)">
+    <!-- Muestra los billetes en tarjetas -->
+    <div class="item-card" *ngFor="let billete of billetes" (click)="verBillete($event, billete)"> <!-- Al hacer clic en un billete, llama a la función verBillete -->
+      <!-- Obtiene el nombre de la categoría del billete -->
       <div class="left-content">
+        <!-- Muestra el emoji de la categoría y el nombre del billete -->
         <span class="icono">{{ getEmojiPorCategoria(categoriaNombre) }}</span>
         <span class="item-nombre">{{ billete.nombre }}</span>
       </div>
 
+      <!-- Muestra las acciones a la derecha -->
       <div class="acciones-derecha">
+        <!-- Icono de información -->
         <i
           class="bi bi-pencil icono-editar"
           title="Editar billete"
           (click)="editarBillete($event, billete)"
         ></i>
+        <!-- Icono de flecha hacia adelante para ir a detalles -->
         <ion-icon name="chevron-forward-outline" class="icono-ir"></ion-icon>
       </div>
     </div>
@@ -265,15 +274,19 @@
 
   <!-- Mensaje si no hay billetes -->
   <ng-template #sinBilletes>
+    <!-- Muestra un mensaje si no hay billetes disponibles -->
     <div class="text-center mt-5 text-muted">
+      <!-- Icono de billete perforado -->
       <i class="bi bi-ticket-perforated" style="font-size: 2rem;"></i>
+      <!-- Mensaje de no hay billetes -->
       <p class="mt-3">No hay billetes disponibles en esta categoría.</p>
     </div>
   </ng-template>
 </div>
 
-
+<!-- Formulario para agregar un nuevo billete -->
 <ng-container *ngIf="mostrarFormulario">
+  <!-- Si se está mostrando el formulario, muestra el componente de formulario de billete -->
   <app-form-billete (cancelado)="FormularioCancelado()" (billeteGuardado)="cargarBilletes()"></app-form-billete>
 </ng-container>
 
@@ -285,15 +298,15 @@
   (click)="mostrarFormulario = true">
 </ion-icon>
 
-
+<!-- Formulario para editar un billete -->
 <app-form-editar-billete
   *ngIf="mostrarFormularioEdicion && billeteSeleccionado"
   [billete]="billeteSeleccionado"
   (EdicionActualizada)="guardarEdicionBillete($event)"
   (EdicionCancelada)="cancelarEdicionBillete()"
-  (BilleteEliminado)="eliminarBillete($event)">
+  (BilleteEliminado)="eliminarBillete($event)"
+  [soloLectura]="modoSoloLectura">
 </app-form-editar-billete>
-<!-- NavBar -->
 
 
 <!-- Bootstrap JS -->

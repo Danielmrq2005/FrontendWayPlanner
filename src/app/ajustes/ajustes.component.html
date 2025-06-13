@@ -27,7 +27,11 @@
       <ion-item>
         <ion-icon name="notifications-outline" slot="start"></ion-icon>
         <ion-label>Hora de notificación</ion-label>
-        <ion-select slot="end" [value]="" (ionChange)="guardarHoraNotificacion($event.detail.value)">
+        <ion-select
+          [(ngModel)]="horaNotificacion"
+          (ionChange)="guardarHoraNotificacion($event.detail.value)"
+          interface="popover"
+          slot="end">
           <ion-select-option value="00:00">00:00</ion-select-option>
           <ion-select-option value="08:00">08:00</ion-select-option>
           <ion-select-option value="09:00">09:00</ion-select-option>
@@ -37,6 +41,7 @@
           <ion-select-option value="20:00">20:00</ion-select-option>
         </ion-select>
       </ion-item>
+
 
     </ion-card-content>
   </ion-card>

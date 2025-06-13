@@ -1,27 +1,36 @@
-<!-- Contenedor completo -->
+<!-- Contenedor completo del formulario de billete -->
 <ion-card id="form-billete" class="billete-card" style="display: block;">
+  <!-- Encabezado del formulario con icono y título -->
   <div class="billete-header">
+    <!-- Icono de billete y título -->
     <ion-icon name="ticket-outline" class="billete-icon"></ion-icon>
+    <!-- Título del billete, muestra 'Nuevo Billete' si no hay título definido -->
     {{ tituloBillete || 'Nuevo Billete' }}
   </div>
 
+  <!-- Contenido del formulario -->
   <ion-card-content>
-    <!-- Input de título -->
+    <!-- Campo de entrada para el título del billete -->
     <ion-item lines="none">
+      <!-- Etiqueta del campo de entrada -->
       <ion-label position="stacked">Título</ion-label>
+      <!-- Input para el título del billete -->
       <ion-input
         [(ngModel)]="tituloBillete"
         placeholder="Escribe el título que le quieras dar al Billete"
-        type="text">
+        type="text"> <!-- Placeholder que aparece cuando el campo está vacío y tituloBillete que cambia el titulo del encabezado -->
       </ion-input>
     </ion-item>
 
-    <!-- Select de categoría -->
+    <!-- Selector desplegable para la categoría del billete -->
     <ion-item lines="none" class="ion-margin-top">
+      <!-- Etiqueta del selector -->
       <ion-label position="stacked">Categoría</ion-label>
+      <!-- Ion-select para elegir la categoría del billete -->
       <ion-select
         placeholder="Elige la categoría del Billete"
         [(ngModel)]="categoriaBillete">
+        <!-- Opciones predefinidas -->
         <ion-select-option value="AVION">Avión</ion-select-option>
         <ion-select-option value="TREN">Tren</ion-select-option>
         <ion-select-option value="AUTOBUS">Autobús</ion-select-option>
@@ -33,25 +42,32 @@
       </ion-select>
     </ion-item>
 
-    <!-- Área de subida de PDF más estética -->
+    <!-- Sección para subir un archivo PDF del billete -->
     <div class="pdf-upload-container ion-margin-top">
+      <!-- Mensaje e icono si no hay PDF cargado aún -->
       <div *ngIf="!vistaPreviaPdfUrl" class="upload-content">
+        <!-- Icono de carga y etiqueta descriptiva -->
         <ion-icon name="cloud-upload-outline" class="upload-icon"></ion-icon>
         <ion-label class="upload-label">Añade el PDF del billete</ion-label>
       </div>
 
+      <!-- Botón para seleccionar archivo PDF -->
       <ion-button
         expand="block"
         class="upload-btn"
         (click)="seleccionarArchivoPdf()"
         color="secondary">
+        <!-- Icono de archivo PDF y texto del botón -->
         <span *ngIf="!vistaPreviaPdfUrl">Seleccionar archivo PDF</span>
         <span *ngIf="vistaPreviaPdfUrl">Seleccionar otro archivo PDF</span>
       </ion-button>
+
+      <!-- Input oculto que se activa al hacer clic en el botón -->
       <input type="file" id="inputPdfBillete" hidden accept="application/pdf" (change)="cargarPdf($event)">
 
-      <!-- Vista previa del PDF -->
-      <div *ngIf="vistaPreviaPdfUrl" class="vista-previa-pdf ion-margin-top">
+      <!-- Vista previa del PDF cargado -->
+      <div *ngIf="vistaPreviaPdfUrl && !isMobile()" class="vista-previa-pdf ion-margin-top">
+        <!-- Iframe para mostrar el PDF cargado -->
         <iframe
           [src]="vistaPreviaPdfUrl"
           class="iframe-pdf"
@@ -60,18 +76,23 @@
       </div>
     </div>
 
-
+    <!-- Muestra el nombre del archivo PDF cargado -->
     <div *ngIf="nombreArchivoPdf" class="archivo-seleccionado">
       <ion-text color="medium">📄 {{ nombreArchivoPdf }}</ion-text>
     </div>
 
-    <!-- Botones -->
+    <!-- Botones de acción del formulario: Cancelar y Guardar -->
     <div class="billete-footer">
+      <!-- Botones para cancelar -->
       <ion-button fill="outline" color="primary" size="small" (click)="cancelar()">
+        <!-- Icono de cancelar y texto del botón -->
         <ion-icon slot="start" name="close-circle"></ion-icon>
         Cancelar
       </ion-button>
+
+      <!-- Botón para guardar el billete -->
       <ion-button fill="solid" color="primary" size="small" (click)="guardarBillete()">
+        <!-- Icono de guardar y texto del botón -->
         <ion-icon slot="start" name="checkmark-circle"></ion-icon>
         Ok
       </ion-button>

@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {IonicModule} from "@ionic/angular";
 import {Router} from "@angular/router";
-import {Notificacion} from "../Modelos/notificacion";
 import {NotificacionesService} from "../Servicios/notificaciones.service";
 import {jwtDecode} from "jwt-decode";
 import {UsuarioService} from "../Servicios/usuario.service";
@@ -19,12 +18,13 @@ import {TemaService} from "../Servicios/tema.service";
     FormsModule
   ]
 })
-export class AjustesComponent implements OnInit {
-  horaActual: string = '';
+export class AjustesComponent  implements OnInit {
+  horaNotificacion: string = '08:00';
   idusuario: number = 0;
   locationEnabled = false;
   storageEnabled = false;
   darkMode = false;
+
 
   constructor(
     private router: Router,
@@ -53,6 +53,9 @@ export class AjustesComponent implements OnInit {
     this.temaService.darkMode$.subscribe(isDark => {
       this.darkMode = isDark;
     });
+
+    this.cargarHoraNotificacion();
+
   }
 
   private async loadPermissionSettings() {
@@ -127,6 +130,30 @@ export class AjustesComponent implements OnInit {
       error: err => console.error('Error al actualizar la hora', err),
     });
   }
+  //cargar la hora de notificación actual del usuario
+  private cargarHoraNotificacion() {
+    this.usuarioService.obtenerUsuarioPorId(this.idusuario).subscribe({
+      next: (usuario) => {
+        const hora = usuario?.horaNotificacion;
+
+        if (hora && hora.trim() !== '') {
+          this.horaNotificacion = hora.substring(0, 5); // HH:mm
+        } else {
+          this.horaNotificacion = '08:00';
+          console.log('Hora de notificación por defecto asignada:', this.horaNotificacion);
+
+          // 💾 Guardar la hora por defecto en la base de datos
+          this.guardarHoraNotificacion(this.horaNotificacion);
+        }
+      },
+      error: (err) => {
+        console.error('Error al obtener el usuario:', err);
+        this.horaNotificacion = '08:00';
+        this.guardarHoraNotificacion(this.horaNotificacion); // Por si también quieres guardar en caso de error
+      }
+    });
+  }
+
 
   // Decodificar el token para obtener el ID del usuario
   obtenerUsuarioId(): number {

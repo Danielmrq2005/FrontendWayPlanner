@@ -1,16 +1,23 @@
 <!-- Contenedor completo -->
 <ion-card id="form-billete" class="billete-card" style="display: block;" [class.dark]="darkMode">
+  <!-- Encabezado del billete -->
   <div class="billete-header">
+    <!-- Icono y título del billete -->
     <ion-icon name="ticket-outline" class="billete-icon"></ion-icon>
-    {{ nombreBillete || billete.nombre }}
+    {{ nombreBillete || billete.nombre }} <!-- Título del billete si está definido, o el nombre del billete existente -->
   </div>
 
+  <!-- Contenido del formulario -->
   <ion-card-content>
     <!-- Input de título -->
     <ion-item lines="none">
+      <!-- Label del título -->
       <ion-label position="stacked">Título</ion-label>
+
+      <!-- Input para el título del billete -->
       <ion-input
         [(ngModel)]="nombreBillete"
+        [readonly]="soloLectura"
         placeholder="Escribe el título que le quieras dar al Billete"
         type="text">
       </ion-input>
@@ -18,10 +25,14 @@
 
     <!-- Select de categoría -->
     <ion-item lines="none" class="ion-margin-top">
+      <!-- Label de categoría -->
       <ion-label position="stacked">Categoría</ion-label>
+
+      <!-- Select para elegir la categoría del billete -->
       <ion-select
         placeholder="Elige la categoría del Billete"
-        [(ngModel)]="categoriaBillete">
+        [(ngModel)]="categoriaBillete"
+        [disabled]="soloLectura">
         <ion-select-option value="AVION">Avión</ion-select-option>
         <ion-select-option value="TREN">Tren</ion-select-option>
         <ion-select-option value="AUTOBUS">Autobús</ion-select-option>
@@ -35,47 +46,102 @@
 
     <!-- Área de subida de PDF más estética -->
     <div class="pdf-upload-container ion-margin-top">
-      <div *ngIf="!vistaPreviaPdfUrl" class="upload-content">
+      <!-- Label para la subida de PDF -->
+      <div *ngIf="!vistaPreviaPdfUrl" class="upload-content"> <!-- Se muestra si no hay PDF cargado -->
+        <!-- Icono de subida de PDF -->
         <ion-icon name="cloud-upload-outline" class="upload-icon"></ion-icon>
+
+        <!-- Texto de instrucción -->
         <ion-label class="upload-label">Añade el PDF del billete</ion-label>
       </div>
 
+      <!-- Label para la vista previa del PDF -->
       <ion-button
         expand="block"
         class="upload-btn"
         (click)="seleccionarArchivoPdf()"
+        *ngIf="!soloLectura"
         color="secondary">
-        <span *ngIf="!vistaPreviaPdfUrl">Seleccionar archivo PDF</span>
-        <span *ngIf="vistaPreviaPdfUrl">Seleccionar otro archivo PDF</span>
+        <span *ngIf="!vistaPreviaPdfUrl">Seleccionar archivo PDF</span> <!-- Texto si no hay PDF cargado -->
+        <span *ngIf="vistaPreviaPdfUrl">Seleccionar otro PDF</span> <!-- Texto si ya hay un PDF cargado -->
       </ion-button>
+
+      <!-- Botón para cargar el PDF -->
+      <ion-button
+        expand="block"
+        class="upload-btn"
+        (click)="descargarPdf()"
+        *ngIf="!soloLectura && vistaPreviaPdfUrl && isMobile()"
+        color="secondary">
+        <!-- Icono de descarga -->
+        <ion-icon slot="start" name="download-outline"></ion-icon>
+        <!-- Texto del botón -->
+        <span>Descargar PDF</span>
+      </ion-button>
+
+      <!-- Botón para descargar el PDF en modo solo lectura -->
+      <ion-button
+          expand="block"
+          class="upload-btn"
+          (click)="descargarPdf()"
+          *ngIf="soloLectura"
+          color="secondary">
+        <!-- Icono de descarga -->
+        <ion-icon slot="start" name="download-outline"></ion-icon>
+        <!-- Texto del botón -->
+        <span *ngIf="vistaPreviaPdfUrl">Descargar PDF</span>
+      </ion-button>
+
+      <!-- Input oculto para seleccionar el archivo PDF -->
       <input type="file" id="inputPdfBillete" hidden accept="application/pdf" (change)="cargarPdf($event)">
 
-      <!-- Vista previa del PDF -->
-      <div *ngIf="vistaPreviaPdfUrl" class="vista-previa-pdf ion-margin-top">
-        <iframe
-          [src]="vistaPreviaPdfUrl"
-          class="iframe-pdf"
-          frameborder="0">
-        </iframe>
-      </div>
+        <!-- Vista previa del PDF solo en escritorio -->
+        <div *ngIf="vistaPreviaPdfUrl && !isMobile()" class="vista-previa-pdf ion-margin-top">
+            <!-- IFrame para la vista previa del PDF -->
+            <iframe
+                    [src]="vistaPreviaPdfUrl"
+                    class="iframe-pdf"
+                    frameborder="0">
+            </iframe>
+        </div>
     </div>
 
-
+    <!-- Nombre del archivo PDF seleccionado -->
     <div *ngIf="nombreArchivoPdf" class="archivo-seleccionado">
       <ion-text color="medium">📄 {{ nombreArchivoPdf }}</ion-text>
     </div>
 
-    <!-- Botones -->
-    <div class="billete-footer">
+    <!-- Botones de acción al final del formulario si no es solo lectura -->
+    <div class="billete-footer" *ngIf="!soloLectura">
+      <!-- Botón para cancelar -->
       <ion-button fill="outline" color="primary" size="small" (click)="cancelar()">
         <ion-icon slot="start" name="close-circle"></ion-icon>
         Cancelar
       </ion-button>
+
+      <!-- Botón para eliminar el billete -->
       <ion-button fill="outline" color="danger" size="small" (click)="eliminarBillete()">
         <ion-icon slot="start" name="trash"></ion-icon>
         Eliminar
       </ion-button>
+
+      <!-- Botón para guardar los cambios del billete -->
       <ion-button fill="solid" color="primary" size="small" (click)="guardarBillete()">
+        <ion-icon slot="start" name="checkmark-circle"></ion-icon>
+        Ok
+      </ion-button>
+    </div>
+
+    <!-- Botones de acción al final del formulario si es solo lectura -->
+    <div *ngIf="soloLectura" class="billete-footer">
+      <!-- Botón para cerrar el formulario -->
+      <ion-button fill="outline" color="primary" size="small" (click)="cancelar()">
+        <ion-icon slot="start" name="close-circle"></ion-icon>
+        Cerrar
+      </ion-button>
+
+      <!-- Botón para confirmar y cerrar el formulario -->
+      <ion-button fill="solid" color="primary" size="small" (click)="cancelar()">
         <ion-icon slot="start" name="checkmark-circle"></ion-icon>
         Ok
       </ion-button>
@@ -83,7 +149,7 @@
   </ion-card-content>
 </ion-card>
 
-
+<!-- Estilos personalizados para el formulario de billete -->
 <style>
   ion-card-content {
     max-height: 70vh; /* Puedes ajustar este valor según el diseño */

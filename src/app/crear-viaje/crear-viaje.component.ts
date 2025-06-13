@@ -1,6 +1,7 @@
 // Importación de módulos necesarios de Angular y Ionic
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from "@angular/forms";
+import { mensajeService } from "../Servicios/mensajes.service";
 import {
   IonButton,
   IonContent, IonText
@@ -47,6 +48,7 @@ export class CrearViajeComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private temaService: TemaService
+    , private mensajeService: mensajeService
   ) {}
 
   ngOnInit() {
@@ -128,8 +130,8 @@ export class CrearViajeComponent implements OnInit {
     const viajeForm: Viaje = {
       nombre: this.nombre,
       descripcion: this.descripcion,
-      fechaInicio: this.fechaInicioStr, // ← ENVÍAS STRING
-      fechaFin: this.fechaFinStr,       // ← ENVÍAS STRING
+      fechaInicio: this.fechaInicioStr,
+      fechaFin: this.fechaFinStr,
       destino: this.destino,
       usuario: {
         id: idusuario
@@ -139,15 +141,21 @@ export class CrearViajeComponent implements OnInit {
     if (this.idViajeEditar !== null) {
       viajeForm.id = this.idViajeEditar;
       this.viajeservice.editarViaje(this.idViajeEditar, viajeForm).subscribe({
-        next: () => this.router.navigate(['/viajes']),
+
+        next: () =>
+          this.router.navigate(['/viajes']),
         error: (error) => {
           console.error('Error al actualizar el viaje:', error);
+          this.mensajeService.mostrarMensaje('Viaje creado correctamente');
           this.router.navigate(['/viajes']);
         }
       });
     } else {
       this.viajeservice.crearviaje(viajeForm).subscribe({
-        next: () => this.router.navigate(['/viajes']),
+        next: () => {
+          this.mensajeService.mostrarMensaje('Viaje creado correctamente');
+          this.router.navigate(['/viajes'])
+        },
         error: (error) => {
           console.error('Error al crear el viaje:', error);
         }

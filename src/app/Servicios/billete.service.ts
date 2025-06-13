@@ -12,14 +12,24 @@ export class BilleteService {
 
   private apiUrl = "http://localhost:8080/billetes";
 
+  // CRUD Billetes
+  // ---------------------------------------
+  // Crear un billete
   crearBillete(billete: FormData) {
     return this.http.post(`${this.apiUrl}/nuevo_billete`, billete);
   }
 
+  // Actualizar un billete
   actualizarBillete(billeteId: number, formData: FormData): Observable<any> {
     return this.http.put(`${this.apiUrl}/actualizar_billete/${billeteId}`, formData);
   }
 
+  // Eliminar billete
+  eliminarBillete(billeteId: number): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/eliminar_billete/${billeteId}`);
+  }
+
+  // --------------------------------------
 
   // Obtener grupos de billetes por viaje
   getGruposBilletesPorViaje(viajeId: number) {
@@ -31,8 +41,4 @@ export class BilleteService {
     return this.http.get<any>(`${this.apiUrl}/viaje/${viajeId}/categoria/${categoria}`);
   }
 
-  // Eliminar billete
-  eliminarBillete(billeteId: number): Observable<any> {
-    return this.http.delete(`${this.apiUrl}/eliminar_billete/${billeteId}`);
-  }
 }

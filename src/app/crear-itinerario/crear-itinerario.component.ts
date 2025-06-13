@@ -1,5 +1,6 @@
 /// <reference types="google.maps" />
 
+// Importaciones de Angular, servicios y modelos necesarios
 import { Component, OnInit } from '@angular/core';
 import {AlertController, IonicModule} from "@ionic/angular";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
@@ -19,24 +20,24 @@ import {Horario} from "../Modelos/Horario";
 import {HorarioService} from "../Servicios/horario.service";
 import {Router} from "@angular/router";
 
-
+// Decorador del componente Angular
 @Component({
     selector: 'app-crear-itinerario',
     templateUrl: './crear-itinerario.component.html',
     styleUrls: ['./crear-itinerario.component.scss'],
     standalone: true,
-  imports: [
-    IonicModule,
-    ReactiveFormsModule,
-    FormsModule,
-    NgForOf,
-    NgIf,
-  ]
+    imports: [
+      IonicModule,
+      ReactiveFormsModule,
+      FormsModule,
+      NgForOf,
+      NgIf,
+    ]
 })
 export class CrearItinerarioComponent  implements OnInit, AfterViewInit {
-  darkMode = false;
+  darkMode = false; // Controla el modo oscuro
 
-
+  // Inyección de dependencias y suscripción al modo oscuro
   constructor(private viajeService: ViajeService,
               private diaService : DiaService,
               private billeteService: BilleteService,
@@ -49,23 +50,27 @@ export class CrearItinerarioComponent  implements OnInit, AfterViewInit {
     });
   }
 
+  // Inicialización de datos al cargar el componente
   ngOnInit() {
       this.obtenerViajesPorUsuario();
       this.obtenerDiasPorViaje();
 
+    // Inicializa el valor de apareceEnItinerario si corresponde
     if (!this.itinerario.apareceEnItinerario && !this.itinerario.estaEnRuta) {
       this.itinerario.apareceEnItinerario = true;
     }
   }
 
+  // Inicializa el mapa de Google Maps después de que la vista se ha cargado
   ngAfterViewInit(): void {
     this.inicializarMapa();
   }
 
-  map: any;
-  marker: any;
-  fotoPreview: string | null = null;
+  map: any; // Referencia al mapa
+  marker: any; // Referencia al marcador
+  fotoPreview: string | null = null; // Vista previa de la foto seleccionada
 
+  // Inicializa el mapa y el autocompletado de lugares
   inicializarMapa() {
     const input = document.getElementById('autocomplete') as HTMLInputElement;
     const mapElement = document.getElementById('map');
@@ -85,6 +90,7 @@ export class CrearItinerarioComponent  implements OnInit, AfterViewInit {
       draggable: true,
     });
 
+    // Evento cuando se selecciona un lugar en el autocompletado
     autocomplete.addListener('place_changed', () => {
       const place = autocomplete.getPlace();
       if (!place.geometry || !place.geometry.location) return;
@@ -99,6 +105,7 @@ export class CrearItinerarioComponent  implements OnInit, AfterViewInit {
       this.itinerario.longitud = lng.toString();
     });
 
+    // Evento al hacer clic en el mapa
     this.map.addListener('click', (e: any) => {
       const clickedLatLng = e.latLng;
       this.marker.setPosition(clickedLatLng);
@@ -108,9 +115,11 @@ export class CrearItinerarioComponent  implements OnInit, AfterViewInit {
     });
   }
 
+  // Variables de control de formularios
   mostrarFormularioBillete = false;
   mostrarFormularioDia = false;
 
+  // Variables de datos
   idusuario: number = 0;
   viajes: Viaje[] = [];
   idViajeSeleccionado: number = 0;
@@ -119,6 +128,7 @@ export class CrearItinerarioComponent  implements OnInit, AfterViewInit {
   billeteSeleccionado: File | null = null;
   horariosCrear: Horario[] = [];
 
+  // Modelo de itinerario inicializado
   itinerario: Itinerario = {
     actividad: '',
     latitud: '',
@@ -135,6 +145,7 @@ export class CrearItinerarioComponent  implements OnInit, AfterViewInit {
     horarios: []
   }
 
+  // Listas de categorías
   categorias: string[] = [
     'AVION',
     'TREN',
@@ -154,6 +165,7 @@ export class CrearItinerarioComponent  implements OnInit, AfterViewInit {
     'OTROS'
   ];
 
+  // Modelo de billete inicializado
   billete: Billete = {
     nombre: '',
     categoria: '',
@@ -161,6 +173,7 @@ export class CrearItinerarioComponent  implements OnInit, AfterViewInit {
     viajeId: 0
   };
 
+  // Modelo de día inicializado
   dia = {
     fecha: '',
     numeroDia: 0,
@@ -168,6 +181,7 @@ export class CrearItinerarioComponent  implements OnInit, AfterViewInit {
     idViaje: 0
   }
 
+  // Variables para horarios
   diaHorario: string = '';
   horaInicio: string = '';
   horaFin: string = '';
@@ -177,6 +191,7 @@ export class CrearItinerarioComponent  implements OnInit, AfterViewInit {
   diaSeleccionado? : number;
   idBilleteSeleccionado?: number;
 
+  // Agrega un horario a la lista de horariosCrear
   agregarHorario() {
     if (this.horaInicio && this.horaFin && this.diaHorario) {
       const nuevoHorario: Horario = {
@@ -201,7 +216,7 @@ export class CrearItinerarioComponent  implements OnInit, AfterViewInit {
       this.diaHorario = '';
       this.cerrado = false;
 
-      // Notifica a Angular que los campos han cambiado
+      // Limpia los inputs en el DOM
       const horaInicioInput = document.getElementById('horaInicio') as HTMLInputElement;
       const horaFinInput = document.getElementById('horaFin') as HTMLInputElement;
       if (horaInicioInput) horaInicioInput.value = '';
@@ -211,15 +226,17 @@ export class CrearItinerarioComponent  implements OnInit, AfterViewInit {
     }
   }
 
-
+  // Muestra/oculta el formulario de billete
   toggleBilleteForm() {
     this.mostrarFormularioBillete = !this.mostrarFormularioBillete;
   }
 
+  // Muestra/oculta el formulario de día
   toggleDiaForm() {
     this.mostrarFormularioDia = !this.mostrarFormularioDia;
   }
 
+  // Obtiene el ID del usuario desde el token JWT
   obtenerUsuarioId(): number {
     const token = sessionStorage.getItem('authToken');
     if (token) {
@@ -234,8 +251,8 @@ export class CrearItinerarioComponent  implements OnInit, AfterViewInit {
     return 0;
   }
 
+  // Crea un billete usando el servicio correspondiente
   async crearBillete() {
-
     if (!this.mostrarFormularioBillete) return;
 
     if (!this.billete.nombre.trim()) {
@@ -258,11 +275,11 @@ export class CrearItinerarioComponent  implements OnInit, AfterViewInit {
       return;
     }
 
-      const formData = new FormData();
-      this.billete.nombre = this.billete.nombre.trim();
-      this.billete.categoria = this.billete.categoria.trim();
-      this.billete.viajeId = this.idViajeSeleccionado;
-      this.billete.pdf = '';
+    const formData = new FormData();
+    this.billete.nombre = this.billete.nombre.trim();
+    this.billete.categoria = this.billete.categoria.trim();
+    this.billete.viajeId = this.idViajeSeleccionado;
+    this.billete.pdf = '';
 
     formData.append(
       'billete',
@@ -271,25 +288,24 @@ export class CrearItinerarioComponent  implements OnInit, AfterViewInit {
 
     formData.append('pdf', this.billeteSeleccionado);
 
-      this.billeteService.crearBillete(formData).subscribe({
-        next: (response: any) => {
-          console.log('Billete creado exitosamente:', response);
-        },
-        error: (err) => {
-          console.error('Error al crear el billete:', err);
-        },
-        complete: () => {
-          console.log('Proceso de creación de billete completado');
-          this.billete = { nombre: '', categoria: '', pdf: '', viajeId : 0 };
-          this.toggleBilleteForm();
-        }
-      });
-
+    this.billeteService.crearBillete(formData).subscribe({
+      next: (response: any) => {
+        console.log('Billete creado exitosamente:', response);
+      },
+      error: (err) => {
+        console.error('Error al crear el billete:', err);
+      },
+      complete: () => {
+        console.log('Proceso de creación de billete completado');
+        this.billete = { nombre: '', categoria: '', pdf: '', viajeId : 0 };
+        this.toggleBilleteForm();
+      }
+    });
   }
 
+  // Crea un día usando el servicio correspondiente
   async crearDia() {
     if (!this.mostrarFormularioDia) return;
-
 
     if (!this.dia.fecha.trim()) {
       await this.presentAlert('Debes ingresar una fecha para el día.');
@@ -343,7 +359,7 @@ export class CrearItinerarioComponent  implements OnInit, AfterViewInit {
     });
   }
 
-
+  // Maneja la selección de una foto y genera una vista previa
   onFotoSeleccionada(event: any) {
     const file = event.target.files[0];
     if (file) {
@@ -356,7 +372,7 @@ export class CrearItinerarioComponent  implements OnInit, AfterViewInit {
     }
   }
 
-
+  // Crea un itinerario usando el servicio correspondiente
   async crearItinerario() {
     if (!this.idViajeSeleccionado) {
       await this.presentAlert('Debes seleccionar un viaje.');
@@ -383,6 +399,7 @@ export class CrearItinerarioComponent  implements OnInit, AfterViewInit {
       return;
     }
 
+    // Si no hay foto seleccionada, usa una por defecto
     if (!this.fotoSeleccionada) {
       console.info('coñooooooooo')
       const response = await fetch('assets/default.jpg');
@@ -390,41 +407,41 @@ export class CrearItinerarioComponent  implements OnInit, AfterViewInit {
       this.fotoSeleccionada = new File([blob], 'default.jpg', { type: blob.type });
     }
 
+    this.itinerario.horarios = this.horariosCrear;
 
-      this.itinerario.horarios = this.horariosCrear;
+    const formData = new FormData();
+    const itinerarioJson = {
+      ...this.itinerario,
+      idbillete: this.idBilleteSeleccionado || null,
+      iddia: this.diaSeleccionado || null,
+      horarios: this.itinerario.horarios || []
+    };
 
-      const formData = new FormData();
-      const itinerarioJson = {
-        ...this.itinerario,
-        idbillete: this.idBilleteSeleccionado || null,
-        iddia: this.diaSeleccionado || null,
-        horarios: this.itinerario.horarios || []
-      };
+    formData.append(
+      'itinerario',
+      new Blob([JSON.stringify(itinerarioJson)], { type: 'application/json' })
+    );
 
-      formData.append(
-        'itinerario',
-        new Blob([JSON.stringify(itinerarioJson)], { type: 'application/json' })
-      );
+    formData.append('foto', this.fotoSeleccionada);
 
-      formData.append('foto', this.fotoSeleccionada);
-
-      this.itinerarioService.crearItinerarioConFoto(formData).subscribe({
-        next: (response: any) => {
-          console.log('Itinerario creado exitosamente:', response)
-          this.itinerarioCreadoId = response.id ;
-        },
-        error: (err) => {
-          console.error('Error al crear el itinerario:', err);
-        },
-        complete: () => {
-          console.log('Proceso de creación de itinerario completado');
-          this.crearHorario(this.itinerario.horarios);
-          this.router.navigate(['/itinerarios/', this.idViajeSeleccionado]);
-          this.resetearFormulario();
-        }
-      });
+    this.itinerarioService.crearItinerarioConFoto(formData).subscribe({
+      next: (response: any) => {
+        console.log('Itinerario creado exitosamente:', response)
+        this.itinerarioCreadoId = response.id ;
+      },
+      error: (err) => {
+        console.error('Error al crear el itinerario:', err);
+      },
+      complete: () => {
+        console.log('Proceso de creación de itinerario completado');
+        this.crearHorario(this.itinerario.horarios);
+        this.router.navigate(['/itinerarios/', this.idViajeSeleccionado]);
+        this.resetearFormulario();
+      }
+    });
   }
 
+  // Crea los horarios asociados al itinerario
   crearHorario(horariosss: Horario[]){
     if (this.itinerarioCreadoId) {
       horariosss.forEach(horario => {
@@ -444,6 +461,7 @@ export class CrearItinerarioComponent  implements OnInit, AfterViewInit {
     }
   }
 
+  // Resetea el formulario de itinerario
   resetearFormulario() {
     this.itinerario = {
       actividad: '',
@@ -463,8 +481,7 @@ export class CrearItinerarioComponent  implements OnInit, AfterViewInit {
     this.fotoSeleccionada = null;
   }
 
-
-
+  // Obtiene los viajes del usuario autenticado
   obtenerViajesPorUsuario() {
     this.idusuario = this.obtenerUsuarioId();
     if (this.idusuario) {
@@ -472,7 +489,6 @@ export class CrearItinerarioComponent  implements OnInit, AfterViewInit {
         next: (viajes) => {
           this.viajes = viajes;
           console.log('Viajes recibidos:', viajes);
-          // Aquí puedes asignar los viajes a una propiedad si lo necesitas
         },
         error: (err) => {
           console.error('Error al obtener viajes:', err);
@@ -484,6 +500,7 @@ export class CrearItinerarioComponent  implements OnInit, AfterViewInit {
     }
   }
 
+  // Obtiene los días asociados al viaje seleccionado
   obtenerDiasPorViaje() {
     if (this.idViajeSeleccionado) {
       this.diaService.obtenerDias(this.idViajeSeleccionado).subscribe({
@@ -503,14 +520,14 @@ export class CrearItinerarioComponent  implements OnInit, AfterViewInit {
     }
   }
 
+  // Recarga el mapa (útil si el DOM cambia)
   recargarMapa() {
     setTimeout(() => {
       this.inicializarMapa();
     }, 100); // Delay opcional para asegurar que el DOM esté listo
   }
 
-
-
+  // Maneja la selección de un PDF para el billete
   onPdfSeleccionado(event: Event) {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files.length > 0) {
@@ -520,22 +537,26 @@ export class CrearItinerarioComponent  implements OnInit, AfterViewInit {
     }
   }
 
+  // Evento al cambiar el viaje seleccionado
   onViajeChange() {
     this.obtenerDiasPorViaje();
   }
 
+  // Cambia el valor de estaEnRuta según el toggle de apareceEnItinerario
   onToggleApareceEnItinerario(event: any) {
     if (!event.detail.checked) {
       this.itinerario.estaEnRuta = true;
     }
   }
 
+  // Cambia el valor de apareceEnItinerario según el toggle de estaEnRuta
   onToggleEstaEnRuta(event: any) {
     if (!event.detail.checked) {
       this.itinerario.apareceEnItinerario = true;
     }
   }
 
+  // Muestra una alerta de validación
   async presentAlert(mensaje: string) {
     const alert = await this.alertController.create({
       header: 'Error de validación',
@@ -544,8 +565,6 @@ export class CrearItinerarioComponent  implements OnInit, AfterViewInit {
     });
     await alert.present();
   }
-
-
 }
 
-//TODO: Hacer que horarios lo interprete como un objeto horario y hacer que la foto se muestre
+

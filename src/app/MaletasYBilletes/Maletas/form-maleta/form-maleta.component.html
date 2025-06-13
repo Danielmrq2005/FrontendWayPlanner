@@ -1,18 +1,26 @@
+<!-- Tarjeta principal que contiene el formulario para editar/crear maleta -->
 <ion-card class="maleta-card">
+  <!-- Encabezado de la tarjeta con icono y título dinámico -->
   <div class="maleta-header">
     <ion-icon name="briefcase" class="maleta-icon"></ion-icon>
+    <!-- Muestra el título si existe, si no muestra "Nueva Maleta" -->
     {{ tituloMaleta || 'Nueva Maleta' }}
   </div>
 
+  <!-- Contenido principal de la tarjeta -->
   <ion-card-content>
+
+    <!-- Campo para ingresar el título de la maleta -->
     <ion-item lines="none">
       <ion-label position="stacked">Título</ion-label>
       <ion-input placeholder="Ingresa un título" [(ngModel)]="tituloMaleta"></ion-input>
     </ion-item>
 
+    <!-- Selector para elegir el tipo de maleta -->
     <ion-item lines="none" class="maleta-item">
       <ion-label position="stacked">Tipo de Maleta</ion-label>
       <ion-select placeholder="Elige el tipo de maleta" [(ngModel)]="tipoMaleta">
+        <!-- Opciones disponibles para el tipo de maleta -->
         <ion-select-option value="MALETA_FACTURADA">Maleta Facturada</ion-select-option>
         <ion-select-option value="MALETA_CABINA">Maleta de Cabina</ion-select-option>
         <ion-select-option value="MALETIN_PORTATIL">Maletín del Portátil</ion-select-option>
@@ -22,39 +30,54 @@
       </ion-select>
     </ion-item>
 
+    <!-- Campo para ingresar el peso de la maleta -->
     <ion-item lines="none" class="maleta-item">
       <ion-label position="stacked">Peso (kg)</ion-label>
-      <ion-input type="number" min="0" step="0.1" placeholder="Ej. 8.5" [(ngModel)]="pesoMaleta"></ion-input>
+      <ion-input
+        type="number"
+        min="0"
+        step="0.1"
+        placeholder="Ej. 8.5"
+        [(ngModel)]="pesoMaleta">
+      </ion-input>
     </ion-item>
 
-    <!-- Aviso Condicional -->
+    <!-- Mensaje de aviso que solo se muestra si el tipo es "Maleta Facturada" -->
     <div class="maleta-aviso" *ngIf="tipoMaleta === 'MALETA_FACTURADA'">
       El peso permitido para maletas facturadas varía por agencia.<br>
       No excedas el límite para evitar cargos.
     </div>
 
+    <!-- Mensaje de aviso para maletas de cabina -->
     <div class="maleta-aviso" *ngIf="tipoMaleta === 'MALETA_CABINA'">
       Las maletas de cabina tienen requisitos que varían por agencia.
     </div>
 
+    <!-- Pie de tarjeta con botones para cancelar o guardar -->
     <div class="maleta-footer">
+      <!-- Botón Cancelar que ejecuta función cancelar() -->
       <ion-button fill="outline" size="small" color="primary" (click)="cancelar()">
         <ion-icon slot="start" name="close-circle"></ion-icon>
         Cancelar
       </ion-button>
+      <!-- Botón Ok que ejecuta función guardar() -->
       <ion-button fill="solid" size="small" color="primary" (click)="guardar()">
         <ion-icon slot="start" name="checkmark-circle"></ion-icon>
         Ok
       </ion-button>
     </div>
+
   </ion-card-content>
 </ion-card>
 
-<!-- Aviso general -->
-<p class="maleta-general-aviso">Verifica dimensiones y peso antes del vuelo.</p>
+<!-- Aviso general que siempre se muestra debajo de la tarjeta -->
+<p class="maleta-general-aviso">
+  Verifica dimensiones y peso antes del vuelo.
+</p>
 
 
 <style>
+  /* Estilo para la tarjeta principal */
   .maleta-card {
     margin: 20px auto;
     border-radius: 15px;
@@ -64,18 +87,21 @@
     width: 100%;
   }
 
+  /* Ancho mayor para pantallas medianas */
   @media (min-width: 768px) {
     .maleta-card {
-      max-width: 800px; /* más ancho en pantallas medianas */
+      max-width: 800px;
     }
   }
 
+  /* Ajuste para pantallas muy grandes */
   @media (min-width: 1200px) {
     .maleta-card {
-      max-width: 750px; /* un poco menos ancho en pantallas muy grandes */
+      max-width: 750px;
     }
   }
 
+  /* Estilo del encabezado: fondo azul, texto blanco, centrado y con espacio entre icono y texto */
   .maleta-header {
     background-color: #5B97D5;
     color: white;
@@ -89,6 +115,7 @@
     gap: 8px;
   }
 
+  /* Ajustes para tema oscuro: colores blancos en elementos ion-select e ion-label */
   :host-context(.dark) ion-item ion-select {
     color: white !important;
   }
@@ -97,6 +124,7 @@
     color: white !important;
   }
 
+  /* Más reglas para el tema oscuro en selectores nativos de Ionic */
   ::ng-deep .dark .select-interface-option {
     color: white !important;
   }
@@ -115,39 +143,47 @@
     color: white !important;
   }
 
+  /* Clase para títulos con estilo */
   .nombre {
     font-size: 1.1rem;
     font-weight: 500;
     color: #333;
   }
 
+  /* Color para la clase .nombre en modo oscuro */
   :host-context(.dark) .nombre {
     color: white;
   }
 
+  /* Cambio de fondo y texto para encabezado en modo oscuro */
   :host-context(.dark) .maleta-header {
     background-color: #1f1f1f;
     color: white;
   }
 
+  /* Tamaño del icono en el header */
   .maleta-icon {
     font-size: 1.4rem;
   }
 
+  /* Margen superior para los ítems del formulario */
   .maleta-item {
     margin-top: 15px;
   }
 
+  /* Estilo para el footer: botones alineados a los extremos */
   .maleta-footer {
     display: flex;
     justify-content: space-between;
     padding: 20px 0 0;
   }
 
+  /* Bordes redondeados para botones */
   ion-button {
     --border-radius: 8px;
   }
 
+  /* Estilo para los avisos: fondo amarillo claro con borde lateral y texto oscuro */
   .maleta-aviso {
     margin-top: 20px;
     background-color: #fff8e1;
@@ -158,6 +194,7 @@
     font-size: 0.95rem;
   }
 
+  /* Estilo para aviso general: texto centrado y color gris oscuro */
   .maleta-general-aviso {
     text-align: center;
     margin-top: 10px;

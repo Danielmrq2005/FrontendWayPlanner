@@ -42,7 +42,7 @@
 
   <div class="viajes-movil">
     <div  class="viaje-movil-grid" *ngIf="viajes?.length">
-      <div  class="viaje-movil-item"  *ngFor="let viaje of viajes">
+      <div  class="viaje-movil-item"  *ngFor="let viaje of viajes" >
         <img src="assets/icons8-activar-el-modo-avión-50.png" alt="Avión" class="img-avion">
         <span [routerLink]="['/maletas', viaje.id]">{{viaje.nombre}}</span>
         <img [routerLink]="['/viajes', viaje.id]" src="assets/icons8-visible-30.png" style="margin-bottom: 22px; width: 20px; height: 20px;" alt="Ver Detalles">
@@ -87,6 +87,7 @@
     gap: 16px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     transition: transform 0.2s;
+    cursor: pointer;
   }
 
   .viaje-movil-item:hover {

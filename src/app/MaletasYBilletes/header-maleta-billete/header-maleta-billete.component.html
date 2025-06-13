@@ -4,14 +4,21 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>WayPlanner - Viaje</title>
+
+  <!-- Bootstrap CSS para estilos rápidos y responsivos -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
   <style>
     body {
-      background-color: #ffffff;
+      background-color: #ffffff; /* Fondo blanco para toda la página */
     }
+
+    /* Estilo de la pestaña activa del nav-tab */
     .nav-tabs .nav-link.active {
       background-color: #e5e7eb;
     }
+
+    /* Botón flotante para agregar maletas o billetes */
     .floating-btn {
       position: fixed;
       bottom: 80px;
@@ -26,26 +33,37 @@
       line-height: 50px;
       box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     }
+
+    /* Título principal del viaje */
     .titulo {
       font-size: 2rem;
       color: #6ba1d8;
     }
   </style>
 </head>
+
 <body>
 
-<!-- Header -->
+<!-- Contenedor principal del layout -->
 <div class="app-container" [class.dark]="darkMode" [class.sidebar-expanded]="sidebarExpanded">
 
-  <app-menu-hamburguesa (expansionChange)="sidebarExpanded = $event"  [viajeId]="viajeId"></app-menu-hamburguesa>
-  <div class="main-content" [class.dark]="darkMode">
-    <ion-header>
-      <ion-toolbar [style]="{'--background': darkMode ? '#1f1f1f' : '#5B97D5'}" style="display: flex; align-items: center; justify-content: space-between; padding: 0 16px;">
+  <!-- Menú lateral (hamburguesa) con expansión controlada por evento -->
+  <app-menu-hamburguesa (expansionChange)="sidebarExpanded = $event" [viajeId]="viajeId"></app-menu-hamburguesa>
 
+  <div class="main-content" [class.dark]="darkMode">
+
+    <!-- Encabezado superior con logo, título e icono de notificaciones -->
+    <ion-header>
+      <ion-toolbar
+        [style]="{'--background': darkMode ? '#1f1f1f' : '#5B97D5'}"
+        style="display: flex; align-items: center; justify-content: space-between; padding: 0 16px;">
+
+        <!-- Logo de la aplicación -->
         <ion-buttons slot="start">
           <img src="../../../assets/logo.png" alt="Logo" style="height: 25px; margin-left: 10px; margin-right: 8px;">
         </ion-buttons>
 
+        <!-- Título centrado en la barra -->
         <ion-title style="
           position: absolute;
           left: 50%;
@@ -54,11 +72,11 @@
           font-size: 1.5rem;
           font-weight: bold;
           color: white;
-          margin: 0;
-        ">
+          margin: 0;">
           Inicio
         </ion-title>
 
+        <!-- Botón de notificaciones -->
         <ion-buttons slot="end" style="margin-right: 10px;">
           <ion-button fill="clear" [routerLink]="['/notificaciones']">
             <img src="../../../assets/icons8-campana-48.png" alt="Notificaciones" style="width: 30px; height: 30px;">
@@ -68,16 +86,12 @@
       </ion-toolbar>
     </ion-header>
 
-
-
-
-
-    <!-- Título -->
+    <!-- Título del viaje en el centro -->
     <div class="text-center mt-3">
       <h2 class="titulo fw-bold">{{ viajeNombre }}</h2>
     </div>
 
-    <!-- Segmentos -->
+    <!-- Selector de segmentos (tabs) para cambiar entre maletas y billetes -->
     <ion-segment [(ngModel)]="segmento_seleccionado" (ionChange)="Segmento_cambiado($event)">
       <ion-segment-button value="lista_maletas">
         <ion-label>Maletas</ion-label>
@@ -87,7 +101,7 @@
       </ion-segment-button>
     </ion-segment>
 
-    <!-- Contenido dinámico -->
+    <!-- Mostrar contenido relacionado con maletas -->
     <ng-container *ngIf="segmento_seleccionado === 'lista_maletas'">
       <ng-container *ngIf="mostrarListaMaletas">
         <app-lista-maletas (editandoMaleta)="estaEditandoMaleta = $event"></app-lista-maletas>
@@ -97,17 +111,20 @@
       </ng-container>
     </ng-container>
 
-
+    <!-- Mostrar contenido relacionado con billetes -->
     <ng-container *ngIf="segmento_seleccionado === 'lista_grupos_billetes'">
       <ng-container *ngIf="mostrarListaBilletes">
         <app-lista-grupos-billetes></app-lista-grupos-billetes>
       </ng-container>
       <ng-container *ngIf="mostrarFormularioBillete">
-        <app-form-billete (cancelado)="cancelarFormularioBillete()" (billeteGuardado)="cargarGruposBilletes()"></app-form-billete>
+        <app-form-billete
+          (cancelado)="cancelarFormularioBillete()"
+          (billeteGuardado)="cargarGruposBilletes()">
+        </app-form-billete>
       </ng-container>
     </ng-container>
 
-    <!-- Botón flotante -->
+    <!-- Botón flotante que muestra el formulario correspondiente al segmento activo -->
     <ion-icon
       name="add-circle"
       class="floating-btn"
@@ -118,13 +135,10 @@
   </div>
 </div>
 
-
-<!-- NavBar -->
-
-
-<!-- Bootstrap JS -->
+<!-- Bootstrap JS (funciones interactivas como tabs, etc.) -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<!-- Bootstrap Icons -->
+
+<!-- Bootstrap Icons (íconos SVG como el de la colección vacía, etc.) -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 </body>
 </html>

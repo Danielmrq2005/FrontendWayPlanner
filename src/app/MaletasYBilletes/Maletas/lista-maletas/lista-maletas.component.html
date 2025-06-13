@@ -1,15 +1,20 @@
+<!-- Lista de maletas con opciones de edición y navegación a los ítems de cada maleta -->
 <div class="container mt-4 mb-5" *ngIf="!maletaSeleccionada" [class.dark]="darkMode">
+  <!-- Contenedor principal si tiene maletas -->
   <ng-container *ngIf="maletas.length > 0; else sinMaletas">
+    <!-- Iteración sobre las maletas -->
     <div
       class="item-card shadow-sm"
       [routerLink]="['/items-maleta', maleta.id]"
       *ngFor="let maleta of maletas"
     >
+      <!-- Contenido de la maleta -->
       <div class="left-content">
         <span class="icono">{{ getIconoPorCategoria(maleta.tipoMaleta) }}</span>
         <span class="item-nombre">{{ maleta.nombre }}</span>
       </div>
 
+      <!-- Acciones a la derecha -->
       <div class="acciones-derecha">
         <i
           class="bi bi-pencil icono-editar"
@@ -23,6 +28,7 @@
 
   <!-- Mensaje si no hay maletas -->
   <ng-template #sinMaletas>
+    <!-- Contenido alternativo si no hay maletas -->
     <div class="text-center mt-5 text-muted">
       <i class="bi bi-bag-x" style="font-size: 2rem;"></i>
       <p class="mt-3">No tienes ninguna maleta creada todavía.</p>
@@ -41,10 +47,12 @@
 
 
 <style>
+  /* Estilos generales */
   body {
     background-color: #ffffff;
   }
 
+  /* Estilos para el card de cada maleta */
   .item-card {
     border: 2px solid #93c5fd;
     border-radius: 12px;
@@ -58,7 +66,7 @@
     cursor: pointer;
   }
 
-
+  /* Efecto hover para el card */
   .left-content {
     display: flex;
     align-items: center;
@@ -68,6 +76,7 @@
     min-width: 0;     /* permite que los hijos con overflow se corten */
   }
 
+  /* Efecto hover para el card */
   .item-nombre {
     font-size: 1.1rem;
     font-weight: 500;
@@ -83,13 +92,13 @@
     margin-right: 0.75rem;
   }
 
-
+  /* Efecto hover para el card */
   .icono {
     font-size: 1.5rem;
     color: #5b97d5;
   }
 
-
+  /* Efecto hover para el card */
   .icono-ir {
     font-size: 1.2rem;
     color: #6ba1d8;
@@ -108,6 +117,7 @@
     overflow-y: auto;     /* Scroll vertical si se excede la altura */
   }
 
+  /* Media queries para ajustar el ancho del contenedor */
   @media (min-width: 768px) {
     .container {
       max-width: 800px;
@@ -119,7 +129,7 @@
       max-width: 750px;
     }
   }
-
+  /* Estilos para el icono de editar */
   .icono-editar {
     background-color: #dbeafe;
     color: #1e3a8a;
@@ -131,12 +141,14 @@
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
   }
 
+  /* Efecto hover para el card */
   .acciones-derecha {
     display: flex;
     align-items: center;
     gap: 0.5rem;
   }
 
+  /* Efecto hover para el card */
   .icono-ir {
     font-size: 1.3rem;
     color: #6ba1d8;
