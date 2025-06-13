@@ -23,17 +23,22 @@ export class NotificacionPopupComponent implements OnInit {
   ngOnInit() {
     const usuarioId = this.obtenerUsuarioId();
 
-    setInterval(() => {
-      // Cada 10 segundos, consulta las notificaciones del usuario
-      this.notificacionservice.obtenerNotificacionesPorUsuario(usuarioId).subscribe(notis => {
-        if (!notis.length) return;
+    // Cargar IDs previamente mostrados desde localStorage
+    const idsGuardados = localStorage.getItem('idsMostrados');
+    if (idsGuardados) {
+      this.idsMostrados = new Set(JSON.parse(idsGuardados));
+    }
 
+    setInterval(() => {
+      this.notificacionservice.obtenerNotificacionesPorUsuario(usuarioId).subscribe(notis => {
         notis.forEach(notificacion => {
           if (!this.idsMostrados.has(notificacion.id)) {
             this.notificaciones.push(notificacion);
             this.idsMostrados.add(notificacion.id);
 
-            // Elimina la notificación tras 5 segundos
+            // Guardar en localStorage
+            localStorage.setItem('idsMostrados', JSON.stringify([...this.idsMostrados]));
+
             setTimeout(() => {
               this.notificaciones = this.notificaciones.filter(n => n.id !== notificacion.id);
             }, 5000);

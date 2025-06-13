@@ -32,8 +32,11 @@
 
 
       <div class="button-container">
-        <ion-button (click)="guardarViaje()" expand="block" style="--background: #5B97D5">
+        <ion-button (click)="guardarViaje()" expand="block" style="--background: #5B97D5; width: 250px">
           💾 {{ idViajeEditar ? 'Actualizar Viaje' : 'Crear Viaje' }}
+        </ion-button>
+        <ion-button [routerLink]="['/viajes']"  expand="block" color="danger" style="width: 250px;">
+          ❌ Cancelar
         </ion-button>
 
       </div>
@@ -111,7 +114,9 @@
 
     .button-container {
       margin-top: 1.5rem;
-
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
     }
 
     label {
