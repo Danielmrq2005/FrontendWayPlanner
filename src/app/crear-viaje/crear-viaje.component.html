@@ -1,6 +1,8 @@
 <ion-content class="ion-padding" [class.dark]="darkMode">
   <div class="form-container">
-    <h2 class="form-title">Nuevo Viaje</h2>
+    <h2 class="form-title">
+      {{ idViajeEditar ? 'Actualizar viaje' : 'Nuevo Viaje' }}
+    </h2>
 
     <form class="form-content">
       <div class="form-group">
