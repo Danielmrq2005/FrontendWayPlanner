@@ -166,6 +166,28 @@ ion-select {
   color: white;
 }
 
+.titulo-modal {
+  text-align: center;
+}
+ion-modal.fullscreen-on-mobile {
+  --height: 100%;
+  --width: 100%;
+  --max-height: 100%;
+  --max-width: 100%;
+  --border-radius: 0;
+}
+
+@media (min-width: 768px) {
+  ion-modal.fullscreen-on-mobile {
+    --height: 80%;
+    --width: 600px;
+    --max-width: 90%;
+    --border-radius: 8px;
+  }
+}
+
+
+
 ion-select::part(icon) {
   color: white !important;
   fill: white !important;

@@ -2,7 +2,7 @@
   <ion-toolbar color="light">
     <ion-title class="titulo-itinerario">Actualizar Itinerario</ion-title>
     <ion-buttons slot="end">
-      <ion-button (click)="cerrar()" class="btn-primario">Cerrar</ion-button>
+      <ion-button (click)="cancelar()" class="btn-primario">Cerrar</ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
@@ -170,15 +170,7 @@
         </ion-modal>
 
 
-
         <div class="contenedor-accion-editar">
-          <ion-button type="button"
-                      class="btn-cancelar"
-                      (click)="cancelar()">
-            <ion-icon name="close" slot="start"></ion-icon>
-            Cancelar
-          </ion-button>
-
           <ion-button type="submit"
                       class="btn-primario"
                       (click)="actualizarItinerario()">
