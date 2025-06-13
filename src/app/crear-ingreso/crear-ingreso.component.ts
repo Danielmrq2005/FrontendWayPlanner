@@ -32,7 +32,13 @@ export class CrearIngresoComponent  implements OnInit {
   ) {
     this.ingresoForm = this.formBuilder.group({
       titulo: ['', Validators.required],
-      cantidad: [null, [Validators.required, Validators.min(0)]],
+      cantidad: [
+        null,
+        [
+          Validators.required,
+          Validators.min(0.01),
+        ]
+      ],
       esIngreso: [true],
       categoria: ['', Validators.required],
       fecha: [new Date().toISOString()],

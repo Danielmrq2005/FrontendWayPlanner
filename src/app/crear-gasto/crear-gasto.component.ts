@@ -30,7 +30,13 @@ export class CrearGastoComponent  implements OnInit {
     // Inicialización del formulario con sus validaciones
     this.gastoForm = this.formBuilder.group({
       titulo: ['', Validators.required],
-      cantidad: [null, [Validators.required, Validators.min(0)]],
+      cantidad: [
+        null,
+        [
+          Validators.required,
+          Validators.min(0.01), // Mínimo 0.01
+        ]
+      ],
       esIngreso: [false],
       categoria: ['', Validators.required],
       fecha: [''],

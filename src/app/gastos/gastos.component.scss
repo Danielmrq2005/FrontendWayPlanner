@@ -233,3 +233,56 @@ ion-fab-button {
   }
 }
 
+.app-container.dark {
+  background-color: #1e1e1e;
+  color: #e0e0e0;
+}
+
+.app-container.dark ion-item-divider,
+.app-container.dark ion-item {
+  background-color: #2a2a2a;
+  color: #e0e0e0;
+}
+
+.categoria-label {
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 500;
+  margin-right: 8px;
+  background-color: #e0e0e0;
+  color: #333;
+  text-transform: capitalize;
+  display: inline-block;
+  min-width: 70px;
+  text-align: center;
+}
+
+/* Ejemplos por tipo de categoría */
+.categoria-label.transporte {
+  background-color: #d1ecf1;
+  color: #0c5460;
+}
+
+.categoria-label.comida {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+.categoria-label.ocio {
+  background-color: #fff3cd;
+  color: #856404;
+}
+
+.categoria-label.alojamiento {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+/* Modo oscuro */
+.app-container.dark .categoria-label {
+  background-color: #3a3a3a;
+  color: #f1f1f1;
+}
+
+

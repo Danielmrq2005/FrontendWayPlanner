@@ -58,6 +58,10 @@
             <ion-label>
               <h2>{{ gasto.titulo }}</h2>
             </ion-label>
+            <span class="categoria-label" [ngClass]="gasto.categoria.toLowerCase()">
+              {{ gasto.categoria }}
+            </span>
+
             <ion-text [color]="gasto.esIngreso ? 'success' : 'danger'">
               <strong>{{ gasto.esIngreso ? '+' : '-' }}{{ gasto.cantidad | currency:'EUR' }}</strong>
             </ion-text>

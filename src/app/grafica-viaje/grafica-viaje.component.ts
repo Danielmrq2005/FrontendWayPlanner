@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
-import { ChartConfiguration, ChartOptions } from 'chart.js';
+import {BarController, BarElement, CategoryScale, ChartConfiguration, ChartOptions, LinearScale} from 'chart.js';
 import { GastosService } from '../Servicios/gastos.service';
 import { IonicModule } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
@@ -10,7 +10,7 @@ import { TemaService } from "../Servicios/tema.service";
 import { ActivatedRoute } from "@angular/router";
 
 // Registrar plugin para mostrar etiquetas en la gráfica
-Chart.register(ChartDataLabels);
+Chart.register(LinearScale, CategoryScale, BarController, BarElement, ChartDataLabels);
 
 @Component({
   selector: 'app-grafica-viaje',

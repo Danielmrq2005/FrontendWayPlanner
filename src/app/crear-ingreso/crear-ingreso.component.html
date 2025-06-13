@@ -6,11 +6,18 @@
       <div class="form-group">
         <label for="titulo">Nombre del ingreso</label>
         <input type="text" id="titulo" formControlName="titulo" placeholder="Ej. Auriculares" />
+        <div class="error-message" *ngIf="ingresoForm.get('titulo')?.touched && ingresoForm.get('titulo')?.errors">
+          <span *ngIf="ingresoForm.get('titulo')?.errors?.['required']">El título es obligatorio.</span>
+        </div>
       </div>
 
       <div class="form-group">
         <label for="cantidad">Cantidad</label>
         <input type="number" id="cantidad" formControlName="cantidad" placeholder="Ej. 100" />
+        <div class="error-message" *ngIf="ingresoForm.get('cantidad')?.touched && ingresoForm.get('cantidad')?.errors">
+          <span *ngIf="ingresoForm.get('cantidad')?.errors?.['required']">La cantidad es obligatoria.</span>
+          <span *ngIf="ingresoForm.get('cantidad')?.errors?.['min']">La cantidad debe ser mayor a 0.</span>
+        </div>
       </div>
 
       <div class="form-group">
@@ -24,13 +31,14 @@
           <option value="ACTIVIDADES">Actividades</option>
           <option value="OTROS">Otros</option>
         </select>
+        <div class="error-message" *ngIf="ingresoForm.get('categoria')?.touched && ingresoForm.get('categoria')?.errors">
+          <span *ngIf="ingresoForm.get('categoria')?.errors?.['required']">La categoría es obligatoria.</span>
+        </div>
       </div>
 
-
-
       <div class="button-container">
-        <ion-button type="submit" style="--background: #ffffff; --color: #5B97D5;" expand="block">
-          Crear ingreso
+        <ion-button type="submit" style="--background: #ffffff; --color: #5B97D5;" expand="block" [disabled]="ingresoForm.invalid">
+          Crear Ingreso
         </ion-button>
       </div>
     </form>

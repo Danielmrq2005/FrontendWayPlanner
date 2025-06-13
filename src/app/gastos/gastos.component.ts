@@ -57,6 +57,10 @@ export class GastosComponent implements OnInit {
         });
       }
     });
+    this.temaService.darkMode$.subscribe(isDark => {
+      this.darkMode = isDark;
+      document.body.classList.toggle('dark', isDark); // Forzar clase en el body
+    });
   }
 
   toggleSidebar() {
