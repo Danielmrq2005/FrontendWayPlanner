@@ -381,8 +381,10 @@ export class ActuItinerarioComponent implements OnInit, AfterViewInit {
   }
 
   // Métdo para cerrar el modal
-  cerrar() {
-    this.modalCtrl.dismiss();
+  async cerrarModal() {
+    if (this.modal) {
+      await this.modal.dismiss();
+    }
   }
 
   // Métdo para manejar el cambio de foto
