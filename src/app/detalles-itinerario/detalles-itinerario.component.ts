@@ -74,16 +74,32 @@ export class DetallesItinerarioComponent  implements OnInit {
   }
 
   // Elimina el itinerario usando el servicio y cierra el modal si tiene éxito
-  eliminarItinerario() {
-    this.itinerarioService.borrarPorCompleto(this.itinerario.id).subscribe({
-      next: () => {
-        this.presentAlert('Itinerario eliminado correctamente.');
-        this.cerrar(true);
-      },
-      error: (error) => {
-        this.presentAlert(error.message);
-      }
+  async eliminarItinerario() {
+    const alert = await this.alertController.create({
+      header: 'Confirmar',
+      message: '¿Seguro que deseas eliminar este itinerario?',
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel'
+        },
+        {
+          text: 'Eliminar',
+          handler: () => {
+            this.itinerarioService.borrarPorCompleto(this.itinerario.id).subscribe({
+              next: () => {
+                this.presentAlert('Itinerario eliminado correctamente.');
+                this.cerrar(true);
+              },
+              error: (error) => {
+                this.presentAlert(error.message);
+              }
+            });
+          }
+        }
+      ]
     });
+    await alert.present();
   }
 
 
