@@ -79,6 +79,7 @@ export class NotificacionesComponent  implements OnInit {
       },
       error: (error) => {
         console.error('Error al obtener las notificaciones', error);
+
       }
     });
   }
