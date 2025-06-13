@@ -4,7 +4,7 @@ import { FormsModule } from "@angular/forms";
 import { mensajeService } from "../Servicios/mensajes.service";
 import {
   IonButton,
-  IonContent, IonText
+  IonContent, IonIcon, IonText
 } from "@ionic/angular/standalone";
 import { Viaje } from "../Modelos/Viaje";
 import { ViajeService } from "../Servicios/viaje.service";
@@ -25,7 +25,8 @@ import { CommonModule } from "@angular/common";
     IonContent,
     IonButton,
     IonText,
-    RouterLink
+    RouterLink,
+    IonIcon
   ]
 })
 export class CrearViajeComponent implements OnInit {

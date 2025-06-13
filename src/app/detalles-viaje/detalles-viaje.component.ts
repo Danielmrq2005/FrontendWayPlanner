@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { mensajeService } from '../Servicios/mensajes.service';
 import { AlertController } from '@ionic/angular';
 import {
+  IonBackButton,
   IonButton,
   IonContent,
   IonHeader,
@@ -28,7 +29,8 @@ import { TemaService } from "../Servicios/tema.service";
     IonContent,
     IonButton,
     DatePipe,
-    RouterLink
+    RouterLink,
+    IonBackButton
   ]
 })
 export class DetallesViajeComponent implements OnInit {

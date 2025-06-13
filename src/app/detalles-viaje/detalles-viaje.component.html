@@ -3,6 +3,7 @@
     <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: nowrap; width: 100%; gap: 8px;">
 
       <div style="display: flex; align-items: center; flex-shrink: 1;">
+        <ion-back-button defaultHref="/viajes" style="color: white; --background: transparent; --color: white;"></ion-back-button>
         <img src="assets/logo.png" alt="Logo" style="height: 28px; margin-right: -5px;">
         <ion-title style="font-size: 21px; color: white; margin: 0;">Detalles Viaje</ion-title>
       </div>
@@ -50,8 +51,8 @@
     </div>
 
     <div class="botones">
-      <ion-button (click)="editarviaje(idViaje)"   [routerLink]="['/crear-viaje', viaje?.id]"  class="boton" expand="block" style="--background: #5B97D5">✏️ Editar Viaje</ion-button>
       <ion-button (click)="confirmarEliminarViaje(idViaje)"  class="boton" expand="block" color="danger">🗑️ Eliminar Viaje</ion-button>
+      <ion-button (click)="editarviaje(idViaje)"   [routerLink]="['/crear-viaje', viaje?.id]"  class="boton" expand="block" style="--background: #5B97D5">✏️ Editar Viaje</ion-button>
     </div>
   </div>
 

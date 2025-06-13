@@ -32,13 +32,25 @@
 
 
       <div class="button-container">
-        <ion-button (click)="guardarViaje()" expand="block" style="--background: #5B97D5; width: 250px">
-          💾 {{ idViajeEditar ? 'Actualizar Viaje' : 'Crear Viaje' }}
-        </ion-button>
-        <ion-button [routerLink]="['/viajes']"  expand="block" color="danger" style="width: 250px;">
-          ❌ Cancelar
+        <ion-button
+          [routerLink]="['/viajes']"
+          expand="block"
+          class="cancelar-btn"
+          style="width: 250px;"
+        >
+          <ion-icon slot="start" name="close-circle"></ion-icon>
+          Cancelar
         </ion-button>
 
+        <ion-button
+          (click)="guardarViaje()"
+          expand="block"
+          class="guardar-btn"
+          style="width: 250px;"
+        >
+          <ion-icon slot="start" name="checkmark-circle"></ion-icon>
+          {{ idViajeEditar ? 'Actualizar Viaje' : 'Crear Viaje' }}
+        </ion-button>
       </div>
 
       <ion-text color="danger" *ngIf="mensajeError">
@@ -97,6 +109,22 @@
       background-color: var(--input-background, #ffffff);
       color: var(--input-text, #000000);
     }
+
+
+    .cancelar-btn {
+      --background: white;
+      --color: #dc2626;
+      border: 2px solid #dc2626;
+      font-weight: bold;
+    }
+
+    .guardar-btn {
+      --background: white;
+      --color: #5B97D5;
+      border: 2px solid #1e3a8a;
+      font-weight: bold;
+    }
+
 
     :host-context(.dark) .form-group input,
     :host-context(.dark) .form-group textarea {
