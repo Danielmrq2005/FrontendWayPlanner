@@ -14,10 +14,20 @@
 
     <ion-card-header>
       <ion-row>
-        <ion-card-title class="color-primario">{{ itinerario.actividad }}</ion-card-title>
-        <ion-card-title class="color-primario" style="margin-left: 5%">{{ itinerario.categoria }}</ion-card-title>
+        <ion-col size="8">
+          <ion-card-title class="color-primario">
+            {{ itinerario.actividad }}
+          </ion-card-title>
+          <ion-card-subtitle>
+            {{ itinerario.duracion }}
+          </ion-card-subtitle>
+        </ion-col>
+        <ion-col size="4" class="ion-text-end">
+          <ion-card-title class="color-primario">
+            {{ getCategoriaFormateada(itinerario.categoria) }}
+          </ion-card-title>
+        </ion-col>
       </ion-row>
-      <ion-card-subtitle>{{ itinerario.duracion }}</ion-card-subtitle>
     </ion-card-header>
 
     <ion-card-content>

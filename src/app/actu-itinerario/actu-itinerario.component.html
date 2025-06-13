@@ -74,12 +74,12 @@
 
         <ion-item>
           <ion-label>¿Está en ruta?</ion-label>
-          <ion-toggle formControlName="estaEnRuta"></ion-toggle>
+          <ion-toggle formControlName="estaEnRuta" (ionChange)="onToggleEstaEnRuta($event)"></ion-toggle>
         </ion-item>
 
         <ion-item>
           <ion-label>¿Aparece en itinerario?</ion-label>
-          <ion-toggle formControlName="apareceEnItinerario"></ion-toggle>
+          <ion-toggle formControlName="apareceEnItinerario" (ionChange)="onToggleApareceEnItinerario($event)"></ion-toggle>
         </ion-item>
 
         <h3 class="titulo-horarios">Horarios del itinerario</h3>

@@ -98,4 +98,16 @@ export class DetallesItinerarioComponent  implements OnInit {
     return itinerario.horarios.filter(horario => horario.dia === diaSemana);
   }
 
+  getCategoriaFormateada(categoria: string): string {
+    switch (categoria) {
+      case 'MUSEO': return 'Museo';
+      case 'IGLESIA': return 'Iglesia';
+      case 'PARQUE': return 'Parque';
+      case 'MONUMENTO': return 'Monumento';
+      case 'EVENTO': return 'Evento';
+      case 'OTROS': return 'Otros';
+      default: return categoria.charAt(0).toUpperCase() + categoria.slice(1).toLowerCase();
+    }
+  }
+
 }

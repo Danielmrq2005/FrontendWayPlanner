@@ -230,6 +230,25 @@ export class ActuItinerarioComponent implements OnInit, AfterViewInit {
     this.indiceHorarioEditado = -1;
   }
 
+  // Cambia el valor de estaEnRuta según el toggle de apareceEnItinerario
+  onToggleApareceEnItinerario(event: any) {
+    const aparece = event.detail.checked;
+    const ruta = this.formularioItinerario.get('estaEnRuta')?.value;
+    if (!aparece && !ruta) {
+      this.formularioItinerario.patchValue({ apareceEnItinerario: true });
+      this.presentAlert('Al menos uno debe estar activado.');
+    }
+  }
+
+  onToggleEstaEnRuta(event: any) {
+    const ruta = event.detail.checked;
+    const aparece = this.formularioItinerario.get('apareceEnItinerario')?.value;
+    if (!ruta && !aparece) {
+      this.formularioItinerario.patchValue({ estaEnRuta: true });
+      this.presentAlert('Al menos uno debe estar activado.');
+    }
+  }
+
   // Métdo para eliminar un horario
   async eliminarHorario(index: number) {
     const alert = await this.alertController.create({

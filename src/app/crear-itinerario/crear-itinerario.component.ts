@@ -391,7 +391,6 @@ export class CrearItinerarioComponent  implements OnInit, AfterViewInit {
       this.itinerario.latitud,
       this.itinerario.longitud,
       this.itinerario.hora,
-      this.itinerario.medioTransporte,
       this.itinerario.duracion,
       this.itinerario.categoria,
     ];
@@ -549,17 +548,27 @@ export class CrearItinerarioComponent  implements OnInit, AfterViewInit {
     this.obtenerDiasPorViaje();
   }
 
-  // Cambia el valor de estaEnRuta según el toggle de apareceEnItinerario
   onToggleApareceEnItinerario(event: any) {
-    if (!event.detail.checked) {
-      this.itinerario.estaEnRuta = true;
+    if (!this.itinerario) return;
+    const aparece = event.detail.checked;
+    const ruta = this.itinerario.estaEnRuta;
+    if (!aparece && !ruta) {
+      setTimeout(() => {
+        this.itinerario.apareceEnItinerario = true;
+      }, 0);
+      this.presentAlert('Al menos uno debe estar activado.');
     }
   }
 
-  // Cambia el valor de apareceEnItinerario según el toggle de estaEnRuta
   onToggleEstaEnRuta(event: any) {
-    if (!event.detail.checked) {
-      this.itinerario.apareceEnItinerario = true;
+    if (!this.itinerario) return;
+    const ruta = event.detail.checked;
+    const aparece = this.itinerario.apareceEnItinerario;
+    if (!ruta && !aparece) {
+      setTimeout(() => {
+        this.itinerario.estaEnRuta = true;
+      }, 0);
+      this.presentAlert('Al menos uno debe estar activado.');
     }
   }
 
