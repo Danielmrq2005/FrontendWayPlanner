@@ -171,18 +171,22 @@
 
 
 
-        <ion-button type="submit" expand="block" class="btn-primario ion-margin-top">
-          Guardar Cambios
-        </ion-button>
-        <ion-button
-          type="button"
-          expand="block"
-          color="danger"
-          class="btn-cancelar ion-margin-top"
-          (click)="cancelar()"
-        >
-          Cancelar
-        </ion-button>
+        <div class="contenedor-accion-editar">
+          <ion-button type="button"
+                      class="btn-cancelar"
+                      (click)="cancelar()">
+            <ion-icon name="close" slot="start"></ion-icon>
+            Cancelar
+          </ion-button>
+
+          <ion-button type="submit"
+                      class="btn-primario"
+                      (click)="actualizarItinerario()">
+            Guardar Cambios
+            <ion-icon name="checkmark" slot="end"></ion-icon>
+          </ion-button>
+        </div>
+
       </ion-card-content>
     </ion-card>
   </form>

@@ -88,8 +88,21 @@
           </ion-item>
         </ng-template>
       </ion-list>
-      <ion-button (click)="irAActualizarItinerario()" class="btn-actualizar">Actualizar Itinerario</ion-button>
-      <ion-button (click)="eliminarItinerario()" class="btn-eliminar">Eliminar Itinerario</ion-button>
+
+      <div class="contenedor-botones">
+        <ion-button class="btn-cancelar" (click)="cerrar()">
+          <ion-icon name="close" slot="start"></ion-icon>
+          Cancelar
+        </ion-button>
+
+        <ion-button class="btn-actualizar" (click)="irAActualizarItinerario()">
+          Actualizar
+          <ion-icon name="arrow-forward" slot="end"></ion-icon>
+        </ion-button>
+      </div>
+
+
+
     </ion-card-content>
   </ion-card>
 </ion-content>

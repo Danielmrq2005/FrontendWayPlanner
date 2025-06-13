@@ -185,6 +185,35 @@ ion-item.foto-item {
   background-color: #487bcf;
 }
 
+.contenedor-accion-editar {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.contenedor-accion-editar ion-button {
+  flex: 1;
+  max-width: 48%;
+  --border-radius: 12px;
+  font-weight: 600;
+  text-transform: none;
+  font-size: 1rem;
+}
+
+.btn-cancelar {
+  --background: #e74c3c;  /* o el rojo que prefieras */
+  --color: white;
+  box-shadow: 0 4px 8px rgba(224, 102, 102, 0.2);
+}
+
+.btn-primario {
+  --background: #5B97D5;
+  --color: white;
+  box-shadow: 0 4px 8px rgba(91, 151, 213, 0.2);
+}
+
+
 input[type="file"] {
   display: none;
 }

@@ -7,7 +7,7 @@ import {add, mapOutline} from "ionicons/icons";
 import { FormsModule } from "@angular/forms";
 import { OverlayEventDetail } from "@ionic/core/components";
 import {NgForOf, NgIf} from "@angular/common";
-import { ActivatedRoute, RouterLink } from "@angular/router";
+import {ActivatedRoute, Router, RouterLink} from "@angular/router";
 import { HttpClient } from "@angular/common/http";
 
 import { DiaService } from "../Servicios/dia.service";
@@ -55,6 +55,7 @@ export class RutasComponent implements AfterViewInit {
     private temaService: TemaService,
     private viajeService: ViajeService,
     private alertController: AlertController,
+    private router: Router
   ) {
     addIcons({ add: add, mapa: mapOutline });
     this.temaService.darkMode$.subscribe(isDark => {
@@ -352,6 +353,13 @@ export class RutasComponent implements AfterViewInit {
     });
 
     await actionSheet.present();
+  }
+
+  irACrearItinerario() {
+    if (this.idViaje) {
+      this.cancel();
+      this.router.navigate(['/crear-itinerario'], { state: { idViaje: this.idViaje } });
+    }
   }
 
   async mostrarAlertaSinRutas() {

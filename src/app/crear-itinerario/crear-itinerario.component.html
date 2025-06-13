@@ -168,7 +168,7 @@
         />
 
 
-        <ion-button (click)="crearBillete()">Crear Billete</ion-button>
+        <ion-button (click)="crearBillete()" class="boton-anyadir">Crear Billete</ion-button>
       </div>
 
       <div class="form-group">
@@ -232,7 +232,7 @@
       fechaDia.invalid ||
       numeroDia.invalid ||
       diaSemana.invalid
-    ">Crear Día</ion-button>
+    " class="boton-anyadir">Crear Día</ion-button>
       </div>
 
       <!-- Texto para avisar que es la seccion horarios -->
@@ -298,7 +298,7 @@
       diaHorarioSelect.invalid ||
       horaInicioInput.invalid ||
       horaFinInput.invalid
-    ">Añadir</ion-button>
+    " class="boton-anyadir">Añadir</ion-button>
       </div>
 
       <ion-textarea
@@ -312,22 +312,24 @@
 
       <div class="button-container">
         <ion-button
-          expand="full"
-          color="primary"
-          type="submit"
-        >
-          Crear Actividad
-        </ion-button>
-        <ion-button
-          expand="full"
-          color="danger"
           type="button"
+          class="cancelar-btn"
           (click)="cancelar()"
-          style="margin-top: 10px;"
         >
-          Cancelar
+          ❌ Cancelar
+        </ion-button>
+
+        <ion-button
+          type="submit"
+          class="crear-btn"
+        >
+          ✔️ Crear Actividad
         </ion-button>
       </div>
+
+
+
+
 
     </form>
 

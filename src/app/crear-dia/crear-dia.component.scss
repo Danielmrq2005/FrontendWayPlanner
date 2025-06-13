@@ -25,6 +25,39 @@
     overflow: hidden;
   }
 
+  .crear-dia-btn::part(native) {
+    background: #5B97D5 !important;
+    color: white !important;
+    border-radius: 12px;
+    font-weight: 600;
+    text-transform: none;
+    box-shadow: none;
+  }
+
+  .cancelar-btn::part(native) {
+    background: #e74c3c !important; // Rojo
+    color: white !important;
+    border-radius: 12px;
+    font-weight: 600;
+    text-transform: none;
+    box-shadow: none;
+  }
+
+
+  :host-context(.dark) {
+    .cancelar-btn::part(native),
+    .crear-dia-btn::part(native) {
+      background: #DC2786FF !important;
+    }
+
+    .cancelar-btn:hover,
+    .crear-dia-btn:hover {
+      --background: #c12277;
+    }
+  }
+
+
+
   .formulario-dia-card ion-card-title {
     font-size: 1.4rem;
     color: white;
