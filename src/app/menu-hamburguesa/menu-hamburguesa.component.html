@@ -7,8 +7,8 @@
       <img src="assets/casa.png" alt="Rutas Icon" class="menu-icon" />
       <span class="menu-label">Inicio</span>
     </div>
-    <div class="menu-item">
-      <img src="assets/Avion.png" [routerLink]="'/viajes'" alt="Gastos Icon" class="menu-icon" />
+    <div class="menu-item"  [routerLink]="'/viajes'" >
+      <img src="assets/Avion.png" alt="Gastos Icon" class="menu-icon" />
       <span class="menu-label">Viajes</span>
     </div>
     <div class="menu-item" [routerLink]="['/itinerarios', viajeId]">
