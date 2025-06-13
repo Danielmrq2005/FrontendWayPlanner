@@ -1,7 +1,13 @@
 <div class="sidebar" [class.expanded]="sidebarExpanded" [class.dark]="darkMode">
-  <div class="toggle-button" (click)="toggleSidebar()">
-    <ion-icon name="menu-outline"></ion-icon>
+  <div class="header">
+    <div class="toggle-button" (click)="toggleSidebar()">
+      <ion-icon name="menu-outline"></ion-icon>
+    </div>
+
+    <!-- Logo junto al toggle button -->
+    <img src="assets/logo.png" alt="Logo Sidebar" class="sidebar-logo" />
   </div>
+
   <div class="menu-items">
     <div class="menu-item"  [routerLink]="['/maletas', viajeId]">
       <img src="assets/casa.png" alt="Rutas Icon" class="menu-icon" />
