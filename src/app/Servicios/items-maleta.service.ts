@@ -5,6 +5,7 @@ import {ListarObjetosMaletasDTO} from "../Modelos/Maletas/Items/ListarObjetosMal
 import {ObjetoSeleccionadoDTO} from "../Modelos/Maletas/Items/ObjetoSeleccionadoDTO";
 import {MasCantidadObjetoDTO} from "../Modelos/Maletas/Items/MasCantidadObjetoDTO";
 import {CrearItemDTO} from "../Modelos/Maletas/Items/CrearItemDTO";
+import {VerItemDTO} from "../Modelos/Maletas/Items/VerItemDTO";
 
 @Injectable({
   providedIn: 'root'
@@ -26,15 +27,28 @@ export class ItemsMaletaService {
     return this.http.post(`${this.baseUrl}/nuevo_objeto`, item);
   }
 
-  // Actualizar un item de maleta
+  // Actualizar un item de maleta con selección
   actualizarItemMaleta(id: number, isSelected: boolean): Observable<any> {
     const body = { isSelected }; // Esto corresponde a ObjetoSeleccionadoDTO en Java
     return this.http.put(`${this.baseUrl}/seleccionar_objeto/${id}`, body);
   }
+
+  // Actualizar un item de maleta entero
+  actualizarItemMaletaEntero(id: number, item: VerItemDTO): Observable<VerItemDTO> {
+    return this.http.put<VerItemDTO>(`${this.baseUrl}/actualizar_objeto/${id}`, item);
+  }
+
+  // Eliminar un item de maleta
+  eliminarItemMaleta(id: number): Observable<any> {
+    return this.http.delete(`${this.baseUrl}/eliminar_objeto/${id}`);
+  }
+
+  // -----------------------------------------------
 
   // Cambiar cantidad
   cambiarCantidad(id: number, cantidad: number): Observable<ListarObjetosMaletasDTO[]> {
     const body: MasCantidadObjetoDTO = { cantidad };
     return this.http.put<ListarObjetosMaletasDTO[]>(`${this.baseUrl}/cambiar_cantidad_objeto/${id}`, body);
   }
+
 }

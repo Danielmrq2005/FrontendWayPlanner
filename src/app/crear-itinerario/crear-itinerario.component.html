@@ -13,7 +13,7 @@
     </div>
 
 
-    <form class="form-content" #itinerarioForm="ngForm" (ngSubmit)="crearItinerario()">
+    <form class="form-content"  (ngSubmit)="crearItinerario()">
 
       <div class="form-group">
         <label for="viaje">Seleccionar viaje:</label>
@@ -28,9 +28,6 @@
           <option value="" disabled selected>Selecciona un viaje</option>
           <option *ngFor="let viaje of viajes" [value]="viaje.id">{{ viaje.nombre }}</option>
         </select>
-        <div class="error" *ngIf="viaje.invalid && (viaje.dirty || viaje.touched)">
-          Por favor, selecciona un viaje.
-        </div>
       </div>
 
       <div class="form-group">
@@ -52,7 +49,7 @@
       </div>
 
       <div class="form-group">
-        <label for="foto">Foto:</label>
+        <label  for="foto" class="foto" style="color: white;">Foto:</label>
         <input
           id="foto"
           type="file"
@@ -60,11 +57,9 @@
           accept="image/*"
           (change)="onFotoSeleccionada($event)"
           required
-          #foto="ngModel"
-          ngModel
         />
-        <div class="error" *ngIf="foto.invalid && (foto.dirty || foto.touched)">
-          Por favor, selecciona una foto.
+        <div *ngIf="fotoPreview" class="preview-container">
+          <img [src]="fotoPreview" alt="Previsualización" class="foto-preview" />
         </div>
       </div>
 
@@ -78,9 +73,6 @@
           #hora="ngModel"
           required
         />
-        <div class="error" *ngIf="hora.invalid && (hora.dirty || hora.touched)">
-          Por favor, ingresa una hora válida.
-        </div>
       </div>
 
       <div class="form-group">
@@ -89,7 +81,6 @@
           id="medioTransporte"
           name="medioTransporte"
           [(ngModel)]="itinerario.medioTransporte"
-          #medioTransporte="ngModel"
           required
         >
           <option value="" disabled selected>Selecciona un medio de transporte</option>
@@ -104,9 +95,6 @@
           <option value="TRANVIA">Tranvía</option>
           <option value="OTRO">Otro</option>
         </select>
-        <div class="error" *ngIf="medioTransporte.invalid && (medioTransporte.dirty || medioTransporte.touched)">
-          Por favor, selecciona un medio de transporte.
-        </div>
       </div>
 
       <div class="form-group">
@@ -121,10 +109,6 @@
           required
           minlength="2"
         />
-        <div class="error" *ngIf="duracion.invalid && (duracion.dirty || duracion.touched)">
-          <small *ngIf="duracion.errors?.['required']">Este campo es obligatorio.</small>
-          <small *ngIf="duracion.errors?.['minlength']">Escribe una duración válida.</small>
-        </div>
       </div>
 
       <div class="form-group">
@@ -139,9 +123,6 @@
           <option value="" disabled selected>Selecciona una categoría</option>
           <option *ngFor="let categoria of categoriaItinerario" [value]="categoria">{{ categoria }}</option>
         </select>
-        <div class="error" *ngIf="categoria.invalid && (categoria.dirty || categoria.touched)">
-          Por favor, selecciona una categoría.
-        </div>
       </div>
 
       <div class="form-group">
@@ -168,18 +149,12 @@
           #nombreBillete="ngModel"
           required
         />
-        <div class="error" *ngIf="nombreBillete.invalid && (nombreBillete.dirty || nombreBillete.touched)">
-          Por favor, ingresa el nombre del billete.
-        </div>
+
 
         <select name="categoriaBillete" [(ngModel)]="billete.categoria" #categoriaBillete="ngModel" required>
           <option value="" disabled selected>Selecciona una categoría</option>
           <option *ngFor="let opcion of categorias" [value]="opcion">{{ opcion }}</option>
         </select>
-        <div class="error" *ngIf="categoriaBillete.invalid && (categoriaBillete.dirty || categoriaBillete.touched)">
-          Por favor, selecciona una categoría para el billete.
-        </div>
-
         <label>Subir PDF:</label>
         <input
           type="file"
@@ -187,12 +162,11 @@
           name="pdf"
           accept="application/pdf"
           #pdfBillete="ngModel"
+          [(ngModel)]="this.billeteSeleccionado"
           ngModel
           required
         />
-        <div class="error" *ngIf="pdfBillete.invalid && (pdfBillete.dirty || pdfBillete.touched)">
-          Por favor, selecciona un archivo PDF.
-        </div>
+
 
         <ion-button (click)="crearBillete()">Crear Billete</ion-button>
       </div>
@@ -210,9 +184,6 @@
           <option value="" disabled selected>Selecciona un día</option>
           <option *ngFor="let dia of dias" [value]="dia.id">Día {{ dia.numeroDia }} ({{ dia.fecha }})</option>
         </select>
-        <div class="error" *ngIf="diasSelect.invalid && (diasSelect.dirty || diasSelect.touched)">
-          Por favor, selecciona un día para el itinerario.
-        </div>
         <ion-button class="botones" (click)="toggleDiaForm()">
           {{ mostrarFormularioDia ? 'Ocultar Día' : 'Crear Día' }}
         </ion-button>
@@ -227,9 +198,6 @@
           #fechaDia="ngModel"
           required
         />
-        <div class="error" *ngIf="fechaDia.invalid && (fechaDia.dirty || fechaDia.touched)">
-          Por favor, ingresa una fecha válida.
-        </div>
 
         <label>Número de Día:</label>
         <input
@@ -257,9 +225,7 @@
           <option value="SABADO">Sábado</option>
           <option value="DOMINGO">Domingo</option>
         </select>
-        <div class="error" *ngIf="diaSemana.invalid && (diaSemana.dirty || diaSemana.touched)">
-          Por favor, selecciona un día de la semana.
-        </div>
+
 
         <ion-button (click)="crearDia()" [disabled]="
       fechaDia.invalid ||
@@ -289,9 +255,6 @@
           <option value="SABADO">Sábado</option>
           <option value="DOMINGO">Domingo</option>
         </select>
-        <div class="error" *ngIf="diaHorarioSelect.invalid && (diaHorarioSelect.dirty || diaHorarioSelect.touched)">
-          Por favor, selecciona un día.
-        </div>
       </div>
 
       <div class="horarios-container">
@@ -306,9 +269,7 @@
             class="horarioInputFull"
             required
           />
-          <div class="error" *ngIf="horaInicioInput.invalid && (horaInicioInput.dirty || horaInicioInput.touched)">
-            Por favor, ingresa la hora de apertura.
-          </div>
+
         </div>
 
         <div class="horario-field">
@@ -322,9 +283,6 @@
             class="horarioInputFull"
             required
           />
-          <div class="error" *ngIf="horaFinInput.invalid && (horaFinInput.dirty || horaFinInput.touched)">
-            Por favor, ingresa la hora de cierre.
-          </div>
         </div>
 
 
@@ -357,7 +315,6 @@
           expand="full"
           color="primary"
           type="submit"
-          [disabled]="itinerarioForm.invalid"
         >
           Crear Itinerario
         </ion-button>

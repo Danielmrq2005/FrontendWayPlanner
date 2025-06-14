@@ -108,11 +108,13 @@ export class LoginComponent  implements OnInit {
         error: async (e) => {
           console.error(e);
           if (e.status === 403) {
-            await this.presentAlert('Cuenta no verificada', 'Por favor verifica tu cuenta primero.');
+            // This is specifically for unverified accounts
+            await this.presentAlert('Cuenta no verificada', 'Tu cuenta no está verificada. Por favor, revisa tu correo electrónico.');
+          } else if (e.status === 404) {
+            // This is for non-existent accounts
+            await this.presentAlert('Cuenta no encontrada', 'No existe una cuenta con este correo electrónico.');
           } else if (e.status === 401) {
             await this.presentAlert('Error de autenticación', 'Usuario o contraseña incorrectos.');
-          } else if (e.status === 404) {
-            await this.presentAlert('Usuario no encontrado', 'El email proporcionado no está registrado.');
           } else if (e.status === 0) {
             await this.presentAlert('Error de conexión', 'No se pudo conectar con el servidor.');
           } else {

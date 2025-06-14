@@ -26,7 +26,6 @@ export class AjustesComponent  implements OnInit {
   darkMode = false;
 
 
-
   constructor(
     private router: Router,
     private usuarioService: UsuarioService,
@@ -85,6 +84,7 @@ export class AjustesComponent  implements OnInit {
 
 
   logout() {
+    this.temaService.setDarkMode(false);
     sessionStorage.removeItem('authToken');
     this.router.navigate(['/home']);
   }
@@ -95,6 +95,7 @@ export class AjustesComponent  implements OnInit {
       this.usuarioService.eliminarUsuarioporId(this.idusuario).subscribe({
         next: (response) => {
           console.log('Usuario eliminado', response);
+          this.temaService.setDarkMode(false);
           sessionStorage.removeItem('authToken');
           this.router.navigate(['/home']);
 

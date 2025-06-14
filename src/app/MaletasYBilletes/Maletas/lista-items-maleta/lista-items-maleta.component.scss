@@ -1,0 +1,28 @@
+::ng-deep .custom-alert .alert-wrapper {
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+}
+
+::ng-deep .custom-alert .alert-head {
+  color: #1e3a8a;
+  font-weight: 600;
+}
+
+::ng-deep .custom-alert .alert-message {
+  font-size: 0.95rem;
+  color: #374151;
+}
+
+::ng-deep .custom-alert.dark-alert .alert-head,
+::ng-deep .custom-alert.dark-alert .alert-message {
+  color: #ffffff;
+}
+
+::ng-deep .alert-cancel-button {
+  color: #6b7280;
+}
+
+::ng-deep .alert-danger-button {
+  color: #dc2626;
+  font-weight: bold;
+}

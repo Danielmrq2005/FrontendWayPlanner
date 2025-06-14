@@ -59,6 +59,16 @@
       transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
       box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
       cursor: pointer;
+      flex-wrap: nowrap;
+
+    }
+
+    .left-content {
+      display: flex;
+      align-items: center;
+      flex: 1 1 auto;
+      min-width: 0; /* Esto es esencial para que los hijos usen ellipsis */
+      gap: 8px;
     }
 
     .item-card:hover {
@@ -73,6 +83,9 @@
       flex-grow: 1;
       margin-left: 0.75rem;
       margin-right: 0.75rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     .titulo {
@@ -86,6 +99,7 @@
       margin-right: auto;
       padding-left: 15px;
       padding-right: 15px;
+      padding-top: 8px;
       max-width: 90%;
       width: 100%;
 
@@ -136,13 +150,67 @@
       align-items: center;
     }
 
-  </style>
+    /* Dark mode styles for lista-billetes */
+    :host-context(.dark) body {
+      background-color: #121212;
+      color: white;
+    }
+
+    :host-context(.dark) .container {
+      background-color: #121212;
+    }
+
+    :host-context(.dark) .item-card {
+      background-color: #1f1f1f;
+      border-color: #333;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    }
+
+    :host-context(.dark) .item-card:hover {
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    }
+
+    :host-context(.dark) .item-nombre {
+      color: white;
+    }
+
+    :host-context(.dark) .titulo {
+      color: #DC2786FF;
+    }
+
+    :host-context(.dark) .icono {
+      color: #DC2786FF;
+    }
+
+    :host-context(.dark) .icono-editar {
+      background-color: #333;
+      color: #DC2786FF;
+    }
+
+    :host-context(.dark) .icono-ir {
+      color: #DC2786FF;
+    }
+
+    :host-context(.dark) .floating-btn {
+      background-color: #DC2786FF;
+    }
+
+    :host-context(.dark) ion-header ion-toolbar {
+      --background: #121212;
+    }
+
+    :host-context(.dark) ion-title {
+      color: white;
+    }
+
+  </style> <!-- Estilos para el componente lista-billetes -->
 </head>
 <body>
 
 <!-- Header -->
 <ion-header>
-  <ion-toolbar style="--background: #5B97D5; position: relative; height: 56px;">
+  <!-- Toolbar -->
+  <ion-toolbar [style]="{'--background': darkMode ? '#1f1f1f' : '#5B97D5'}" style="display: flex; align-items: center; justify-content: space-between; padding: 0 16px;">
 
     <ion-buttons slot="start">
       <img src="../../../../assets/logo.png" alt="Logo" style="height: 25px; margin-left: 10px; margin-right: 8px;">
@@ -173,37 +241,72 @@
 
 <!-- Título -->
 <div class="text-center mt-3">
+  <!-- Título de la página -->
   <h2 class="titulo fw-bold">{{ billeteNombre }}</h2>
 </div>
 
 <!-- Lista de billetes -->
-<div *ngIf="!mostrarFormulario" class="container mt-3 mb-5">
-  <div class="item-card" *ngFor="let billete of billetes" (click)="verBillete(billete)">
+<div *ngIf="!mostrarFormulario && !mostrarFormularioEdicion" class="container mt-3 mb-5"> <!-- Si no se está mostrando el formulario, muestra la lista de billetes -->
+  <!-- Verifica si hay billetes en la categoría -->
+  <ng-container *ngIf="billetes.length > 0; else sinBilletes">
+    <!-- Muestra los billetes en tarjetas -->
+    <div class="item-card" *ngFor="let billete of billetes" (click)="verBillete($event, billete)"> <!-- Al hacer clic en un billete, llama a la función verBillete -->
+      <!-- Obtiene el nombre de la categoría del billete -->
+      <div class="left-content">
+        <!-- Muestra el emoji de la categoría y el nombre del billete -->
+        <span class="icono">{{ getEmojiPorCategoria(categoriaNombre) }}</span>
+        <span class="item-nombre">{{ billete.nombre }}</span>
+      </div>
 
-    <div class="left-content">
-      <span class="icono">{{ getEmojiPorCategoria(categoriaNombre) }}</span>
-      <span class="item-nombre">{{ billete.nombre }}</span>
+      <!-- Muestra las acciones a la derecha -->
+      <div class="acciones-derecha">
+        <!-- Icono de información -->
+        <i
+          class="bi bi-pencil icono-editar"
+          title="Editar billete"
+          (click)="editarBillete($event, billete)"
+        ></i>
+        <!-- Icono de flecha hacia adelante para ir a detalles -->
+        <ion-icon name="chevron-forward-outline" class="icono-ir"></ion-icon>
+      </div>
     </div>
+  </ng-container>
 
-    <div class="acciones-derecha">
-      <i
-        class="bi bi-pencil icono-editar"
-        title="Editar maleta"
-        (click)="editarBillete($event, billete)"
-      ></i>
-      <ion-icon name="chevron-forward-outline" class="icono-ir"></ion-icon>
+  <!-- Mensaje si no hay billetes -->
+  <ng-template #sinBilletes>
+    <!-- Muestra un mensaje si no hay billetes disponibles -->
+    <div class="text-center mt-5 text-muted">
+      <!-- Icono de billete perforado -->
+      <i class="bi bi-ticket-perforated" style="font-size: 2rem;"></i>
+      <!-- Mensaje de no hay billetes -->
+      <p class="mt-3">No hay billetes disponibles en esta categoría.</p>
     </div>
-  </div>
+  </ng-template>
 </div>
 
+<!-- Formulario para agregar un nuevo billete -->
 <ng-container *ngIf="mostrarFormulario">
-  <app-form-billete (cancelado)="FormularioCancelado()"></app-form-billete>
+  <!-- Si se está mostrando el formulario, muestra el componente de formulario de billete -->
+  <app-form-billete (cancelado)="FormularioCancelado()" (billeteGuardado)="cargarBilletes()"></app-form-billete>
 </ng-container>
 
 <!-- Botón flotante para agregar billete -->
-<ion-icon name="add-circle" class="floating-btn" (click)="mostrarFormulario = true"></ion-icon>
+<ion-icon
+  name="add-circle"
+  class="floating-btn"
+  *ngIf="!mostrarFormulario && !mostrarFormularioEdicion"
+  (click)="mostrarFormulario = true">
+</ion-icon>
 
-<!-- NavBar -->
+<!-- Formulario para editar un billete -->
+<app-form-editar-billete
+  *ngIf="mostrarFormularioEdicion && billeteSeleccionado"
+  [billete]="billeteSeleccionado"
+  (EdicionActualizada)="guardarEdicionBillete($event)"
+  (EdicionCancelada)="cancelarEdicionBillete()"
+  (BilleteEliminado)="eliminarBillete($event)"
+  [soloLectura]="modoSoloLectura">
+</app-form-editar-billete>
 
 
 <!-- Bootstrap JS -->

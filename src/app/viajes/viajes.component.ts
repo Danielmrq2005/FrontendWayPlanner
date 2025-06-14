@@ -6,6 +6,7 @@ import { mensajeService } from '../Servicios/mensajes.service';
 import { ToastController } from '@ionic/angular';
 
 
+
 import {
   IonContent, IonFab, IonFabButton,
   IonHeader, IonIcon,
@@ -59,7 +60,6 @@ export class ViajesComponent implements OnInit {
   }
 
 
-
   obtenerUsuarioId(): number {
     const token = sessionStorage.getItem('authToken');
     if (token) {
@@ -84,6 +84,10 @@ export class ViajesComponent implements OnInit {
 
   }
 
+  NavegaActu() {
+    const currentUrl = this.router.url;
+    this.router.navigate(['/actu-usuario'], { queryParams: { returnUrl: currentUrl } });
+  }
 
   ngOnInit() {
 
@@ -125,6 +129,10 @@ export class ViajesComponent implements OnInit {
       this.viajeservice.listarViajesPorUsuario(this.idusuario).subscribe({
         next: (viajes: Viaje[]) => {
           const hoy = new Date();
+          hoy.setHours(0, 0, 0, 0);
+
+          const inicioManana = new Date(hoy);
+          inicioManana.setDate(hoy.getDate() + 1);
 
           viajes.forEach(via => {
             const fechafinViaje = new Date(via.fechaFin);
@@ -139,9 +147,24 @@ export class ViajesComponent implements OnInit {
             }
           });
 
-          this.viajes = viajes.filter(v => new Date(v.fechaInicio) > hoy);
+          this.viajes = viajes.filter(v => {
+            const fechaInicioViaje = new Date(v.fechaInicio);
+            return fechaInicioViaje >= hoy;
+          });
         },
         error: (err: any) => console.error('Error al obtener los viajes:', err)
+      });
+    }
+
+    if (this.idusuario) {
+      this.usuarioservice.obtenerUsuarioId(this.idusuario).subscribe({
+        next: (usuario: Login) => {
+          this.Nombreusuario = usuario.nombre;
+          console.log('Nombre del usuario:', this.Nombreusuario);
+        },
+        error: (err) => {
+          console.error('Error al obtener el usuario:', err);
+        }
       });
     }
   }

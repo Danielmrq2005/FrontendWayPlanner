@@ -4,7 +4,7 @@ import {environment} from "../../environments/environment";
 import {BehaviorSubject, Observable} from "rxjs";
 import {Registro} from "../Modelos/Registro";
 import {VerGastos} from "../Modelos/VerGastos";
-import {Gastos} from "../Modelos/Gastos";
+import {Gastos} from "../Modelos/gastos";
 @Injectable({
   providedIn: 'root'
 })
