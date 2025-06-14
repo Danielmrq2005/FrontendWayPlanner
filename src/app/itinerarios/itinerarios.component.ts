@@ -153,6 +153,7 @@ export class ItinerariosComponent  implements OnInit {
         next: (response) => {
           console.log('Días obtenidos:', response);
           this.diasViaje = response;
+          this.diasViaje = this.diasViaje.sort((a, b) => a.numeroDia - b.numeroDia);
         },
         error: (error) => {
           console.error('Error al obtener los días:', error);

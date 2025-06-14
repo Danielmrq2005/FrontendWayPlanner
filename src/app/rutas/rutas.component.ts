@@ -141,7 +141,7 @@ export class RutasComponent implements AfterViewInit {
     this.diaService.obtenerDias(idViaje).subscribe({
       next: (diasRecibidos) => {
         this.dias = diasRecibidos;
-        console.log('Días obtenidos:', this.dias);
+        this.dias = this.dias.sort((a, b) => a.numeroDia - b.numeroDia);
 
         const dia1 = this.dias.find(d => d.id === 0);
         if (dia1) {
