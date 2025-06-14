@@ -9,35 +9,38 @@
   </div>
 
   <div class="menu-items">
-    <div class="menu-item"  [routerLink]="['/maletas', viajeId]">
-      <img src="assets/casa.png" alt="Rutas Icon" class="menu-icon" />
-      <span class="menu-label">Inicio</span>
-    </div>
+    <!-- Principal -->
     <div class="menu-item"  [routerLink]="'/viajes'" >
-      <img src="assets/Avion.png" alt="Gastos Icon" class="menu-icon" />
+      <ion-icon name="airplane-outline" class="menu-icon"></ion-icon>
       <span class="menu-label">Viajes</span>
     </div>
+
+    <!-- General dentro de Viaje -->
+    <div class="menu-item"  [routerLink]="['/maletas', viajeId]">
+      <ion-icon name="bag-outline" class="menu-icon"></ion-icon>
+      <span class="menu-label">Inicio</span>
+    </div>
     <div class="menu-item" [routerLink]="['/itinerarios', viajeId]">
-      <img src="assets/Itinerario.png" alt="Itinerarios Icon" class="menu-icon" />
+      <ion-icon name="calendar-outline" class="menu-icon"></ion-icon>
       <span class="menu-label">Itinerarios</span>
     </div>
+    <div class="menu-item" [routerLink]="['/rutas', viajeId]">
+      <ion-icon name="navigate-outline" class="menu-icon"></ion-icon>
+      <span class="menu-label">Rutas</span>
+    </div>
     <div class="menu-item"  [routerLink]="['/gastos', viajeId]">
-      <img src="assets/Gastos.png" alt="Ingresos Icon" class="menu-icon" />
+      <ion-icon name="wallet-outline" class="menu-icon"></ion-icon>
       <span class="menu-label" >Gastos</span>
     </div>
+
+    <!-- Perfil y Ajustes -->
     <div class="menu-item" (click)="navegaActu()">
-      <img src="assets/usuario.png" alt="Total Icon" class="menu-icon" />
+      <ion-icon name="person-outline" class="menu-icon"></ion-icon>
       <span class="menu-label">Perfil</span>
     </div>
     <div class="menu-item" [routerLink]="['/ajustes']">
-      <img src="assets/Ajustes.png"  alt="Settings Icon" class="menu-icon" />
+      <ion-icon name="settings-outline" class="menu-icon"></ion-icon>
       <span class="menu-label" >Ajustes</span>
     </div>
-    <div class="menu-item" [routerLink]="['/rutas', viajeId]">
-      <img src="assets/ruta.png" alt="Rutas Icon" class="menu-icon" />
-      <span class="menu-label">Rutas</span>
-    </div>
-
-
   </div>
 </div>
