@@ -1,20 +1,18 @@
 <ion-header>
   <ion-toolbar [style]="{'--background': darkMode ? '#1f1f1f' : '#5B97D5'}" style="display: flex; align-items: center; justify-content: space-between; padding: 0 16px;">
     <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: nowrap; width: 100%; gap: 8px;">
-
       <div style="display: flex; align-items: center; flex-shrink: 1;">
+        <ion-back-button defaultHref="/viajes" style="color: white; --background: transparent; --color: white;"></ion-back-button>
         <img src="assets/logo.png" alt="Logo" style="height: 28px; margin-right: -5px;">
         <ion-title style="font-size: 21px; color: white; margin: 0;">Detalles Viaje</ion-title>
       </div>
-
       <div style="display: flex; align-items: center; gap: 8px; flex-shrink: 0;">
         <img src="assets/icons8-campana-48.png" alt="Notificaciones" [routerLink]="['/notificaciones']" style="width: 24px; height: 24px;">
       </div>
     </div>
-
   </ion-toolbar>
-
 </ion-header>
+
 <ion-content class="ion-padding" [class.dark]="darkMode">
   <div class="viaje-detalle-container">
     <div class="contenedor_titulo">
@@ -50,8 +48,12 @@
     </div>
 
     <div class="botones">
-      <ion-button (click)="editarviaje(idViaje)"   [routerLink]="['/crear-viaje', viaje?.id]"  class="boton" expand="block" style="--background: #5B97D5">✏️ Editar Viaje</ion-button>
-      <ion-button (click)="eliminarViaje(idViaje)"  class="boton" expand="block" color="danger">🗑️ Eliminar Viaje</ion-button>
+      <ion-button (click)="confirmarEliminarViaje(idViaje)" class="boton" expand="block" color="danger">
+        🗑️ Eliminar Viaje
+      </ion-button>
+      <ion-button (click)="editarviaje(idViaje)" [routerLink]="['/crear-viaje', viaje?.id]" class="boton" expand="block" style="--background: #5B97D5">
+        ✏️ Editar Viaje
+      </ion-button>
     </div>
   </div>
 
@@ -94,10 +96,6 @@
       background-color: #5B97D5;
     }
 
-    .botones {
-      margin: auto;
-    }
-
     .contenedor_titulo {
       display: flex;
       justify-content: center;
@@ -120,6 +118,30 @@
       align-items: center;
       display: inline-block;
     }
+
+    .botones {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      padding: 0 1rem;
+    }
+
+    .botones ion-button {
+      flex: 1 1 45%;
+    }
+
+    @media (min-width: 768px) {
+      .botones {
+        gap: 5rem;
+      }
+
+      .botones ion-button {
+        flex: 0 1 40%;
+      }
+    }
+
     ion-content.dark {
       --background: #121212;
 
@@ -143,10 +165,8 @@
           border-color: #3d3d3d;
         }
 
-        .botones {
-          ion-button {
-            --background: #5B97D5;
-          }
+        .botones ion-button {
+          --background: #5B97D5;
         }
       }
     }

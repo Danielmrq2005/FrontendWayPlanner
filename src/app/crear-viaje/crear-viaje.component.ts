@@ -4,11 +4,11 @@ import { FormsModule } from "@angular/forms";
 import { mensajeService } from "../Servicios/mensajes.service";
 import {
   IonButton,
-  IonContent, IonText
+  IonContent, IonIcon, IonText
 } from "@ionic/angular/standalone";
 import { Viaje } from "../Modelos/Viaje";
 import { ViajeService } from "../Servicios/viaje.service";
-import { ActivatedRoute, Router } from "@angular/router";
+import {ActivatedRoute, Router, RouterLink} from "@angular/router";
 import { jwtDecode } from "jwt-decode";
 import { TemaService } from "../Servicios/tema.service";
 import { IonicModule } from "@ionic/angular";
@@ -24,7 +24,9 @@ import { CommonModule } from "@angular/common";
     CommonModule,
     IonContent,
     IonButton,
-    IonText
+    IonText,
+    RouterLink,
+    IonIcon
   ]
 })
 export class CrearViajeComponent implements OnInit {
@@ -98,7 +100,7 @@ export class CrearViajeComponent implements OnInit {
     fechaInicio.setHours(0, 0, 0, 0);
     fechaFin.setHours(0, 0, 0, 0);
 
-    if (!this.nombre || !this.descripcion || !this.fechaInicioStr || !this.fechaFinStr || !this.destino) {
+    if (!this.nombre || !this.fechaInicioStr || !this.fechaFinStr || !this.destino) {
       this.mensajeError = 'Por favor, rellena todos los campos.';
       return;
     }
@@ -146,7 +148,8 @@ export class CrearViajeComponent implements OnInit {
           this.router.navigate(['/viajes']),
         error: (error) => {
           console.error('Error al actualizar el viaje:', error);
-          this.mensajeService.mostrarMensaje('Viaje creado correctamente');
+          this.mensajeService.mostrarMensaje(this.idViajeEditar ?  "Viaje actualizado correctamente" : "Viaje creado correctamente");
+
           this.router.navigate(['/viajes']);
         }
       });

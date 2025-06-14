@@ -4,7 +4,9 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 import { ViajeService } from '../Servicios/viaje.service';
 import { Router } from '@angular/router';
 import { mensajeService } from '../Servicios/mensajes.service';
+import { AlertController } from '@ionic/angular';
 import {
+  IonBackButton,
   IonButton,
   IonContent,
   IonHeader,
@@ -27,7 +29,8 @@ import { TemaService } from "../Servicios/tema.service";
     IonContent,
     IonButton,
     DatePipe,
-    RouterLink
+    RouterLink,
+    IonBackButton
   ]
 })
 export class DetallesViajeComponent implements OnInit {
@@ -36,7 +39,7 @@ export class DetallesViajeComponent implements OnInit {
   darkMode = false;
 
   // Inyección de dependencias necesarias
-  constructor(private route: ActivatedRoute, private viajeservice: ViajeService, private router: Router, private temaService: TemaService,private mensajeService: mensajeService) {
+  constructor(private route: ActivatedRoute, private viajeservice: ViajeService, private router: Router, private temaService: TemaService,private mensajeService: mensajeService, private alertController: AlertController ) {
     // Suscripción al observable para aplicar modo oscuro
     this.temaService.darkMode$.subscribe(isDark => {
       this.darkMode = isDark;
@@ -66,6 +69,24 @@ export class DetallesViajeComponent implements OnInit {
         console.error('Error al obtener los detalles del viaje:', error);
       }
     });
+  }
+  // alert para confirmar la eliminación del viaje
+  async confirmarEliminarViaje(id: number) {
+    const alert = await this.alertController.create({
+      header: '¿Eliminar viaje?',
+      message: '¿Estás seguro de que deseas eliminar este viaje?',
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel'
+        },
+        {
+          text: 'Eliminar',
+          handler: () => this.eliminarViaje(id)
+        }
+      ]
+    });
+    await alert.present();
   }
 
   // eliminar el viaje actual

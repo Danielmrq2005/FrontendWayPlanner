@@ -23,7 +23,7 @@
               📅 {{ noti.fechaEnvio | date: 'dd/MM/yyyy HH:mm' }}
             </div>
           </div>
-          <img class="papelera-icono" (click)="eliminarNotificacion(noti.id)" src="assets/icons8-basura-50.png" alt="Eliminar notificación">
+          <img class="papelera-icono" (click)="confirmarEliminarNotificacion(noti.id)" src="assets/icons8-basura-50.png" alt="Eliminar notificación">
         </div>
       </ion-card-content>
     </ion-card>

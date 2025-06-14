@@ -1,9 +1,6 @@
 <ion-header>
   <ion-toolbar color="light">
     <ion-title class="titulo-itinerario">Actualizar Itinerario</ion-title>
-    <ion-buttons slot="end">
-      <ion-button (click)="cerrar()" class="btn-primario">Cerrar</ion-button>
-    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
@@ -11,12 +8,9 @@
   <form [formGroup]="formularioItinerario" (ngSubmit)="actualizarItinerario()">
     <ion-card class="card-itinerario">
 
-      <ion-card-header>
-        <ion-card-title class="color-primario">Editar Actividad</ion-card-title>
-      </ion-card-header>
 
       <ion-item lines="none" class="foto-item">
-        <ion-label>Foto</ion-label>
+        <ion-label class="labelFoto">Foto</ion-label>
         <label for="foto" class="foto">Seleccionar Foto</label>
         <input id="foto" type="file" (change)="onFotoChange($event)" accept="image/*" />
       </ion-item>

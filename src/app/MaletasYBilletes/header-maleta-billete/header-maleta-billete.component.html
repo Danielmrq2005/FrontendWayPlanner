@@ -221,7 +221,10 @@
 <div class="app-container" [class.dark]="darkMode" [class.sidebar-expanded]="sidebarExpanded">
 
   <!-- Menú lateral (hamburguesa) con expansión controlada por evento -->
-  <app-menu-hamburguesa (expansionChange)="sidebarExpanded = $event" [viajeId]="viajeId"></app-menu-hamburguesa>
+  <app-menu-hamburguesa
+    (expansionChange)="sidebarExpanded = $event"
+    [viajeId]="viajeId">
+  </app-menu-hamburguesa>
 
   <div class="main-content" [class.dark]="darkMode">
 
@@ -233,7 +236,8 @@
 
         <!-- Logo de la aplicación -->
         <ion-buttons slot="start">
-          <img src="../../../assets/logo.png" alt="Logo" style="height: 25px; margin-left: 10px; margin-right: 8px;">
+          <img *ngIf="!sidebarExpanded" src="../../../assets/logo.png" alt="Logo"
+               style="height: 25px; margin-left: 10px; margin-right: 8px;">
         </ion-buttons>
 
         <!-- Título centrado en la barra -->

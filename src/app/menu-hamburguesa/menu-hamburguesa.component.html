@@ -1,36 +1,48 @@
 <div class="sidebar" [class.expanded]="sidebarExpanded" [class.dark]="darkMode">
-  <div class="toggle-button" (click)="toggleSidebar()">
-    <ion-icon name="menu-outline"></ion-icon>
+  <div class="header">
+    <div class="toggle-button" (click)="toggleSidebar()">
+      <ion-icon name="menu-outline"></ion-icon>
+    </div>
+
+    <!-- Logo junto al toggle button -->
+    <img src="assets/logo.png" alt="Logo Sidebar" class="sidebar-logo" />
   </div>
   <div class="menu-items">
-    <div class="menu-item"  [routerLink]="['/maletas', viajeId]">
-      <img src="assets/casa.png" alt="Rutas Icon" class="menu-icon" />
-      <span class="menu-label">Inicio</span>
-    </div>
-    <div class="menu-item">
-      <img src="assets/Avion.png" [routerLink]="'/viajes'" alt="Gastos Icon" class="menu-icon" />
+    <!-- Principal -->
+    <div class="menu-item"  [routerLink]="'/viajes'" >
+      <ion-icon name="airplane-outline" class="menu-icon"></ion-icon>
       <span class="menu-label">Viajes</span>
     </div>
+
+    <!-- General dentro de Viaje -->
+    <div class="menu-item"  [routerLink]="['/maletas', viajeId]">
+      <ion-icon name="bag-outline" class="menu-icon"></ion-icon>
+      <span class="menu-label">Inicio</span>
+    </div>
+
     <div class="menu-item" [routerLink]="['/itinerarios', viajeId]">
-      <img src="assets/Itinerario.png" alt="Itinerarios Icon" class="menu-icon" />
+      <ion-icon name="calendar-outline" class="menu-icon"></ion-icon>
       <span class="menu-label">Itinerarios</span>
     </div>
-    <div class="menu-item"  [routerLink]="['/gastos', viajeId]">
-      <img src="assets/Gastos.png" alt="Ingresos Icon" class="menu-icon" />
-      <span class="menu-label" >Gastos</span>
-    </div>
-    <div class="menu-item" (click)="navegaActu()">
-      <img src="assets/usuario.png" alt="Total Icon" class="menu-icon" />
-      <span class="menu-label">Actualizar perfil</span>
-    </div>
-    <div class="menu-item" (click)="navegaAjus()">
-      <img src="assets/Ajustes.png"  alt="Settings Icon" class="menu-icon" />
-      <span class="menu-label" >Ajustes</span>
-    </div>
     <div class="menu-item" [routerLink]="['/rutas', viajeId]">
-      <img src="assets/ruta.png" alt="Rutas Icon" class="menu-icon" />
+      <ion-icon name="navigate-outline" class="menu-icon"></ion-icon>
       <span class="menu-label">Rutas</span>
     </div>
+    <div class="menu-item"  [routerLink]="['/gastos', viajeId]">
+      <ion-icon name="wallet-outline" class="menu-icon"></ion-icon>
+      <span class="menu-label" >Gastos</span>
+    </div>
+
+    <!-- Perfil y Ajustes -->
+    <div class="menu-item" (click)="navegaActu()">
+      <ion-icon name="person-outline" class="menu-icon"></ion-icon>
+      <span class="menu-label">Perfil</span>
+    </div>
+    <div class="menu-item" (click)="navegaAjus()">
+      <ion-icon name="settings-outline" class="menu-icon"></ion-icon>
+      <span class="menu-label" >Ajustes</span>
+    </div>
+
 
 
   </div>

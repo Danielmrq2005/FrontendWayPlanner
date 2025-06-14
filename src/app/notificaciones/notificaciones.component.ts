@@ -15,6 +15,7 @@ import {jwtDecode} from "jwt-decode";
 import {Notificacion} from "../Modelos/notificacion";
 import { CommonModule } from '@angular/common';
 import {TemaService} from "../Servicios/tema.service";
+import { AlertController } from '@ionic/angular';
 
 @Component({
   selector: 'app-notificaciones',
@@ -47,7 +48,8 @@ export class NotificacionesComponent  implements OnInit {
 
   constructor(
     private notificacionesService : NotificacionesService,
-    private temaService: TemaService
+    private temaService: TemaService,
+    private alertController: AlertController
   ) {
     // Se suscribe al observable para actualizar el modo oscuro dinámicamente
     this.temaService.darkMode$.subscribe(isDark => {
@@ -77,8 +79,29 @@ export class NotificacionesComponent  implements OnInit {
       },
       error: (error) => {
         console.error('Error al obtener las notificaciones', error);
+
       }
     });
+  }
+
+
+  async confirmarEliminarNotificacion(id: number) {
+    const  alert = await this.alertController.create({
+      header: '¿Eliminar notificacion?',
+      message: '¿Estás seguro de que deseas eliminar esta notificación?',
+      buttons : [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+        },
+        {
+          text: 'Eliminar',
+          handler : () => this.eliminarNotificacion(id)
+
+        }
+      ]
+    })
+    await alert.present();
   }
 
   // Eliminar una notificación por su ID

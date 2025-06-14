@@ -1,15 +1,20 @@
 <div [class.dark]="darkMode" class="container">
   <div class="sidebar" [class.expanded]="sidebarExpanded">
-    <div class="toggle-button" (click)="toggleSidebar()">
-      <ion-icon name="menu-outline"></ion-icon>
+    <div class="header">
+      <div class="toggle-button" (click)="toggleSidebar()">
+        <ion-icon name="menu-outline"></ion-icon>
+      </div>
+      <!-- Logo junto al toggle button -->
+      <img src="assets/logo.png" alt="Logo Sidebar" class="sidebar-logo" />
     </div>
+
     <div class="menu-items">
       <div class="menu-item" (click)="NavegaActu()">
-        <img src="assets/usuario.png" alt="Total Icon" class="menu-icon" />
-        <span class="menu-label">Actualizar perfil</span>
+        <ion-icon name="person-outline" class="menu-icon"></ion-icon>
+        <span class="menu-label">Perfil</span>
       </div>
       <div class="menu-item" (click)="NavegaAjus()">
-        <img src="assets/Ajustes.png" alt="Settings Icon" class="menu-icon" />
+        <ion-icon name="settings-outline" class="menu-icon"></ion-icon>
         <span class="menu-label">Ajustes</span>
       </div>
     </div>
@@ -109,5 +114,66 @@
     .viaje-movil-item {
       max-width: 600px;
     }
+  }
+
+  .sidebar {
+    position: fixed;
+    width: 60px;
+    height: 100%;
+    background-color: #5B97D5;
+    color: white;
+    transition: width 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    padding-top: 7px;
+    padding-left: 8px;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+  }
+
+  .toggle-button {
+    cursor: pointer;
+    padding: 10px;
+    /* margin-right: auto;  <-- quitar esta línea */
+    background-color: rgba(255, 255, 255, 0.15);
+    border: none;
+    border-radius: 8px;
+    color: white;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    font-size: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+
+  .toggle-button:hover {
+    background-color: rgba(255, 255, 255, 0.25);
+    transform: scale(1.1);
+  }
+
+  .toggle-button:active {
+    transform: scale(1);
+  }
+
+
+  /* Logo dentro del sidebar, oculto por defecto */
+  .sidebar-logo {
+    display: none;
+    width: 120px;  /* ajusta tamaño */
+    height: auto;
+  }
+
+  /* Mostrar logo solo cuando sidebar está expandido */
+  .sidebar.expanded .sidebar-logo {
+    display: block;
+  }
+
+  /* Contenedor para toggle + logo */
+  .header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
   }
 </style>
