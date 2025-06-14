@@ -7,7 +7,7 @@ import { BaseChartDirective } from 'ng2-charts';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { Chart } from 'chart.js';
 import { TemaService } from "../Servicios/tema.service";
-import { ActivatedRoute } from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 
 // Registrar plugin para mostrar etiquetas en la gráfica
 Chart.register(LinearScale, CategoryScale, BarController, BarElement, ChartDataLabels);
@@ -24,6 +24,8 @@ export class GraficaViajeComponent implements OnInit, AfterViewInit {
   darkMode = false;       // Control para modo oscuro
 
   @ViewChild(BaseChartDirective) chart: BaseChartDirective | undefined;  // Referencia al gráfico
+
+
 
   // Datos iniciales para el gráfico de barras
   public barChartData: ChartConfiguration<'bar'>['data'] = {
@@ -114,10 +116,16 @@ export class GraficaViajeComponent implements OnInit, AfterViewInit {
     }
   };
 
+  volver() {
+    const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+    this.router.navigateByUrl(returnUrl);
+  }
+
   constructor(
     private gastosService: GastosService,   // Servicio para obtener datos de gastos/ingresos
     private route: ActivatedRoute,           // Para obtener parámetro viajeId de la ruta
-    private temaService: TemaService          // Servicio para detectar modo oscuro
+    private temaService: TemaService,          // Servicio para detectar modo oscuro
+    private router: Router
   ) {
     // Suscribirse a cambios en modo oscuro para actualizar tema del gráfico
     this.temaService.darkMode$.subscribe(isDark => {

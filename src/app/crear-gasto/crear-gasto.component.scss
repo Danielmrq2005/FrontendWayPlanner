@@ -97,4 +97,28 @@ ion-button {
     --background: #333333;
     --color: #ffffff;
   }
+  @media (max-width: 480px) {
+    width: 45%;
+    font-size: 0.75rem;
+    height: 2.5rem;
+
+    ion-icon {
+      font-size: 16px;
+      margin-right: 4px;
+    }
+  }
 }
+
+@media (max-width: 480px) {
+  .form-container {
+    padding: 1.5rem;
+    margin: 1rem auto;
+  }
+
+  .form-title {
+    font-size: 1.5rem;
+  }
+}
+
+
+

@@ -109,6 +109,10 @@ export class ActuGastosComponent implements OnInit {
     }
   }
 
+  cancelar() {
+    // Navigate back to the expenses list for this trip
+    this.router.navigate(['/gastos', this.viajeId]);
+  }
   // Método que se ejecuta al iniciar el componente, carga los datos del gasto
   ngOnInit() {
     this.cargarDatosGasto();

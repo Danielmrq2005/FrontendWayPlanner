@@ -2,7 +2,7 @@ import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {FormItemMaletaComponent} from "../../Maletas/form-item-maleta/form-item-maleta.component";
 import {AlertController, IonicModule} from "@ionic/angular";
 import {NgForOf, NgIf} from "@angular/common";
-import {ActivatedRoute, RouterLink} from "@angular/router";
+import {ActivatedRoute, Router, RouterLink} from "@angular/router";
 import {FormBilleteComponent} from "../form-billete/form-billete.component";
 import {BilleteService} from "../../../Servicios/billete.service";
 import {ListarBilletesDTO} from "../../../Modelos/Billetes/ListarBilletesDTO";
@@ -58,7 +58,8 @@ export class ListaBilletesComponent implements OnInit {
     private route: ActivatedRoute,
     private billeteService: BilleteService,
     private temaService: TemaService,
-    private alertController: AlertController
+    private alertController: AlertController,
+    private router: Router
   ) {
     // Escuchar cambios en el modo oscuro y actualizar variable local
     this.temaService.darkMode$.subscribe(isDark => {
@@ -150,6 +151,11 @@ export class ListaBilletesComponent implements OnInit {
         console.error('Faltan parámetros en la ruta');
       }
     });
+  }
+
+  volver() {
+    const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+    this.router.navigateByUrl(returnUrl);
   }
 
   /** Oculta el formulario y vuelve a mostrar la lista de billetes */

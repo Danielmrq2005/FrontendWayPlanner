@@ -4,7 +4,7 @@
     <!-- Iterar por cada grupo para mostrar su tarjeta -->
     <div
       class="item-card shadow-sm"
-      [routerLink]="['/viaje', viajeId, 'categoria', grupo.nombre]"
+      (click)="NavegaBille(grupo.nombre)"
       *ngFor="let grupo of gruposBilletes"
     >
       <div class="left-content">

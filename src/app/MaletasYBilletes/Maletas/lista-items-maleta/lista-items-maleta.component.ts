@@ -1,7 +1,7 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {AlertController, IonicModule} from "@ionic/angular";
 import {NgForOf, NgIf} from "@angular/common";
-import {ActivatedRoute, RouterLink} from "@angular/router";
+import {ActivatedRoute, Router, RouterLink} from "@angular/router";
 import {MaletaService} from "../../../Servicios/maleta.service";
 import {ListarObjetosMaletasDTO} from "../../../Modelos/Maletas/Items/ListarObjetosMaletasDTO";
 import {ItemsMaletaService} from "../../../Servicios/items-maleta.service";
@@ -58,7 +58,8 @@ export class ListaItemsMaletaComponent implements OnInit {
     private maletaService: MaletaService,  // Servicio para obtener datos de la maleta
     private itemsMaletaService: ItemsMaletaService,  // Servicio para manejar items de maleta
     private temaService: TemaService,  // Servicio para detectar tema (claro/oscuro)
-    private alertController: AlertController  // Controlador para mostrar alertas
+    private alertController: AlertController,  // Controlador para mostrar alertas
+    private router: Router  // Para navegar entre rutas
   ) {
     // Se suscribe a cambios en el modo oscuro para actualizar el estado darkMode
     this.temaService.darkMode$.subscribe(isDark => {
@@ -99,6 +100,10 @@ export class ListaItemsMaletaComponent implements OnInit {
     }
   }
 
+  volver() {
+    const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+    this.router.navigateByUrl(returnUrl);
+  }
   // Función llamado cuando se guarda un item nuevo
   alGuardarItem() {
     this.mostrarFormulario = false;  // Oculta formulario

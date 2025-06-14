@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {NgForOf, NgIf} from "@angular/common";
 import { BilleteService } from "../../../Servicios/billete.service";
 import { CategoriasBilleteDTO } from "../../../Modelos/Billetes/categorias-billete-dto";
-import {ActivatedRoute, RouterLink} from "@angular/router";
+import {ActivatedRoute, Router, RouterLink} from "@angular/router";
 import {IonIcon, IonLabel} from "@ionic/angular/standalone";
 
 @Component({
@@ -24,7 +24,7 @@ export class ListaGruposBilletesComponent implements OnInit {
   // ID del viaje actual, extraído de la URL
   viajeId: number | null = null;
 
-  constructor(private route: ActivatedRoute, private billeteService: BilleteService) { }
+  constructor(private route: ActivatedRoute, private billeteService: BilleteService, private router: Router)  { }
 
   /**
    * Método que se ejecuta al inicializar el componente.
@@ -91,6 +91,11 @@ export class ListaGruposBilletesComponent implements OnInit {
       case 'OTRO':
       default: return 'Otro';
     }
+  }
+
+  NavegaBille(categoria: string) {
+    const currentUrl = this.router.url;
+    this.router.navigate([`/viaje/${this.viajeId}/categoria/${categoria}`], { queryParams: { returnUrl: currentUrl } });
   }
 }
 

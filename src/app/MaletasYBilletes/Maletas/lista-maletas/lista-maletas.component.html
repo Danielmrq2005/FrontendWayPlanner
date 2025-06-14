@@ -5,7 +5,7 @@
     <!-- Iteración sobre las maletas -->
     <div
       class="item-card shadow-sm"
-      [routerLink]="['/items-maleta', maleta.id]"
+      (click)="NavegaMale(maleta.id)"
       *ngFor="let maleta of maletas"
     >
       <!-- Contenido de la maleta -->

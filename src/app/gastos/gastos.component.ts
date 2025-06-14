@@ -3,7 +3,7 @@ import {AlertController, IonicModule} from "@ionic/angular";
 import { VerGastos } from "../Modelos/VerGastos";
 import { GastosService } from "../Servicios/gastos.service";
 import { CommonModule, CurrencyPipe, NgForOf } from "@angular/common";
-import { ActivatedRoute, RouterLink } from "@angular/router";
+import {ActivatedRoute, Router, RouterLink} from "@angular/router";
 import { GastosResumenDTO } from "../Modelos/GastosResumen";
 import { MenuHamburguesaComponent } from "../menu-hamburguesa/menu-hamburguesa.component";
 import { TemaService } from "../Servicios/tema.service";
@@ -34,7 +34,8 @@ export class GastosComponent implements OnInit {
     private gastosService: GastosService, // Servicio para manejar operaciones de gastos
     private route: ActivatedRoute, // Obtener parámetros de la ruta
     private temaService: TemaService, // Servicio para manejar el tema oscuro
-    private alert: AlertController // Controlador de alertas para mostrar mensajes al usuario
+    private alert: AlertController ,// Controlador de alertas para mostrar mensajes al usuario
+    private router: Router // Navegación entre rutas
   ) {
     // Suscripción al estado del modo oscuro
     this.temaService.darkMode$.subscribe(isDark => {
@@ -82,6 +83,11 @@ export class GastosComponent implements OnInit {
   verificarId(id: number | undefined) {
     // Función auxiliar para imprimir el ID de un gasto
     console.log('ID del gasto:', id);
+  }
+
+  NavegaGasto() {
+    const currentUrl = this.router.url;
+    this.router.navigate([`/GraficaViaje/${this.viajeId}`], { queryParams: { returnUrl: currentUrl } });
   }
 
   async eliminarGasto(id: number) {
