@@ -11,7 +11,6 @@
 
   <ion-card>
     <img *ngIf="itinerario.foto" [src]="'data:image/jpeg;base64,' + itinerario.foto" class="imagen-itinerario" />
-
     <ion-card-header>
       <ion-row>
         <ion-col size="8">
@@ -105,11 +104,6 @@
         <ion-button class="btn-cancelar" color="danger" (click)="eliminarItinerario()">
           <ion-icon name="trash" slot="start"></ion-icon>
           Eliminar
-        </ion-button>
-
-        <ion-button class="btn-cancelar" (click)="cerrar()">
-          <ion-icon name="close" slot="start"></ion-icon>
-          Cancelar
         </ion-button>
 
         <ion-button class="btn-actualizar" (click)="irAActualizarItinerario()">

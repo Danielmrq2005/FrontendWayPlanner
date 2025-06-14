@@ -92,6 +92,7 @@ export class CrearDiaComponent implements OnInit {
       complete: () => {
         this.presentAlert("Día creado exitosamente.");
         this.dia = { fecha: '', numeroDia: 0, diaSemana: '', idViaje: 0 };
+        this.router.navigate(['/itinerarios', this.idViaje]);
       }
     });
   }

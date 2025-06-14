@@ -407,13 +407,6 @@ export class CrearItinerarioComponent  implements OnInit, AfterViewInit {
       return;
     }
 
-    // Si no hay foto seleccionada, usa una por defecto
-    if (!this.fotoSeleccionada) {
-      const response = await fetch('assets/default.jpg');
-      const blob = await response.blob();
-      this.fotoSeleccionada = new File([blob], 'default.jpg', { type: blob.type });
-    }
-
     this.itinerario.horarios = this.horariosCrear;
 
     const formData = new FormData();
@@ -429,7 +422,9 @@ export class CrearItinerarioComponent  implements OnInit, AfterViewInit {
       new Blob([JSON.stringify(itinerarioJson)], { type: 'application/json' })
     );
 
-    formData.append('foto', this.fotoSeleccionada);
+    if (this.fotoSeleccionada) {
+      formData.append('foto', this.fotoSeleccionada);
+    }
 
     this.itinerarioService.crearItinerarioConFoto(formData).subscribe({
       next: (response: any) => {
@@ -551,6 +546,7 @@ export class CrearItinerarioComponent  implements OnInit, AfterViewInit {
 
   // Evento al cambiar el viaje seleccionado
   onViajeChange() {
+    this.diaSeleccionado = undefined;
     this.obtenerDiasPorViaje();
   }
 

@@ -371,9 +371,13 @@ export class ActuItinerarioComponent implements OnInit, AfterViewInit {
     const input = document.getElementById('autocomplete') as HTMLInputElement;
     const mapElement = document.getElementById('map');
 
+    // Usa la ubicación del itinerario si está disponible, si no, usa la de Madrid
+    const lat = this.itinerario.latitud ? parseFloat(this.itinerario.latitud) : 40.4168;
+    const lng = this.itinerario.longitud ? parseFloat(this.itinerario.longitud) : -3.7038;
+
     if (mapElement) {
       this.map = new google.maps.Map(mapElement, {
-        center: { lat: 40.4168, lng: -3.7038 },
+        center: { lat, lng },
         zoom: 13,
       });
     }
@@ -384,6 +388,7 @@ export class ActuItinerarioComponent implements OnInit, AfterViewInit {
     this.marker = new google.maps.Marker({
       map: this.map,
       draggable: true,
+      position: { lat, lng }, // Coloca el marcador en la ubicación inicial
     });
 
     autocomplete.addListener('place_changed', () => {
@@ -399,7 +404,6 @@ export class ActuItinerarioComponent implements OnInit, AfterViewInit {
       this.itinerario.latitud = lat.toString();
       this.itinerario.longitud = lng.toString();
 
-      // Actualizar también el formulario para mantenerlo sincronizado
       this.formularioItinerario.patchValue({
         latitud: this.itinerario.latitud,
         longitud: this.itinerario.longitud
