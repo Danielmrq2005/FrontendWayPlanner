@@ -96,7 +96,9 @@
     </div>
 
     <!-- Selector de segmentos (tabs) para cambiar entre maletas y billetes -->
-    <ion-segment [(ngModel)]="segmento_seleccionado" (ionChange)="Segmento_cambiado($event)">
+    <ion-segment *ngIf="!mostrarFormularioBillete && !mostrarFormularioMaleta && !estaEditandoBillete && !estaEditandoMaleta"
+                 [(ngModel)]="segmento_seleccionado"
+                 (ionChange)="Segmento_cambiado($event)">
       <ion-segment-button value="lista_maletas">
         <ion-label>Maletas</ion-label>
       </ion-segment-button>
