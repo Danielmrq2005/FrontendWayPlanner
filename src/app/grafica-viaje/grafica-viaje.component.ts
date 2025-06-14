@@ -38,7 +38,7 @@ export class GraficaViajeComponent implements OnInit, AfterViewInit {
         barPercentage: 0.5,
         categoryPercentage: 0.5,
         borderRadius: 6,
-        maxBarThickness: 40
+        maxBarThickness: 80         // Incrementar grosor máximo de barras
       },
       {
         data: [0],                  // Datos de gastos (inicialmente 0)
@@ -49,12 +49,12 @@ export class GraficaViajeComponent implements OnInit, AfterViewInit {
         barPercentage: 0.5,
         categoryPercentage: 0.5,
         borderRadius: 6,
-        maxBarThickness: 40
+        maxBarThickness: 80         // Incrementar grosor máximo de barras
       }
     ]
   };
 
-  // Opciones del gráfico: diseño, estilos, animaciones, escalas y plugins
+// Opciones del gráfico: diseño, estilos, animaciones, escalas y plugins
   public barChartOptions: ChartConfiguration<'bar'>['options'] = {
     responsive: true,
     maintainAspectRatio: false,
@@ -95,8 +95,8 @@ export class GraficaViajeComponent implements OnInit, AfterViewInit {
         }
       },
       datalabels: {
-        anchor: 'end',    // Posición de etiquetas de datos
-        align: 'end',
+        anchor: 'center',    // Posición de etiquetas de datos
+        align: 'center',
         color: this.darkMode ? '#fff' : '#333',
         formatter: (value) => `${value}€`,  // Formato etiqueta con símbolo euro
         font: { weight: 'bold', size: 12 }

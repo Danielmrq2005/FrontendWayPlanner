@@ -39,6 +39,179 @@
       font-size: 2rem;
       color: #6ba1d8;
     }
+
+    body {
+      background-color: #ffffff;
+    }
+
+    .top-bar {
+      background-color: #93c5fd;
+      padding: 1rem;
+      border-bottom-left-radius: 20px;
+      border-bottom-right-radius: 20px;
+    }
+
+    .nav-tabs {
+      .nav-link {
+        &.active {
+          background-color: #e5e7eb;
+        }
+      }
+    }
+
+    .item-card {
+      border: 1px solid #93c5fd;
+      border-radius: 10px;
+      padding: 0.75rem 1rem;
+      margin-bottom: 0.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      background-color: #93c5fd;
+      display: flex;
+      justify-content: space-around;
+      padding: 0.5rem 0;
+      border-top-left-radius: 20px;
+      border-top-right-radius: 20px;
+    }
+
+    .floating-btn {
+      position: fixed;
+      bottom: 80px;
+      right: 20px;
+      background-color: #3b82f6;
+      color: white;
+      border-radius: 50%;
+      font-size: 24px;
+      width: 50px;
+      height: 50px;
+      text-align: center;
+      line-height: 50px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .floating-btn:hover {
+      /* Como si pulsara */
+      transform: scale(1.1);
+      transition: background-color 0.3s, transform 0.3s;
+      cursor: pointer;
+      box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+    }
+
+
+    .app-container {
+      background-color: var(--ion-background-color);
+      color: var(--ion-text-color);
+
+      &.dark {
+        --ion-background-color: #121212;
+        --ion-text-color: #ffffff;
+      }
+    }
+
+    .main-content {
+      background-color: var(--ion-background-color);
+      color: var(--ion-text-color);
+      transition: margin-left 0.3s ease, background-color 0.3s ease;
+      flex: 1;
+      margin-left: 45px;
+      min-height: 100vh;
+      width: calc(100% - 45px);
+
+      @media (max-width: 768px) {
+        margin-left: 0;
+        width: 100%;
+        padding-bottom: 80px;
+      }
+    }
+
+    .app-container.sidebar-expanded .main-content {
+      margin-left: 200px;
+      width: calc(100% - 200px);
+    }
+
+    .titulo {
+      font-size: 2rem;
+      color: var(--ion-color-primary);
+      margin: 1rem 0;
+    }
+
+    .dark {
+      .titulo {
+        color: #DC2786FF;
+      }
+    }
+    .floating-btn {
+      position: fixed;
+      bottom: 80px;
+      right: 20px;
+      background-color: var(--ion-color-primary);
+      color: white;
+      border-radius: 50%;
+      font-size: 24px;
+      width: 50px;
+      height: 50px;
+      text-align: center;
+      line-height: 50px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+      z-index: 1000;
+
+      &:hover {
+        transform: scale(1.1);
+        transition: transform 0.3s;
+        cursor: pointer;
+        box-shadow: 0 6px 8px rgba(0, 0, 0, 0.4);
+      }
+    }
+
+    .dark {
+      .floating-btn {
+        background-color: #DC2786FF;
+      }
+    }
+
+    ion-toolbar {
+      --background: var(--ion-color-primary);
+      --color: #ffffff;
+    }
+
+
+    .dark {
+      ion-header ion-toolbar {
+        --background: #1f1f1f;
+      }
+
+
+      ion-segment {
+        --background: #1f1f1f;
+      }
+    }
+
+    @media (min-width: 769px) {
+      ion-fab {
+        margin-bottom: 16px;
+      }
+    }
+
+
+
+    ion-fab {
+      z-index: 1000;
+      margin-bottom: 70px;
+    }
+
+    @media (min-width: 769px) {
+      ion-fab {
+        margin-bottom: 16px;
+      }
+    }
+
   </style>
 </head>
 

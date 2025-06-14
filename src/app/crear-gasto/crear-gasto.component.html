@@ -37,8 +37,13 @@
       </div>
 
       <div class="button-container">
-        <ion-button type="submit" style="--background: #ffffff; --color: #5B97D5;" expand="block" [disabled]="gastoForm.invalid">
-          Crear Gasto
+        <ion-button fill="solid" color="danger" size="small" (click)="cancelar()">
+          <ion-icon slot="start" name="close-circle"></ion-icon>
+          Cancelar
+        </ion-button>
+        <ion-button fill="solid" color="primary" size="small" type="submit" [disabled]="gastoForm.invalid">
+          <ion-icon slot="start" name="checkmark-circle"></ion-icon>
+          Ok
         </ion-button>
       </div>
     </form>

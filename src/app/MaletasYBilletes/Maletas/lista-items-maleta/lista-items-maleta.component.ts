@@ -11,20 +11,22 @@ import { jsPDF } from 'jspdf';
 import {VerItemDTO} from "../../../Modelos/Maletas/Items/VerItemDTO";
 import {FormEditarObjetoMaletaComponent} from "../form-editar-objeto-maleta/form-editar-objeto-maleta.component";
 import {TemaService} from "../../../Servicios/tema.service";
+import {MenuHamburguesaComponent} from "../../../menu-hamburguesa/menu-hamburguesa.component";
 
 @Component({
     selector: 'app-lista-items-maleta',
     templateUrl: './lista-items-maleta.component.html',
     styleUrls: ['./lista-items-maleta.component.scss'],
     standalone: true,
-  imports: [
-    IonicModule,
-    RouterLink,
-    NgForOf,
-    NgIf,
-    FormItemMaletaComponent,
-    FormEditarObjetoMaletaComponent
-  ]
+    imports: [
+        IonicModule,
+        RouterLink,
+        NgForOf,
+        NgIf,
+        FormItemMaletaComponent,
+        FormEditarObjetoMaletaComponent,
+        MenuHamburguesaComponent
+    ]
 })
 export class ListaItemsMaletaComponent implements OnInit {
 
@@ -42,6 +44,14 @@ export class ListaItemsMaletaComponent implements OnInit {
   @Output() editandoItem = new EventEmitter<boolean>();  // Evento para comunicar si se está editando un item
 
   darkMode = false;  // Controla modo oscuro (tema)
+
+  viajeId: number = 0;
+  sidebarExpanded = false;
+
+  // Alterna la expansión del menú hamburguesa
+  toggleSidebar() {
+    this.sidebarExpanded = !this.sidebarExpanded;
+  }
 
   constructor(
     private route: ActivatedRoute,  // Para obtener parámetros de ruta (como ID)

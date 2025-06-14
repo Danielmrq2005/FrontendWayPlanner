@@ -50,6 +50,11 @@ export class CrearIngresoComponent  implements OnInit {
     });
   }
 
+  cancelar() {
+    // Método para cancelar la creación del gasto y redirigir a la lista de gastos
+    this.router.navigate(['/gastos', this.ingresoForm.get('viajeId')?.value]);
+  }
+
   ngOnInit() {
     this.route.params.subscribe(params => {
       const id = params['id'];

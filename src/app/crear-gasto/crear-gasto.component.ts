@@ -49,6 +49,11 @@ export class CrearGastoComponent  implements OnInit {
     });
   }
 
+  cancelar() {
+    // Método para cancelar la creación del gasto y redirigir a la lista de gastos
+    this.router.navigate(['/gastos', this.gastoForm.get('viajeId')?.value]);
+  }
+
   ngOnInit() {
     // Se obtiene el ID del viaje desde la URL y se asigna al formulario
     this.route.params.subscribe(params => {

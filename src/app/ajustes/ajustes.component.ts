@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {IonicModule} from "@ionic/angular";
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {NotificacionesService} from "../Servicios/notificaciones.service";
 import {jwtDecode} from "jwt-decode";
 import {UsuarioService} from "../Servicios/usuario.service";
@@ -31,7 +31,8 @@ export class AjustesComponent  implements OnInit {
     private usuarioService: UsuarioService,
     private permisosService: PermisosService,
     private temaService: TemaService,
-    private notificacionesservice: NotificacionesService
+    private notificacionesservice: NotificacionesService,
+    private route: ActivatedRoute
   ) {}
 
   async ngOnInit() {
@@ -82,6 +83,11 @@ export class AjustesComponent  implements OnInit {
       this.locationEnabled = false;
       await this.permisosService.savePermissionSettings('location', false);
     }
+  }
+
+  volver() {
+    const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+    this.router.navigateByUrl(returnUrl);
   }
 
   // Cambiar el modo oscuro

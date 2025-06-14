@@ -10,20 +10,22 @@ import {IonIcon} from "@ionic/angular/standalone";
 import {FormEditarBilleteComponent} from "../form-editar-billete/form-editar-billete.component";
 import {VerBilleteDTO} from "../../../Modelos/Billetes/VerBilleteDTO";
 import {TemaService} from "../../../Servicios/tema.service";
+import {MenuHamburguesaComponent} from "../../../menu-hamburguesa/menu-hamburguesa.component";
 
 @Component({
   selector: 'app-lista-billetes',
   templateUrl: './lista-billetes.component.html',
   styleUrls: ['./lista-billetes.component.scss'],
   standalone: true,
-  imports: [
-    IonicModule,
-    NgForOf,
-    NgIf,
-    RouterLink,
-    FormBilleteComponent,
-    FormEditarBilleteComponent
-  ]
+    imports: [
+        IonicModule,
+        NgForOf,
+        NgIf,
+        RouterLink,
+        FormBilleteComponent,
+        FormEditarBilleteComponent,
+        MenuHamburguesaComponent
+    ]
 })
 export class ListaBilletesComponent implements OnInit {
 
@@ -42,6 +44,15 @@ export class ListaBilletesComponent implements OnInit {
   @Output() viendoBillete = new EventEmitter<boolean>();
 
   darkMode = false;
+
+
+  viajeId: number = 0;
+  sidebarExpanded = false;
+
+  // Alterna la expansión del menú hamburguesa
+  toggleSidebar() {
+    this.sidebarExpanded = !this.sidebarExpanded;
+  }
 
   constructor(
     private route: ActivatedRoute,

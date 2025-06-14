@@ -203,110 +203,228 @@
       color: white;
     }
 
+
+    .app-container {
+      background-color: var(--ion-background-color);
+      color: var(--ion-text-color);
+
+      &.dark {
+        --ion-background-color: #121212;
+        --ion-text-color: #ffffff;
+      }
+    }
+
+    .main-content {
+      background-color: var(--ion-background-color);
+      color: var(--ion-text-color);
+      transition: margin-left 0.3s ease, background-color 0.3s ease;
+      flex: 1;
+      margin-left: 45px;
+      min-height: 100vh;
+      width: calc(100% - 45px);
+
+      @media (max-width: 768px) {
+        margin-left: 0;
+        width: 100%;
+        padding-bottom: 80px;
+      }
+    }
+
+    .app-container.sidebar-expanded .main-content {
+      margin-left: 200px;
+      width: calc(100% - 200px);
+    }
+
+    .titulo {
+      font-size: 2rem;
+      color: var(--ion-color-primary);
+      margin: 1rem 0;
+    }
+
+    .dark {
+      .titulo {
+        color: #DC2786FF;
+      }
+    }
+    .floating-btn {
+      position: fixed;
+      bottom: 80px;
+      right: 20px;
+      background-color: var(--ion-color-primary);
+      color: white;
+      border-radius: 50%;
+      font-size: 24px;
+      width: 50px;
+      height: 50px;
+      text-align: center;
+      line-height: 50px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+      z-index: 1000;
+
+      &:hover {
+        transform: scale(1.1);
+        transition: transform 0.3s;
+        cursor: pointer;
+        box-shadow: 0 6px 8px rgba(0, 0, 0, 0.4);
+      }
+    }
+
+    .dark {
+      .floating-btn {
+        background-color: #DC2786FF;
+      }
+    }
+
+    ion-toolbar {
+      --background: var(--ion-color-primary);
+      --color: #ffffff;
+    }
+
+
+    .dark {
+      ion-header ion-toolbar {
+        --background: #1f1f1f;
+      }
+
+
+      ion-segment {
+        --background: #1f1f1f;
+      }
+    }
+
+    @media (min-width: 769px) {
+      ion-fab {
+        margin-bottom: 16px;
+      }
+    }
+
+
+
+    ion-fab {
+      z-index: 1000;
+      margin-bottom: 70px;
+    }
+
+    @media (min-width: 769px) {
+      ion-fab {
+        margin-bottom: 16px;
+      }
+    }
+
+
   </style> <!-- Estilos para el componente lista-billetes -->
 </head>
 <body>
+<!-- Contenedor principal del layout -->
+<div class="app-container" [class.dark]="darkMode" [class.sidebar-expanded]="sidebarExpanded">
 
-<!-- Header -->
-<ion-header>
-  <!-- Toolbar -->
-  <ion-toolbar [style]="{'--background': darkMode ? '#1f1f1f' : '#5B97D5'}" style="display: flex; align-items: center; justify-content: space-between; padding: 0 16px;">
-
-    <ion-buttons slot="start">
-      <img src="../../../../assets/logo.png" alt="Logo" style="height: 25px; margin-left: 10px; margin-right: 8px;">
-    </ion-buttons>
-
-    <ion-title style="
-      position: absolute;
-      left: 50%;
-      top: 50%;
-      transform: translate(-50%, -50%);
-      font-size: 1.5rem;
-      font-weight: bold;
-      color: white;
-      margin: 0;
-    ">
-      Inicio
-    </ion-title>
-
-    <ion-buttons slot="end" style="margin-right: 10px;">
-      <ion-button fill="clear" [routerLink]="['/notificaciones']">
-        <img src="../../../../assets/icons8-campana-48.png" alt="Notificaciones" style="width: 30px; height: 30px;">
-      </ion-button>
-    </ion-buttons>
-
-  </ion-toolbar>
-</ion-header>
+  <!-- Menú lateral (hamburguesa) con expansión controlada por evento -->
+  <app-menu-hamburguesa (expansionChange)="sidebarExpanded = $event" [viajeId]="viajeId"></app-menu-hamburguesa>
+  <div class="main-content" [class.dark]="darkMode">
 
 
-<!-- Título -->
-<div class="text-center mt-3">
-  <!-- Título de la página -->
-  <h2 class="titulo fw-bold">{{ billeteNombre }}</h2>
-</div>
+  <!-- Header -->
+    <ion-header>
+      <!-- Toolbar -->
+      <ion-toolbar [style]="{'--background': darkMode ? '#1f1f1f' : '#5B97D5'}" style="display: flex; align-items: center; justify-content: space-between; padding: 0 16px;">
 
-<!-- Lista de billetes -->
-<div *ngIf="!mostrarFormulario && !mostrarFormularioEdicion" class="container mt-3 mb-5"> <!-- Si no se está mostrando el formulario, muestra la lista de billetes -->
-  <!-- Verifica si hay billetes en la categoría -->
-  <ng-container *ngIf="billetes.length > 0; else sinBilletes">
-    <!-- Muestra los billetes en tarjetas -->
-    <div class="item-card" *ngFor="let billete of billetes" (click)="verBillete($event, billete)"> <!-- Al hacer clic en un billete, llama a la función verBillete -->
-      <!-- Obtiene el nombre de la categoría del billete -->
-      <div class="left-content">
-        <!-- Muestra el emoji de la categoría y el nombre del billete -->
-        <span class="icono">{{ getEmojiPorCategoria(categoriaNombre) }}</span>
-        <span class="item-nombre">{{ billete.nombre }}</span>
-      </div>
+        <ion-buttons slot="start">
+          <img src="../../../../assets/logo.png" alt="Logo" style="height: 25px; margin-left: 10px; margin-right: 8px;">
+        </ion-buttons>
 
-      <!-- Muestra las acciones a la derecha -->
-      <div class="acciones-derecha">
-        <!-- Icono de información -->
-        <i
-          class="bi bi-pencil icono-editar"
-          title="Editar billete"
-          (click)="editarBillete($event, billete)"
-        ></i>
-        <!-- Icono de flecha hacia adelante para ir a detalles -->
-        <ion-icon name="chevron-forward-outline" class="icono-ir"></ion-icon>
-      </div>
+        <ion-title style="
+          position: absolute;
+          left: 50%;
+          top: 50%;
+          transform: translate(-50%, -50%);
+          font-size: 1.5rem;
+          font-weight: bold;
+          color: white;
+          margin: 0;
+        ">
+          Inicio
+        </ion-title>
+
+        <ion-buttons slot="end" style="margin-right: 10px;">
+          <ion-button fill="clear" [routerLink]="['/notificaciones']">
+            <img src="../../../../assets/icons8-campana-48.png" alt="Notificaciones" style="width: 30px; height: 30px;">
+          </ion-button>
+        </ion-buttons>
+
+      </ion-toolbar>
+    </ion-header>
+
+
+    <!-- Título -->
+    <div class="text-center mt-3">
+      <!-- Título de la página -->
+      <h2 class="titulo fw-bold">{{ billeteNombre }}</h2>
     </div>
-  </ng-container>
 
-  <!-- Mensaje si no hay billetes -->
-  <ng-template #sinBilletes>
-    <!-- Muestra un mensaje si no hay billetes disponibles -->
-    <div class="text-center mt-5 text-muted">
-      <!-- Icono de billete perforado -->
-      <i class="bi bi-ticket-perforated" style="font-size: 2rem;"></i>
-      <!-- Mensaje de no hay billetes -->
-      <p class="mt-3">No hay billetes disponibles en esta categoría.</p>
+    <!-- Lista de billetes -->
+    <div *ngIf="!mostrarFormulario && !mostrarFormularioEdicion" class="container mt-3 mb-5"> <!-- Si no se está mostrando el formulario, muestra la lista de billetes -->
+      <!-- Verifica si hay billetes en la categoría -->
+      <ng-container *ngIf="billetes.length > 0; else sinBilletes">
+        <!-- Muestra los billetes en tarjetas -->
+        <div class="item-card" *ngFor="let billete of billetes" (click)="verBillete($event, billete)"> <!-- Al hacer clic en un billete, llama a la función verBillete -->
+          <!-- Obtiene el nombre de la categoría del billete -->
+          <div class="left-content">
+            <!-- Muestra el emoji de la categoría y el nombre del billete -->
+            <span class="icono">{{ getEmojiPorCategoria(categoriaNombre) }}</span>
+            <span class="item-nombre">{{ billete.nombre }}</span>
+          </div>
+
+          <!-- Muestra las acciones a la derecha -->
+          <div class="acciones-derecha">
+            <!-- Icono de información -->
+            <i
+              class="bi bi-pencil icono-editar"
+              title="Editar billete"
+              (click)="editarBillete($event, billete)"
+            ></i>
+            <!-- Icono de flecha hacia adelante para ir a detalles -->
+            <ion-icon name="chevron-forward-outline" class="icono-ir"></ion-icon>
+          </div>
+        </div>
+      </ng-container>
+
+      <!-- Mensaje si no hay billetes -->
+      <ng-template #sinBilletes>
+        <!-- Muestra un mensaje si no hay billetes disponibles -->
+        <div class="text-center mt-5 text-muted">
+          <!-- Icono de billete perforado -->
+          <i class="bi bi-ticket-perforated" style="font-size: 2rem;"></i>
+          <!-- Mensaje de no hay billetes -->
+          <p class="mt-3">No hay billetes disponibles en esta categoría.</p>
+        </div>
+      </ng-template>
     </div>
-  </ng-template>
+
+    <!-- Formulario para agregar un nuevo billete -->
+    <ng-container *ngIf="mostrarFormulario">
+      <!-- Si se está mostrando el formulario, muestra el componente de formulario de billete -->
+      <app-form-billete (cancelado)="FormularioCancelado()" (billeteGuardado)="cargarBilletes()"></app-form-billete>
+    </ng-container>
+
+    <!-- Botón flotante para agregar billete -->
+    <ion-icon
+      name="add-circle"
+      class="floating-btn"
+      *ngIf="!mostrarFormulario && !mostrarFormularioEdicion"
+      (click)="mostrarFormulario = true">
+    </ion-icon>
+
+    <!-- Formulario para editar un billete -->
+    <app-form-editar-billete
+      *ngIf="mostrarFormularioEdicion && billeteSeleccionado"
+      [billete]="billeteSeleccionado"
+      (EdicionActualizada)="guardarEdicionBillete($event)"
+      (EdicionCancelada)="cancelarEdicionBillete()"
+      (BilleteEliminado)="eliminarBillete($event)"
+      [soloLectura]="modoSoloLectura">
+    </app-form-editar-billete>
+  </div>
 </div>
-
-<!-- Formulario para agregar un nuevo billete -->
-<ng-container *ngIf="mostrarFormulario">
-  <!-- Si se está mostrando el formulario, muestra el componente de formulario de billete -->
-  <app-form-billete (cancelado)="FormularioCancelado()" (billeteGuardado)="cargarBilletes()"></app-form-billete>
-</ng-container>
-
-<!-- Botón flotante para agregar billete -->
-<ion-icon
-  name="add-circle"
-  class="floating-btn"
-  *ngIf="!mostrarFormulario && !mostrarFormularioEdicion"
-  (click)="mostrarFormulario = true">
-</ion-icon>
-
-<!-- Formulario para editar un billete -->
-<app-form-editar-billete
-  *ngIf="mostrarFormularioEdicion && billeteSeleccionado"
-  [billete]="billeteSeleccionado"
-  (EdicionActualizada)="guardarEdicionBillete($event)"
-  (EdicionCancelada)="cancelarEdicionBillete()"
-  (BilleteEliminado)="eliminarBillete($event)"
-  [soloLectura]="modoSoloLectura">
-</app-form-editar-billete>
 
 
 <!-- Bootstrap JS -->

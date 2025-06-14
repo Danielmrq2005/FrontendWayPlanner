@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { IonicModule } from "@ionic/angular";
+import {AlertController, IonicModule} from "@ionic/angular";
 import { VerGastos } from "../Modelos/VerGastos";
 import { GastosService } from "../Servicios/gastos.service";
 import { CommonModule, CurrencyPipe, NgForOf } from "@angular/common";
@@ -33,7 +33,8 @@ export class GastosComponent implements OnInit {
   constructor(
     private gastosService: GastosService, // Servicio para manejar operaciones de gastos
     private route: ActivatedRoute, // Obtener parámetros de la ruta
-    private temaService: TemaService // Servicio para manejar el tema oscuro
+    private temaService: TemaService, // Servicio para manejar el tema oscuro
+    private alert: AlertController // Controlador de alertas para mostrar mensajes al usuario
   ) {
     // Suscripción al estado del modo oscuro
     this.temaService.darkMode$.subscribe(isDark => {
@@ -83,15 +84,35 @@ export class GastosComponent implements OnInit {
     console.log('ID del gasto:', id);
   }
 
-  eliminarGasto(id: number) {
-    // Llama al servicio para eliminar un gasto por ID
-    this.gastosService.eliminarGasto(id).subscribe({
-      next: () => {
-        this.CargarGastos(); // Recargar los datos tras la eliminación
-      },
-      error: (error) => {
-        console.error('Error al eliminar gasto:', error);
-      }
+  async eliminarGasto(id: number) {
+    const alert = await this.alert.create({
+      header: 'Confirmar eliminación',
+      message: '¿Estás seguro de que deseas eliminar este gasto?',
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+          handler: () => {
+            console.log('Eliminación cancelada');
+          }
+        },
+        {
+          text: 'Eliminar',
+          role: 'destructive',
+          handler: () => {
+            this.gastosService.eliminarGasto(id).subscribe({
+              next: () => {
+                this.CargarGastos(); // Recargar los datos tras la eliminación
+                console.log('Gasto eliminado');
+              },
+              error: (error) => {
+                console.error('Error al eliminar gasto:', error);
+              }
+            });
+          }
+        }
+      ]
     });
+    await alert.present();
   }
 }

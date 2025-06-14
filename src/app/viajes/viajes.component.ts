@@ -89,6 +89,11 @@ export class ViajesComponent implements OnInit {
     this.router.navigate(['/actu-usuario'], { queryParams: { returnUrl: currentUrl } });
   }
 
+  NavegaAjus() {
+    const currentUrl = this.router.url;
+    this.router.navigate(['/ajustes'], { queryParams: { returnUrl: currentUrl } });
+  }
+
   ngOnInit() {
 
     this.mensajeService.mensaje$.subscribe(async mensaje => {

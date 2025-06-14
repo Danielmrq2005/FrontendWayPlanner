@@ -50,6 +50,11 @@ export class ActuUsuarioComponent implements OnInit {
     });
   }
 
+
+  volver() {
+    const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+    this.router.navigateByUrl(returnUrl);
+  }
   // Método que se ejecuta al iniciar el componente
   ngOnInit() {
     this.idusuario = this.obtenerUsuarioId();
