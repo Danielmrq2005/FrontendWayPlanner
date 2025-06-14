@@ -21,18 +21,21 @@
       <ion-input type="number" min="1" placeholder="Ej. 2" [(ngModel)]="item.cantidad"></ion-input>
     </ion-item>
 
-    <!-- Campo: Categoría del ítem -->
-    <ion-item lines="none" class="maleta-item">
-      <ion-label position="stacked">Categoría</ion-label>
-      <ion-select placeholder="Elige una categoría" [(ngModel)]="item.categoria">
-        <ion-select-option value="ROPA">Ropa</ion-select-option>
-        <ion-select-option value="ELECTRONICA">Electrónica</ion-select-option>
-        <ion-select-option value="HIGIENE">Higiene</ion-select-option>
-        <ion-select-option value="DOCUMENTOS">Documentos</ion-select-option>
-        <ion-select-option value="ACCESORIOS">Accesorios</ion-select-option>
-        <ion-select-option value="OTRO">Otro</ion-select-option>
-      </ion-select>
-    </ion-item>
+    <div>
+      <!-- Label para el campo de tipo de ítem -->
+      <ion-label class="label-categoria" position="stacked">Categoría</ion-label>
+      <!-- Campo: Categoría del ítem -->
+      <ion-item lines="none" class="maleta-item">
+        <ion-select placeholder="Elige una categoría" [(ngModel)]="item.categoria">
+          <ion-select-option value="ROPA">Ropa</ion-select-option>
+          <ion-select-option value="ELECTRONICA">Electrónica</ion-select-option>
+          <ion-select-option value="HIGIENE">Higiene</ion-select-option>
+          <ion-select-option value="DOCUMENTOS">Documentos</ion-select-option>
+          <ion-select-option value="ACCESORIOS">Accesorios</ion-select-option>
+          <ion-select-option value="OTRO">Otro</ion-select-option>
+        </ion-select>
+      </ion-item>
+    </div>
 
     <!-- Botones de acción: Cancelar, Eliminar, Guardar -->
     <div class="maleta-footer">
@@ -150,6 +153,15 @@
   ion-item ion-input,
   ion-item ion-select {
     margin-top: 0;
+  }
+
+  .label-categoria {
+    font-weight: 500;
+    color: #333;
+    font-size: 16px;
+    padding-left: 20px;
+    margin-bottom: 8px;
+    display: block;
   }
 
 </style>

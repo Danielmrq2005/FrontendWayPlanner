@@ -23,20 +23,21 @@
       <ion-input placeholder="Ingresa un título" [(ngModel)]="tituloMaleta"></ion-input>
     </ion-item>
 
-    <!-- Campo: Tipo de Maleta (select) -->
-    <ion-item lines="none" class="maleta-item">
+    <div>
       <!-- Label para el campo de tipo de maleta -->
-      <ion-label position="stacked">Tipo de Maleta</ion-label>
+      <ion-label class="maleta-label" position="stacked">Tipo de Maleta</ion-label>
       <!-- Select para elegir el tipo de maleta -->
-      <ion-select placeholder="Elige el tipo de maleta" [(ngModel)]="tipoMaleta">
-        <ion-select-option value="MALETA_FACTURADA">Maleta Facturada</ion-select-option>
-        <ion-select-option value="MALETA_CABINA">Maleta de Cabina</ion-select-option>
-        <ion-select-option value="MALETIN_PORTATIL">Maletín del Portátil</ion-select-option>
-        <ion-select-option value="MOCHILA">Mochila</ion-select-option>
-        <ion-select-option value="BOLSO">Bolso</ion-select-option>
-        <ion-select-option value="OTRO">Otro</ion-select-option>
-      </ion-select>
-    </ion-item>
+      <ion-item lines="none" class="maleta-item">
+        <ion-select placeholder="Elige el tipo de maleta" [(ngModel)]="tipoMaleta">
+          <ion-select-option value="MALETA_FACTURADA">Maleta Facturada</ion-select-option>
+          <ion-select-option value="MALETA_CABINA">Maleta de Cabina</ion-select-option>
+          <ion-select-option value="MALETIN_PORTATIL">Maletín del Portátil</ion-select-option>
+          <ion-select-option value="MOCHILA">Mochila</ion-select-option>
+          <ion-select-option value="BOLSO">Bolso</ion-select-option>
+          <ion-select-option value="OTRO">Otro</ion-select-option>
+        </ion-select>
+      </ion-item>
+    </div>
 
     <!-- Campo: Peso -->
     <ion-item lines="none" class="maleta-item">
@@ -221,4 +222,14 @@
     --min-height: 28px;
     font-size: 0.75rem;
   }
+
+  .maleta-label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: #333;
+    font-size: 16px;
+    padding-left: 20px;
+  }
+
 </style>
