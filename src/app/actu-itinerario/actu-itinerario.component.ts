@@ -102,17 +102,17 @@ export class ActuItinerarioComponent implements OnInit, AfterViewInit {
   ngOnInit() {
     this.formularioItinerario = this.fb.group({
       actividad: [this.itinerario.actividad, Validators.required],
-      categoria: [this.itinerario.categoria],
-      hora: [this.itinerario.hora],
-      duracion: [this.itinerario.duracion],
-      latitud: [this.itinerario.latitud],
-      longitud: [this.itinerario.longitud],
+      categoria: [this.itinerario.categoria, Validators.required],
+      hora: [this.itinerario.hora, Validators.required],
+      duracion: [this.itinerario.duracion, ],
+      latitud: [this.itinerario.latitud,Validators.required],
+      longitud: [this.itinerario.longitud,Validators.required],
       estaEnRuta: [this.itinerario.estaEnRuta],
       apareceEnItinerario: [this.itinerario.apareceEnItinerario],
       idbillete: [this.itinerario.idbillete],
       iddia: [this.itinerario.iddia],
       foto: [this.itinerario.foto],
-      medioTransporte: [this.itinerario.medioTransporte, Validators.required],
+      medioTransporte: [this.itinerario.medioTransporte],
       horarios: this.fb.array(this.itinerario.horarios.map(horario => this.crearHorarioFormGroup(horario)))
     });
 
@@ -323,8 +323,18 @@ export class ActuItinerarioComponent implements OnInit, AfterViewInit {
         this.itinerario.iddia = value;
       });
 
+
+
       // Obtener todos los valores actualizados desde el formulario
       const valoresFormulario = { ...this.formularioItinerario.value, id: this.itinerario.id };
+
+      if (valoresFormulario.medioTransporte === '') {
+        valoresFormulario.medioTransporte = null;
+      }
+
+      if (valoresFormulario.duracion === '') {
+        valoresFormulario.duracion = null;
+      }
 
       // Asegurar que el campo horarios incluye los actuales del FormArray
       valoresFormulario.horarios = this.horariosFormArray.value;

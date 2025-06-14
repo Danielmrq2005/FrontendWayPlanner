@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar color="light">
-    <ion-title class="titulo-itinerario">Actualizar Itinerario</ion-title>
+    <ion-title class="titulo-itinerario">Actualizar Actividad</ion-title>
     <ion-buttons slot="end">
       <ion-button (click)="cancelar()" class="btn-primario">Cerrar</ion-button>
     </ion-buttons>
@@ -34,14 +34,18 @@
           <ion-item>
             <ion-label position="floating">Medio de transporte</ion-label>
             <ion-select formControlName="medioTransporte">
-              <ion-select-option *ngFor="let medio of mediosTransporte" [value]="medio">{{ medio }}</ion-select-option>
+              <ion-select-option *ngFor="let medio of mediosTransporte" [value]="medio">
+                {{ medio.charAt(0) + medio.slice(1).toLowerCase() }}
+              </ion-select-option>
             </ion-select>
           </ion-item>
 
           <ion-item>
             <ion-label position="floating">Categoría</ion-label>
             <ion-select formControlName="categoria">
-              <ion-select-option *ngFor="let categoria of categorias" [value]="categoria">{{ categoria }}</ion-select-option>
+              <ion-select-option *ngFor="let categoria of categorias" [value]="categoria">
+                {{ categoria.charAt(0) + categoria.slice(1).toLowerCase() }}
+              </ion-select-option>
             </ion-select>
           </ion-item>
 
@@ -78,11 +82,11 @@
         </ion-item>
 
         <ion-item>
-          <ion-label>¿Aparece en itinerario?</ion-label>
+          <ion-label>¿Aparece en la actividad?</ion-label>
           <ion-toggle formControlName="apareceEnItinerario" (ionChange)="onToggleApareceEnItinerario($event)"></ion-toggle>
         </ion-item>
 
-        <h3 class="titulo-horarios">Horarios del itinerario</h3>
+        <h3 class="titulo-horarios">Horarios de la actividad</h3>
 
         <h4 class="subtitulo">Añadir nuevo horario</h4>
         <div [formGroup]="formularioHorarioManual">
@@ -90,7 +94,9 @@
             <label>Día de la semana:</label>
             <select formControlName="diaHorario" required>
               <option value="" disabled selected>Selecciona un día de la semana</option>
-              <option *ngFor="let dia of diasSemana" [value]="dia">{{ dia }}</option>
+              <option *ngFor="let dia of diasSemana" [value]="dia">
+                {{ dia.charAt(0) + dia.slice(1).toLowerCase() }}
+              </option>
             </select>
           </div>
 

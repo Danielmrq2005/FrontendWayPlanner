@@ -81,7 +81,6 @@
           id="medioTransporte"
           name="medioTransporte"
           [(ngModel)]="itinerario.medioTransporte"
-          required
         >
           <option value="" disabled selected>Selecciona un medio de transporte</option>
           <option value="ANDANDO">Andando</option>
@@ -106,7 +105,6 @@
           placeholder="2 horas"
           [(ngModel)]="itinerario.duracion"
           #duracion="ngModel"
-          required
           minlength="2"
         />
       </div>
@@ -121,7 +119,9 @@
           required
         >
           <option value="" disabled selected>Selecciona una categoría</option>
-          <option *ngFor="let categoria of categoriaItinerario" [value]="categoria">{{ categoria }}</option>
+          <option *ngFor="let categoria of categoriaItinerario" [value]="categoria">
+            {{ categoria.charAt(0) + categoria.slice(1).toLowerCase() }}
+          </option>
         </select>
       </div>
 

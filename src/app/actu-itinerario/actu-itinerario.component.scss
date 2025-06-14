@@ -339,4 +339,29 @@ ion-select {
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
+/* Ajustes específicos para el select de “Medio de transporte” (y válidos para todos los ion-select) */
+ion-item ion-select {
+  /* Deja espacio a la derecha para el icono */
+  --padding-end: calc(var(--input-padding-horizontal, 0.75rem) + 1.5rem);
+  position: relative;
+}
+
+ion-select::part(icon) {
+  /* Sácalo del flujo y céntralo verticalmente */
+  position: absolute;
+  top: 50%;
+  right: var(--input-padding-horizontal, 0.5rem);
+  transform: translateY(-50%);
+  z-index: 3;
+  pointer-events: none;
+}
+
+/* Aplica solo a labels flotantes dentro de ion-item */
+ion-item ion-label[position="floating"] {
+  margin-bottom: 0.5rem;  /* ajusta este valor a tu gusto */
+  display: block;         /* para que margin-bottom funcione correctamente */
+}
+
+
+
 

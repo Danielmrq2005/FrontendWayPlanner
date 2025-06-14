@@ -391,9 +391,16 @@ export class CrearItinerarioComponent  implements OnInit, AfterViewInit {
       this.itinerario.latitud,
       this.itinerario.longitud,
       this.itinerario.hora,
-      this.itinerario.duracion,
       this.itinerario.categoria,
     ];
+
+    if(this.itinerario.medioTransporte === ''){
+      this.itinerario.medioTransporte = null;
+    }
+
+    if(this.itinerario.duracion === ''){
+      this.itinerario.duracion = null;
+    }
 
     if (camposObligatorios.some(c => !c || c.trim() === '')) {
       await this.presentAlert('Por favor, completa todos los campos obligatorios del itinerario.');
@@ -402,7 +409,6 @@ export class CrearItinerarioComponent  implements OnInit, AfterViewInit {
 
     // Si no hay foto seleccionada, usa una por defecto
     if (!this.fotoSeleccionada) {
-      console.info('coñooooooooo')
       const response = await fetch('assets/default.jpg');
       const blob = await response.blob();
       this.fotoSeleccionada = new File([blob], 'default.jpg', { type: blob.type });
