@@ -1,5 +1,5 @@
 <!-- Contenedor completo -->
-<ion-card id="form-billete" class="billete-card" style="display: block;">
+<ion-card id="form-billete" class="billete-card" [class.edit-mode]="!soloLectura" style="display: block;">
   <!-- Encabezado del billete -->
   <div class="billete-header">
     <!-- Icono y título del billete -->
@@ -23,26 +23,30 @@
       </ion-input>
     </ion-item>
 
-    <!-- Select de categoría -->
-    <ion-item lines="none" class="ion-margin-top">
-      <!-- Label de categoría -->
-      <ion-label position="stacked">Categoría</ion-label>
 
-      <!-- Select para elegir la categoría del billete -->
-      <ion-select
-        placeholder="Elige la categoría del Billete"
-        [(ngModel)]="categoriaBillete"
-        [disabled]="soloLectura">
-        <ion-select-option value="AVION">Avión</ion-select-option>
-        <ion-select-option value="TREN">Tren</ion-select-option>
-        <ion-select-option value="AUTOBUS">Autobús</ion-select-option>
-        <ion-select-option value="BARCO">Barco</ion-select-option>
-        <ion-select-option value="CONCIERTO">Concierto</ion-select-option>
-        <ion-select-option value="MUSEO">Museo</ion-select-option>
-        <ion-select-option value="EVENTO">Evento</ion-select-option>
-        <ion-select-option value="OTRO">Otro</ion-select-option>
-      </ion-select>
-    </ion-item>
+    <div>
+      <!-- Label de categoría -->
+      <ion-label class="label-categoria" position="stacked">Categoría</ion-label>
+
+      <!-- Select de categoría -->
+      <ion-item lines="none" class="ion-margin-top">
+        <!-- Select para elegir la categoría del billete -->
+        <ion-select
+          placeholder="Elige la categoría del Billete"
+          [(ngModel)]="categoriaBillete"
+          [disabled]="soloLectura">
+          <ion-select-option value="AVION">Avión</ion-select-option>
+          <ion-select-option value="TREN">Tren</ion-select-option>
+          <ion-select-option value="AUTOBUS">Autobús</ion-select-option>
+          <ion-select-option value="BARCO">Barco</ion-select-option>
+          <ion-select-option value="CONCIERTO">Concierto</ion-select-option>
+          <ion-select-option value="MUSEO">Museo</ion-select-option>
+          <ion-select-option value="EVENTO">Evento</ion-select-option>
+          <ion-select-option value="OTRO">Otro</ion-select-option>
+        </ion-select>
+      </ion-item>
+    </div>
+
 
     <!-- Área de subida de PDF más estética -->
     <div class="pdf-upload-container ion-margin-top">
@@ -271,4 +275,41 @@
     border-radius: 10px;
   }
 
+
+  /* Estilos aplicados solo en modo edición */
+  .edit-mode ion-input,
+  .edit-mode ion-select {
+    --background: #f9fafe;
+    --padding-start: 10px;
+    --border-radius: 10px;
+    border: 1px solid #ccd5e0;
+    transition: all 0.3s ease;
+  }
+
+  .edit-mode ion-input:focus-within,
+  .edit-mode ion-select:focus-within {
+    border: 1px solid #5B97D5;
+    box-shadow: 0 0 0 2px rgba(91, 151, 213, 0.3);
+  }
+
+  .edit-mode ion-item ion-label {
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: #333;
+  }
+
+  /* Ajuste para eliminar separación innecesaria */
+  ion-item ion-input,
+  ion-item ion-select {
+    margin-top: 0;
+  }
+
+  .label-categoria {
+    font-weight: 500;
+    color: #333;
+    font-size: 16px;
+    padding-left: 20px;
+    margin-bottom: -10px;
+    display: block;
+  }
 </style>
