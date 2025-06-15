@@ -124,7 +124,7 @@ export class RutasComponent implements AfterViewInit {
 
     setTimeout(() => {
       this.map.invalidateSize();
-    }, 300);
+    }, 800);
   }
 
   obtenerItinerariosEnRuta(idViaje: string) {
