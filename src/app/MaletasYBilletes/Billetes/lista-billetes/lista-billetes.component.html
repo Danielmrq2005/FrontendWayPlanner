@@ -309,7 +309,7 @@
         </ion-buttons>
 
         <ion-buttons slot="start">
-          <img src="../../../../assets/logo.png" alt="Logo" style="height: 25px; margin-left: 10px; margin-right: 8px;">
+          <img *ngIf="!sidebarExpanded" src="../../../../assets/logo.png" alt="Logo" style="height: 25px; margin-left: 10px; margin-right: 8px;">
         </ion-buttons>
 
         <ion-title style="

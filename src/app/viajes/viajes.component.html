@@ -28,7 +28,7 @@
       <ion-toolbar [style]="{'--background': darkMode ? '#1f1f1f' : '#5B97D5'}" style="display: flex; align-items: center; justify-content: space-between; padding: 0 16px;">
         <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: nowrap; width: 100%; gap: 8px;">
           <div style="display: flex; align-items: center; flex-shrink: 1;">
-            <img src="assets/logo.png" alt="Logo" style="height: 28px; margin-right: -5px;">
+            <img *ngIf="!sidebarExpanded" src="assets/logo.png" alt="Logo" style="height: 28px; margin-right: -5px;">
             <ion-title style="font-size: 1em; color: white; margin: 0;">Viajes</ion-title>
           </div>
 
