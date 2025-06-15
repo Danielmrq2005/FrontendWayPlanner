@@ -9,7 +9,7 @@ import { VerMaletasDTO } from "../Modelos/Maletas/ver-maletas-dto";
   providedIn: 'root'
 })
 export class MaletaService {
-  private baseUrl = 'http://localhost:8080/maletas';
+  private baseUrl = 'https://wayplanner-b04aebc10d26.herokuapp.com/maletas';
 
   constructor(private http: HttpClient) {}
 

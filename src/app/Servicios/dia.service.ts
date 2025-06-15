@@ -11,7 +11,7 @@ export class DiaService {
   constructor(private http: HttpClient) { }
 
   // URL base de la API para días
-  private apiUrl = "http://localhost:8080/dia";
+  private apiUrl = "https://wayplanner-b04aebc10d26.herokuapp.com/dia";
 
   // Obtiene los días asociados a un viaje por su ID
   obtenerDias(viajeId: number): Observable<Dia[]> {

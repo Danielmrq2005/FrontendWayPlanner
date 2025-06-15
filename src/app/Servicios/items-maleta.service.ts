@@ -11,7 +11,7 @@ import {VerItemDTO} from "../Modelos/Maletas/Items/VerItemDTO";
   providedIn: 'root'
 })
 export class ItemsMaletaService {
-  private baseUrl = 'http://localhost:8080/itemsMaleta';
+  private baseUrl = 'https://wayplanner-b04aebc10d26.herokuapp.com/itemsMaleta';
 
   constructor(private http: HttpClient) {}
 

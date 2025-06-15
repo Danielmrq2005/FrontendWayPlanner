@@ -8,7 +8,7 @@ import {Observable} from "rxjs";
   providedIn: 'root' // Hace que el servicio esté disponible en toda la app
 })
 export class ItineariosService {
-  private url: string = 'http://localhost:8080/itinerarios'; // URL base de la API
+  private url: string = 'https://wayplanner-b04aebc10d26.herokuapp.com/itinerarios'; // URL base de la API
 
   constructor(private http: HttpClient) { }
 

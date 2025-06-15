@@ -8,7 +8,7 @@ import {Horario} from "../Modelos/Horario";
 export class HorarioService {
 
   // URL base de la API para horarios
-  private url: string = 'http://localhost:8080/horario';
+  private url: string = 'https://wayplanner-b04aebc10d26.herokuapp.com/horario';
 
   constructor(private http: HttpClient) { }
 

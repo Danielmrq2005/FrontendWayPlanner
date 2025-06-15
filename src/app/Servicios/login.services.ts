@@ -10,7 +10,7 @@ import {Login} from "../Modelos/Login";
 
 export class LoginService {
 
-  private apiUrl = 'http://localhost:8080'
+  private apiUrl = 'https://wayplanner-b04aebc10d26.herokuapp.com'
 
   private authState = new BehaviorSubject<boolean>(!!sessionStorage.getItem('authToken'));
   authState$ = this.authState.asObservable();

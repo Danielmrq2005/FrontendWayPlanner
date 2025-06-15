@@ -7,7 +7,7 @@ import {Notificacion} from "../Modelos/notificacion";
   providedIn: 'root'
 })
 export class NotificacionesService {
-  private url: string = 'http://localhost:8080/notificaciones';
+  private url: string = 'https://wayplanner-b04aebc10d26.herokuapp.com/notificaciones';
 
   constructor(private http: HttpClient) { }
 
@@ -21,7 +21,7 @@ export class NotificacionesService {
 
   establecerHoraNotificacion(id: number, hora: string): Observable<void> {
     const body = { hora };
-    return this.http.put<void>(`http://localhost:8080/notificaciones/establecer-hora/${id}`, body);
+    return this.http.put<void>(`https://wayplanner-b04aebc10d26.herokuapp.com/notificaciones/establecer-hora/${id}`, body);
   }
 
 }

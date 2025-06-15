@@ -10,7 +10,7 @@ import {Gastos} from "../Modelos/gastos";
 })
 export class GastosService {
 
-  private apiUrl = "http://localhost:8080/gastos";
+  private apiUrl = "https://wayplanner-b04aebc10d26.herokuapp.com/gastos";
 
 
   constructor(private http: HttpClient) {

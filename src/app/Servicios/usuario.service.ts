@@ -11,7 +11,7 @@ import {Login} from "../Modelos/Login";
 
 export class UsuarioService {
 
-  private apiUrl = 'http://localhost:8080/usuario'
+  private apiUrl = 'https://wayplanner-b04aebc10d26.herokuapp.com/usuario'
 
   constructor(private http: HttpClient) {
   }

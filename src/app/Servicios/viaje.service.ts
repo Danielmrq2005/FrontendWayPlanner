@@ -8,7 +8,7 @@ import {Dia} from "../Modelos/Dia";
   providedIn: 'root'
 })
 export class ViajeService{
-  private baseUrl: string = 'http://localhost:8080/viajes';
+  private baseUrl: string = 'https://wayplanner-b04aebc10d26.herokuapp.com/viajes';
 
   constructor(private http: HttpClient) { }
 
