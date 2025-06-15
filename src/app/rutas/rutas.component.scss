@@ -10,13 +10,12 @@ ion-fab-button {
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  padding: 0 16px;
   box-sizing: border-box;
 }
 
 .toolbar-left {
   display: flex;
-  align-items: center;
+  align-items: start;
   flex: 1;
   min-width: 0;
 }
@@ -35,6 +34,8 @@ ion-fab-button {
   overflow: hidden;
   text-overflow: ellipsis;
   flex-shrink: 1;
+  padding-top: 4px;
+  padding-left: 0px;
 }
 
 .select-notif-wrapper {

@@ -6,38 +6,39 @@
         </ion-back-button>
       </ion-buttons>
 
-      <div style="display: flex; align-items: center;">    <div class="toolbar-flex">
-        <!-- Lado izquierdo: logo + título -->
-        <div class="toolbar-left">
-          <img src="assets/logo.png" alt="Logo" class="logo" />
-          <ion-title class="titulo">Rutas {{this.viajeNombre}}</ion-title>
-        </div>
+      <div style="display: flex; align-items: center;">
+        <div class="toolbar-flex">
+          <!-- Lado izquierdo: logo + título -->
+          <div class="toolbar-left">
+            <img src="assets/logo.png" alt="Logo" class="logo" />
+            <ion-title class="titulo">Rutas {{this.viajeNombre}}</ion-title>
+          </div>
 
-        <!-- Lado derecho: select + campana -->
-        <div class="select-notif-wrapper">
-          <ion-select
-            id="selectDia"
-            interface="popover"
-            placeholder="Día"
-            class="select-dia"
-            [(ngModel)]="diaSeleccionado"
-            (ionChange)="onDiaSeleccionado($event.detail.value)"
-          >
-            <ion-select-option *ngIf="!dias || dias.length === 0" [disabled]="true">
-              Crea un día
-            </ion-select-option>
-            <ion-select-option *ngFor="let dia of dias" [value]="dia.id">
-              Día {{ dia.numeroDia }}
-            </ion-select-option>
-          </ion-select>
+          <!-- Lado derecho: select + campana -->
+          <div class="select-notif-wrapper">
+            <ion-select
+              id="selectDia"
+              interface="popover"
+              placeholder="Día"
+              class="select-dia"
+              [(ngModel)]="diaSeleccionado"
+              (ionChange)="onDiaSeleccionado($event.detail.value)"
+            >
+              <ion-select-option *ngIf="!dias || dias.length === 0" [disabled]="true">
+                Crea un día
+              </ion-select-option>
+              <ion-select-option *ngFor="let dia of dias" [value]="dia.id">
+                Día {{ dia.numeroDia }}
+              </ion-select-option>
+            </ion-select>
 
-          <img
-            src="assets/icons8-campana-48.png"
-            alt="Notificaciones"
-            [routerLink]="['/notificaciones']"
-            class="icon-notif"
-          />
-        </div>
+            <img
+              src="assets/icons8-campana-48.png"
+              alt="Notificaciones"
+              [routerLink]="['/notificaciones']"
+              class="icon-notif"
+            />
+          </div>
         </div>
       </div>
     </ion-toolbar>
