@@ -9,8 +9,8 @@
 
         <img *ngIf="!sidebarExpanded" src="../../../assets/logo.png" alt="Logo" style="height: 25px; margin-left: 10px; margin-right: 8px;">
 
-        <ion-title style="margin-right: -12px; font-size: 1em; color: white">Itinerarios {{this.viajeNombre}}</ion-title>
-        <img src="assets/icons8-campana-48.png" alt="Notificaciones" [routerLink]="['/notificaciones']"  style="width: 30px; height: 30px;">
+        <ion-title class="titulo-truncado">Itinerario {{this.viajeNombre}}</ion-title>
+        <img src="assets/icons8-campana-48.png" alt="Notificaciones" [routerLink]="['/notificaciones']"  style="width: 30px; height: 30px; margin-left: auto;">
       </div>
       </ion-toolbar>
     </ion-header>
