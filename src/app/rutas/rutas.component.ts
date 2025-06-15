@@ -63,6 +63,11 @@ export class RutasComponent implements AfterViewInit {
     });
   }
 
+  volver() {
+    const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+    this.router.navigateByUrl(returnUrl);
+  }
+
   ngOnInit() {
     this.idViaje = this.route.snapshot.paramMap.get('id');
     if (this.idViaje) {

@@ -24,7 +24,7 @@
       <ion-icon name="calendar-outline" class="menu-icon"></ion-icon>
       <span class="menu-label">Itinerarios</span>
     </div>
-    <div class="menu-item" [routerLink]="['/rutas', viajeId]">
+    <div class="menu-item" (click)="navegaRutas()">
       <ion-icon name="navigate-outline" class="menu-icon"></ion-icon>
       <span class="menu-label">Rutas</span>
     </div>

@@ -1,5 +1,11 @@
   <ion-header>
     <ion-toolbar [style]="{'--background': darkMode ? '#1f1f1f' : '#5B97D5'}" style="display: flex; align-items: center; justify-content: space-between; padding: 0 16px;">
+      <ion-buttons slot="start" style="margin-right: 10px; z-index: 100;">
+        <ion-back-button defaultHref="/maletas" (click)="volver()"
+                         style="color: white; display: block; --padding-start: 0; --padding-end: 0;">
+        </ion-back-button>
+      </ion-buttons>
+
       <div style="display: flex; align-items: center;">    <div class="toolbar-flex">
         <!-- Lado izquierdo: logo + título -->
         <div class="toolbar-left">
