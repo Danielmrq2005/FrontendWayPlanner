@@ -1,21 +1,32 @@
-import { AfterViewInit, Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+  ViewChild
+} from '@angular/core';
 import * as L from 'leaflet';
-import {ActionSheetController, AlertController, IonicModule, IonModal} from "@ionic/angular";
+import {
+  ActionSheetController,
+  AlertController,
+  IonicModule,
+  IonModal
+} from "@ionic/angular";
 import { addIcons } from "ionicons";
-import {add, mapOutline} from "ionicons/icons";
+import { add, mapOutline } from "ionicons/icons";
 import { FormsModule } from "@angular/forms";
 import { OverlayEventDetail } from "@ionic/core/components";
-import {NgForOf, NgIf} from "@angular/common";
-import {ActivatedRoute, Router, RouterLink} from "@angular/router";
-import { HttpClient } from "@angular/common/http";
+import { NgForOf, NgIf } from "@angular/common";
+import { ActivatedRoute, Router, RouterLink } from "@angular/router";
 
 import { DiaService } from "../Servicios/dia.service";
 import { ItineariosService } from "../Servicios/itinearios.service";
 import { Itinerario } from "../Modelos/Itinerario";
 import { Dia } from "../Modelos/Dia";
 import { DiasItinerario } from "../Modelos/DiasItinerario";
-import {TemaService} from "../Servicios/tema.service";
-import {ViajeService} from "../Servicios/viaje.service";
+import { TemaService } from "../Servicios/tema.service";
+import { ViajeService } from "../Servicios/viaje.service";
 
 @Component({
   selector: 'app-rutas',
@@ -42,7 +53,6 @@ export class RutasComponent implements AfterViewInit {
   diaSeleccionado: any;
   darkMode = false;
   viajeNombre: string = '';
-
 
   private readonly madridCoords: L.LatLngExpression = [40.4168, -3.7038];
 
@@ -82,9 +92,6 @@ export class RutasComponent implements AfterViewInit {
           this.viajeNombre = 'Desconocido';
         }
       });
-
-
-
     }
   }
 
@@ -105,16 +112,12 @@ export class RutasComponent implements AfterViewInit {
       attributionControl: false,
     });
 
-
-    L.control.attribution({
-      position: 'bottomleft'
-    }).addTo(this.map);
+    L.control.attribution({ position: 'bottomleft' }).addTo(this.map);
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '© WayPlanner',
       noWrap: true
     }).addTo(this.map);
-
 
     this.puntos.forEach(p => {
       const mk = L.marker([p.lat, p.lng]);
@@ -125,6 +128,18 @@ export class RutasComponent implements AfterViewInit {
     setTimeout(() => {
       this.map.invalidateSize();
     }, 800);
+
+    requestAnimationFrame(() => {
+      this.map.invalidateSize();
+    });
+  }
+
+  ionViewDidEnter() {
+    setTimeout(() => {
+      if (this.map) {
+        this.map.invalidateSize();
+      }
+    }, 500);
   }
 
   obtenerItinerariosEnRuta(idViaje: string) {
@@ -144,9 +159,7 @@ export class RutasComponent implements AfterViewInit {
   private obtenerDiasPorViaje(idViaje: number) {
     this.diaService.obtenerDias(idViaje).subscribe({
       next: (diasRecibidos) => {
-        this.dias = diasRecibidos;
-        this.dias = this.dias.sort((a, b) => a.numeroDia - b.numeroDia);
-
+        this.dias = diasRecibidos.sort((a, b) => a.numeroDia - b.numeroDia);
         const dia1 = this.dias.find(d => d.id === 0);
         if (dia1) {
           this.diaSeleccionado = dia1.id;
@@ -158,8 +171,6 @@ export class RutasComponent implements AfterViewInit {
       }
     });
   }
-
-
 
   onDiaSeleccionado(idDia?: number) {
     const diaSel = this.dias.find(d => d.id === idDia);
@@ -185,17 +196,15 @@ export class RutasComponent implements AfterViewInit {
       return;
     }
 
-    // Verifica que haya al menos dos puntos para crear una ruta
     if (puntos.length < 2) {
       this.mostrarAlerta('Se necesitan al menos dos puntos para crear una ruta.');
       return;
     }
 
-    // Construye la URL de Google Maps para múltiples paradas
     const origen = `${puntos[0].latitud},${puntos[0].longitud}`;
     const destino = `${puntos[puntos.length - 1].latitud},${puntos[puntos.length - 1].longitud}`;
 
-    const waypoints = puntos.slice(1, -1) // todos menos el primero y último
+    const waypoints = puntos.slice(1, -1)
       .map(p => `${p.latitud},${p.longitud}`)
       .join('|');
 
@@ -207,12 +216,10 @@ export class RutasComponent implements AfterViewInit {
     window.open(url, '_blank');
   }
 
-
   private obtenerItinerariosPorDia(dto: DiasItinerario) {
     this.itinerarioService.obtenerItinerariosPorRutaDia(dto).subscribe({
       next: (response: Itinerario[]) => {
         this.itinerariosDia = response;
-        console.log(response);
         this.plotDayItineraries();
         if (this.itinerariosDia.length === 0) {
           this.map.setView(this.madridCoords, 6);
@@ -312,7 +319,6 @@ export class RutasComponent implements AfterViewInit {
           icon: 'remove-circle-outline',
           handler: () => {
             const itinerario = this.itinerarios[index];
-            // Llama a tu servicio para eliminar el itinerario por completo
             this.itinerarioService.borrarEnRuta(itinerario.id).subscribe({
               next: () => {
                 this.itinerarios.splice(index, 1);
@@ -333,7 +339,6 @@ export class RutasComponent implements AfterViewInit {
           role: 'destructive',
           handler: () => {
             const itinerario = this.itinerarios[index];
-            // Llama a tu servicio para eliminar el itinerario por completo
             this.itinerarioService.borrarPorCompleto(itinerario.id).subscribe({
               next: () => {
                 this.itinerarios.splice(index, 1);
@@ -384,6 +389,5 @@ export class RutasComponent implements AfterViewInit {
     });
 
     await alert.present();
-
   }
 }
