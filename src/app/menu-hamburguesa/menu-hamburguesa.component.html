@@ -7,7 +7,6 @@
     <!-- Logo junto al toggle button -->
     <img src="assets/logo.png" alt="Logo Sidebar" class="sidebar-logo" />
   </div>
-
   <div class="menu-items">
     <!-- Principal -->
     <div class="menu-item"  [routerLink]="'/viajes'" >
@@ -20,6 +19,7 @@
       <ion-icon name="bag-outline" class="menu-icon"></ion-icon>
       <span class="menu-label">Inicio</span>
     </div>
+
     <div class="menu-item" [routerLink]="['/itinerarios', viajeId]">
       <ion-icon name="calendar-outline" class="menu-icon"></ion-icon>
       <span class="menu-label">Itinerarios</span>
@@ -38,9 +38,12 @@
       <ion-icon name="person-outline" class="menu-icon"></ion-icon>
       <span class="menu-label">Perfil</span>
     </div>
-    <div class="menu-item" [routerLink]="['/ajustes']">
+    <div class="menu-item" (click)="navegaAjus()">
       <ion-icon name="settings-outline" class="menu-icon"></ion-icon>
       <span class="menu-label" >Ajustes</span>
     </div>
+
+
+
   </div>
 </div>

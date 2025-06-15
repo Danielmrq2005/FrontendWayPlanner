@@ -22,6 +22,7 @@ export class DetallesItinerarioComponent  implements OnInit {
   @Input() itinerario: any;
   // Recibe el id del viaje como input
   @Input() idViaje: string | null = null;
+  @Input() segmentoSeleccionado: string = '';
   // Recibe el día de la semana como input
   @Input() diaSemana: any;
   // URL segura para el mapa de Google Maps
@@ -37,7 +38,6 @@ export class DetallesItinerarioComponent  implements OnInit {
     }
   }
 
-  // Abre Google Maps con la ruta desde la ubicación actual hasta el destino
   abrirRutaEnGoogleMaps() {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
@@ -61,17 +61,14 @@ export class DetallesItinerarioComponent  implements OnInit {
     }
   }
 
-
-  // Cierra el modal actual
   cerrar(requiereRecarga: boolean = false) {
     this.modalCtrl.dismiss({ eliminado: requiereRecarga });
   }
-
-  // Navega a la pantalla de actualización de itinerario y cierra el modal
   irAActualizarItinerario() {
     this.router.navigate(['/actu-itinerario'], { state: { itinerario: this.itinerario, idViaje: this.idViaje } });
     this.cerrar()
   }
+
 
   // Elimina el itinerario usando el servicio y cierra el modal si tiene éxito
   async eliminarItinerario() {
@@ -102,10 +99,20 @@ export class DetallesItinerarioComponent  implements OnInit {
     await alert.present();
   }
 
-
-  // Filtra los horarios del itinerario por el día de la semana recibido
   filtrarHorariosPorDia(itinerario: Itinerario, diaSemana?: string) {
     return itinerario.horarios.filter(horario => horario.dia === diaSemana);
+  }
+
+  getCategoriaFormateada(categoria: string): string {
+    switch (categoria) {
+      case 'MUSEO': return 'Museo';
+      case 'IGLESIA': return 'Iglesia';
+      case 'PARQUE': return 'Parque';
+      case 'MONUMENTO': return 'Monumento';
+      case 'EVENTO': return 'Evento';
+      case 'OTROS': return 'Otros';
+      default: return categoria.charAt(0).toUpperCase() + categoria.slice(1).toLowerCase();
+    }
   }
 
   presentAlert(mensaje: string) {

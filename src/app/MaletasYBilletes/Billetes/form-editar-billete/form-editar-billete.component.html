@@ -1,5 +1,5 @@
 <!-- Contenedor completo -->
-<ion-card id="form-billete" class="billete-card" [class.edit-mode]="!soloLectura" style="display: block;">
+<ion-card id="form-billete" class="billete-card" [class.edit-mode]="!soloLectura" style="display: block;" [class.dark]="darkMode">
   <!-- Encabezado del billete -->
   <div class="billete-header">
     <!-- Icono y título del billete -->
@@ -312,4 +312,50 @@
     margin-bottom: -10px;
     display: block;
   }
+  .billete-card.dark ion-label {
+    color: #e0e0e0;
+  }
+
+  /* Dark mode styles */
+  .billete-card.dark {
+    background-color: #1e1e1e;
+    color: #e0e0e0;
+  }
+
+  .billete-card.dark ion-label {
+    color: #e0e0e0;
+  }
+
+  .billete-card.dark ion-input,
+  .billete-card.dark ion-select {
+    --background: #2a2a2a;
+    --color: #e0e0e0;
+    border: 1px solid #444;
+  }
+
+  .billete-card.dark ion-input::placeholder,
+  .billete-card.dark ion-select::placeholder {
+    color: #aaa;
+  }
+
+  .billete-card.dark .billete-header {
+    background-color: #333;
+    color: #fff;
+  }
+
+  .billete-card.dark .pdf-upload-container {
+    background-color: #2a2a2a;
+    border-color: #444;
+  }
+
+  .billete-card.dark .upload-label {
+    color: #e0e0e0;
+  }
+
+  /* Dark mode styles for the upload button */
+  .billete-card.dark .upload-btn {
+    --background: #6a0dad !important; /* Purple background */
+    --color: #ffffff !important; /* White text */
+  }
+
 </style>

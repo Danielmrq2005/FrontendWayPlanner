@@ -17,6 +17,7 @@ import {Billete} from "../../../Modelos/Billete";
 import {DomSanitizer, SafeResourceUrl} from "@angular/platform-browser";
 import {ActivatedRoute} from "@angular/router";
 import {BilleteService} from "../../../Servicios/billete.service";
+import {TemaService} from "../../../Servicios/tema.service";
 
 @Component({
   selector: 'app-form-editar-billete',
@@ -62,6 +63,8 @@ export class FormEditarBilleteComponent  implements OnInit {
   nombreArchivoPdf: string | null = null;
   vistaPreviaPdfUrl: SafeResourceUrl | null = null;
 
+  darkMode = false;
+
   // Objeto para almacenar los datos del billete actualizado
   billeteActualizado: Billete = {
     nombre: '',
@@ -70,7 +73,12 @@ export class FormEditarBilleteComponent  implements OnInit {
     viajeId: 0
   }
 
-  constructor(private route: ActivatedRoute, private sanitizer: DomSanitizer, private billeteService: BilleteService) { }
+  constructor(private route: ActivatedRoute, private sanitizer: DomSanitizer, private billeteService: BilleteService, private temaSarvice: TemaService) {
+    this.temaSarvice.darkMode$.subscribe(isDark => {
+      this.darkMode = isDark;
+    });
+  }
+
 
   // Detecta cambios en las propiedades de entrada del componente
   ngOnInit() {

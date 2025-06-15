@@ -36,7 +36,7 @@ ion-button.botones {
   --border-radius: 12px;
 }
 
-/*Literalmete esto para desactivar un hover del botón*/
+
 ion-button.botones::part(native) {
   background: white !important;
   color: #5B97D5 !important;
@@ -45,7 +45,7 @@ ion-button.botones::part(native) {
   transition: none !important;
 }
 
-/*Literalmete esto para desactivar un hover del botón*/
+
 ion-button.botones:hover::part(native),
 ion-button.botones:focus::part(native),
 ion-button.botones.ion-focused::part(native) {
@@ -54,9 +54,6 @@ ion-button.botones.ion-focused::part(native) {
   border: 2px solid #5B97D5 !important;
   box-shadow: none !important;
 }
-
-
-
 
 
 .form-title {
@@ -84,14 +81,14 @@ ion-button.botones.ion-focused::part(native) {
 
 .toggle-group label {
   margin: 16px;
-  flex: 1;  /* Para que el label tome todo el espacio posible y el toggle quede pegado al borde derecho */
+  flex: 1;
   font-weight: 600;
   font-size: 1rem;
 }
 
 
 .form-content {
-  padding: 1rem 1.5rem; /* o lo que prefieras */
+  padding: 1rem 1.5rem;
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
@@ -169,7 +166,6 @@ ion-button.botones.ion-focused::part(native) {
 }
 
 ion-button {
-  --background: #5B97D5;
   font-weight: 600;
   border-radius: 12px;
   text-transform: none;
@@ -177,9 +173,6 @@ ion-button {
   transition: background-color 0.3s ease;
 }
 
-ion-button:hover {
-  --background: #4c85c9;
-}
 
 .error-msg {
   color: red;
@@ -231,6 +224,13 @@ ion-button:hover {
   text-align: center;
   margin-left: 1rem;
   transition: background-color 0.3s ease;
+}
+
+.form-group input[type="file"] {
+  border: none;
+  box-shadow: none;
+  outline: none;
+  background: transparent;
 }
 
 .foto:hover {
@@ -314,6 +314,10 @@ ion-button:hover {
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
+.horarioInputFull ion-textarea{
+
+}
+
 .dark {
   ion-content {
     --background: #121212;
@@ -364,10 +368,6 @@ ion-button:hover {
     --placeholder-color: #666;
   }
 
-  ion-button {
-    --background: #5B97D5;
-  }
-
   ion-button[fill="outline"] {
     --border-color: #5B97D5;
     --color: #5B97D5;
@@ -384,6 +384,11 @@ ion-button:hover {
     border-color: #3d3d3d;
   }
 }
+
+.boton-anyadir {
+  --background: #5B97D5;
+}
+
 ion-content {
   &:not(.dark) {
     --background: #f5f5f5; // Light mode background
@@ -391,11 +396,15 @@ ion-content {
 
   &.dark {
     --background: #121212; // Dark mode background
-
+    label{
+      color: #e0e0e0 !important;
+    }
     .form-container {
       background-color: #1e1e1e;
       box-shadow: 0 4px 12px rgba(0,0,0,0.4);
     }
+
+
 
     .form-group {
       input,
@@ -437,10 +446,6 @@ ion-content {
       --placeholder-color: #666;
     }
 
-    ion-button {
-      --background: #5B97D5;
-    }
-
     ion-button[fill="outline"] {
       --border-color: #5B97D5;
       --color: #5B97D5;
@@ -452,11 +457,88 @@ ion-content {
       }
     }
 
+    .button-container {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 20px;
+      gap: 12px;
+    }
+
+    .button-container ion-button.cancelar-btn::part(native) {
+      background: #e74c3c !important;
+      color: white !important;
+      border-radius: 12px !important;
+      font-weight: 600 !important;
+      text-transform: none !important;
+      box-shadow: none !important;
+    }
+
+    .button-container ion-button.crear-btn::part(native) {
+      background: #5B97D5 !important;
+      color: white !important;
+      border-radius: 12px !important;
+      font-weight: 600 !important;
+      text-transform: none !important;
+      box-shadow: none !important;
+    }
+
+
+    ion-button.cancelar-btn::part(native) {
+      border-radius: 12px;
+      font-weight: 600;
+      text-transform: none;
+      box-shadow: none;
+    }
+
+
+    ion-button.crear-btn::part(native) {
+      border-radius: 12px;
+      font-weight: 600;
+      text-transform: none;
+      box-shadow: none;
+    }
+
+
+
+    .horarioInputFull ion-textarea::part(native) {
+      border: none !important;
+      box-shadow: none !important;
+      outline: none !important;
+      background: transparent !important;
+    }
+
     .horarioInputFull {
       background-color: #2d2d2d;
       border-color: #3d3d3d;
     }
   }
+
+  .button-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+    gap: 12px;
+  }
+
+  /* Estilos en tema CLARO también */
+  ion-button.cancelar-btn::part(native) {
+    background: #e74c3c !important;
+    color: white !important;
+    border-radius: 12px;
+    font-weight: 600;
+    text-transform: none;
+    box-shadow: none;
+  }
+
+  ion-button.crear-btn::part(native) {
+    background: #5B97D5 !important;
+    color: white !important;
+    border-radius: 12px;
+    font-weight: 600;
+    text-transform: none;
+    box-shadow: none;
+  }
+
 }
 
 /* Dark mode styles for crear-itinerario */

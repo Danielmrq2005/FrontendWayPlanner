@@ -1,5 +1,5 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
-import {ActivatedRoute, RouterLink} from '@angular/router';
+import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import { MaletaService } from '../../../Servicios/maleta.service';
 import { VerMaletasDTO } from '../../../Modelos/Maletas/ver-maletas-dto';
 import {NgForOf, NgIf} from "@angular/common";
@@ -38,7 +38,8 @@ export class ListaMaletasComponent implements OnInit {
     private route: ActivatedRoute,
     private maletaService: MaletaService,
     private temaService: TemaService,
-    private alertController: AlertController
+    private alertController: AlertController,
+    private router: Router
   ) {
     // Suscripción al observable del modo oscuro para actualizar la variable darkMode
     this.temaService.darkMode$.subscribe(isDark => {
@@ -46,9 +47,16 @@ export class ListaMaletasComponent implements OnInit {
     });
   }
 
+
+
   // Ciclo de vida Angular: se ejecuta al inicializar el componente
   ngOnInit(): void {
     this.cargarMaletas(); // Cargar la lista de maletas al iniciar
+  }
+
+  NavegaMale(maletaId: number) {
+    const currentUrl = this.router.url;
+    this.router.navigate([`/items-maleta/${maletaId}`], { queryParams: { returnUrl: currentUrl } });
   }
 
   // Función para obtener maletas relacionadas a un viaje específico (obteniendo id de la ruta)

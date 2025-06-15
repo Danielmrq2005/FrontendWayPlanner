@@ -12,6 +12,7 @@ import {
 } from "@ionic/angular/standalone";
 import { FormsModule } from "@angular/forms";
 import {VerItemDTO} from "../../../Modelos/Maletas/Items/VerItemDTO";
+import {TemaService} from "../../../Servicios/tema.service";
 
 // Decorador del componente Angular
 @Component({
@@ -47,6 +48,15 @@ export class FormEditarObjetoMaletaComponent implements OnInit, OnChanges {
   categoriaObjeto = '';
 
   // Inicialización: al cargar el componente
+  darkMode = false;
+
+  constructor(private temaService: TemaService) {
+    this.temaService.darkMode$.subscribe(isDark => {
+      this.darkMode = isDark;
+    });
+  }
+
+
   ngOnInit() {
     if (this.item) {
       this.nombreObjeto = this.item.nombre;

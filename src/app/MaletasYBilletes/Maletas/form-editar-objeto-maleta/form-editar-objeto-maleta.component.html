@@ -1,5 +1,5 @@
 <!-- Tarjeta contenedora del formulario del ítem -->
-<ion-card class="maleta-card">
+<ion-card class="maleta-card" [class.dark]="darkMode">
   <!-- Encabezado con icono y nombre del ítem -->
   <div class="maleta-header">
     <ion-icon name="cube" class="maleta-icon"></ion-icon>
@@ -164,4 +164,52 @@
     display: block;
   }
 
+  .maleta-card.dark {
+    background-color: #1e1e1e;
+    color: #e0e0e0;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5);
+  }
+
+  .maleta-card.dark .maleta-header {
+    background-color: #333;
+    color: #fff;
+  }
+
+  .maleta-card.dark ion-input,
+  .maleta-card.dark ion-select {
+    --background: #2a2a2a;
+    --color: #e0e0e0;
+    border: 1px solid #444;
+  }
+
+  .maleta-card.dark ion-input:focus-within,
+  .maleta-card.dark ion-select:focus-within {
+    border: 1px solid #5B97D5;
+    box-shadow: 0 0 0 2px rgba(91, 151, 213, 0.5);
+  }
+
+  .maleta-card.dark .maleta-footer ion-button {
+    --background: #444;
+    --color: #e0e0e0;
+  }
+
+  .maleta-card.dark .maleta-general-aviso {
+    color: #aaa;
+  }
+
+  .maleta-card.dark ion-label {
+    color: #e0e0e0;
+  }
+
+  .maleta-card.dark ion-input,
+  .maleta-card.dark ion-select {
+    --background: #2a2a2a;
+    --color: #e0e0e0;
+    border: 1px solid #444;
+  }
+
+  .maleta-card.dark ion-input::placeholder,
+  .maleta-card.dark ion-select::placeholder {
+    color: #aaa;
+  }
 </style>

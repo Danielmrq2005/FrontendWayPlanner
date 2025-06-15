@@ -102,17 +102,17 @@ export class ActuItinerarioComponent implements OnInit, AfterViewInit {
   ngOnInit() {
     this.formularioItinerario = this.fb.group({
       actividad: [this.itinerario.actividad, Validators.required],
-      categoria: [this.itinerario.categoria],
-      hora: [this.itinerario.hora],
-      duracion: [this.itinerario.duracion],
-      latitud: [this.itinerario.latitud],
-      longitud: [this.itinerario.longitud],
+      categoria: [this.itinerario.categoria, Validators.required],
+      hora: [this.itinerario.hora, Validators.required],
+      duracion: [this.itinerario.duracion, ],
+      latitud: [this.itinerario.latitud,Validators.required],
+      longitud: [this.itinerario.longitud,Validators.required],
       estaEnRuta: [this.itinerario.estaEnRuta],
       apareceEnItinerario: [this.itinerario.apareceEnItinerario],
       idbillete: [this.itinerario.idbillete],
       iddia: [this.itinerario.iddia],
       foto: [this.itinerario.foto],
-      medioTransporte: [this.itinerario.medioTransporte, Validators.required],
+      medioTransporte: [this.itinerario.medioTransporte],
       horarios: this.fb.array(this.itinerario.horarios.map(horario => this.crearHorarioFormGroup(horario)))
     });
 
@@ -219,7 +219,10 @@ export class ActuItinerarioComponent implements OnInit, AfterViewInit {
     this.actualizarHorario(this.itinerario.horarios);
 
     // Resetear formulario manual
-    this.formularioHorarioManual.reset({ cerrado: false });
+    this.formularioHorarioManual.reset({
+      diaHorario: '',
+      cerrado: false
+    });
   }
 
   cancel() {
@@ -230,23 +233,63 @@ export class ActuItinerarioComponent implements OnInit, AfterViewInit {
     this.indiceHorarioEditado = -1;
   }
 
-  eliminarHorario(index: number) {
-    const idHorario = this.itinerario.horarios[index].id
-    this.itinerario.horarios.splice(index, 1);
-    this.horariosFormArray.removeAt(index);
+  // Cambia el valor de estaEnRuta según el toggle de apareceEnItinerario
+  onToggleApareceEnItinerario(event: any) {
+    const aparece = event.detail.checked;
+    const ruta = this.formularioItinerario.get('estaEnRuta')?.value;
+    if (!aparece && !ruta) {
+      this.formularioItinerario.patchValue({ apareceEnItinerario: true });
+      this.presentAlert('Al menos uno debe estar activado.');
+    }
+  }
 
-    this.horarioService.eliminarHorario(idHorario)
-      .subscribe({
-        next: (respuesta) => {
-          console.log('Horario eliminado:', respuesta);
+  onToggleEstaEnRuta(event: any) {
+    const ruta = event.detail.checked;
+    const aparece = this.formularioItinerario.get('apareceEnItinerario')?.value;
+    if (!ruta && !aparece) {
+      this.formularioItinerario.patchValue({ estaEnRuta: true });
+      this.presentAlert('Al menos uno debe estar activado.');
+    }
+  }
+
+  // Métdo para eliminar un horario
+  async eliminarHorario(index: number) {
+    const alert = await this.alertController.create({
+      header: 'Confirmar',
+      message: '¿Seguro que deseas eliminar este horario?',
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel'
         },
-        error: (err) => {
-          this.presentAlert("Error al eliminar el horario: " + err.error.message);
-        },
-        complete: () => {
-          this.presentAlert("Horario eliminado correctamente.");
+        {
+          text: 'Eliminar',
+          handler: () => {
+            const idHorario = this.itinerario.horarios[index].id;
+            this.itinerario.horarios.splice(index, 1);
+            this.horariosFormArray.removeAt(index);
+
+            this.horarioService.eliminarHorario(idHorario)
+              .subscribe({
+                next: (respuesta) => {
+                  console.log('Horario eliminado:', respuesta);
+                },
+                error: (err) => {
+                  this.presentAlert("Error al eliminar el horario: " + err.error.message);
+                },
+                complete: () => {
+                  this.presentAlert("Horario eliminado correctamente.");
+                }
+              });
+          }
         }
-      });
+      ]
+    });
+    await alert.present();
+  }
+
+  cancelar() {
+    this.router.navigate(['/itinerarios/' + this.idViaje]);
   }
 
   actualizarHorario(horarios: Horario[]) {
@@ -280,8 +323,18 @@ export class ActuItinerarioComponent implements OnInit, AfterViewInit {
         this.itinerario.iddia = value;
       });
 
+
+
       // Obtener todos los valores actualizados desde el formulario
       const valoresFormulario = { ...this.formularioItinerario.value, id: this.itinerario.id };
+
+      if (valoresFormulario.medioTransporte === '') {
+        valoresFormulario.medioTransporte = null;
+      }
+
+      if (valoresFormulario.duracion === '') {
+        valoresFormulario.duracion = null;
+      }
 
       // Asegurar que el campo horarios incluye los actuales del FormArray
       valoresFormulario.horarios = this.horariosFormArray.value;
@@ -320,21 +373,24 @@ export class ActuItinerarioComponent implements OnInit, AfterViewInit {
     const input = document.getElementById('autocomplete') as HTMLInputElement;
     const mapElement = document.getElementById('map');
 
-    // Centramos el mapa en Madrid por defecto
+    // Usa la ubicación del itinerario si está disponible, si no, usa la de Madrid
+    const lat = this.itinerario.latitud ? parseFloat(this.itinerario.latitud) : 40.4168;
+    const lng = this.itinerario.longitud ? parseFloat(this.itinerario.longitud) : -3.7038;
+
     if (mapElement) {
       this.map = new google.maps.Map(mapElement, {
-        center: { lat: 40.4168, lng: -3.7038 },
+        center: { lat, lng },
         zoom: 13,
       });
     }
 
-    // Si ya tenemos latitud y longitud, centramos el mapa en esa ubicación
     const autocomplete = new google.maps.places.Autocomplete(input);
     autocomplete.bindTo('bounds', this.map);
 
     this.marker = new google.maps.Marker({
       map: this.map,
       draggable: true,
+      position: { lat, lng }, // Coloca el marcador en la ubicación inicial
     });
 
     // Si el itinerario tiene latitud y longitud, centramos el mapa y colocamos el marcador
@@ -351,13 +407,11 @@ export class ActuItinerarioComponent implements OnInit, AfterViewInit {
       this.itinerario.latitud = lat.toString();
       this.itinerario.longitud = lng.toString();
 
-      // Actualizar también el formulario para mantenerlo sincronizado
       this.formularioItinerario.patchValue({
         latitud: this.itinerario.latitud,
         longitud: this.itinerario.longitud
       });
     });
-
 
     this.map.addListener('click', (e: any) => {
       const clickedLatLng = e.latLng;
@@ -373,21 +427,16 @@ export class ActuItinerarioComponent implements OnInit, AfterViewInit {
     });
   }
 
-  // Métdo para recargar el mapa
   recargarMapa() {
     setTimeout(() => {
       this.inicializarMapa();
     }, 100);
   }
 
-  // Métdo para cerrar el modal
-  async cerrarModal() {
-    if (this.modal) {
-      await this.modal.dismiss();
-    }
+  cerrar() {
+    this.modalCtrl.dismiss();
   }
 
-  // Métdo para manejar el cambio de foto
   onFotoChange(event: any) {
     const file = event.target.files[0];
     if (file) {

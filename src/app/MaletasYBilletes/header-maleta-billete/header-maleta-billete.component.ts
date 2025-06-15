@@ -71,10 +71,7 @@ export class HeaderMaletaBilleteComponent implements OnInit {
     });
   }
 
-  // Alterna la expansión del menú hamburguesa
-  toggleSidebar() {
-    this.sidebarExpanded = !this.sidebarExpanded;
-  }
+
 
   ngOnInit() {
     // Obtener el ID del viaje desde la URL y cargar los datos

@@ -31,54 +31,57 @@
         </div>
       </ion-toolbar>
     </ion-header>
-    <div class="top-tabs">
-      <div class="tabs-container">
-        <span class="tab gasto selected" *ngIf="resumen">
-          ● Gastos
-          <div class="amount">-{{ resumen.totalGastos | currency:'EUR':'symbol' }}</div>
-        </span>
-                <span class="tab total" *ngIf="resumen">
-          = Total
-          <div class="amount">{{ resumen?.saldo | currency:'EUR':'symbol'}}€</div>
-        </span>
-                <span class="tab ingreso" *ngIf="resumen">
-          = Ingresos
-          <div class="amount">+{{ resumen?.totalIngresos | currency:'EUR':'symbol'}} €</div>
-        </span>
+    <ion-card class="resumen-card" [class.dark]="darkMode">
+      <div class="top-tabs">
+        <div class="tabs-container">
+          <span class="tab gasto selected" *ngIf="resumen">
+            ● Gastos
+            <div class="amount">-{{ resumen.totalGastos | currency:'EUR':'symbol' }}</div>
+          </span>
+          <span class="tab total" *ngIf="resumen">
+            = Total
+            <div class="amount">{{ resumen?.saldo | currency:'EUR':'symbol'}}€</div>
+          </span>
+          <span class="tab ingreso" *ngIf="resumen">
+            = Ingresos
+            <div class="amount">+{{ resumen?.totalIngresos | currency:'EUR':'symbol'}} €</div>
+          </span>
+        </div>
+        <ion-icon name="stats-chart-outline" (click)="NavegaGasto()" alt="Gráfico" class="chart-icon"></ion-icon>
       </div>
-      <img src="assets/grafico.png" [routerLink]="['/GraficaViaje', viajeId]" alt="Gráfico" class="chart-icon">
-    </div>
+    </ion-card>
 
-    <ion-list class="gastos-list" [class.dark]="darkMode">
-      <ng-container *ngFor="let dia of Gastos">
-        <ion-item-divider [class.dark]="darkMode">
-          <ion-label class="fecha">{{ dia.fecha }}</ion-label>
-        </ion-item-divider>
-        <ng-container *ngFor="let gasto of dia.gastos">
-          <ion-item lines="none" [class.dark]="darkMode">
-            <ion-icon [name]="gasto.esIngreso ? 'card' : 'wallet'" slot="start" [color]="gasto.esIngreso ? 'success' : 'danger'"></ion-icon>
-            <ion-label>
-              <h2>{{ gasto.titulo }}</h2>
-            </ion-label>
-            <ion-text [color]="gasto.esIngreso ? 'success' : 'danger'">
-              <strong>{{ gasto.esIngreso ? '+' : '-' }}{{ gasto.cantidad | currency:'EUR' }}</strong>
-            </ion-text>
+    <ion-card class="gastos-card" [class.dark]="darkMode">
+      <ion-list class="gastos-list" [class.dark]="darkMode">
+        <ng-container *ngFor="let dia of Gastos">
+          <ion-item-divider [class.dark]="darkMode">
+            <ion-label class="fecha">{{ dia.fecha }}</ion-label>
+          </ion-item-divider>
+          <ng-container *ngFor="let gasto of dia.gastos">
+            <ion-item lines="none" [class.dark]="darkMode">
+              <ion-icon class="icono-cartera" [name]="gasto.esIngreso ? 'card' : 'wallet'" slot="start" [color]="gasto.esIngreso ? 'success' : 'danger'"></ion-icon>
+              <ion-label class="caja-gasto">
+                <div class="gasto-info">
+                  <h2 class="gasto-titulo">{{ gasto.titulo }}</h2>
+                  <span class="categoria-label" [ngClass]="gasto.categoria.toLowerCase()">
+                    {{ gasto.categoria }}
+                  </span>
+                </div>
+              </ion-label>
 
-            <img
-              class="lapiz"
-              src="assets/Lapiz.png"
-              slot="end"
-              [routerLink]="['/actualizar-gasto', gasto.id]"
-              (click)="verificarId(gasto.id)" />
-
-            <img
-              class="papelera"
-              src="assets/eliminar.png"
-              slot="end"
-              (click)="eliminarGasto(gasto.id)" />
-          </ion-item>
+              <ion-text class="cantidad-gasto" [color]="gasto.esIngreso ? 'success' : 'danger'">
+                <strong>{{ gasto.esIngreso ? '+' : '-' }}{{ gasto.cantidad | currency:'EUR' }}</strong>
+              </ion-text>
+              <div class="iconos" slot="end">
+                <ion-icon name="create" class="lapiz" slot="end" [routerLink]="['/actualizar-gasto', gasto.id]" (click)="verificarId(gasto.id)"></ion-icon>
+                <ion-icon name="trash" class="papelera" slot="end" (click)="eliminarGasto(gasto.id)"></ion-icon>
+              </div>
+            </ion-item>
+          </ng-container>
         </ng-container>
-      </ng-container>
-    </ion-list>
+      </ion-list>
+    </ion-card>
+
+
   </div>
 </div>

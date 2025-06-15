@@ -1,6 +1,5 @@
 <div class="app-container" [class.dark]="darkMode" [class.sidebar-expanded]="sidebarExpanded">
   <app-menu-hamburguesa (expansionChange)="sidebarExpanded = $event"></app-menu-hamburguesa>
-
   <div class="main-content" >
     <ion-content>
 
@@ -16,15 +15,18 @@
       </ion-toolbar>
     </ion-header>
 
-      <ion-segment [(ngModel)]="segmentoSeleccionado" [ngModelOptions]="{standalone: true}" (ionChange)="seleccionarSegmento(segmentoSeleccionado)">      <ion-segment-button value="default">
-        <ion-label>Todos</ion-label>
-      </ion-segment-button>
-      <ion-segment-button
-        *ngFor="let dia of diasViaje; let i = index"
-        [value]="'dia' + i">
-        <ion-label>Día {{ i + 1 }}</ion-label>
-      </ion-segment-button>
-    </ion-segment>
+      <div class="segment-scroll-container">
+        <ion-segment [(ngModel)]="segmentoSeleccionado" [ngModelOptions]="{standalone: true}" (ionChange)="seleccionarSegmento(segmentoSeleccionado)">
+          <ion-segment-button value="default">
+            <ion-label>Todos</ion-label>
+          </ion-segment-button>
+          <ion-segment-button
+            *ngFor="let dia of diasViaje; index as i"
+            [value]="'dia' + i">
+            <ion-label>Día {{ dia.numeroDia}}</ion-label>
+          </ion-segment-button>
+        </ion-segment>
+      </div>
 
   <!-- TODOS -->
   <div *ngIf="segmentoSeleccionado === 'default'" class="itinerarios-grid">
@@ -35,6 +37,10 @@
         <ion-card-header>
           <ion-card-title>{{itinerario.actividad}}</ion-card-title>
           <ion-card-subtitle>{{itinerario.duracion}}</ion-card-subtitle>
+          <ion-card-subtitle>
+            {{ getFechaDeItinerario(itinerario.iddia) }}
+          </ion-card-subtitle>
+
         </ion-card-header>
         <ion-card-content>
           <div *ngFor="let horario of itinerario.horarios">
@@ -52,7 +58,7 @@
   <!-- ITINERARIOS POR DÍA -->
       <div *ngIf="segmentoSeleccionado !== 'default'" class="itinerarios-grid">
         <div *ngIf="itinerariosDia.length === 0" class="mensaje-vacio">
-          No hay itinerarios para este día. ¡Añade alguno!
+          No hay itinerario para este día. ¡Añade alguno!
         </div>
     <div class="itinerario-card" *ngFor="let itinerario of itinerariosDia" (click)="abrirDetalle(itinerario)" >
       <ion-card class="carta">
@@ -84,10 +90,10 @@
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
     <ion-fab-list side="top">
-      <ion-fab-button [routerLink]="['/crear-itinerario']">
+      <ion-fab-button (click)="irACrearItinerario()">
         <ion-icon name="create"></ion-icon>
       </ion-fab-button>
-      <ion-fab-button [routerLink]="['/crear-dia']">
+      <ion-fab-button (click)="irACrearDia()">
         <ion-icon name="calendar-number-outline"></ion-icon>
       </ion-fab-button>
       <ion-fab-button *ngIf="segmentoSeleccionado !== 'default'" color="danger" (click)="eliminarDia(diaSeleccionado)">

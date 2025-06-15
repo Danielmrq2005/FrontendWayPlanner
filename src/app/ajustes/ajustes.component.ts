@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {IonicModule} from "@ionic/angular";
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {NotificacionesService} from "../Servicios/notificaciones.service";
 import {jwtDecode} from "jwt-decode";
 import {UsuarioService} from "../Servicios/usuario.service";
@@ -31,16 +31,26 @@ export class AjustesComponent  implements OnInit {
     private usuarioService: UsuarioService,
     private permisosService: PermisosService,
     private temaService: TemaService,
-    private notificacionesservice: NotificacionesService
+    private notificacionesservice: NotificacionesService,
+    private route: ActivatedRoute
   ) {}
 
   async ngOnInit() {
+    // Obtener el ID del usuario desde el token
     this.idusuario = this.obtenerUsuarioId();
+
+    // Cargar configuración de permisos guardada
     await this.loadPermissionSettings();
+
+    // Comprobar si el permiso de ubicación está activo y guardarlo
     const actualLocationState = await this.permisosService.checkLocationPermission();
     this.locationEnabled = actualLocationState;
     await this.permisosService.savePermissionSettings('location', actualLocationState);
+
+    // Obtener el estado inicial del modo oscuro
     this.darkMode = this.temaService.isDarkMode();
+
+    // Suscribirse a los cambios del modo oscuro
     this.temaService.darkMode$.subscribe(isDark => {
       this.darkMode = isDark;
     });
@@ -50,46 +60,56 @@ export class AjustesComponent  implements OnInit {
   }
 
   private async loadPermissionSettings() {
+    // Cargar los permisos de ubicación y almacenamiento desde almacenamiento local
     this.locationEnabled = await this.permisosService.getPermissionSettings('location');
     this.storageEnabled = await this.permisosService.getPermissionSettings('storage');
   }
 
   async onLocationToggle() {
     try {
+      // Si está desactivado, solicitar el permiso
       if (!this.locationEnabled) {
         const granted = await this.permisosService.requestLocationPermission();
         this.locationEnabled = granted;
         await this.permisosService.savePermissionSettings('location', granted);
       } else {
+        // Si está activado, desactivarlo y guardar
         this.locationEnabled = false;
         await this.permisosService.savePermissionSettings('location', false);
       }
     } catch (error) {
+      // En caso de error, desactivar el permiso
       console.error('Error toggling location:', error);
       this.locationEnabled = false;
       await this.permisosService.savePermissionSettings('location', false);
     }
   }
 
+  volver() {
+    const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+    this.router.navigateByUrl(returnUrl);
+  }
 
+  // Cambiar el modo oscuro
   toggleDarkMode() {
     this.temaService.setDarkMode(this.darkMode);
   }
 
   async onStorageToggle() {
+    // Solicitar permiso de almacenamiento y guardarlo
     const granted = await this.permisosService.requestStoragePermission();
     this.storageEnabled = granted;
     await this.permisosService.savePermissionSettings('storage', granted);
   }
 
-
+  // Cerrar sesión y limpiar tema y token
   logout() {
     this.temaService.setDarkMode(false);
     sessionStorage.removeItem('authToken');
     this.router.navigate(['/home']);
   }
 
-
+  // Eliminar el usuario actual y cerrar sesión
   eliminar() {
     if (this.idusuario) {
       this.usuarioService.eliminarUsuarioporId(this.idusuario).subscribe({
@@ -98,7 +118,6 @@ export class AjustesComponent  implements OnInit {
           this.temaService.setDarkMode(false);
           sessionStorage.removeItem('authToken');
           this.router.navigate(['/home']);
-
         },
         error: (error) => {
           console.error('Error al eliminar el usuario', error);
@@ -107,8 +126,7 @@ export class AjustesComponent  implements OnInit {
     }
   }
 
-
-  // Guardar la hora de notificación en la base de datos
+  // Guardar la hora de notificación para el usuario
   guardarHoraNotificacion(hora: string) {
     const id = this.obtenerUsuarioId();
     if (!id) return;
@@ -143,11 +161,7 @@ export class AjustesComponent  implements OnInit {
   }
 
 
-
-
-
-
- // obtener la ID del usuario
+  // Decodificar el token para obtener el ID del usuario
   obtenerUsuarioId(): number {
     const token = sessionStorage.getItem('authToken');
     if (token) {

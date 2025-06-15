@@ -54,6 +54,7 @@ export class CrearItinerarioComponent  implements OnInit, AfterViewInit {
   ngOnInit() {
       this.obtenerViajesPorUsuario();
       this.obtenerDiasPorViaje();
+      this.idViaje = history.state.idViaje;
 
     // Inicializa el valor de apareceEnItinerario si corresponde
     if (!this.itinerario.apareceEnItinerario && !this.itinerario.estaEnRuta) {
@@ -190,6 +191,7 @@ export class CrearItinerarioComponent  implements OnInit, AfterViewInit {
   itinerarioCreadoId?: number;
   diaSeleccionado? : number;
   idBilleteSeleccionado?: number;
+  idViaje? : number;
 
   // Agrega un horario a la lista de horariosCrear
   agregarHorario() {
@@ -389,22 +391,20 @@ export class CrearItinerarioComponent  implements OnInit, AfterViewInit {
       this.itinerario.latitud,
       this.itinerario.longitud,
       this.itinerario.hora,
-      this.itinerario.medioTransporte,
-      this.itinerario.duracion,
       this.itinerario.categoria,
     ];
+
+    if(this.itinerario.medioTransporte === ''){
+      this.itinerario.medioTransporte = null;
+    }
+
+    if(this.itinerario.duracion === ''){
+      this.itinerario.duracion = null;
+    }
 
     if (camposObligatorios.some(c => !c || c.trim() === '')) {
       await this.presentAlert('Por favor, completa todos los campos obligatorios del itinerario.');
       return;
-    }
-
-    // Si no hay foto seleccionada, usa una por defecto
-    if (!this.fotoSeleccionada) {
-      console.info('coñooooooooo')
-      const response = await fetch('assets/default.jpg');
-      const blob = await response.blob();
-      this.fotoSeleccionada = new File([blob], 'default.jpg', { type: blob.type });
     }
 
     this.itinerario.horarios = this.horariosCrear;
@@ -422,7 +422,9 @@ export class CrearItinerarioComponent  implements OnInit, AfterViewInit {
       new Blob([JSON.stringify(itinerarioJson)], { type: 'application/json' })
     );
 
-    formData.append('foto', this.fotoSeleccionada);
+    if (this.fotoSeleccionada) {
+      formData.append('foto', this.fotoSeleccionada);
+    }
 
     this.itinerarioService.crearItinerarioConFoto(formData).subscribe({
       next: (response: any) => {
@@ -459,6 +461,11 @@ export class CrearItinerarioComponent  implements OnInit, AfterViewInit {
         }
       });
     }
+  }
+
+  cancelar() {
+    this.resetearFormulario();
+    this.router.navigate(['/itinerarios/', this.idViaje]);
   }
 
   // Resetea el formulario de itinerario
@@ -539,20 +546,32 @@ export class CrearItinerarioComponent  implements OnInit, AfterViewInit {
 
   // Evento al cambiar el viaje seleccionado
   onViajeChange() {
+    this.diaSeleccionado = undefined;
     this.obtenerDiasPorViaje();
   }
 
   // Cambia el valor de estaEnRuta según el toggle de apareceEnItinerario
   onToggleApareceEnItinerario(event: any) {
-    if (!event.detail.checked) {
-      this.itinerario.estaEnRuta = true;
+    if (!this.itinerario) return;
+    const aparece = event.detail.checked;
+    const ruta = this.itinerario.estaEnRuta;
+    if (!aparece && !ruta) {
+      setTimeout(() => {
+        this.itinerario.apareceEnItinerario = true;
+      }, 0);
+      this.presentAlert('Al menos uno debe estar activado.');
     }
   }
 
-  // Cambia el valor de apareceEnItinerario según el toggle de estaEnRuta
   onToggleEstaEnRuta(event: any) {
-    if (!event.detail.checked) {
-      this.itinerario.apareceEnItinerario = true;
+    if (!this.itinerario) return;
+    const ruta = event.detail.checked;
+    const aparece = this.itinerario.apareceEnItinerario;
+    if (!ruta && !aparece) {
+      setTimeout(() => {
+        this.itinerario.estaEnRuta = true;
+      }, 0);
+      this.presentAlert('Al menos uno debe estar activado.');
     }
   }
 

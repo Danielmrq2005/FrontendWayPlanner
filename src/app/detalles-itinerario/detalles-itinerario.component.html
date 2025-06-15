@@ -11,13 +11,22 @@
 
   <ion-card>
     <img *ngIf="itinerario.foto" [src]="'data:image/jpeg;base64,' + itinerario.foto" class="imagen-itinerario" />
-
     <ion-card-header>
       <ion-row>
-        <ion-card-title class="color-primario">{{ itinerario.actividad }}</ion-card-title>
-        <ion-card-title class="color-primario" style="margin-left: 5%">{{ itinerario.categoria }}</ion-card-title>
+        <ion-col size="8">
+          <ion-card-title class="color-primario">
+            {{ itinerario.actividad }}
+          </ion-card-title>
+          <ion-card-subtitle class="duracion">
+            {{ itinerario.duracion }}
+          </ion-card-subtitle>
+        </ion-col>
+        <ion-col size="4" class="ion-text-end">
+          <ion-card-title class="color-primario">
+            {{ getCategoriaFormateada(itinerario.categoria) }}
+          </ion-card-title>
+        </ion-col>
       </ion-row>
-      <ion-card-subtitle>{{ itinerario.duracion }}</ion-card-subtitle>
     </ion-card-header>
 
     <ion-card-content>
@@ -39,18 +48,20 @@
 
 
         <ion-item>
-          <ion-label><strong>Hora:</strong> {{ itinerario.hora }}</ion-label>
+          <ion-label>Hora: {{ itinerario.hora }}</ion-label>
         </ion-item>
-        <ion-item>
-          <ion-label><strong>Medio de transporte:</strong> {{ itinerario.medioTransporte }}</ion-label>
+        <ion-item *ngIf="itinerario.medioTransporte">
+          <ion-label>
+            Medio de transporte: {{ itinerario.medioTransporte.charAt(0) + itinerario.medioTransporte.slice(1).toLowerCase() }}
+          </ion-label>
         </ion-item>
-        <ion-item>
-          <ion-label><strong>Duración:</strong> {{ itinerario.duracion }}</ion-label>
+        <ion-item *ngIf="itinerario.duracion">
+          <ion-label>Duración: {{ itinerario.duracion }}</ion-label>
         </ion-item>
 
         <ion-item lines="none">
           <ion-label class="icono-estado">
-            <strong>¿Está en ruta?</strong>
+            ¿Está en ruta?
             <ion-icon
               [name]="itinerario.estaEnRuta ? 'checkmark-circle' : 'close-circle'"
               [color]="itinerario.estaEnRuta ? 'success' : 'danger'">
@@ -60,7 +71,7 @@
 
         <ion-item lines="none">
           <ion-label class="icono-estado">
-            <strong>¿Aparece en itinerario?</strong>
+            ¿Aparece en itinerario?
             <ion-icon
               [name]="itinerario.apareceEnItinerario ? 'checkmark-circle' : 'close-circle'"
               [color]="itinerario.apareceEnItinerario ? 'success' : 'danger'">
@@ -70,10 +81,10 @@
 
       </ion-list>
 
-      <ion-label class="titulo-horarios"><strong>Horarios:</strong></ion-label>
+      <ion-label class="titulo-horarios">Horarios:</ion-label>
       <ion-list class="lista-horarios" lines="none">
-        <ng-container *ngIf="filtrarHorariosPorDia(itinerario, diaSemana?.diaSemana).length > 0; else mostrarTodos">
-          <ion-item *ngFor="let horario of filtrarHorariosPorDia(itinerario, diaSemana?.diaSemana)" class="item-horario">
+        <ng-container *ngIf="segmentoSeleccionado === 'default' ? itinerario.horarios.length > 0 : (diaSemana && filtrarHorariosPorDia(itinerario, diaSemana.diaSemana).length > 0); else sinHorarios">
+          <ion-item *ngFor="let horario of (segmentoSeleccionado === 'default' ? itinerario.horarios : filtrarHorariosPorDia(itinerario, diaSemana.diaSemana))" class="item-horario">
             <ion-label>
               {{ horario.dia }} - {{ horario.horaInicio }} - {{ horario.horaFin }}
               <span [style.color]="horario.isClosed ? 'red' : 'green'">
@@ -82,26 +93,28 @@
             </ion-label>
           </ion-item>
         </ng-container>
-        <ng-template #mostrarTodos>
-          <ng-container *ngIf="itinerario.horarios?.length > 0; else sinHorarios">
-            <ion-item *ngFor="let horario of itinerario.horarios" class="item-horario">
-              <ion-label>
-                {{ horario.dia }} - {{ horario.horaInicio }} - {{ horario.horaFin }}
-                <span [style.color]="horario.isClosed ? 'red' : 'green'">
-            {{ horario.isClosed ? '(Cerrado)' : '(Abierto)' }}
-          </span>
-              </ion-label>
-            </ion-item>
-          </ng-container>
-        </ng-template>
         <ng-template #sinHorarios>
           <ion-item>
             <ion-label>Sin horarios para este día</ion-label>
           </ion-item>
         </ng-template>
       </ion-list>
-      <ion-button (click)="irAActualizarItinerario()" class="btn-actualizar">Actualizar Itinerario</ion-button>
-      <ion-button (click)="eliminarItinerario()" class="btn-eliminar">Eliminar Itinerario</ion-button>
+
+      <div class="contenedor-botones">
+        <ion-button class="btn-cancelar" color="danger" (click)="eliminarItinerario()">
+          <ion-icon name="trash" slot="start"></ion-icon>
+          Eliminar
+        </ion-button>
+
+        <ion-button class="btn-actualizar" (click)="irAActualizarItinerario()">
+          Actualizar
+          <ion-icon name="arrow-forward" slot="end"></ion-icon>
+        </ion-button>
+      </div>
+
+
+
+
     </ion-card-content>
   </ion-card>
 </ion-content>

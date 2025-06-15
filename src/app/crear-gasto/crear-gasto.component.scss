@@ -81,19 +81,48 @@
 }
 
 .button-container {
-  text-align: left;
-  margin-top: 2rem;
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
 }
 
-ion-button {
-  font-weight: bold;
-  font-size: 0.8rem;
-  height: 2rem;
-  margin-left: 0;
-  width: 30%;
+.ok-button {
+  --background: #3880ff;
+  --color: #ffffff;
+  &[disabled] {
+    --background: #cccccc !important;
+    --color: #ffffff !important;
+    opacity: 1;
+    cursor: not-allowed;
+  }
 
   .dark & {
     --background: #333333;
     --color: #ffffff;
+
+    &[disabled] {
+      --background: #555555 !important;
+      --color: #ffffff !important;
+    }
   }
 }
+
+
+
+@media (max-width: 480px) {
+  .form-container {
+    padding: 1.5rem;
+    margin: 1rem auto;
+  }
+
+  .form-title {
+    font-size: 1.5rem;
+  }
+}
+
+
+
+
+
+
+

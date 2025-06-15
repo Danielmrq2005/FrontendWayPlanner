@@ -1,6 +1,13 @@
 <ion-header>
-  <ion-toolbar color="primary">
-    <ion-title>Ajustes</ion-title>
+  <ion-toolbar [style]="{'--background': darkMode ? '#1f1f1f' : '#5B97D5'}" style="display: flex; align-items: center; justify-content: space-between; padding: 0 16px;">
+    <div style="display: flex; align-items: center;">
+      <ion-buttons slot="start">
+        <ion-back-button (click)="volver()" style="color: white;"></ion-back-button>
+      </ion-buttons>
+      <div style="display: flex; align-items: center;">
+        <ion-title style="color: white; margin-left: -30px;">Ajustes</ion-title>
+      </div>
+    </div>
   </ion-toolbar>
 </ion-header>
 
@@ -57,16 +64,6 @@
         <ion-toggle
           [(ngModel)]="locationEnabled"
           (ionChange)="onLocationToggle()"
-          slot="end">
-        </ion-toggle>
-      </ion-item>
-
-      <ion-item>
-        <ion-icon name="folder-outline" slot="start"></ion-icon>
-        <ion-label>Almacenamiento</ion-label>
-        <ion-toggle
-          [(ngModel)]="storageEnabled"
-          (ionChange)="onStorageToggle()"
           slot="end">
         </ion-toggle>
       </ion-item>

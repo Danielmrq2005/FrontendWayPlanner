@@ -1,5 +1,5 @@
-<div [class.dark]="darkMode" class="container">
-  <div class="sidebar" [class.expanded]="sidebarExpanded">
+<div [class.dark]="darkMode" class="app-container" [class.sidebar-expanded]="sidebarExpanded">
+  <div class="sidebar" [class.expanded]="sidebarExpanded" [class.dark]="darkMode">
     <div class="header">
       <div class="toggle-button" (click)="toggleSidebar()">
         <ion-icon name="menu-outline"></ion-icon>
@@ -13,60 +13,178 @@
         <ion-icon name="person-outline" class="menu-icon"></ion-icon>
         <span class="menu-label">Perfil</span>
       </div>
-      <div class="menu-item" [routerLink]="'/ajustes'">
+      <div class="menu-item" (click)="NavegaAjus()">
         <ion-icon name="settings-outline" class="menu-icon"></ion-icon>
         <span class="menu-label">Ajustes</span>
       </div>
     </div>
   </div>
+
+  <ion-content [class.dark]="darkMode"
+               [ngClass]="{'main-content': true, 'sidebar-expanded': sidebarExpanded}"
+               style="--background: #ffffff; padding: 16px;">
+
+    <ion-header>
+      <ion-toolbar [style]="{'--background': darkMode ? '#1f1f1f' : '#5B97D5'}" style="display: flex; align-items: center; justify-content: space-between; padding: 0 16px;">
+        <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: nowrap; width: 100%; gap: 8px;">
+          <div style="display: flex; align-items: center; flex-shrink: 1;">
+            <img src="assets/logo.png" alt="Logo" style="height: 28px; margin-right: -5px;">
+            <ion-title style="font-size: 1em; color: white; margin: 0;">Viajes</ion-title>
+          </div>
+
+          <div style="display: flex; align-items: center; gap: 8px; flex-shrink: 0;">
+            <p style="color: white; font-size: 0.75em; margin: 0;">Bienvenido {{ Nombreusuario }}</p>
+            <img src="assets/icons8-campana-48.png" alt="Notificaciones" [routerLink]="['/notificaciones']" style="width: 24px; height: 24px;">
+          </div>
+        </div>
+      </ion-toolbar>
+    </ion-header>
+
+    <div class="viajes-movil">
+      <div class="viaje-movil-grid" *ngIf="viajes?.length">
+        <div class="viaje-movil-item" *ngFor="let viaje of viajes">
+          <img src="assets/icons8-activar-el-modo-avión-50.png" alt="Avión" class="img-avion">
+          <span [routerLink]="['/maletas', viaje.id]">{{viaje.nombre}}</span>
+          <img [routerLink]="['/viajes', viaje.id]" src="assets/icons8-visible-30.png" style="margin-bottom: 22px; width: 20px; height: 20px;" alt="Ver Detalles">
+        </div>
+      </div>
+      <div *ngIf="!viajes?.length" style="text-align: center; margin-top: 12rem; color: #5B97D5; font-size: 2.5rem;">
+        No tienes viajes aún. <br> ¡Crea uno para comenzar tu aventura! 🌍✈️
+      </div>
+    </div>
+
+    <ion-fab horizontal="end" vertical="bottom" slot="fixed">
+      <ion-fab-button style="--background: #5B97D5" href="crear-viaje">
+        <ion-icon name="add"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
+
+  </ion-content>
 </div>
 
-<ion-content [class.dark]="darkMode"
-  [ngClass]="{'main-content': true, 'sidebar-expanded': sidebarExpanded}"
-  style="--background: #ffffff; padding: 16px;">
-
-
-  <ion-header>
-    <ion-toolbar [style]="{'--background': darkMode ? '#1f1f1f' : '#5B97D5'}" style="display: flex; align-items: center; justify-content: space-between; padding: 0 16px;">
-      <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: nowrap; width: 100%; gap: 8px;">
-
-        <div style="display: flex; align-items: center; flex-shrink: 1;">
-          <img *ngIf="!sidebarExpanded" src="../../../assets/logo.png" alt="Logo" style="height: 25px; margin-left: 10px; margin-right: 8px;">
-          <ion-title style="font-size: 1em; color: white; margin: 0;">Viajes</ion-title>
-        </div>
-
-        <div style="display: flex; align-items: center; gap: 8px; flex-shrink: 0;">
-          <p style="color: white; font-size: 0.75em; margin: 0;">Bienvenido {{ Nombreusuario }}</p>
-          <img src="assets/icons8-campana-48.png" alt="Notificaciones" [routerLink]="['/notificaciones']" style="width: 24px; height: 24px;">
-        </div>
-      </div>
-
-    </ion-toolbar>
-
-  </ion-header>
-
-  <div class="viajes-movil">
-    <div  class="viaje-movil-grid" *ngIf="viajes?.length">
-      <div  class="viaje-movil-item"  *ngFor="let viaje of viajes" >
-        <img src="assets/icons8-activar-el-modo-avión-50.png" alt="Avión" class="img-avion">
-        <span [routerLink]="['/maletas', viaje.id]">{{viaje.nombre}}</span>
-        <img [routerLink]="['/viajes', viaje.id]" src="assets/icons8-visible-30.png" style="margin-bottom: 22px; width: 20px; height: 20px;" alt="Ver Detalles">
-      </div>
-    </div>
-    <div *ngIf="!viajes?.length" style="text-align: center; margin-top: 12rem; color: #5B97D5; font-size: 2.5rem;">
-      No tienes viajes aún. <br> ¡Crea uno para comenzar tu aventura! 🌍✈️
-    </div>
-  </div>
-
-  <ion-fab horizontal="end" vertical="bottom" slot="fixed">
-    <ion-fab-button style="--background: #5B97D5" href="crear-viaje">
-      <ion-icon name="add"></ion-icon>
-    </ion-fab-button>
-  </ion-fab>
-
-</ion-content>
-
 <style>
+  .app-container {
+    display: flex;
+    width: 100%;
+    min-height: 100vh;
+    position: relative;
+  }
+
+  .main-content {
+    position: relative;
+    flex: 1;
+    margin-left: 60px;
+    transition: margin-left 0.3s ease;
+    min-height: 100vh;
+    width: calc(100% - 60px);
+  }
+
+  .app-container.sidebar-expanded .main-content {
+    margin-left: 200px;
+    width: calc(100% - 200px);
+  }
+
+  .sidebar {
+    position: fixed;
+    width: 60px;
+    height: 100%;
+    background-color: #5B97D5;
+    color: white;
+    transition: width 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    padding-top: 7px;
+    padding-left: 8px;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+  }
+
+  .sidebar.expanded {
+    width: 200px;
+  }
+
+  .sidebar.dark {
+    background-color: #1f1f1f;
+    color: #ECF0F1;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
+  }
+
+  /* Contenedor para toggle + logo */
+  .header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  /* Logo dentro del sidebar, oculto por defecto */
+  .sidebar-logo {
+    display: none;
+    width: 120px;  /* ajusta tamaño */
+    height: auto;
+  }
+
+  /* Mostrar logo solo cuando sidebar está expandido */
+  .sidebar.expanded .sidebar-logo {
+    display: block;
+  }
+
+  .menu-items {
+    width: 100%;
+    margin-top: 10px;
+    overflow-x: hidden;
+  }
+
+  .menu-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+    cursor: pointer;
+    width: 100%;
+  }
+
+  .menu-item:hover {
+    background-color: #34495e;
+  }
+
+  .menu-label {
+    display: none;
+  }
+
+  .sidebar.expanded .menu-label {
+    display: inline-block;
+  }
+
+  .menu-icon {
+    min-width: 24px;
+    width: 24px;
+    height: 24px;
+  }
+
+  .toggle-button {
+    cursor: pointer;
+    padding: 10px;
+    background-color: rgba(255, 255, 255, 0.15);
+    border: none;
+    border-radius: 8px;
+    color: white;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    font-size: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .toggle-button:hover {
+    background-color: rgba(255, 255, 255, 0.25);
+    transform: scale(1.1);
+  }
+
+  .toggle-button:active {
+    transform: scale(1);
+  }
+
   .viajes-movil {
     padding-top: 16px;
   }
@@ -95,6 +213,11 @@
     cursor: pointer;
   }
 
+  .dark .viaje-movil-item {
+    background-color: #1f1f1f;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  }
+
   .viaje-movil-item:hover {
     transform: translateY(-5px);
   }
@@ -103,6 +226,7 @@
     width: 40px;
     height: 40px;
     flex-shrink: 0;
+    filter: brightness(0) invert(1);
   }
 
   .viaje-movil-item span {
@@ -115,65 +239,75 @@
       max-width: 600px;
     }
   }
+  @media (max-width: 768px) {
+    .sidebar {
+      top: auto;
+      bottom: 0;
+      width: 100%;
+      height: 60px;
+      padding: 0;
+      flex-direction: row;
+      justify-content: center;
+      z-index: 999;
+      gap: 10px;
+    }
 
-  .sidebar {
-    position: fixed;
-    width: 60px;
-    height: 100%;
-    background-color: #5B97D5;
-    color: white;
-    transition: width 0.3s ease;
-    display: flex;
-    flex-direction: column;
-    align-items: start;
-    padding-top: 7px;
-    padding-left: 8px;
-    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-    z-index: 1000;
-  }
+    .sidebar.expanded {
+      width: 100%;
+    }
 
-  .toggle-button {
-    cursor: pointer;
-    padding: 10px;
-    /* margin-right: auto;  <-- quitar esta línea */
-    background-color: rgba(255, 255, 255, 0.15);
-    border: none;
-    border-radius: 8px;
-    color: white;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-    font-size: 24px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
+    .toggle-button {
+      display: none;
+    }
 
 
-  .toggle-button:hover {
-    background-color: rgba(255, 255, 255, 0.25);
-    transform: scale(1.1);
-  }
-
-  .toggle-button:active {
-    transform: scale(1);
-  }
 
 
-  /* Logo dentro del sidebar, oculto por defecto */
-  .sidebar-logo {
-    display: none;
-    width: 120px;  /* ajusta tamaño */
-    height: auto;
-  }
+    .menu-items {
+      display: flex;
+      justify-content: center;
+      gap: 50px;
+      margin: 0;
+      height: 100%;
+      padding: 0 20px;
+      width: 100%;
+    }
 
-  /* Mostrar logo solo cuando sidebar está expandido */
-  .sidebar.expanded .sidebar-logo {
-    display: block;
-  }
+    .menu-item {
+      flex-direction: column;
+      padding: 4px;
+      width: auto;
+      align-items: center;
+      justify-content: center;
+    }
 
-  /* Contenedor para toggle + logo */
-  .header {
-    display: flex;
-    align-items: center;
-    gap: 10px;
+    .menu-item:hover {
+      background-color: transparent;
+    }
+
+    .menu-label {
+      display: none;
+    }
+
+    .menu-icon {
+      width: 24px;
+      height: 24px;
+    }
+
+    .main-content {
+      margin-left: 0;
+      width: 100%;
+      padding-bottom: 80px;
+    }
+
+    .app-container.sidebar-expanded .main-content {
+      margin-left: 0;
+      width: 100%;
+    }
+
+    ion-fab {
+      margin-bottom: 70px;
+      z-index: 1000;
+    }
   }
 </style>

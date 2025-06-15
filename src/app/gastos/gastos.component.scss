@@ -8,16 +8,6 @@ ion-badge {
   margin-top: 4px;
 }
 
-.top-tabs {
-  display: flex;
-  justify-content: space-between;
-  background: rgba(12, 134, 189, 0.48);
-  border-radius: 8px;
-  padding: 4px 8px;
-  margin: 10px;
-  font-weight: 600;
-}
-
 .tab {
   padding: 8px 16px;
   border-radius: 4px;
@@ -28,18 +18,21 @@ ion-badge {
 }
 
 .tab.gasto {
+  border: 2px solid #d9485d;
   color: #d9485d;
   background-color: white;
   box-shadow: 0 2px 6px rgba(0,0,0,0.1);
 }
 
 .tab.total {
+  border: 2px solid #3a3a3a;
   color: #3a3a3a;
   background-color: white;
   box-shadow: 0 2px 6px rgba(0,0,0,0.1);
 }
 
 .tab.ingreso {
+  border: 2px solid #58a863;
   color: #58a863;
   background-color: white;
   box-shadow: 0 2px 6px rgba(0,0,0,0.1);
@@ -129,6 +122,15 @@ ion-badge {
   transition: margin-left 0.3s ease;
   min-height: 100vh;
   width: calc(100% - 45px);
+
+  & > *:not(ion-header) {
+    padding-left: 35px;
+
+    @media (max-width: 768px) {
+      padding-left: 0; /* Remove padding on mobile */
+    }
+  }
+
   @media (max-width: 768px) {
     margin-left: 0;
     width: 100%;
@@ -156,10 +158,12 @@ ion-fab {
   height: 24px;
 }
 .lapiz {
+  color: #6094d4;
   width: 20px;
   height: 20px;
 }
 .papelera {
+  color: #d9485d;
   width: 20px;
   height: 20px;
 }
@@ -233,3 +237,178 @@ ion-fab-button {
   }
 }
 
+.app-container.dark {
+  background-color: #1e1e1e;
+  color: #e0e0e0;
+}
+
+.app-container.dark ion-item-divider,
+.app-container.dark ion-item {
+  background-color: #2a2a2a;
+  color: #e0e0e0;
+}
+
+.categoria-label {
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 500;
+  margin-right: 8px;
+  background-color: #e0e0e0;
+  color: #333;
+  text-transform: capitalize;
+  display: inline-block;
+  min-width: 70px;
+  text-align: center;
+}
+
+/* Ejemplos por tipo de categoría */
+.categoria-label.transporte {
+  background-color: #d1ecf1;
+  color: #0c5460;
+}
+
+.categoria-label.comida {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+.categoria-label.ocio {
+  background-color: #fff3cd;
+  color: #856404;
+}
+
+.categoria-label.alojamiento {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+/* Modo oscuro */
+.app-container.dark .categoria-label {
+  background-color: #3a3a3a;
+  color: #f1f1f1;
+}
+
+
+/* Tarjetas con margen y sombra */
+.resumen-card, .gastos-card {
+  margin: 25px;
+  padding: 12px 16px;
+  border-radius: 16px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+  background: #ffffff;
+}
+
+.resumen-card.dark, .gastos-card.dark {
+  background: #2a2a2a;
+  box-shadow: 0 6px 20px rgba(255, 255, 255, 0.05);
+}
+
+/* Estilo del contenedor de tabs */
+.top-tabs {
+  display: flex;
+  justify-content: space-between;
+  background: transparent;
+  padding: 0;
+  margin: 0;
+}
+
+.tabs-container {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+  gap: 12px;
+}
+
+.tab {
+  padding: 8px 16px;
+  border-radius: 15px;
+  font-size: 14px;
+  min-width: 120px;
+  text-align: center;
+  background-color: white;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.dark .tab {
+  background-color: #3a3a3a;
+  color: #f0f0f0;
+}
+
+.chart-icon {
+  width: 25px;
+  height: 25px;
+  margin-left: 12px;
+  margin-top: auto;
+  margin-bottom: auto;
+  border: 3px solid #6094d4;
+  border-radius: 50%;
+  color: #6094d4;
+  padding: 1%;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.chart-icon:hover {
+  background-color: #6094d4;
+  color: white;
+  cursor: pointer;
+}
+
+.iconos {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+@media (max-width: 768px) {
+  .chart-icon {
+    padding: 2%;
+  }
+}
+
+.gasto-info {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 1px;
+  flex-wrap: wrap;
+  margin-top: 3px;
+}
+
+.gasto-titulo {
+  margin: 0;
+  font-size: 16px;
+  max-width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex: 1;
+}
+
+@media (max-width: 768px) {
+  .gasto-info {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .gasto-titulo {
+    width: 90%;
+  }
+
+  .categoria-label {
+    margin-top: 4px;
+    margin-left: 0;
+  }
+}
+
+.cantidad-gasto {
+  margin-left: 12px; /* o ajusta según necesidad */
+}
+
+.icono-cartera {
+  margin-right: 5%;
+}
+
+.caja-gasto {
+  margin-right: -10px;
+}

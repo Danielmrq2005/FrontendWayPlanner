@@ -38,6 +38,10 @@ export class MenuHamburguesaComponent  implements OnInit {
     const currentUrl = this.router.url;
     this.router.navigate(['/actu-usuario'], { queryParams: { returnUrl: currentUrl } });
   }
+  navegaAjus() {
+    const currentUrl = this.router.url;
+    this.router.navigate(['/ajustes'], { queryParams: { returnUrl: currentUrl } });
+  }
 
   ngOnInit() {
     this.route.params.subscribe(params => {

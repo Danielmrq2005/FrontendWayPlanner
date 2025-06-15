@@ -32,7 +32,13 @@ export class CrearIngresoComponent  implements OnInit {
   ) {
     this.ingresoForm = this.formBuilder.group({
       titulo: ['', Validators.required],
-      cantidad: [null, [Validators.required, Validators.min(0)]],
+      cantidad: [
+        null,
+        [
+          Validators.required,
+          Validators.min(0.01),
+        ]
+      ],
       esIngreso: [true],
       categoria: ['', Validators.required],
       fecha: [new Date().toISOString()],
@@ -42,6 +48,11 @@ export class CrearIngresoComponent  implements OnInit {
     this.temaService.darkMode$.subscribe(isDark => {
       this.darkMode = isDark;
     });
+  }
+
+  cancelar() {
+    // Método para cancelar la creación del gasto y redirigir a la lista de gastos
+    this.router.navigate(['/gastos', this.ingresoForm.get('viajeId')?.value]);
   }
 
   ngOnInit() {
