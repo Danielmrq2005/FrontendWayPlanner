@@ -1,4 +1,4 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, HostListener, OnInit, Output} from '@angular/core';
 import { UsuarioService } from '../Servicios/usuario.service';
 import { ViajeService } from '../Servicios/viaje.service';
 import {NavigationEnd, Router, RouterLink} from '@angular/router';
@@ -117,6 +117,8 @@ export class ViajesComponent implements OnInit {
         }
       });
     }
+
+    this.pantallamMovil();
   }
 
   async mostrarToast(mensaje: string) {
@@ -171,6 +173,20 @@ export class ViajesComponent implements OnInit {
           console.error('Error al obtener el usuario:', err);
         }
       });
+    }
+  }
+
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any) {
+    this.pantallamMovil();
+  }
+
+  private pantallamMovil() {
+    const isMobile = window.innerWidth <= 768;
+    if (isMobile && this.sidebarExpanded) {
+      this.sidebarExpanded = false;
+      this.expansionChange.emit(this.sidebarExpanded);
     }
   }
 }
