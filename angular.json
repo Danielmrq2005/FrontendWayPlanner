@@ -35,7 +35,7 @@
                 "output": "assets"
               }
             ],
-            "styles": ["src/global.scss", "src/theme/variables.scss"],
+            "styles": ["src/assets/leaflet/leaflet-local.css","src/global.scss", "src/theme/variables.scss"],
             "scripts": [],
             "browser": "src/main.ts"
           },
@@ -45,12 +45,12 @@
                 {
                   "type": "initial",
                   "maximumWarning": "2mb",
-                  "maximumError": "5mb"
+                  "maximumError": "10mb"
                 },
                 {
                   "type": "anyComponentStyle",
                   "maximumWarning": "2kb",
-                  "maximumError": "4kb"
+                  "maximumError": "20kb"
                 }
               ],
               "fileReplacements": [

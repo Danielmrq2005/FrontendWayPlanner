@@ -4,6 +4,7 @@ import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/
 import {GastosService} from "../Servicios/gastos.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {TemaService} from "../Servicios/tema.service";
+import {CommonModule} from "@angular/common";
 
 @Component({
   selector: 'app-crear-gasto',
@@ -13,6 +14,7 @@ import {TemaService} from "../Servicios/tema.service";
   imports: [
     IonicModule,
     ReactiveFormsModule,
+    CommonModule
   ]
 })
 export class CrearGastoComponent  implements OnInit {

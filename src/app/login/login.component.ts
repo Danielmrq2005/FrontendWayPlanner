@@ -123,7 +123,7 @@ export class LoginComponent implements OnInit {
           console.error(e);
           // Diferenciar los tipos de errores para mostrar mensajes apropiados
           if (e.status === 403) {
-            await this.presentAlert('Cuenta no verificada', 'Tu cuenta no está verificada. Por favor, revisa tu correo electrónico.');
+            await this.presentAlert('Cuenta no verificada', 'Tu cuenta no está verificada o tu cuenta no está registrada. Por favor, revisa tu correo electrónico.');
           } else if (e.status === 404) {
             await this.presentAlert('Cuenta no encontrada', 'No existe una cuenta con este correo electrónico.');
           } else if (e.status === 401) {

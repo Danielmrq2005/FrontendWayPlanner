@@ -5,6 +5,7 @@ import {IonicModule, ToastController} from "@ionic/angular";
 import {ActivatedRoute, Router} from "@angular/router";
 import {HttpClient} from "@angular/common/http";
 import {TemaService} from "../Servicios/tema.service";
+import {CommonModule} from "@angular/common";
 
 
 @Component({
@@ -16,6 +17,7 @@ import {TemaService} from "../Servicios/tema.service";
     FormsModule,
     IonicModule,
     ReactiveFormsModule,
+    CommonModule
   ]
 })
 export class ActuGastosComponent implements OnInit {

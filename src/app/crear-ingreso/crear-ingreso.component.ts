@@ -4,6 +4,7 @@ import {GastosService} from "../Servicios/gastos.service";
 import {IonicModule, ToastController} from "@ionic/angular";
 import {ActivatedRoute, Router} from "@angular/router";
 import {TemaService} from "../Servicios/tema.service";
+import {CommonModule} from "@angular/common";
 
 
 @Component({
@@ -14,7 +15,7 @@ import {TemaService} from "../Servicios/tema.service";
   imports: [
     ReactiveFormsModule,
     IonicModule,
-
+    CommonModule
   ]
 })
 export class CrearIngresoComponent  implements OnInit {

@@ -40,11 +40,11 @@
           </span>
           <span class="tab total" *ngIf="resumen">
             = Total
-            <div class="amount">{{ resumen?.saldo | currency:'EUR':'symbol'}}€</div>
+            <div class="amount">{{ resumen.saldo | currency:'EUR':'symbol'}}€</div>
           </span>
           <span class="tab ingreso" *ngIf="resumen">
             = Ingresos
-            <div class="amount">+{{ resumen?.totalIngresos | currency:'EUR':'symbol'}} €</div>
+            <div class="amount">+{{ resumen.totalIngresos | currency:'EUR':'symbol'}} €</div>
           </span>
         </div>
         <ion-icon name="stats-chart-outline" (click)="NavegaGasto()" alt="Gráfico" class="chart-icon"></ion-icon>
