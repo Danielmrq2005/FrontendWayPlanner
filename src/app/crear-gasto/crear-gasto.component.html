@@ -23,6 +23,7 @@
       <div class="form-group">
         <label for="categoria">Categoría</label>
         <select id="categoria" formControlName="categoria">
+          <option value="" disabled selected>Selecciona una categoría</option>
           <option value="ALOJAMIENTO">Alojamiento</option>
           <option value="COMIDA">Comida</option>
           <option value="TRANSPORTE">Transporte</option>
@@ -41,10 +42,11 @@
           <ion-icon slot="start" name="close-circle"></ion-icon>
           Cancelar
         </ion-button>
-        <ion-button fill="solid" color="primary" size="small" type="submit" [disabled]="gastoForm.invalid">
+        <ion-button class="ok-button" fill="solid" size="small" type="submit" [disabled]="gastoForm.invalid">
           <ion-icon slot="start" name="checkmark-circle"></ion-icon>
           Ok
         </ion-button>
+
       </div>
     </form>
   </div>

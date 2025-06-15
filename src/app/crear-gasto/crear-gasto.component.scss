@@ -86,28 +86,28 @@
   gap: 10px;
 }
 
-ion-button {
-  font-weight: bold;
-  font-size: 0.8rem;
-  height: 2rem;
-  margin-left: 0;
-  width: 30%;
+.ok-button {
+  --background: #3880ff;
+  --color: #ffffff;
+  &[disabled] {
+    --background: #cccccc !important;
+    --color: #ffffff !important;
+    opacity: 1;
+    cursor: not-allowed;
+  }
 
   .dark & {
     --background: #333333;
     --color: #ffffff;
-  }
-  @media (max-width: 480px) {
-    width: 45%;
-    font-size: 0.75rem;
-    height: 2.5rem;
 
-    ion-icon {
-      font-size: 16px;
-      margin-right: 4px;
+    &[disabled] {
+      --background: #555555 !important;
+      --color: #ffffff !important;
     }
   }
 }
+
+
 
 @media (max-width: 480px) {
   .form-container {
@@ -119,6 +119,10 @@ ion-button {
     font-size: 1.5rem;
   }
 }
+
+
+
+
 
 
 
