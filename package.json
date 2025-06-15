@@ -12,12 +12,8 @@
     "lint": "ng lint",
     "heroku-postbuild": "npm run build"
   },
-
-
   "private": true,
   "dependencies": {
-    "typescript": "^5.8.3",
-    "@ionic/angular-toolkit": "^12.0.0",
     "@angular/animations": "^20.0.3",
     "@angular/common": "^20.0.3",
     "@angular/compiler": "^20.0.3",
@@ -31,10 +27,12 @@
     "@capacitor/filesystem": "^7.1.1",
     "@capacitor/geolocation": "^7.1.2",
     "@capacitor/haptics": "7.0.1",
+    "@ionic/cli": "^7.2.1",
     "@capacitor/keyboard": "7.0.1",
     "@capacitor/preferences": "^7.0.1",
     "@capacitor/status-bar": "7.0.1",
     "@ionic/angular": "^8.0.0",
+    "@ionic/angular-toolkit": "^12.0.0",
     "chart.js": "^4.4.9",
     "chartjs-plugin-datalabels": "^2.2.0",
     "cors": "^2.8.5",
@@ -47,11 +45,12 @@
     "ng2-charts": "^8.0.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
+    "typescript": "^5.8.3",
     "zone.js": "~0.15.0"
   },
   "engines": {
-    "node": "14.x",
-    "npm": "6.x"
+    "node": "20.x",
+    "npm": "10.x"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^20.0.2",
