@@ -391,4 +391,5 @@ export class RutasComponent implements AfterViewInit {
 
     await alert.present();
   }
+
 }
