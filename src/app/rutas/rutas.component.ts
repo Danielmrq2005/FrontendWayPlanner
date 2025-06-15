@@ -110,12 +110,10 @@ export class RutasComponent implements AfterViewInit {
       position: 'bottomleft'
     }).addTo(this.map);
 
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-      attribution: '&copy; OpenStreetMap &copy; Carto',
-      subdomains: 'abcd',
-      maxZoom: 19
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '© WayPlanner',
+      noWrap: true
     }).addTo(this.map);
-
 
 
     this.puntos.forEach(p => {
@@ -389,3 +387,5 @@ export class RutasComponent implements AfterViewInit {
 
   }
 }
+
+
