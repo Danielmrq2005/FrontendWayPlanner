@@ -6,7 +6,8 @@ const app = express();
 app.use(cors());
 app.use(express.static(path.join(__dirname, 'www')));
 
-app.get('*', (req, res) => {
+// Replace the app.get('*', ...) with this:
+app.use((req, res) => {
   res.sendFile(path.join(__dirname, 'www', 'index.html'));
 });
 
