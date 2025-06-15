@@ -197,3 +197,9 @@ ion-modal .ion-padding {
   position: relative;
   padding-bottom: 64px; // deja espacio para el botón
 }
+
+@media (max-width: 768px) {
+  img[src*="logo.png"] {
+    display: none;
+  }
+}
