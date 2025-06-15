@@ -13,7 +13,6 @@ import {IonIcon, IonLabel} from "@ionic/angular/standalone";
   imports: [
     NgForOf,
     IonIcon,
-    RouterLink,
     NgIf
   ]
 })

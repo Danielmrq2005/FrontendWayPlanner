@@ -15,7 +15,6 @@ import {AlertController} from "@ionic/angular";
   templateUrl: './lista-maletas.component.html',
   imports: [
     NgForOf,
-    RouterLink,
     IonIcon,
     FormEditarMaletaComponent,
     NgIf
