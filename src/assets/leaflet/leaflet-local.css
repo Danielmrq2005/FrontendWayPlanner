@@ -6,20 +6,20 @@
   background-image: url('/assets/leaflet/images/marker-icon.png');
 }
 
-.leaflet-marker-icon.leaflet-zoom-animated {
+.leaflet-marker-icon.leaflet-zoom-animated,
+.leaflet-marker-icon.leaflet-zoom-animated.leaflet-interactive {
   background-image: url('/assets/leaflet/images/marker-icon-2x.png');
 }
+
 .leaflet-marker-shadow {
   background-image: url('/assets/leaflet/images/marker-shadow.png');
 }
 
-.leaflet-marker-shadow {
-  background-image: url('/assets/leaflet/images/layers-2x.png');
-}
-
-.leaflet-marker-shadow {
+.leaflet-control-layers-toggle {
   background-image: url('/assets/leaflet/images/layers.png');
 }
 
-
-
+.leaflet-retina .leaflet-control-layers-toggle {
+  background-image: url('/assets/leaflet/images/layers-2x.png');
+  background-size: 26px 26px;
+}

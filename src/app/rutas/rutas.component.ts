@@ -124,9 +124,8 @@ export class RutasComponent implements AfterViewInit {
 
     setTimeout(() => {
       this.map.invalidateSize();
-    }, 1000);
+    }, 300);
   }
-
 
   obtenerItinerariosEnRuta(idViaje: string) {
     this.itinerarioService.obtenerItineariosRuta(parseInt(idViaje)).subscribe({
@@ -300,15 +299,9 @@ export class RutasComponent implements AfterViewInit {
 
   onWillDismiss(event: CustomEvent<OverlayEventDetail>) {
     if (event.detail.role === 'confirm') {
-      this.message = `Hola, ${event.detail.data}!`;
+      this.message = `Hello, ${event.detail.data}!`;
     }
-
-    // 🔧 Añade esto para redibujar el mapa
-    setTimeout(() => {
-      this.map?.invalidateSize();
-    }, 300);
   }
-
 
   async eliminarItem(index: number) {
     const actionSheet = await this.actionSheetCtrl.create({
@@ -394,5 +387,3 @@ export class RutasComponent implements AfterViewInit {
 
   }
 }
-
-
