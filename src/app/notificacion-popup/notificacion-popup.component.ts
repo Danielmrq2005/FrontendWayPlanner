@@ -13,45 +13,46 @@ import { CommonModule } from "@angular/common";
 })
 export class NotificacionPopupComponent implements OnInit {
 
-  notificacion?: Notificacion
-  visible = false;
-  ultimoIdMostrado: number = 0; // ✅ Nuevo: ID de la última notificación mostrada
 
+  notificaciones: Notificacion[] = [];  // Lista de notificaciones visibles
 
-  constructor(private notificacionservice: NotificacionesService) { }
+  idsMostrados: Set<number> = new Set(); // IDs ya mostrados para evitar duplicados
+
+  constructor(private notificacionservice: NotificacionesService) {}
 
   ngOnInit() {
     const usuarioId = this.obtenerUsuarioId();
 
+    // Cargar IDs previamente mostrados desde localStorage
+    const idsGuardados = localStorage.getItem('idsMostrados');
+    if (idsGuardados) {
+      this.idsMostrados = new Set(JSON.parse(idsGuardados));
+    }
+
     setInterval(() => {
       this.notificacionservice.obtenerNotificacionesPorUsuario(usuarioId).subscribe(notis => {
-        if (notis.length === 0) return; // 👈 No mostrar nada si no hay notificaciones
+        notis.forEach(notificacion => {
+          if (!this.idsMostrados.has(notificacion.id)) {
+            this.notificaciones.push(notificacion);
+            this.idsMostrados.add(notificacion.id);
 
-        const ultima = notis[notis.length - 1];
+            // Guardar en localStorage
+            localStorage.setItem('idsMostrados', JSON.stringify([...this.idsMostrados]));
 
-        if (!this.notificacion || this.notificacion.id !== ultima.id) {
-          this.notificacion = ultima;
-          this.visible = true;
-          setTimeout(() => this.visible = false, 5000);
-        }
-        if (ultima.id === this.ultimoIdMostrado) return;
-
-        this.ultimoIdMostrado = ultima.id;
-        this.notificacion = ultima;
-        this.visible = true;
-
-        setTimeout(() => this.visible = false, 5000);
+            setTimeout(() => {
+              this.notificaciones = this.notificaciones.filter(n => n.id !== notificacion.id);
+            }, 5000);
+          }
+        });
       });
-    }, 60000);
+    }, 10000);
   }
-
-
+ // Obtener el ID del usuario desde el token JWT almacenado en sessionStorage
   obtenerUsuarioId(): number {
     const token = sessionStorage.getItem('authToken');
     if (token) {
       try {
         const decodedToken: any = jwtDecode(token);
-        console.log(decodedToken);
         return decodedToken.tokenDataDTO?.id || 0;
       } catch (error) {
         console.error('Error al decodificar el token', error);
@@ -59,6 +60,4 @@ export class NotificacionPopupComponent implements OnInit {
     }
     return 0;
   }
-
-
 }

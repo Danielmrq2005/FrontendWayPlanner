@@ -17,6 +17,7 @@ Chart.register(ChartDataLabels);
   styleUrls: ['./grafica-viaje.component.scss'],
   standalone: true,
   imports: [IonicModule, CommonModule, BaseChartDirective]
+
 })
 export class GraficaViajeComponent implements OnInit, AfterViewInit {
   viajeId: number = 0;

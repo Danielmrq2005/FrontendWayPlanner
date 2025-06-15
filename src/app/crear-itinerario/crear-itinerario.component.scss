@@ -540,3 +540,211 @@ ion-content {
   }
 
 }
+
+/* Dark mode styles for crear-itinerario */
+:host-context(.dark) {
+  .form-title {
+    background-color: #DC2786FF;
+    color: white;
+  }
+
+  .toggle-group {
+    color: white;
+  }
+
+  .form-group label {
+    color: white;
+  }
+
+  h3 {
+    color: white !important; /* Override the inline style */
+  }
+
+  .toggle-container label {
+    color: white !important;
+  }
+
+  /* Form inputs and selects styling */
+  select,
+  option {
+    background-color: #2d2d2d;
+    color: white;
+  }
+
+  select option {
+    background-color: #2d2d2d;
+    color: white;
+  }
+
+  /* Fix for autocomplete dropdown */
+  .pac-container {
+    background-color: #2d2d2d;
+    border-color: #3d3d3d;
+  }
+
+  .pac-item {
+    color: white;
+    background-color: #2d2d2d;
+    border-color: #3d3d3d;
+  }
+
+  .pac-item-query {
+    color: white;
+  }
+
+  .pac-icon {
+    filter: invert(1);
+  }
+
+  /* Error messages */
+  .error {
+    color: #ff6b6b;
+  }
+
+  /* Day selection text */
+  ion-textarea {
+    color: white;
+  }
+}
+
+/* Fix for dropdown in dark mode */
+::ng-deep .dark ion-alert {
+  --background: #2d2d2d !important;
+  --color: white !important;
+}
+
+::ng-deep .dark ion-action-sheet {
+  --background: #2d2d2d !important;
+  --color: white !important;
+  --button-color: white !important;
+}
+
+::ng-deep .dark .select-alert {
+  background-color: #2d2d2d !important;
+}
+
+::ng-deep .dark .action-sheet-group {
+  background-color: #2d2d2d !important;
+}
+
+::ng-deep .dark ion-select-option,
+::ng-deep .dark ion-select {
+  color: white !important;
+}
+/* Update all blue colors to pink in dark mode */
+:host-context(.dark) {
+  .form-container {
+    border-color: #DC2786FF;
+  }
+
+  ion-button.botones {
+    --color: #DC2786FF;
+    --border-color: #DC2786FF;
+  }
+
+  ion-button.botones::part(native) {
+    color: #DC2786FF !important;
+    border: 2px solid #DC2786FF !important;
+  }
+
+  ion-button.botones:hover::part(native),
+  ion-button.botones:focus::part(native),
+  ion-button.botones.ion-focused::part(native) {
+    color: #DC2786FF !important;
+    border: 2px solid #DC2786FF !important;
+  }
+
+  .form-group input:focus,
+  .form-group select:focus,
+  .form-group textarea:focus {
+    border-color: #DC2786FF;
+    box-shadow: 0 0 0 3px rgba(220, 39, 134, 0.25);
+  }
+
+  .recargar {
+    background-color: #DC2786FF;
+  }
+
+  .recargar:hover {
+    background-color: #c12277;
+  }
+
+  ion-button {
+    --background: #DC2786FF;
+  }
+
+  ion-button:hover {
+    --background: #c12277;
+  }
+
+  .horarios-container button {
+    background-color: #DC2786FF;
+  }
+
+  .horarios-container button:hover {
+    background-color: #c12277;
+  }
+
+  .horarios-container button:disabled {
+    background-color: #e06bae;
+  }
+
+  .horarioInputFull {
+    border-color: #DC2786FF;
+  }
+
+  .toggle-container ion-toggle {
+    --handle-background: #DC2786FF;
+    --background-checked: #DC2786FF;
+  }
+
+  .form-group input:focus,
+  .form-group select:focus,
+  .form-group textarea:focus {
+    border-color: #DC2786FF;
+    box-shadow: 0 0 0 3px rgba(220, 39, 134, 0.2);
+  }
+}
+
+/* Fix color in nested dark selectors */
+.dark {
+  ion-button {
+    --background: #DC2786FF;
+  }
+
+  ion-button[fill="outline"] {
+    --border-color: #DC2786FF;
+    --color: #DC2786FF;
+  }
+
+  .form-group {
+    input:focus,
+    select:focus,
+    textarea:focus,
+    .time-input:focus {
+      border-color: #DC2786FF;
+      box-shadow: 0 0 0 3px rgba(220, 39, 134, 0.2);
+    }
+  }
+}
+
+ion-content.dark {
+  .form-group {
+    input:focus,
+    select:focus,
+    textarea:focus,
+    .time-input:focus {
+      border-color: #DC2786FF;
+      box-shadow: 0 0 0 3px rgba(220, 39, 134, 0.2);
+    }
+  }
+
+  ion-button {
+    --background: #DC2786FF;
+  }
+
+  ion-button[fill="outline"] {
+    --border-color: #DC2786FF;
+    --color: #DC2786FF;
+  }
+}

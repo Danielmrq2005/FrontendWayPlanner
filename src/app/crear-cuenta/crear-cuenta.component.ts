@@ -174,7 +174,7 @@ export class CrearCuentaComponent implements OnInit {
       }
     }
 
-    if (controls['fechaNacimiento']?.errors) { // Cambiar 'fecha' a 'fechaNacimiento'
+    if (controls['fechaNacimiento']?.errors) {
       if (controls['fechaNacimiento'].hasError('required')) {
         errorMessages.push('La fecha de nacimiento es obligatoria.');
       }
@@ -198,7 +198,6 @@ export class CrearCuentaComponent implements OnInit {
     const monthDiff = today.getMonth() - birthDate.getMonth();
     const dayDiff = today.getDate() - birthDate.getDate();
 
-    // Ajustar la edad si el mes o día actual es menor al de nacimiento
     if (monthDiff < 0 || (monthDiff === 0 && dayDiff < 0)) {
       age--;
     }
@@ -206,3 +205,4 @@ export class CrearCuentaComponent implements OnInit {
     return age >= 18 ? null : {invalidAge: true};
   }
 }
+

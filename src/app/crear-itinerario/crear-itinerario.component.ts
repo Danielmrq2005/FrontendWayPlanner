@@ -550,6 +550,7 @@ export class CrearItinerarioComponent  implements OnInit, AfterViewInit {
     this.obtenerDiasPorViaje();
   }
 
+  // Cambia el valor de estaEnRuta según el toggle de apareceEnItinerario
   onToggleApareceEnItinerario(event: any) {
     if (!this.itinerario) return;
     const aparece = event.detail.checked;

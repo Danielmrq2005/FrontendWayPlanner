@@ -1,0 +1,155 @@
+<!-- Tarjeta contenedora del formulario del ítem -->
+<ion-card class="maleta-card">
+  <!-- Encabezado con icono y nombre del ítem -->
+  <div class="maleta-header">
+    <ion-icon name="cube" class="maleta-icon"></ion-icon>
+    {{ item.nombre || nombreObjeto }}
+  </div>
+
+  <!-- Contenido del formulario -->
+  <ion-card-content>
+
+    <!-- Campo: Nombre del Ítem -->
+    <ion-item lines="none">
+      <ion-label position="stacked">Nombre del Ítem</ion-label>
+      <ion-input placeholder="Ej. Cargador, Zapatos..." [(ngModel)]="item.nombre"></ion-input>
+    </ion-item>
+
+    <!-- Campo: Cantidad -->
+    <ion-item lines="none" class="maleta-item">
+      <ion-label position="stacked">Cantidad</ion-label>
+      <ion-input type="number" min="1" placeholder="Ej. 2" [(ngModel)]="item.cantidad"></ion-input>
+    </ion-item>
+
+    <!-- Campo: Categoría del ítem -->
+    <ion-item lines="none" class="maleta-item">
+      <ion-label position="stacked">Categoría</ion-label>
+      <ion-select placeholder="Elige una categoría" [(ngModel)]="item.categoria">
+        <ion-select-option value="ROPA">Ropa</ion-select-option>
+        <ion-select-option value="ELECTRONICA">Electrónica</ion-select-option>
+        <ion-select-option value="HIGIENE">Higiene</ion-select-option>
+        <ion-select-option value="DOCUMENTOS">Documentos</ion-select-option>
+        <ion-select-option value="ACCESORIOS">Accesorios</ion-select-option>
+        <ion-select-option value="OTRO">Otro</ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <!-- Botones de acción: Cancelar, Eliminar, Guardar -->
+    <div class="maleta-footer">
+      <ion-button fill="outline" size="small" color="primary" (click)="cancelar()">
+        <ion-icon slot="start" name="close-circle"></ion-icon>
+        Cancelar
+      </ion-button>
+
+      <ion-button fill="outline" size="small" color="danger" (click)="eliminarObjeto()">
+        <ion-icon slot="start" name="trash"></ion-icon>
+        Eliminar
+      </ion-button>
+
+      <ion-button fill="solid" size="small" color="primary" (click)="guardarObjeto()">
+        <ion-icon slot="start" name="checkmark-circle"></ion-icon>
+        Ok
+      </ion-button>
+    </div>
+
+  </ion-card-content>
+</ion-card>
+
+<!-- Mensaje amigable general -->
+<p class="maleta-general-aviso">Organiza tus objetos para no olvidar nada.</p>
+
+
+<style>
+  .maleta-card {
+    /* Tarjeta centrada con sombra y bordes redondeados */
+    margin: 20px auto;
+    border-radius: 15px;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    max-width: 90%;
+    width: 100%;
+  }
+
+  @media (min-width: 768px) {
+    .maleta-card {
+      max-width: 800px; /* Mejor uso del espacio en tablets y pantallas medianas */
+    }
+  }
+
+  @media (min-width: 1200px) {
+    .maleta-card {
+      max-width: 750px; /* Ajuste fino para pantallas grandes */
+    }
+  }
+
+  .maleta-header {
+    /* Cabecera colorida con ícono y texto centrado */
+    background-color: #5B97D5;
+    color: white;
+    padding: 14px;
+    text-align: center;
+    font-size: 1.2rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+
+  .maleta-icon {
+    font-size: 1.4rem;
+  }
+
+  .maleta-item {
+    margin-top: 3px;
+  }
+
+  .maleta-footer {
+    /* Botones distribuidos horizontalmente */
+    display: flex;
+    justify-content: space-between;
+    padding: 20px 0 0;
+  }
+
+  ion-button {
+    --border-radius: 8px;
+  }
+
+  .maleta-general-aviso {
+    text-align: center;
+    margin-top: 10px;
+    font-size: 0.85rem;
+    color: #444;
+  }
+
+  /* Estilo visual coherente para inputs y selects */
+  ion-input,
+  ion-select {
+    --background: #f9fafe;
+    --padding-start: 10px;
+    --border-radius: 10px;
+    border: 1px solid #ccd5e0;
+    transition: all 0.3s ease;
+  }
+
+  /* Estilo enfocado (focus) */
+  ion-input:focus-within,
+  ion-select:focus-within {
+    border: 1px solid #5B97D5;
+    box-shadow: 0 0 0 2px rgba(91, 151, 213, 0.3);
+  }
+
+  /* Etiquetas claras y consistentes */
+  ion-item ion-label {
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: #333;
+  }
+
+  /* Ajuste para eliminar separación innecesaria */
+  ion-item ion-input,
+  ion-item ion-select {
+    margin-top: 0;
+  }
+
+</style>

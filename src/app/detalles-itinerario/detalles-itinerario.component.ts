@@ -18,14 +18,19 @@ import {Itinerario} from "../Modelos/Itinerario";
   ]
 })
 export class DetallesItinerarioComponent  implements OnInit {
+  // Recibe el itinerario a mostrar como input
   @Input() itinerario: any;
+  // Recibe el id del viaje como input
   @Input() idViaje: string | null = null;
   @Input() segmentoSeleccionado: string = '';
+  // Recibe el día de la semana como input
   @Input() diaSemana: any;
+  // URL segura para el mapa de Google Maps
   mapaUrl: SafeResourceUrl | undefined;
 
   constructor(private modalCtrl: ModalController, private sanitizer: DomSanitizer, private router: Router, private itinerarioService: ItineariosService, private alertController: AlertController) {}
 
+  // Inicializa el componente y genera la URL del mapa si hay latitud y longitud
   ngOnInit() {
     if (this.itinerario?.latitud && this.itinerario?.longitud) {
       const url = `https://www.google.com/maps?q=${this.itinerario.latitud},${this.itinerario.longitud}&hl=es&z=16&output=embed`;
@@ -64,10 +69,12 @@ export class DetallesItinerarioComponent  implements OnInit {
     this.cerrar()
   }
 
+
+  // Elimina el itinerario usando el servicio y cierra el modal si tiene éxito
   async eliminarItinerario() {
     const alert = await this.alertController.create({
-      header: '¿Eliminar itinerario?',
-      message: '¿Estás seguro de que deseas eliminar este itinerario?',
+      header: 'Confirmar',
+      message: '¿Seguro que deseas eliminar este itinerario?',
       buttons: [
         {
           text: 'Cancelar',
@@ -75,22 +82,20 @@ export class DetallesItinerarioComponent  implements OnInit {
         },
         {
           text: 'Eliminar',
-          role: 'destructive',
           handler: () => {
             this.itinerarioService.borrarPorCompleto(this.itinerario.id).subscribe({
               next: () => {
-                console.log('Itinerario eliminado correctamente');
-                this.cerrar();
+                this.presentAlert('Itinerario eliminado correctamente.');
+                this.cerrar(true);
               },
               error: (error) => {
-                console.error('Error al eliminar el itinerario:', error);
+                this.presentAlert(error.message);
               }
             });
           }
         }
       ]
     });
-
     await alert.present();
   }
 
@@ -108,6 +113,14 @@ export class DetallesItinerarioComponent  implements OnInit {
       case 'OTROS': return 'Otros';
       default: return categoria.charAt(0).toUpperCase() + categoria.slice(1).toLowerCase();
     }
+  }
+
+  presentAlert(mensaje: string) {
+    this.alertController.create({
+      header: 'Atención',
+      message: mensaje,
+      buttons: ['OK']
+    }).then(alert => alert.present());
   }
 
 }

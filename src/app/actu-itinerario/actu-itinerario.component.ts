@@ -339,6 +339,7 @@ export class ActuItinerarioComponent implements OnInit, AfterViewInit {
       // Asegurar que el campo horarios incluye los actuales del FormArray
       valoresFormulario.horarios = this.horariosFormArray.value;
 
+      // Convertimos el objeto a un Blob para enviarlo como JSON
       const itinerarioBlob = new Blob([JSON.stringify(valoresFormulario)], { type: 'application/json' });
       formData.append('itinerario', itinerarioBlob);
 
@@ -368,6 +369,7 @@ export class ActuItinerarioComponent implements OnInit, AfterViewInit {
 
 
   inicializarMapa() {
+    // Obtenemos el mapa y el input de autocompletado
     const input = document.getElementById('autocomplete') as HTMLInputElement;
     const mapElement = document.getElementById('map');
 
@@ -391,6 +393,7 @@ export class ActuItinerarioComponent implements OnInit, AfterViewInit {
       position: { lat, lng }, // Coloca el marcador en la ubicación inicial
     });
 
+    // Si el itinerario tiene latitud y longitud, centramos el mapa y colocamos el marcador
     autocomplete.addListener('place_changed', () => {
       const place = autocomplete.getPlace();
       if (!place.geometry || !place.geometry.location) return;
@@ -449,6 +452,7 @@ export class ActuItinerarioComponent implements OnInit, AfterViewInit {
     }
   }
 
+  // Métdo para obtener los días del viaje
   obtenerDiasPorViaje() {
     if (this.idViaje) {
       this.diaService.obtenerDias(this.idViaje).subscribe({
@@ -468,6 +472,7 @@ export class ActuItinerarioComponent implements OnInit, AfterViewInit {
     }
   }
 
+  // Métdo para mostrar alertas
   async presentAlert(mensaje: string) {
     const alert = await this.alertController.create({
       header: 'Atención',

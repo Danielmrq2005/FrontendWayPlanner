@@ -1,7 +1,11 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import { UsuarioService } from '../Servicios/usuario.service';
 import { ViajeService } from '../Servicios/viaje.service';
-import {Router, RouterLink} from '@angular/router';
+import {NavigationEnd, Router, RouterLink} from '@angular/router';
+import { mensajeService } from '../Servicios/mensajes.service';
+import { ToastController } from '@ionic/angular';
+
+
 
 import {
   IonContent, IonFab, IonFabButton,
@@ -43,9 +47,15 @@ export class ViajesComponent implements OnInit {
 
 
 
-  constructor(private usuarioservice: UsuarioService,private viajeservice: ViajeService,private router: Router, private temaService: TemaService) {
+  constructor(private usuarioservice: UsuarioService, private viajeservice: ViajeService, private router: Router, private temaService: TemaService, private mensajeService: mensajeService, private toastController: ToastController) {
     this.temaService.darkMode$.subscribe(isDark => {
       this.darkMode = isDark;
+    });
+
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd && this.router.url === '/viajes') {
+        this.cargarViajes(); // Esto vuelve a cargar los viajes
+      }
     });
   }
 
@@ -74,31 +84,73 @@ export class ViajesComponent implements OnInit {
 
   }
 
+  NavegaActu() {
+    const currentUrl = this.router.url;
+    this.router.navigate(['/actu-usuario'], { queryParams: { returnUrl: currentUrl } });
+  }
 
   ngOnInit() {
-    this.idusuario = this.obtenerUsuarioId();
 
+    this.mensajeService.mensaje$.subscribe(async mensaje => {
+      if (mensaje) {
+        await this.mostrarToast(mensaje);
+        this.mensajeService.limpiarMensaje();
+      }
+    });
+
+    this.idusuario = this.obtenerUsuarioId();
+    this.cargarViajes();
+
+    if (this.idusuario) {
+      this.usuarioservice.obtenerUsuarioId(this.idusuario).subscribe({
+        next: (usuario: Login) => {
+          this.Nombreusuario = usuario.nombre;
+          console.log('Nombre del usuario:', this.Nombreusuario);
+        },
+        error: (err) => {
+          console.error('Error al obtener el usuario:', err);
+        }
+      });
+    }
+  }
+
+  async mostrarToast(mensaje: string) {
+    const toast = await this.toastController.create({
+      message: mensaje,
+      duration: 2000,
+      position: 'bottom',
+      color: 'success'
+    });
+    await toast.present();
+  }
+
+  cargarViajes() {
     if (this.idusuario) {
       this.viajeservice.listarViajesPorUsuario(this.idusuario).subscribe({
         next: (viajes: Viaje[]) => {
           const hoy = new Date();
+          hoy.setHours(0, 0, 0, 0);
+
+          const inicioManana = new Date(hoy);
+          inicioManana.setDate(hoy.getDate() + 1);
 
           viajes.forEach(via => {
-            const fechaViaje = new Date(via.fechaInicio);
+            const fechafinViaje = new Date(via.fechaFin);
 
-            if (fechaViaje <= hoy) {
+            if (fechafinViaje <= hoy) {
               this.viajeservice.eliminarViaje(via.id).subscribe({
                 next: () => {
-                  console.log('Viaje eliminado:', via.id);
                 },
                 error: (error) => {
-                  console.error('Error al eliminar el viaje:', error);
                 }
               });
             }
           });
 
-          this.viajes = viajes.filter(v => new Date(v.fechaInicio) > hoy);
+          this.viajes = viajes.filter(v => {
+            const fechaInicioViaje = new Date(v.fechaInicio);
+            return fechaInicioViaje >= hoy;
+          });
         },
         error: (err: any) => console.error('Error al obtener los viajes:', err)
       });

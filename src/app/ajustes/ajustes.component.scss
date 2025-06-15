@@ -9,6 +9,10 @@ ion-content {
 
   ion-card-header {
     padding-bottom: 0;
+
+    ion-card-title {
+      color: var(--ion-text-color);
+    }
   }
 
   ion-item {
@@ -29,4 +33,11 @@ ion-content {
 
 .danger-zone {
   border: 1px solid #ff4d4d;
+}
+
+:host-context(.dark) {
+  .settings-card ion-card-header ion-card-title {
+    --color: white;
+    color: white;
+  }
 }

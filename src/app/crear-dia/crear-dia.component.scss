@@ -222,3 +222,71 @@
     color: white;
   }
 
+/* Dark mode styles for crear-dia */
+:host-context(.dark) {
+  ion-content {
+    --background: #121212;
+  }
+
+  .formulario-centro {
+    background-color: #121212;
+  }
+
+  .formulario-dia-card {
+    background-color: #1e1e1e;
+    border-color: #DC2786FF;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  }
+
+  ion-card-header {
+    background-color: #DC2786FF;
+  }
+
+  ion-card-title {
+    color: white;
+    background-color: #DC2786FF;
+  }
+
+  .form-title {
+    background-color: #DC2786FF;
+    color: white;
+  }
+
+  .formulario-dia-card ion-label {
+    color: white;
+  }
+
+  .formulario-dia-card .custom-input {
+    background-color: #2d2d2d;
+    border-color: #3d3d3d;
+    color: white;
+  }
+
+  .formulario-dia-card .custom-input:focus {
+    border-color: #DC2786FF;
+    box-shadow: 0 0 0 3px rgba(220, 39, 134, 0.25);
+  }
+
+  .formulario-dia-card ion-button {
+    --background: #DC2786FF;
+  }
+
+  .formulario-dia-card ion-button:hover {
+    --background: #c12277;
+  }
+
+  ion-button.crear-dia-btn::part(native) {
+    background: #DC2786FF !important;
+  }
+
+  ion-button.crear-dia-btn:hover {
+    --background: #c12277;
+  }
+}
+
+/* Fix for select options in dark mode */
+::ng-deep .dark select option {
+  background-color: #2d2d2d;
+  color: white;
+}
+

@@ -1,6 +1,8 @@
 <ion-content class="ion-padding" [class.dark]="darkMode">
   <div class="form-container">
-    <h2 class="form-title">Nuevo Viaje</h2>
+    <h2 class="form-title">
+      {{ idViajeEditar ? 'Actualizar viaje' : 'Nuevo Viaje' }}
+    </h2>
 
     <form class="form-content">
       <div class="form-group">
@@ -30,10 +32,25 @@
 
 
       <div class="button-container">
-        <ion-button (click)="guardarViaje()" expand="block" style="--background: #5B97D5">
-          💾 {{ idViajeEditar ? 'Actualizar Viaje' : 'Crear Viaje' }}
+        <ion-button
+          [routerLink]="['/viajes']"
+          expand="block"
+          class="cancelar-btn"
+          style="width: 250px;"
+        >
+          <ion-icon slot="start" name="close-circle"></ion-icon>
+          Cancelar
         </ion-button>
 
+        <ion-button
+          (click)="guardarViaje()"
+          expand="block"
+          class="guardar-btn"
+          style="width: 250px;"
+        >
+          <ion-icon slot="start" name="checkmark-circle"></ion-icon>
+          {{ idViajeEditar ? 'Actualizar Viaje' : 'Crear Viaje' }}
+        </ion-button>
       </div>
 
       <ion-text color="danger" *ngIf="mensajeError">
@@ -93,6 +110,22 @@
       color: var(--input-text, #000000);
     }
 
+
+    .cancelar-btn {
+      --background: white;
+      --color: #dc2626;
+      border: 2px solid #dc2626;
+      font-weight: bold;
+    }
+
+    .guardar-btn {
+      --background: white;
+      --color: #5B97D5;
+      border: 2px solid #1e3a8a;
+      font-weight: bold;
+    }
+
+
     :host-context(.dark) .form-group input,
     :host-context(.dark) .form-group textarea {
       --input-border: #404040;
@@ -109,7 +142,9 @@
 
     .button-container {
       margin-top: 1.5rem;
-
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
     }
 
     label {

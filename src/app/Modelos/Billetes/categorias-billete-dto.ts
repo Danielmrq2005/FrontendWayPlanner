@@ -1,4 +1,4 @@
 export interface CategoriasBilleteDTO {
-  nombre: string;
-  cantidad: number;
+  nombre: string; // Nombre de la categoría del billete
+  cantidad: number; // Cantidad de billetes en esta categoría
 }

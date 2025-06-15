@@ -21,7 +21,7 @@ export class UsuarioService {
 
 
     ActualizarUsuario(id: number, usuario: any): Observable<any> {
-      return this.http.put(`${this.apiUrl}/actualizar/${id}`, usuario);
+      return this.http.put(`${this.apiUrl}/actualizar/${id}`, usuario, { responseType: 'text' });
     }
 
     obtenerUsuarioId(id: number): Observable<Login>{
