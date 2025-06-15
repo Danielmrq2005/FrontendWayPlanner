@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import {AfterViewInit, Component, ElementRef, EventEmitter, Input, Output, ViewChild} from '@angular/core';
 import * as L from 'leaflet';
 import {ActionSheetController, AlertController, IonicModule, IonModal} from "@ionic/angular";
 import { addIcons } from "ionicons";
@@ -26,11 +26,13 @@ import {ViajeService} from "../Servicios/viaje.service";
 })
 export class RutasComponent implements AfterViewInit {
   @ViewChild(IonModal) modal!: IonModal;
+  @ViewChild('mapContainer', { static: false }) mapContainer!: ElementRef;
   @Input() puntos: { lat: number, lng: number }[] = [];
   @Output() puntoSeleccionado = new EventEmitter<{ lat: number, lng: number }>();
 
   private map!: L.Map;
   private markers: L.Marker[] = [];
+
 
   message = 'This modal example uses triggers to automatically open a modal when the button is clicked.';
   name!: string;
@@ -88,6 +90,19 @@ export class RutasComponent implements AfterViewInit {
     }
   }
 
+
+  arranque() {
+    this.map = L.map(this.mapContainer.nativeElement).setView([51.505, -0.09], 3);
+
+    // Agregar capa base de OpenStreetMap
+    L.tileLayer('https://{s}.tile.openstreetmap.org/%7Bz%7D/%7Bx%7D/%7By%7D.png', {
+      attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(this.map);
+
+    // Intentar ubicar al usuario
+    this.map.locate({ setView: true, maxZoom: 0 });
+  }
+
   ngAfterViewInit(): void {
     delete (L.Icon.Default.prototype as any)._getIconUrl;
     L.Icon.Default.mergeOptions({
@@ -97,13 +112,7 @@ export class RutasComponent implements AfterViewInit {
       iconSize: [40, 40],
     });
 
-    this.map = L.map('map', {
-      center: this.madridCoords,
-      zoom: 6,
-      minZoom: 5,
-      maxZoom: 18,
-      attributionControl: false,
-    });
+   this.arranque()
 
 
     L.control.attribution({
