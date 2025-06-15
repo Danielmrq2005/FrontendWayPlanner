@@ -61,8 +61,8 @@ export class DetallesItinerarioComponent  implements OnInit {
     }
   }
 
-  cerrar() {
-    this.modalCtrl.dismiss();
+  cerrar(requiereRecarga: boolean = false) {
+    this.modalCtrl.dismiss({ eliminado: requiereRecarga });
   }
   irAActualizarItinerario() {
     this.router.navigate(['/actu-itinerario'], { state: { itinerario: this.itinerario, idViaje: this.idViaje } });
