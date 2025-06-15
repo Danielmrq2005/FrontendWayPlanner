@@ -1,5 +1,6 @@
 import { AfterViewInit, Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import * as L from 'leaflet';
+import 'leaflet/dist/leaflet.css';
 import {ActionSheetController, AlertController, IonicModule, IonModal} from "@ionic/angular";
 import { addIcons } from "ionicons";
 import {add, mapOutline} from "ionicons/icons";
