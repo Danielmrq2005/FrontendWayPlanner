@@ -1,1 +1,21 @@
+.leaflet-marker-icon {
+  background-image: url('src/assets/leaflet/marker-icon.png');
+}
 
+.leaflet-marker-icon.leaflet-zoom-animated,
+.leaflet-marker-icon.leaflet-zoom-animated.leaflet-interactive {
+  background-image: url('src/assets/leaflet/marker-icon-2x.png');
+}
+
+.leaflet-marker-shadow {
+  background-image: url('src/assets/leaflet/marker-shadow.png');
+}
+
+.leaflet-control-layers-toggle {
+  background-image: url('src/assets/leaflet/layers.png');
+}
+
+.leaflet-retina .leaflet-control-layers-toggle {
+  background-image: url('src/assets/leaflet/layers-2x.png');
+  background-size: 26px 26px;
+}
