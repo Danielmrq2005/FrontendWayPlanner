@@ -8,6 +8,7 @@ import {ViajeService} from "../Servicios/viaje.service";
 import {Viaje} from "../Modelos/Viaje";
 import {AlertController, IonicModule} from "@ionic/angular";
 import {TemaService} from "../Servicios/tema.service";
+import {ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-crear-dia',
@@ -21,7 +22,7 @@ import {TemaService} from "../Servicios/tema.service";
 })
 export class CrearDiaComponent implements OnInit {
 
-  constructor(private diaService: DiaService, private viajeService: ViajeService, private alertController: AlertController, private temaService: TemaService) {
+  constructor(private diaService: DiaService, private viajeService: ViajeService, private alertController: AlertController, private temaService: TemaService, private router: Router, private route: ActivatedRoute) {
     this.temaService.darkMode$.subscribe(isDark => {
       this.darkMode = isDark;
     });
@@ -38,12 +39,15 @@ export class CrearDiaComponent implements OnInit {
   idViajeSeleccionado: number = 0;
   idusuario: number = 0;
   viajes: Viaje[] = [];
+  idViaje!: string | null;
 
   darkMode = false;
 
 
   ngOnInit() {
     this.obtenerViajesPorUsuario();
+    // En tu componente origen (por ejemplo, itinerarios.component.ts)
+    this.idViaje = history.state.idViaje;
   }
 
   async crearDia() {
@@ -86,8 +90,9 @@ export class CrearDiaComponent implements OnInit {
         this.presentAlert('Ocurrió un error al crear el día.');
       },
       complete: () => {
-        console.log('Proceso de creación de día completado');
+        this.presentAlert("Día creado exitosamente.");
         this.dia = { fecha: '', numeroDia: 0, diaSemana: '', idViaje: 0 };
+        this.router.navigate(['/itinerarios', this.idViaje]);
       }
     });
   }
@@ -125,6 +130,10 @@ export class CrearDiaComponent implements OnInit {
         }
       });
     }
+  }
+
+  cancelar(){
+    this.router.navigate(['/itinerarios', this.idViaje]);
   }
 
   // Métdo para mostrar alertas

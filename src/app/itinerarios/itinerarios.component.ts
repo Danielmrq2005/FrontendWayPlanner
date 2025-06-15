@@ -136,6 +136,16 @@ export class ItinerariosComponent  implements OnInit {
     }
   }
 
+  irACrearDia() {
+    // En tu componente origen (por ejemplo, itinerarios.component.ts)
+    this.router.navigate(['/crear-dia'], { state: { idViaje: this.idViaje } });
+  }
+
+  irACrearItinerario() {
+    // Navega a la página de creación de itinerario, pasando el ID del viaje
+    this.router.navigate(['/crear-itinerario'], { state: { idViaje: this.idViaje } });
+  }
+
   // Obtiene los días asociados al viaje
   ObtenerDiasPorViaje() {
     if (this.idViaje) {
@@ -143,6 +153,7 @@ export class ItinerariosComponent  implements OnInit {
         next: (response) => {
           console.log('Días obtenidos:', response);
           this.diasViaje = response;
+          this.diasViaje = this.diasViaje.sort((a, b) => a.numeroDia - b.numeroDia);
         },
         error: (error) => {
           console.error('Error al obtener los días:', error);
@@ -173,6 +184,12 @@ export class ItinerariosComponent  implements OnInit {
     }
   }
 
+  getFechaDeItinerario(itinerarioId?: number): string {
+    const dia = this.diasViaje.find(d => d.id === itinerarioId);
+    return dia?.fecha || 'Sin fecha';
+  }
+
+
   // Obtiene los itinerarios de un día específico
   ObtenerItinerariosPorDia(dia: DiasItinerario){
     this.itinerarioService.obtenerItinerariosPorDia(dia).subscribe({
@@ -201,6 +218,7 @@ export class ItinerariosComponent  implements OnInit {
     const componentProps: any = {
       itinerario,
       idViaje: this.idViaje,
+      segmentoSeleccionado: this.segmentoSeleccionado,
       ...(this.diaSeleccionado ? { diaSemana: this.diaSeleccionado } : {})
     };
 
@@ -249,9 +267,15 @@ export class ItinerariosComponent  implements OnInit {
             this.diaService.eliminarDia(dia.id).subscribe({
               next: () => {
                 this.presentAlert("Día eliminado correctamente.");
+
+                // Actualizar la lista de días
                 this.ObtenerDiasPorViaje();
+
+                // Resetear la selección
                 this.segmentoSeleccionado = 'default';
                 this.diaSeleccionado = null;
+
+                // Recargar itinerarios generales
                 this.ObtenerItinearios();
               },
               error: (error) => {

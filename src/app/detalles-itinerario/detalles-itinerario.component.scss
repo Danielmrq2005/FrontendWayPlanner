@@ -48,29 +48,43 @@
   padding: 0.5rem 1rem;
 }
 
+.contenedor-botones {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1.5rem;
+  gap: 1rem;
+}
+
+.btn-cancelar,
+.btn-actualizar {
+  flex: 1;
+  max-width: 48%;
+  font-weight: 600;
+  text-transform: none;
+  font-size: 1em;
+  --border-radius: 12px;
+}
+
+.btn-cancelar {
+  --background: #e74c3c;
+  --color: white;
+
+}
+
 .btn-actualizar {
   --background: #5B97D5;
   --color: white;
-  --border-radius: 12px;
-  font-weight: 600;
-  margin-top: 1.5rem;
-  width: 100%;
-  text-transform: none;
-  font-size: 1em;
-  box-shadow: 0 4px 8px rgba(91, 151, 213, 0.2);
 }
 
-.btn-eliminar{
-  --background: #c80808;
-  --color: white;
-  --border-radius: 12px;
-  font-weight: 600;
-  margin-top: 1.5rem;
-  width: 100%;
-  text-transform: none;
-  font-size: 1em;
-  box-shadow: 0 4px 8px rgba(91, 151, 213, 0.2);
+.duracion{
+  margin-top: 1rem;
 }
+
+ion-label {
+}
+
+
+
 
 .btn-como-llegar {
   --background: #5B97D5; // Un verde que contraste con el azul primario

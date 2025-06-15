@@ -8,8 +8,8 @@ export interface Itinerario {
   estaEnRuta: boolean;
   apareceEnItinerario: boolean;
   hora: string;
-  medioTransporte: string;
-  duracion: string;
+  medioTransporte: string | null;
+  duracion: string | null;
   foto: string;
   categoria: string;
   idbillete?: number;

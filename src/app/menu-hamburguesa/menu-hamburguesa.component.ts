@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, HostListener, Input, OnInit, Output} from '@angular/core';
 import {IonicModule} from "@ionic/angular";
 import {ActivatedRoute, Router, RouterLink} from "@angular/router";
 import {TemaService} from "../Servicios/tema.service";
@@ -22,6 +22,7 @@ export class MenuHamburguesaComponent  implements OnInit {
 
 
   @Output() expansionChange = new EventEmitter<boolean>();
+
   constructor(private route: ActivatedRoute, private temaService: TemaService, private router: Router) {
     this.temaService.darkMode$.subscribe(isDark => {
       this.darkMode = isDark;
@@ -48,5 +49,21 @@ export class MenuHamburguesaComponent  implements OnInit {
         this.viajeId = +params['id'];
       }
     });
+
+    this.pantallamMovil();
+  }
+
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any) {
+    this.pantallamMovil();
+  }
+
+  private pantallamMovil() {
+    const isMobile = window.innerWidth <= 768;
+    if (isMobile && this.sidebarExpanded) {
+      this.sidebarExpanded = false;
+      this.expansionChange.emit(this.sidebarExpanded);
+    }
   }
 }

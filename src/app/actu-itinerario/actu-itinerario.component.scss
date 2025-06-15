@@ -7,8 +7,14 @@
 }
 
 .card-itinerario {
-  margin-top: 20px;
-  padding-bottom: 10px;
+  max-width: 700px;
+  margin: 20px auto;
+  padding: 16px;
+}
+
+ion-content.fondo-itinerario {
+  display: flex;
+  justify-content: center;
 }
 
 .titulo-itinerario {
@@ -57,6 +63,10 @@
   border-radius: 6px;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  margin-bottom: 1rem;
 }
 
 .recargar:hover {
@@ -160,6 +170,11 @@ ion-item.foto-item {
   margin-top: 20px;
 }
 
+.titulo-itinerario-horario {
+  color: #487bcf; // Azul Ionic
+  font-weight: bold;
+}
+
 .labelFoto{
   margin: 20px;
   margin-top: 10px;
@@ -180,6 +195,30 @@ ion-item.foto-item {
   background-color: #487bcf;
 }
 
+.contenedor-accion-editar {
+  margin-top: 2rem;
+  width: 100%;
+  display: block;
+}
+
+.contenedor-accion-editar ion-button {
+  width: 100%;
+  max-width: 100%;
+  flex: unset;
+}
+
+.btn-cancelar {
+  --background: #e74c3c;  /* o el rojo que prefieras */
+  --color: white;
+  box-shadow: 0 4px 8px rgba(224, 102, 102, 0.2);
+}
+
+.btn-primario {
+  --background: #5B97D5;
+  --color: white;
+}
+
+
 input[type="file"] {
   display: none;
 }
@@ -189,6 +228,7 @@ input[type="file"] {
   --background: #5B97D5;
   --background-hover: #487bcf;
   --color: white;
+  color: white;
 }
 
 .btn-warning {
@@ -225,11 +265,14 @@ ion-select {
   --border-style: solid;
   --border-color: #5B97D5;
   --border-radius: 20px;
-  --padding-start: 12px;
+  padding-left: 0 !important;
+  padding-inline-start: 0 !important;
   --padding-end: 12px;
 }
 
-/* Si usas ion-item con formControlName */
+
+
+
 ion-item ion-input,
 ion-item ion-select {
   .native-input {
@@ -238,7 +281,27 @@ ion-item ion-select {
   }
 }
 
-/* Focus: sombra suave */
+ion-select::part(container),
+ion-select::part(text) {
+  padding-left: 0 !important;
+}
+
+
+ion-select {
+  --padding-start: 12px !important;
+  --padding-end: 12px !important;
+  --inner-padding-start: 0 !important;
+}
+
+
+ion-item ion-select {
+  margin-left: 0 !important;
+  --padding-start: 0 !important;
+  --inner-padding-start: 0 !important;
+}
+
+
+
 .horarioInputFull:focus,
 ion-input.input-wrapper:focus-within,
 ion-select:focus-within {
@@ -246,13 +309,26 @@ ion-select:focus-within {
   outline: none;
 }
 
-/* Para los select nativos dentro de .form-group */
+
 .form-group select {
   border: 1px solid #5B97D5;
   border-radius: 20px;
-  padding: 0.75rem;
+  padding: 0.75rem;       /* 0.75rem arriba/abajo/izq/der */
+  padding-left: 0.75rem;  /* asegúrate de que el texto empiece a 0.75rem del borde */
+  box-sizing: border-box; /* incluye padding dentro del ancho total */
   background-color: #fff;
 }
+
+ion-input.input-wrapper {
+  --padding-start: 0.75rem;
+  --padding-end:   0.75rem;
+}
+
+ion-select {
+  --padding-start: 0.75rem;
+  --padding-end:   0.75rem;
+}
+
 
 /* Ajuste general de inputs/textareas */
 .form-group input,
@@ -262,5 +338,30 @@ ion-select:focus-within {
   padding: 0.75rem;
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
+
+/* Ajustes específicos para el select de “Medio de transporte” (y válidos para todos los ion-select) */
+ion-item ion-select {
+  /* Deja espacio a la derecha para el icono */
+  --padding-end: calc(var(--input-padding-horizontal, 0.75rem) + 1.5rem);
+  position: relative;
+}
+
+ion-select::part(icon) {
+  /* Sácalo del flujo y céntralo verticalmente */
+  position: absolute;
+  top: 50%;
+  right: var(--input-padding-horizontal, 0.5rem);
+  transform: translateY(-50%);
+  z-index: 3;
+  pointer-events: none;
+}
+
+/* Aplica solo a labels flotantes dentro de ion-item */
+ion-item ion-label[position="floating"] {
+  margin-bottom: 0.5rem;  /* ajusta este valor a tu gusto */
+  display: block;         /* para que margin-bottom funcione correctamente */
+}
+
+
 
 
