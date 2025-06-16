@@ -141,6 +141,7 @@ export class RutasComponent implements AfterViewInit {
       this.map.invalidateSize();
     }, 800);
 
+
     requestAnimationFrame(() => {
       this.map.invalidateSize();
     });
