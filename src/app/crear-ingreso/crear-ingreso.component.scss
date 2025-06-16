@@ -84,6 +84,26 @@
   justify-content: space-between;
   gap: 10px;
 }
+.ok-button {
+  --background: #3880ff;
+  --color: #ffffff;
+  &[disabled] {
+    --background: #cccccc !important;
+    --color: #ffffff !important;
+    opacity: 1;
+    cursor: not-allowed;
+  }
+
+  .dark & {
+    --background: #333333;
+    --color: #ffffff;
+
+    &[disabled] {
+      --background: #555555 !important;
+      --color: #ffffff !important;
+    }
+  }
+}
 
 ion-button {
   font-weight: bold;
