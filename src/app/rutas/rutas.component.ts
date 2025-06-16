@@ -97,25 +97,15 @@ export class RutasComponent implements AfterViewInit, OnInit {
   }
 
   ngAfterViewInit(): void {
-    const mapElement = document.getElementById('map');
-    if (!mapElement) return;
-
-    const observer = new ResizeObserver(entries => {
-      for (const entry of entries) {
-        const cr = entry.contentRect;
-        if (cr.width > 0 && cr.height > 0) {
-          this.initMap();
-          observer.disconnect();
-        }
-      }
-    });
-
-    observer.observe(mapElement);
+    setTimeout(() => {
+      this.crearMapaConDelay();
+    }, 2000); // Espera un segundo entero
   }
 
 
-  private initMap(): void {
-    // Iconos
+
+  private crearMapaConDelay(): void {
+    // 1) Icono
     delete (L.Icon.Default.prototype as any)._getIconUrl;
     L.Icon.Default.mergeOptions({
       iconRetinaUrl: 'assets/Logo1SinFondo.png',
@@ -124,6 +114,7 @@ export class RutasComponent implements AfterViewInit, OnInit {
       iconSize: [40, 40],
     });
 
+    // 2) Mapa
     this.map = L.map('map', {
       center: this.madridCoords,
       zoom: 6,
@@ -132,22 +123,25 @@ export class RutasComponent implements AfterViewInit, OnInit {
       attributionControl: false,
     });
 
-    L.control.attribution({position: 'bottomleft'}).addTo(this.map);
-
+    // 3) Tiles
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '© WayPlanner',
       noWrap: true,
     }).addTo(this.map);
 
-    // Añadir marcadores si los hay
+    // 4) Markers
     this.puntos.forEach(p => {
       const mk = L.marker([p.lat, p.lng]);
       mk.addTo(this.map);
       this.markers.push(mk);
     });
 
-    setTimeout(() => this.map.invalidateSize(), 300);
+    // 5) Asegurar resize después del render real
+    setTimeout(() => {
+      this.map.invalidateSize();
+    }, 500); // otro pequeño delay dentro
   }
+
 
 
   @HostListener('ionViewDidEnter')
