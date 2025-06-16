@@ -5,7 +5,7 @@ import {
   EventEmitter,
   Input,
   Output,
-  ViewChild
+  ViewChild, OnInit
 } from '@angular/core';
 import * as L from 'leaflet';
 import {
@@ -36,7 +36,7 @@ import { ViajeService } from "../Servicios/viaje.service";
   styleUrls: ['./rutas.component.scss'],
   imports: [IonicModule, FormsModule, NgForOf, RouterLink, NgIf]
 })
-export class RutasComponent implements AfterViewInit {
+export class RutasComponent implements AfterViewInit, OnInit {
   @ViewChild(IonModal) modal!: IonModal;
   @Input() puntos: { lat: number, lng: number }[] = [];
   @Output() puntoSeleccionado = new EventEmitter<{ lat: number, lng: number }>();
@@ -97,7 +97,25 @@ export class RutasComponent implements AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    // 1) Configuración de iconos
+    const mapElement = document.getElementById('map');
+    if (!mapElement) return;
+
+    const observer = new ResizeObserver(entries => {
+      for (const entry of entries) {
+        const cr = entry.contentRect;
+        if (cr.width > 0 && cr.height > 0) {
+          this.initMap();
+          observer.disconnect();
+        }
+      }
+    });
+
+    observer.observe(mapElement);
+  }
+
+
+  private initMap(): void {
+    // Iconos
     delete (L.Icon.Default.prototype as any)._getIconUrl;
     L.Icon.Default.mergeOptions({
       iconRetinaUrl: 'assets/Logo1SinFondo.png',
@@ -106,7 +124,6 @@ export class RutasComponent implements AfterViewInit {
       iconSize: [40, 40],
     });
 
-    // 2) Creación del mapa
     this.map = L.map('map', {
       center: this.madridCoords,
       zoom: 6,
@@ -115,37 +132,23 @@ export class RutasComponent implements AfterViewInit {
       attributionControl: false,
     });
 
-    // 3) Control de atribución
     L.control.attribution({position: 'bottomleft'}).addTo(this.map);
 
-    // 4) Carga de tiles
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '© WayPlanner',
       noWrap: true,
     }).addTo(this.map);
 
-    // 5) Añadir marcadores
+    // Añadir marcadores si los hay
     this.puntos.forEach(p => {
       const mk = L.marker([p.lat, p.lng]);
       mk.addTo(this.map);
       this.markers.push(mk);
     });
 
-    // 6) Forzar resize justo cuando Leaflet esté listo
-    this.map.whenReady(() => {
-      this.map.invalidateSize();
-    });
-
-    // 7) Reforzar con tus delays existentes
-    setTimeout(() => {
-      this.map.invalidateSize();
-    }, 800);
-
-
-    requestAnimationFrame(() => {
-      this.map.invalidateSize();
-    });
+    setTimeout(() => this.map.invalidateSize(), 300);
   }
+
 
   @HostListener('ionViewDidEnter')
   onIonViewDidEnter(): void {
