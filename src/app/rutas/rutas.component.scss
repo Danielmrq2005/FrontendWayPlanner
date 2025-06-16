@@ -170,6 +170,14 @@ ion-select {
 
 .titulo-modal {
   text-align: center;
+  max-width: 300px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  display: block;
+  color: white;
+  font-size: 1em;
+  margin: 0 8px;
 }
 ion-modal.fullscreen-on-mobile {
   --height: 100%;
