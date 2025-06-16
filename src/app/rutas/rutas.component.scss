@@ -91,13 +91,15 @@ ion-icon {
 }
 
 #map {
-  height: 100px;
-  padding: 0px;
+  height: 100%;
+  width: 100%;
+
 }
 
 html,
 body,
-ion-content {
+ion-content,
+#map {
   height: 100%;
   margin: 0;
   padding: 0;
@@ -195,7 +197,7 @@ ion-select::part(icon) {
 
 ion-modal .ion-padding {
   position: relative;
-  padding-bottom: 64px; // deja espacio para el botÃ³n
+  padding-bottom: 64px; // deja espacio para el botón
 }
 
 @media (max-width: 768px) {

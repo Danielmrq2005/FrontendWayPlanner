@@ -1,5 +1,6 @@
 import {
   AfterViewInit,
+  HostListener,
   Component,
   EventEmitter,
   Input,
@@ -96,6 +97,7 @@ export class RutasComponent implements AfterViewInit {
   }
 
   ngAfterViewInit(): void {
+    // 1) Configuración de iconos
     delete (L.Icon.Default.prototype as any)._getIconUrl;
     L.Icon.Default.mergeOptions({
       iconRetinaUrl: 'assets/Logo1SinFondo.png',
@@ -104,6 +106,7 @@ export class RutasComponent implements AfterViewInit {
       iconSize: [40, 40],
     });
 
+    // 2) Creación del mapa
     this.map = L.map('map', {
       center: this.madridCoords,
       zoom: 6,
@@ -112,24 +115,28 @@ export class RutasComponent implements AfterViewInit {
       attributionControl: false,
     });
 
+    // 3) Control de atribución
     L.control.attribution({position: 'bottomleft'}).addTo(this.map);
 
+    // 4) Carga de tiles
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '© WayPlanner',
-      noWrap: true
+      noWrap: true,
     }).addTo(this.map);
 
-    this.map.once('load', () => {
-      this.map.invalidateSize();
-    });
-
-
+    // 5) Añadir marcadores
     this.puntos.forEach(p => {
       const mk = L.marker([p.lat, p.lng]);
       mk.addTo(this.map);
       this.markers.push(mk);
     });
 
+    // 6) Forzar resize justo cuando Leaflet esté listo
+    this.map.whenReady(() => {
+      this.map.invalidateSize();
+    });
+
+    // 7) Reforzar con tus delays existentes
     setTimeout(() => {
       this.map.invalidateSize();
     }, 800);
@@ -139,7 +146,18 @@ export class RutasComponent implements AfterViewInit {
     });
   }
 
+  @HostListener('ionViewDidEnter')
+  onIonViewDidEnter(): void {
+    // Pequeño retardo para cubrir cualquier animación de Ionic
+    setTimeout(() => this.map.invalidateSize(), 200);
+  }
+
+
   ionViewDidEnter() {
+    this.map.invalidateSize();
+  }
+
+  onViewDidEnter() {
     this.map.invalidateSize();
   }
 
@@ -391,5 +409,4 @@ export class RutasComponent implements AfterViewInit {
 
     await alert.present();
   }
-
 }
