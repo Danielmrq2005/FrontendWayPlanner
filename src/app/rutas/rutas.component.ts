@@ -1,48 +1,58 @@
 import {
   AfterViewInit,
-  HostListener,
   Component,
   EventEmitter,
   Input,
+  OnInit,
   Output,
-  ViewChild, OnInit
+  ViewChild,
+  HostListener,
 } from '@angular/core';
-import * as L from 'leaflet';
 import {
   ActionSheetController,
   AlertController,
   IonicModule,
-  IonModal
-} from "@ionic/angular";
-import { addIcons } from "ionicons";
-import { add, mapOutline } from "ionicons/icons";
-import { FormsModule } from "@angular/forms";
-import { OverlayEventDetail } from "@ionic/core/components";
-import { NgForOf, NgIf } from "@angular/common";
-import { ActivatedRoute, Router, RouterLink } from "@angular/router";
+  IonModal,
+} from '@ionic/angular';
+import { addIcons } from 'ionicons';
+import { add, mapOutline } from 'ionicons/icons';
+import { FormsModule } from '@angular/forms';
+import { OverlayEventDetail } from '@ionic/core/components';
+import { NgForOf, NgIf } from '@angular/common';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 
-import { DiaService } from "../Servicios/dia.service";
-import { ItineariosService } from "../Servicios/itinearios.service";
-import { Itinerario } from "../Modelos/Itinerario";
-import { Dia } from "../Modelos/Dia";
-import { DiasItinerario } from "../Modelos/DiasItinerario";
-import { TemaService } from "../Servicios/tema.service";
-import { ViajeService } from "../Servicios/viaje.service";
+import { DiaService } from '../Servicios/dia.service';
+import { ItineariosService } from '../Servicios/itinearios.service';
+import { Itinerario } from '../Modelos/Itinerario';
+import { Dia } from '../Modelos/Dia';
+import { DiasItinerario } from '../Modelos/DiasItinerario';
+import { TemaService } from '../Servicios/tema.service';
+import { ViajeService } from '../Servicios/viaje.service';
 
 @Component({
   selector: 'app-rutas',
   standalone: true,
   templateUrl: './rutas.component.html',
   styleUrls: ['./rutas.component.scss'],
-  imports: [IonicModule, FormsModule, NgForOf, RouterLink, NgIf]
+  imports: [IonicModule, FormsModule, NgForOf, RouterLink, NgIf],
 })
 export class RutasComponent implements AfterViewInit, OnInit {
   @ViewChild(IonModal) modal!: IonModal;
-  @Input() puntos: { lat: number, lng: number }[] = [];
-  @Output() puntoSeleccionado = new EventEmitter<{ lat: number, lng: number }>();
+  @Input() puntos: { lat: number; lng: number }[] = [];
+  @Output() puntoSeleccionado = new EventEmitter<{ lat: number; lng: number }>();
 
-  private map!: L.Map;
-  private markers: L.Marker[] = [];
+  // Google Maps
+  mapOptions: google.maps.MapOptions = {
+    center: { lat: 40.4168, lng: -3.7038 }, // Madrid
+    zoom: 6,
+    minZoom: 5,
+    maxZoom: 18,
+    mapTypeControl: false,
+    fullscreenControl: false,
+    streetViewControl: false,
+  };
+  map!: google.maps.Map;
+  markers: google.maps.Marker[] = [];
 
   message = 'This modal example uses triggers to automatically open a modal when the button is clicked.';
   name!: string;
@@ -55,7 +65,7 @@ export class RutasComponent implements AfterViewInit, OnInit {
   darkMode = false;
   viajeNombre: string = '';
 
-  private readonly madridCoords: L.LatLngExpression = [40.4168, -3.7038];
+  private readonly madridCoords = { lat: 40.4168, lng: -3.7038 };
 
   constructor(
     private route: ActivatedRoute,
@@ -67,8 +77,8 @@ export class RutasComponent implements AfterViewInit, OnInit {
     private alertController: AlertController,
     private router: Router
   ) {
-    addIcons({add: add, mapa: mapOutline});
-    this.temaService.darkMode$.subscribe(isDark => {
+    addIcons({ add: add, mapa: mapOutline });
+    this.temaService.darkMode$.subscribe((isDark) => {
       this.darkMode = isDark;
     });
   }
@@ -91,85 +101,49 @@ export class RutasComponent implements AfterViewInit, OnInit {
         error: (err) => {
           console.error('Error al obtener el viaje:', err);
           this.viajeNombre = 'Desconocido';
-        }
+        },
       });
     }
   }
 
   ngAfterViewInit(): void {
-    const mapElement = document.getElementById('map');
+    const mapElement = document.getElementById('map') as HTMLElement;
     if (!mapElement) {
       console.error('No se encontró el contenedor #map');
       return;
     }
 
-    const observer = new ResizeObserver(entries => {
-      // Una vez que el contenedor tenga al menos 1px de alto, inicializamos el mapa.
-      if (mapElement.offsetHeight > 0) {
-        this.crearMapaConDelay();
-        // Detenemos el observador porque ya no es necesario.
-        observer.disconnect();
-      }
+    // Inicializar Google Maps
+    this.map = new google.maps.Map(mapElement, this.mapOptions);
+
+    // Añadir puntos iniciales si los hay
+    this.puntos.forEach((p) => {
+      this.addMarker(p.lat, p.lng);
     });
 
-    observer.observe(mapElement);
+    // Ajustar el zoom al tamaño del contenedor
+    setTimeout(() => {
+      google.maps.event.trigger(this.map, 'resize');
+      this.fitBoundsToMarkers();
+    }, 500);
   }
-
-
-
-
-  private crearMapaConDelay(): void {
-    // 1) Configuración de icono
-    delete (L.Icon.Default.prototype as any)._getIconUrl;
-    L.Icon.Default.mergeOptions({
-      iconRetinaUrl: 'assets/Logo1SinFondo.png',
-      iconUrl: 'assets/Logo1SinFondo.png',
-      shadowUrl: '',
-      iconSize: [40, 40],
-    });
-
-    // 2) Creación del mapa en el div '#map'
-    this.map = L.map('map', {
-      center: this.madridCoords,
-      zoom: 6,
-      minZoom: 5,
-      maxZoom: 18,
-      attributionControl: false,
-    });
-
-    // 3) Cargar los tiles
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '© WayPlanner',
-      noWrap: true,
-    }).addTo(this.map);
-
-    // 4) Añadir los marcadores (si hay)
-    this.puntos.forEach(p => {
-      const mk = L.marker([p.lat, p.lng]);
-      mk.addTo(this.map);
-      this.markers.push(mk);
-    });
-
-    // 5) Forzar el ajuste del mapa tras un retardo corto
-    setTimeout(() => this.map.invalidateSize(), 500);
-  }
-
-
-
 
   @HostListener('ionViewDidEnter')
   onIonViewDidEnter(): void {
-    // Pequeño retardo para cubrir cualquier animación de Ionic
-    setTimeout(() => this.map.invalidateSize(), 200);
+    setTimeout(() => {
+      google.maps.event.trigger(this.map, 'resize');
+      this.fitBoundsToMarkers();
+    }, 200);
   }
 
-
   ionViewDidEnter() {
-    this.map.invalidateSize();
+    google.maps.event.trigger(this.map, 'resize');
+    this.fitBoundsToMarkers();
   }
 
   onViewDidEnter() {
-    this.map.invalidateSize();
+    google.maps.event.trigger(this.map, 'resize');
+    this.fitBoundsToMarkers();
   }
 
   obtenerItinerariosEnRuta(idViaje: string) {
@@ -178,7 +152,8 @@ export class RutasComponent implements AfterViewInit, OnInit {
         this.itinerarios = itins;
         this.plotMarkers(this.itinerarios);
         if (this.itinerarios.length === 0) {
-          this.map.setView(this.madridCoords, 6);
+          this.map.setCenter(this.madridCoords);
+          this.map.setZoom(6);
           this.mostrarAlertaSinRutas();
         }
       },
@@ -190,7 +165,7 @@ export class RutasComponent implements AfterViewInit, OnInit {
     this.diaService.obtenerDias(idViaje).subscribe({
       next: (diasRecibidos) => {
         this.dias = diasRecibidos.sort((a, b) => a.numeroDia - b.numeroDia);
-        const dia1 = this.dias.find(d => d.id === 0);
+        const dia1 = this.dias.find((d) => d.id === 0);
         if (dia1) {
           this.diaSeleccionado = dia1.id;
           this.onDiaSeleccionado(dia1.id);
@@ -198,21 +173,22 @@ export class RutasComponent implements AfterViewInit, OnInit {
       },
       error: (err) => {
         console.error('Error al obtener días del viaje:', err);
-      }
+      },
     });
   }
 
   onDiaSeleccionado(idDia?: number) {
-    const diaSel = this.dias.find(d => d.id === idDia);
+    const diaSel = this.dias.find((d) => d.id === idDia);
     if (!diaSel || !this.idViaje) {
       this.clearMarkers();
-      this.map.setView(this.madridCoords, 6);
+      this.map.setCenter(this.madridCoords);
+      this.map.setZoom(6);
       return;
     }
 
     const dto: DiasItinerario = {
       idViaje: parseInt(this.idViaje),
-      idDia: diaSel.id
+      idDia: diaSel.id,
     };
 
     this.obtenerItinerariosPorDia(dto);
@@ -234,8 +210,9 @@ export class RutasComponent implements AfterViewInit, OnInit {
     const origen = `${puntos[0].latitud},${puntos[0].longitud}`;
     const destino = `${puntos[puntos.length - 1].latitud},${puntos[puntos.length - 1].longitud}`;
 
-    const waypoints = puntos.slice(1, -1)
-      .map(p => `${p.latitud},${p.longitud}`)
+    const waypoints = puntos
+      .slice(1, -1)
+      .map((p) => `${p.latitud},${p.longitud}`)
       .join('|');
 
     let url = `https://www.google.com/maps/dir/?api=1&origin=${origen}&destination=${destino}`;
@@ -252,72 +229,88 @@ export class RutasComponent implements AfterViewInit, OnInit {
         this.itinerariosDia = response;
         this.plotDayItineraries();
         if (this.itinerariosDia.length === 0) {
-          this.map.setView(this.madridCoords, 6);
+          this.map.setCenter(this.madridCoords);
+          this.map.setZoom(6);
           this.mostrarAlertaSinRutas();
         }
       },
       error: (error) => {
         this.clearMarkers();
-        this.map.setView(this.madridCoords, 6);
+        this.map.setCenter(this.madridCoords);
+        this.map.setZoom(6);
         console.error('Error al obtener itinerarios por día:', error);
-      }
+      },
     });
   }
 
   private clearMarkers() {
-    this.markers.forEach(mk => mk.remove());
+    this.markers.forEach((m) => m.setMap(null));
     this.markers = [];
   }
 
-  private plotDayItineraries() {
-    if (!this.map) return;
+  private addMarker(lat: number, lng: number, info?: string) {
+    const marker = new google.maps.Marker({
+      position: { lat, lng },
+      map: this.map,
+      icon: {
+        url: 'assets/Logo1SinFondo.png',
+        scaledSize: new google.maps.Size(40, 40),
+      },
+    });
+    if (info) {
+      const infoWindow = new google.maps.InfoWindow({ content: info });
+      marker.addListener('click', () => infoWindow.open(this.map, marker));
+    }
+    this.markers.push(marker);
+  }
 
+  private fitBoundsToMarkers() {
+    if (this.markers.length === 0) {
+      this.map.setCenter(this.madridCoords);
+      this.map.setZoom(6);
+      return;
+    }
+    const bounds = new google.maps.LatLngBounds();
+    this.markers.forEach((marker) => {
+      bounds.extend(marker.getPosition()!);
+    });
+    this.map.fitBounds(bounds, 50); // padding de 50px
+  }
+
+  private plotDayItineraries() {
     this.clearMarkers();
 
     if (this.itinerariosDia.length === 0) {
-      this.map.setView(this.madridCoords, 6);
+      this.map.setCenter(this.madridCoords);
+      this.map.setZoom(6);
       return;
     }
 
-    this.itinerariosDia.forEach(it => {
+    this.itinerariosDia.forEach((it) => {
       if (it.latitud && it.longitud) {
         const lat = parseFloat(it.latitud);
         const lng = parseFloat(it.longitud);
-        const mk = L.marker([lat, lng])
-          .bindPopup(`<strong>${it.actividad}</strong><br/>${it.hora} (${it.duracion})`);
-        mk.addTo(this.map);
-        this.markers.push(mk);
+        const info = `<strong>${it.actividad}</strong><br/>${it.hora} (${it.duracion})`;
+        this.addMarker(lat, lng, info);
       }
     });
 
-    if (this.markers.length > 0) {
-      const group = new L.FeatureGroup(this.markers);
-      this.map.fitBounds(group.getBounds().pad(0.2));
-    } else {
-      this.map.setView(this.madridCoords, 6);
-    }
+    this.fitBoundsToMarkers();
   }
 
   private plotMarkers(itinerarios: Itinerario[]) {
     this.clearMarkers();
 
-    itinerarios.forEach(it => {
+    itinerarios.forEach((it) => {
       if (it.latitud && it.longitud) {
         const lat = parseFloat(it.latitud);
         const lng = parseFloat(it.longitud);
-        const mk = L.marker([lat, lng])
-          .bindPopup(`<strong>${it.actividad}</strong><br/>${it.hora} (${it.duracion})`);
-        mk.addTo(this.map);
-        this.markers.push(mk);
+        const info = `<strong>${it.actividad}</strong><br/>${it.hora} (${it.duracion})`;
+        this.addMarker(lat, lng, info);
       }
     });
 
-    if (this.markers.length > 0) {
-      const group = new L.FeatureGroup(this.markers);
-      this.map.fitBounds(group.getBounds().pad(0.2));
-    } else {
-      this.map.setView(this.madridCoords, 6);
-    }
+    this.fitBoundsToMarkers();
   }
 
   reordenar(event: CustomEvent) {
@@ -342,56 +335,33 @@ export class RutasComponent implements AfterViewInit, OnInit {
 
   async eliminarItem(index: number) {
     const actionSheet = await this.actionSheetCtrl.create({
-      header: '¿Qué deseas hacer?',
+      header: '¿Quieres eliminar esta actividad?',
       buttons: [
         {
-          text: 'Eliminar solo de la ruta',
-          icon: 'remove-circle-outline',
-          handler: () => {
-            const itinerario = this.itinerarios[index];
-            this.itinerarioService.borrarEnRuta(itinerario.id).subscribe({
-              next: () => {
-                this.itinerarios.splice(index, 1);
-                if (this.markers[index]) {
-                  this.markers[index].remove();
-                  this.markers.splice(index, 1);
-                }
-              },
-              error: (err) => {
-                console.error('Error al eliminar itinerario:', err);
-              }
-            });
-          }
-        },
-        {
-          text: 'Eliminar itinerario por completo',
-          icon: 'trash-outline',
+          text: 'Eliminar',
           role: 'destructive',
+          icon: 'trash',
           handler: () => {
-            const itinerario = this.itinerarios[index];
-            this.itinerarioService.borrarPorCompleto(itinerario.id).subscribe({
-              next: () => {
-                this.itinerarios.splice(index, 1);
-                if (this.markers[index]) {
-                  this.markers[index].remove();
-                  this.markers.splice(index, 1);
-                }
-              },
-              error: (err) => {
-                console.error('Error al eliminar itinerario:', err);
-              }
-            });
-          }
+            this.itinerarios.splice(index, 1);
+          },
         },
         {
           text: 'Cancelar',
           icon: 'close',
-          role: 'cancel'
-        }
-      ]
+          role: 'cancel',
+        },
+      ],
     });
-
     await actionSheet.present();
+  }
+
+  async mostrarAlertaSinRutas() {
+    const alert = await this.alertController.create({
+      header: 'Sin rutas',
+      message: 'No hay rutas para mostrar para este día o viaje.',
+      buttons: ['OK'],
+    });
+    await alert.present();
   }
 
   irACrearItinerario() {
@@ -401,23 +371,12 @@ export class RutasComponent implements AfterViewInit, OnInit {
     }
   }
 
-  async mostrarAlertaSinRutas() {
-    const alert = await this.alertController.create({
-      header: 'No hay rutas',
-      message: 'No hay rutas disponibles. Por favor, añade rutas para continuar.',
-      buttons: ['Aceptar']
-    });
-
-    await alert.present();
-  }
-
   async mostrarAlerta(mensaje: string) {
     const alert = await this.alertController.create({
-      header: 'Información',
+      header: 'Aviso',
       message: mensaje,
-      buttons: ['Aceptar']
+      buttons: ['OK'],
     });
-
     await alert.present();
   }
 }
