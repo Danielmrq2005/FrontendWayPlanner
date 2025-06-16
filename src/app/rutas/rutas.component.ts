@@ -1,5 +1,6 @@
 import {
   AfterViewInit,
+  HostListener,
   Component,
   EventEmitter,
   Input,
@@ -66,7 +67,7 @@ export class RutasComponent implements AfterViewInit {
     private alertController: AlertController,
     private router: Router
   ) {
-    addIcons({ add: add, mapa: mapOutline });
+    addIcons({add: add, mapa: mapOutline});
     this.temaService.darkMode$.subscribe(isDark => {
       this.darkMode = isDark;
     });
@@ -96,6 +97,7 @@ export class RutasComponent implements AfterViewInit {
   }
 
   ngAfterViewInit(): void {
+    // 1) Configuración de iconos
     delete (L.Icon.Default.prototype as any)._getIconUrl;
     L.Icon.Default.mergeOptions({
       iconRetinaUrl: 'assets/Logo1SinFondo.png',
@@ -104,6 +106,7 @@ export class RutasComponent implements AfterViewInit {
       iconSize: [40, 40],
     });
 
+    // 2) Creación del mapa
     this.map = L.map('map', {
       center: this.madridCoords,
       zoom: 6,
@@ -112,34 +115,51 @@ export class RutasComponent implements AfterViewInit {
       attributionControl: false,
     });
 
-    L.control.attribution({ position: 'bottomleft' }).addTo(this.map);
+    // 3) Control de atribución
+    L.control.attribution({position: 'bottomleft'}).addTo(this.map);
 
+    // 4) Carga de tiles
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '© WayPlanner',
-      noWrap: true
+      noWrap: true,
     }).addTo(this.map);
 
+    // 5) Añadir marcadores
     this.puntos.forEach(p => {
       const mk = L.marker([p.lat, p.lng]);
       mk.addTo(this.map);
       this.markers.push(mk);
     });
 
+    // 6) Forzar resize justo cuando Leaflet esté listo
+    this.map.whenReady(() => {
+      this.map.invalidateSize();
+    });
+
+    // 7) Reforzar con tus delays existentes
     setTimeout(() => {
       this.map.invalidateSize();
     }, 800);
+
 
     requestAnimationFrame(() => {
       this.map.invalidateSize();
     });
   }
 
+  @HostListener('ionViewDidEnter')
+  onIonViewDidEnter(): void {
+    // Pequeño retardo para cubrir cualquier animación de Ionic
+    setTimeout(() => this.map.invalidateSize(), 200);
+  }
+
+
   ionViewDidEnter() {
-    setTimeout(() => {
-      if (this.map) {
-        this.map.invalidateSize();
-      }
-    }, 500);
+    this.map.invalidateSize();
+  }
+
+  onViewDidEnter() {
+    this.map.invalidateSize();
   }
 
   obtenerItinerariosEnRuta(idViaje: string) {
@@ -367,7 +387,7 @@ export class RutasComponent implements AfterViewInit {
   irACrearItinerario() {
     if (this.idViaje) {
       this.cancel();
-      this.router.navigate(['/crear-itinerario'], { state: { idViaje: this.idViaje } });
+      this.router.navigate(['/crear-itinerario'], {state: {idViaje: this.idViaje}});
     }
   }
 
