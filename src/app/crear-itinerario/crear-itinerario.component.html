@@ -153,7 +153,9 @@
 
         <select name="categoriaBillete" [(ngModel)]="billete.categoria" #categoriaBillete="ngModel" required>
           <option value="" disabled selected>Selecciona una categoría</option>
-          <option *ngFor="let opcion of categorias" [value]="opcion">{{ opcion }}</option>
+          <option *ngFor="let opcion of categorias" [value]="opcion">
+            {{ opcion.charAt(0).toUpperCase() + opcion.slice(1).toLowerCase() }}
+          </option>
         </select>
         <label>Subir PDF:</label>
         <input
@@ -161,11 +163,9 @@
           (change)="onPdfSeleccionado($event)"
           name="pdf"
           accept="application/pdf"
-          #pdfBillete="ngModel"
-          [(ngModel)]="this.billeteSeleccionado"
-          ngModel
           required
         />
+
 
 
         <ion-button (click)="crearBillete()" class="boton-anyadir">Crear Billete</ion-button>
@@ -328,6 +328,7 @@
           Crear Actividad
         </ion-button>
       </div>
+
 
     </form>
 
