@@ -97,15 +97,29 @@ export class RutasComponent implements AfterViewInit, OnInit {
   }
 
   ngAfterViewInit(): void {
-    setTimeout(() => {
-      this.crearMapaConDelay();
-    }, 2000); // Espera un segundo entero
+    const mapElement = document.getElementById('map');
+    if (!mapElement) {
+      console.error('No se encontró el contenedor #map');
+      return;
+    }
+
+    const observer = new ResizeObserver(entries => {
+      // Una vez que el contenedor tenga al menos 1px de alto, inicializamos el mapa.
+      if (mapElement.offsetHeight > 0) {
+        this.crearMapaConDelay();
+        // Detenemos el observador porque ya no es necesario.
+        observer.disconnect();
+      }
+    });
+
+    observer.observe(mapElement);
   }
 
 
 
+
   private crearMapaConDelay(): void {
-    // 1) Icono
+    // 1) Configuración de icono
     delete (L.Icon.Default.prototype as any)._getIconUrl;
     L.Icon.Default.mergeOptions({
       iconRetinaUrl: 'assets/Logo1SinFondo.png',
@@ -114,7 +128,7 @@ export class RutasComponent implements AfterViewInit, OnInit {
       iconSize: [40, 40],
     });
 
-    // 2) Mapa
+    // 2) Creación del mapa en el div '#map'
     this.map = L.map('map', {
       center: this.madridCoords,
       zoom: 6,
@@ -123,24 +137,23 @@ export class RutasComponent implements AfterViewInit, OnInit {
       attributionControl: false,
     });
 
-    // 3) Tiles
+    // 3) Cargar los tiles
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '© WayPlanner',
       noWrap: true,
     }).addTo(this.map);
 
-    // 4) Markers
+    // 4) Añadir los marcadores (si hay)
     this.puntos.forEach(p => {
       const mk = L.marker([p.lat, p.lng]);
       mk.addTo(this.map);
       this.markers.push(mk);
     });
 
-    // 5) Asegurar resize después del render real
-    setTimeout(() => {
-      this.map.invalidateSize();
-    }, 500); // otro pequeño delay dentro
+    // 5) Forzar el ajuste del mapa tras un retardo corto
+    setTimeout(() => this.map.invalidateSize(), 500);
   }
+
 
 
 
